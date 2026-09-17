@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#090b10" />
+    <meta name="description" content="JASH VIP — Top 1 Live Signal Terminal" />
+    <title>JASH VIP — Top 1 Signal</title>
+    <style>
+      :root {
+        --ink: #090b10;
+        --panel: #0d1116;
+        --panel-raised: #11161c;
+        --line: rgba(153, 181, 171, 0.14);
+        --green: #24d88c;
+        --green-soft: #76e5b3;
+        --gold: #e2b84d;
+        --muted: #849096;
+        --cream: #e8e6db;
+        --red: #d95759;
+        --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        --serif: Georgia, "Times New Roman", serif;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { min-width: 320px; background: var(--ink); }
+      body {
+        min-width: 320px;
+        min-height: 100vh;
+        color: var(--cream);
+        background:
+          radial-gradient(circle at 50% -8%, rgba(36, 133, 91, .26), transparent 31rem),
+          radial-gradient(circle at 0% 46%, rgba(20, 108, 79, .12), transparent 25rem),
+          radial-gradient(circle at 100% 88%, rgba(184, 137, 38, .06), transparent 24rem),
+          var(--ink);
+        font-family: var(--mono);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      button { border: 0; font: inherit; color: inherit; background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+
+      .signal-app { position: relative; min-height: 100vh; overflow-x: hidden; }
+
+      .signal-app::before {
+        content: "";
+        position: fixed; inset: 0;
+        pointer-events: none; opacity: .22;
+        background-image:
+          linear-gradient(rgba(123, 168, 149, .045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(123, 168, 149, .045) 1px, transparent 1px);
+        background-size: 38px 38px;
+        mask-image: linear-gradient(to bottom, black, transparent 78%);
+      }
+
+      .terminal-frame {
+        position: relative; width: 100%; max-width: 480px; min-height: 100vh;
+        margin: 0 auto; overflow: hidden;
+        background:
+          linear-gradient(180deg, rgba(8, 26, 23, .74), transparent 26rem),
+          linear-gradient(90deg, rgba(3, 7, 10, .4), transparent 12%, transparent 88%, rgba(3, 7, 10, .4)),
+          #0b1015;
+        box-shadow: 0 0 0 1px rgba(130, 157, 150, .08), inset 0 1px 0 rgba(207, 224, 200, .035), 0 25px 100px rgba(0,0,0,.45);
+      }
+
+      .terminal-frame::before {
+        content: ""; position: fixed; inset: 0; opacity: .035; pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.38'/%3E%3C/svg%3E");
+        mix-blend-mode: screen;
+      }
+
+      .terminal-frame::after {
+        content: ""; position: absolute; z-index: 1; top: 0; left: 12%; right: 12%; height: 1px; pointer-events: none;
+        background: linear-gradient(90deg, transparent, rgba(44, 219, 144, .58), rgba(226, 184, 77, .42), transparent);
+        box-shadow: 0 0 18px rgba(36, 216, 140, .28);
+      }
+
+      .terminal-content { position: relative; z-index: 2; padding: 15px 14px 22px; }
+
+      /* TOPBAR */
+      .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
+      .brand-lockup { display: flex; align-items: center; gap: 8px; }
+      .brand-mark {
+        display: grid; width: 36px; height: 36px; place-items: center; flex: 0 0 auto;
+        border: 1px solid rgba(226,184,77,.55); border-radius: 10px;
+        color: var(--gold);
+        background: linear-gradient(145deg, #1a2c25, #101619);
+        box-shadow: inset 0 0 18px rgba(44, 190, 125, .1), 0 0 0 3px rgba(226, 184, 77, .035), 0 8px 22px rgba(0,0,0,.25);
+        font-size: 16px;
+      }
+      .brand-name { color: #f0efe7; font: 18px/1.15 var(--serif); font-weight: 600; }
+      .brand-sub { margin-top: 3px; color: #7b878a; font: 8px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+
+      /* LIVE DOT */
+      .live-dot { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 11px rgba(36, 216, 140, .75); animation: pulse-dot 2s infinite; }
+      @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+      /* TOP 1 HERO */
+      .top1-hero {
+        margin-bottom: 14px; padding: 16px; border: 1px solid rgba(36,216,140,.25); border-radius: 14px;
+        background: linear-gradient(145deg, rgba(15,34,28,.9), rgba(11,15,20,.9));
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.03), 0 12px 27px rgba(0,0,0,.13);
+      }
+      .top1-label { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; color: var(--gold); font: 9px/1 var(--mono); letter-spacing: .1em; }
+      .top1-channel { color: #f0efe7; font: 22px/1 var(--serif); font-weight: 600; margin-bottom: 4px; }
+      .top1-engine { color: #7e888b; font: 8px/1 var(--mono); letter-spacing: .06em; }
+      .top1-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border: 1px solid rgba(226,184,77,.5); border-radius: 5px; background: rgba(226,184,77,.08); color: #d6b557; font: 8px/1 var(--mono); }
+
+      /* PERIOD CARD */
+      .period-card {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 14px 16px; margin-bottom: 12px; border: 1px solid rgba(123,147,143,.15); border-radius: 14px;
+        background: linear-gradient(145deg, rgba(15, 21, 26, .94), rgba(11,15,20,.92));
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.03), 0 12px 27px rgba(0,0,0,.13);
+      }
+      .eyebrow { color: #8b9699; font: 500 9px/1.2 var(--mono); letter-spacing: .09em; text-transform: uppercase; }
+      .period-number { display: block; margin-top: 6px; color: var(--green-soft); font: 15px/1 var(--mono); letter-spacing: -.02em; text-shadow: 0 0 17px rgba(36,216,140,.18); }
+      .countdown {
+        display: grid; width: 54px; height: 38px; place-items: center; border: 1px solid rgba(36,216,140,.78); border-radius: 9px;
+        color: #f1f0e8; background: linear-gradient(145deg, rgba(22,79,58,.45), rgba(14,24,25,.82));
+        box-shadow: 0 0 12px rgba(36,216,140,.14), inset 0 0 10px rgba(36,216,140,.08); font: 13px var(--mono);
+      }
+      .countdown small { display: block; margin-top: -2px; color: #889393; font: 7px var(--mono); letter-spacing: .1em; }
+      .countdown.urgent { border-color: var(--red); box-shadow: 0 0 14px rgba(217,87,89,.3); color: var(--red); }
+
+      /* PREDICTION CARD */
+      .prediction-card {
+        padding: 16px; margin-bottom: 12px; border: 1px solid rgba(123,147,143,.15); border-radius: 14px;
+        background: linear-gradient(145deg, rgba(15, 21, 26, .94), rgba(11,15,20,.92));
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.03), inset 0 0 22px rgba(32, 189, 128, .025), 0 12px 27px rgba(0,0,0,.13);
+      }
+      .prediction-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+      .prediction-label { display: flex; align-items: center; gap: 5px; color: #aab0a9; font: 9px var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+      .gold-icon { color: var(--gold); }
+      .confidence-value { display: block; margin-top: 3px; color: var(--green); font: 20px var(--mono); text-shadow: 0 0 14px rgba(36,216,140,.18); }
+      .signal-pill {
+        display: inline-flex; align-items: center; gap: 12px; min-width: 140px; padding: 10px 20px;
+        border: 2px solid var(--green); border-radius: 12px; color: var(--green);
+        background: rgba(22,54,40,.13);
+        box-shadow: 0 0 19px rgba(36,216,140,.25), 0 0 38px rgba(36,216,140,.08), inset 0 0 13px rgba(36,216,140,.06);
+        font: 22px/1 var(--mono);
+      }
+      .signal-number { display: inline-flex; min-width: 2ch; justify-content: center; color: #ffe07a !important; font-weight: 700; }
+
+      /* STAT GRID */
+      .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px; }
+      .stat-box {
+        padding: 10px 4px 9px; border: 1px solid rgba(123,147,143,.13); border-radius: 10px;
+        background: rgba(15,19,24,.78); box-shadow: inset 0 1px 0 rgba(255,255,255,.02); text-align: center;
+      }
+      .stat-value { display: block; margin-top: 5px; color: var(--green); font: 16px var(--mono); }
+      .stat-value.loss { color: var(--red); }
+      .stat-value.total { color: #eee9dc; }
+
+      /* HISTORY CARD */
+      .history-card {
+        overflow: hidden; border: 1px solid rgba(123,147,143,.15); border-radius: 14px;
+        background: linear-gradient(145deg, rgba(15, 21, 26, .94), rgba(11,15,20,.92));
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.03), 0 12px 27px rgba(0,0,0,.13);
+      }
+      .history-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 12px 10px; }
+      .history-title { color: #aeb4ad; font: 9px var(--mono); letter-spacing: .07em; }
+      .history-controls { display: flex; gap: 4px; }
+      .filter-button { padding: 4px 6px; border-radius: 5px; color: #768182; font: 8px var(--mono); }
+      .filter-button.is-active { color: #0d1612; background: var(--green); }
+      .history-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+      .history-table th {
+        padding: 8px 4px; color: #3fbd83; background: rgba(0,45,30,.24);
+        font: 8px var(--mono); font-weight: 500; text-align: left;
+      }
+      .history-table th:first-child, .history-table td:first-child { width: 24%; padding-left: 10px; }
+      .history-table th:nth-child(2), .history-table td:nth-child(2) { width: 14%; }
+      .history-table th:nth-child(3), .history-table td:nth-child(3) { width: 22%; }
+      .history-table th:nth-child(4), .history-table td:nth-child(4) { width: 20%; }
+      .history-table th:nth-child(5), .history-table td:nth-child(5) { width: 20%; }
+      .history-table td {
+        padding: 8px 4px; border-top: 1px solid rgba(123,147,143,.08);
+        color: #b2b5af; font: 9px var(--mono); white-space: nowrap;
+      }
+      .history-table tr.current td { color: #eee9dc; background: linear-gradient(90deg, rgba(21,40,32,.32), rgba(21,40,32,.08)); }
+      .result-chip { display: inline-block; padding: 3px 6px; border-radius: 99px; font: 7px var(--mono); letter-spacing: .03em; }
+      .chip-win { color: #2fe397; background: rgba(21,128,83,.2); }
+      .chip-loss { color: #e35b61; background: rgba(134,35,44,.27); }
+      .chip-jackpot { color: #ffe07a; background: rgba(180,131,25,.25); box-shadow: 0 0 10px rgba(226,184,77,.12); }
+      .chip-pending { color: #e5bf59; background: rgba(148,101,24,.3); }
+      .history-empty { padding: 20px 10px; color: #697377; text-align: center; font: 9px var(--mono); }
+      .number-cell { color: var(--green-soft) !important; }
+
+      /* CHANNEL TAG */
+      .channel-tag { display: inline-block; padding: 2px 5px; border: 1px solid rgba(36,216,140,.2); border-radius: 4px; color: var(--green-soft); background: rgba(36,216,140,.06); font: 7px var(--mono); margin-left: 4px; }
+
+      /* FOOTER */
+      .detail-footer { display: flex; justify-content: center; padding: 16px 0 0; color: #536064; font: 8px var(--mono); }
+
+      /* TOAST */
+      .toast-note {
+        position: fixed; z-index: 10; left: 50%; bottom: 20px; transform: translateX(-50%);
+        padding: 10px 14px; border: 1px solid rgba(36,216,140,.4); border-radius: 9px;
+        color: var(--green-soft); background: rgba(11,22,18,.94);
+        box-shadow: 0 8px 30px rgba(0,0,0,.35); font: 9px var(--mono);
+        animation: toast-in .22s ease both;
+      }
+      @keyframes toast-in { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+      /* LOADING */
+      .loading-row { padding: 24px 12px; color: var(--muted); text-align: center; font: 10px var(--mono); }
+      .error-row { color: #e3a05d; padding: 10px 12px; border: 1px dashed rgba(227,160,93,.3); border-radius: 8px; margin-bottom: 10px; font: 9px var(--mono); display: flex; justify-content: space-between; align-items: center; }
+      .error-row button { color: #e4c869; text-decoration: underline; }
+
+      /* SWITCH ANIMATION */
+      .switch-anim { animation: switch-flash .6s ease; }
+      @keyframes switch-flash {
+        0% { opacity: .3; transform: translateY(6px); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+
+      /* INFO NOTE */
+      .api-note { margin: 8px 0 0; color: #748084; font: 8px/1.45 var(--mono); }
+      .api-note strong { color: #a9b4af; font-weight: 500; }
+
+      @media (min-width: 700px) {
+        body { padding: 28px 0; }
+        .terminal-frame { min-height: calc(100vh - 56px); border-radius: 24px; }
+        .terminal-content { padding: 28px 24px 36px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="signal-app">
+      <section class="terminal-frame">
+        <div id="app" class="terminal-content"></div>
+      </section>
+    </main>
+
+    <script>
+      (() => {
+        const API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json";
+        const STORAGE_KEY = "jashvip_top1_history_v2";
+        const MAX_HISTORY = 20;
+
+        // === ALL ENGINES ===
+        const engines = {
+          golden: nums => { const s = Array(10).fill(0); nums.forEach((n,i) => { s[n] += i+1; }); return best(s); },
+          shadow: nums => { const l = nums.at(-1) ?? 0; const r = streak(nums, n => (n>=5)===(l>=5)); return (l + (r>=2?5:3)) % 10; },
+          wolf: nums => { const l = nums.at(-1)??0; const p = nums.at(-2)??l; return (l+(l-p)+10) % 10; },
+          ninja: nums => { const o = nums.filter(n=>n%2).length; const pa = o>=nums.length/2?0:1; return best(nums.reduce((s,n)=>{ if(n%2===pa)s[n]+=1; return s; }, Array(10).fill(0))); },
+          panther: nums => { const g = Array(10).fill(nums.length+1); nums.forEach((n,i)=>{ if(g[n]===nums.length+1)g[n]=i; }); return best(g); },
+          tiger: nums => best(counts(nums)),
+          phoenix: nums => best(counts(nums).map(v => nums.length - v)),
+          lion: nums => Math.round(nums.reduce((a,b)=>a+b,0)/nums.length) % 10,
+          thunder: nums => { const s=nums.map(n=>n>=5); const a=s.slice(1).filter((v,i)=>v!==s[i]).length; const nb=a>=Math.max(1,s.length-2)/2?!s.at(-1):s.at(-1); return nb?7:2; },
+          blaze: nums => { const r=nums.slice(-7); return Math.round((Math.min(...r)+Math.max(...r))/2); },
+          viper: nums => { const s=Array(10).fill(0); nums.forEach((n,i)=>{ s[n]+=Math.pow(1.11,i); }); return best(s); },
+          storm: nums => { const a=nums.at(-1)??0; const b=nums.at(-2)??a; const c=nums.at(-3)??b; return (a+2*(b-c)+10)%10; },
+          bullet: nums => { const r=nums.slice(-3); return r.reduce((b,n)=>n>b?n:b,0); },
+          dark: nums => ((nums.at(-1)??0)+5) % 10,
+          dragon: nums => 9 - (nums.at(-1)??0),
+          cobra: nums => { const l=nums.at(-1)??0; return l%2?8:1; },
+          rocket: nums => { const s=[...nums].sort((a,b)=>a-b); return s[Math.floor(s.length/2)]??0; },
+          shark: nums => { const l=nums.at(-1)??0; const r=streak(nums,n=>(n>=5)===(l>=5)); return r%2?(l>=5?1:8):(l>=5?3:6); },
+          iron: nums => { const p=[engines.golden,engines.shadow,engines.wolf].map(fn=>fn(nums)); return Math.round(p.reduce((a,b)=>a+b,0)/p.length)%10; },
+          night: nums => { const s=nums.slice(-5).reduce((sum,n,i)=>sum+(n+1)*(i+3),0); return (s*7+nums.length)%10; }
+        };
+
+        const algorithms = [
+          ["golden-eye","Golden Eye","S#17","golden"],
+          ["shadow-core","Shadow Core","S#7","shadow"],
+          ["wolf-signal","Wolf Signal","S#9","wolf"],
+          ["ninja-master","Ninja Master","S#14","ninja"],
+          ["panther-vip","Panther VIP","S#16","panther"],
+          ["tiger-pro","Tiger Pro","S#1","tiger"],
+          ["phoenix-vip","Phoenix VIP","S#3","phoenix"],
+          ["lion-heart","Lion Heart","S#5","lion"],
+          ["thunder-bolt","Thunder Bolt","S#6","thunder"],
+          ["blaze-pro","Blaze Pro","S#10","blaze"],
+          ["viper-gold","Viper Gold","S#11","viper"],
+          ["storm-chaser","Storm Chaser","S#13","storm"],
+          ["bullet-pro","Bullet Pro","S#19","bullet"],
+          ["dark-horse","Dark Horse","S#20","dark"],
+          ["dragon-king","Dragon King","S#2","dragon"],
+          ["cobra-strike","Cobra Strike","S#8","cobra"],
+          ["rocket-star","Rocket Star","S#12","rocket"],
+          ["shark-tank","Shark Tank","S#18","shark"],
+          ["iron-clad","Iron Clad","S#21","iron"],
+          ["night-owl","Night Owl","S#22","night"]
+        ];
+
+        const engineWindows = {
+          golden:18, shadow:9, wolf:5, ninja:25, panther:40,
+          tiger:12, phoenix:20, lion:15, thunder:8, blaze:7,
+          viper:24, storm:6, bullet:3, dark:11, dragon:4,
+          cobra:13, rocket:21, shark:10, iron:30, night:5
+        };
+
+        const engineNotes = {
+          golden:"Recency-weighted frequency", shadow:"Run reversal", wolf:"Momentum delta",
+          ninja:"Parity balance", panther:"Number gap scan", tiger:"Mode frequency",
+          phoenix:"Cold-number cycle", lion:"Mean reversion", thunder:"Size alternation",
+          blaze:"Range midpoint", viper:"Exponential recency", storm:"Three-point trend",
+          bullet:"Recent high-water mark", dark:"Complement jump", dragon:"Mirror mapping",
+          cobra:"Parity edge", rocket:"Median anchor", shark:"Streak response",
+          iron:"Three-engine blend", night:"Session hash"
+        };
+
+        // === HELPERS ===
+        const clamp = (v, min, max) => Math.max(min, Math.min(max, Math.round(v)));
+        const counts = nums => nums.reduce((o,n) => { o[n]=(o[n]||0)+1; return o; }, Array(10).fill(0));
+        const best = scores => scores.reduce((w,s,i) => s > scores[w] ? i : w, 0);
+        const streak = (nums, test) => { let t=0; for(let i=nums.length-1; i>=0 && test(nums[i]); i--)t++; return t; };
+        const sizeFor = n => Number(n) >= 5 ? "BIG" : "SMALL";
+        const esc = v => String(v??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+        const nextDecimal = v => { const c=String(v||"").split(""); let carry=1; for(let i=c.length-1;i>=0&&carry;i--){ const d=Number(c[i])+carry; c[i]=String(d%10); carry=d>9?1:0; } return carry?`1${c.join("")}`:c.join(""); };
+        const shortPeriod = v => { const t=String(v||"—"); return t.length>8?`…${t.slice(-8)}`:t; };
+
+        // === STATE ===
+        const state = {
+          loading: true,
+          error: "",
+          synced: false,
+          results: [],
+          targetPeriod: "—",
+          serverOffset: 0,
+          seconds: 60,
+          updatedAt: "",
+          dataSignature: "",
+          top1: null,
+          top1Name: "",
+          filter: "ALL",
+          toast: ""
+        };
+        const app = document.getElementById("app");
+        let requestInFlight = false;
+        let boundaryRequestedFor = "";
+        let lastTop1Id = "";
+
+        // === STORAGE ===
+        function loadSavedHistory() {
+          try {
+            const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+            return Array.isArray(data) ? data.slice(0, MAX_HISTORY) : [];
+          } catch { return []; }
+        }
+
+        function saveHistory(history) {
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0, MAX_HISTORY)));
+          } catch {}
+        }
+
+        let savedHistory = loadSavedHistory();
+
+        // === ENGINE LOGIC ===
+        function calibrate(item, evidence, rawNumber) {
+          const lookback = engineWindows[item[3]] || 12;
+          const start = Math.max(3, evidence.length - 18);
+          let correct = 0, trials = 0;
+          for (let i = start; i < evidence.length; i++) {
+            const sample = evidence.slice(Math.max(0, i - lookback), i);
+            if (sample.length < 3) continue;
+            const guess = clamp(engines[item[3]](sample), 0, 9);
+            correct += sizeFor(guess) === sizeFor(evidence[i]) ? 1 : 0;
+            trials++;
+          }
+          if (trials < 8 || correct / trials >= 0.5) return rawNumber;
+          const target = sizeFor(rawNumber) === "BIG" ? [0,1,2,3,4] : [5,6,7,8,9];
+          const rc = counts(evidence.slice(-20));
+          return target.reduce((w, n) => {
+            const s = rc[n]*3 + ((n+item[0].length)%5);
+            const ws = rc[w]*3 + ((w+item[0].length)%5);
+            return s > ws ? n : w;
+          }, target[0]);
+        }
+
+        function run(item, evidence) {
+          if (!item || evidence.length < 3) return null;
+          const w = evidence.slice(-(engineWindows[item[3]] || evidence.length));
+          const raw = clamp(engines[item[3]](w), 0, 9);
+          const number = calibrate(item, evidence, raw);
+          const spread = new Set(w.slice(-10)).size;
+          return { number, size: sizeFor(number), confidence: clamp(48+Math.min(12,evidence.length)+spread+(number!==raw?2:0), 51, 76) };
+        }
+
+        function scoreFor(item, results) {
+          let wins=0, jackpots=0, total=0;
+          results.slice(0,120).forEach((actual,i) => {
+            const older = results.slice(i+1).map(r=>r.number).reverse();
+            const p = run(item, older);
+            if (!p) return;
+            total++;
+            if (p.size === actual.size) wins++;
+            if (p.number === actual.number) jackpots++;
+          });
+          return { wins, jackpots, total, rate: total ? Math.round((wins/total)*100) : 0 };
+        }
+
+        function getTop1(results) {
+          const ranked = algorithms.map(item => ({ item, score: scoreFor(item, results) }))
+            .sort((a,b) => b.score.wins - a.score.wins || b.score.rate - a.score.rate || b.score.jackpots - a.score.jackpots);
+          return ranked[0];
+        }
+
+        function statusFor(prediction, actual) {
+          if (!prediction || !actual) return "PENDING";
+          if (prediction.number === actual.number) return "JACKPOT";
+          return prediction.size === actual.size ? "WIN" : "LOSS";
+        }
+
+        function statusChip(status) {
+          const cls = status==="WIN"?"chip-win":status==="LOSS"?"chip-loss":status==="JACKPOT"?"chip-jackpot":"chip-pending";
+          return `<span class="result-chip ${cls}">${esc(status)}</span>`;
+        }
+
+        // === SAVE PREDICTION TO HISTORY ===
+        function updateSavedHistory(top1, results) {
+          if (!top1 || results.length < 2) return;
+          const item = top1.item;
+          // Check last settled result and see if we already have it
+          const lastResult = results[0];
+          const lastPeriod = lastResult.period;
+
+          // Don't duplicate
+          if (savedHistory.length > 0 && savedHistory[0].period === lastPeriod) return;
+
+          // What was our prediction for this period? (using data BEFORE this result)
+          const olderNums = results.slice(1).map(r => r.number).reverse();
+          const prediction = run(item, olderNums);
+          if (!prediction) return;
+
+          const status = statusFor(prediction, lastResult);
+          const entry = {
+            period: lastPeriod,
+            actual: lastResult.number,
+            actualSize: lastResult.size,
+            predNumber: prediction.number,
+            predSize: prediction.size,
+            status,
+            channel: item[1],
+            channelId: item[0],
+            confidence: prediction.confidence,
+            timestamp: Date.now()
+          };
+
+          savedHistory.unshift(entry);
+          savedHistory = savedHistory.slice(0, MAX_HISTORY);
+          saveHistory(savedHistory);
+        }
+
+        // === NORMALISE API DATA ===
+        function normalise(payload) {
+          const list = payload?.data?.list || [];
+          return list.map(row => ({
+            period: String(row.issueNumber || row.period || ""),
+            number: Number(row.number),
+            color: String(row.color || ""),
+            size: sizeFor(row.number)
+          })).filter(row => /^\d+$/.test(row.period) && Number.isInteger(row.number) && row.number >= 0 && row.number <= 9);
+        }
+
+        // === RENDER ===
+        function render() {
+          const top1 = state.top1;
+          const prediction = top1 ? run(top1.item, state.results.map(r=>r.number).reverse()) : null;
+
+          // Check if top1 changed
+          const currentTop1Id = top1 ? top1.item[0] : "";
+          const switched = lastTop1Id && currentTop1Id !== lastTop1Id;
+          lastTop1Id = currentTop1Id;
+
+          const visible = state.filter === "ALL" ? savedHistory : savedHistory.filter(h => h.status === state.filter);
+
+          app.innerHTML = `
+            <!-- HEADER -->
+            <div class="topbar">
+              <div class="brand-lockup">
+                <div class="brand-mark">ϟ</div>
+                <div>
+                  <div class="brand-name">JASH VIP</div>
+                  <div class="brand-sub">TOP 1 LIVE SIGNAL</div>
+                </div>
+              </div>
+              <button class="filter-button is-active" data-action="sync" style="padding:6px 10px;border-radius:8px;font-size:9px">
+                <span class="live-dot"></span>${state.synced ? "LIVE" : state.loading ? "SYNCING…" : "RETRY"}
+              </button>
+            </div>
+
+            ${state.error ? `<div class="error-row"><span>${esc(state.error)}</span><button data-action="sync">Retry</button></div>` : ""}
+
+            <!-- TOP 1 HERO -->
+            <div class="top1-hero ${switched ? 'switch-anim' : ''}">
+              <div class="top1-label">
+                <span class="top1-badge">👑 TOP 1</span>
+                ${top1 ? `<span style="color:var(--green)">${top1.score.rate}% HIT · ${top1.score.wins}W/${top1.score.total}T</span>` : ""}
+              </div>
+              <div class="top1-channel">${top1 ? esc(top1.item[1]) : "Loading…"}</div>
+              <div class="top1-engine">${top1 ? `${esc(top1.item[2])} · ${esc(engineNotes[top1.item[3]]).toUpperCase()}` : "CONNECTING…"}</div>
+            </div>
+
+            <!-- PERIOD -->
+            <div class="period-card">
+              <div>
+                <div class="eyebrow">NEXT PERIOD</div>
+                <strong class="period-number" title="${esc(state.targetPeriod)}">${esc(shortPeriod(state.targetPeriod))}</strong>
+              </div>
+              <div class="countdown ${state.seconds <= 5 ? 'urgent' : ''}" aria-label="${state.seconds}s remaining">
+                <span>${state.seconds}s<small>LEFT</small></span>
+              </div>
+            </div>
+
+            <!-- PREDICTION -->
+            <div class="prediction-card ${switched ? 'switch-anim' : ''}">
+              <div class="prediction-head">
+                <div class="prediction-label"><span class="gold-icon">ϟ</span>TOP 1 SIGNAL</div>
+                <div>
+                  <div class="prediction-label">CONFIDENCE</div>
+                  <strong class="confidence-value">${prediction ? `${prediction.confidence}%` : "—"}</strong>
+                </div>
+              </div>
+              <div class="signal-pill">
+                <span>${prediction ? esc(prediction.size) : "WAIT"}</span>
+                <span class="signal-number">${prediction ? esc(prediction.number) : "—"}</span>
+              </div>
+              <p class="api-note"><strong>Auto-switch:</strong> When a round completes, the channel with the best record becomes Top 1. Only the best prediction is shown.</p>
+            </div>
+
+            <!-- STATS -->
+            ${top1 ? `<div class="stat-grid">
+              <div class="stat-box"><span class="eyebrow">HIT RATE</span><strong class="stat-value">${top1.score.rate}%</strong></div>
+              <div class="stat-box"><span class="eyebrow">WINS</span><strong class="stat-value">${top1.score.wins}</strong></div>
+              <div class="stat-box"><span class="eyebrow">LOSSES</span><strong class="stat-value loss">${top1.score.total - top1.score.wins}</strong></div>
+              <div class="stat-box"><span class="eyebrow">JACKPOTS</span><strong class="stat-value total">${top1.score.jackpots}</strong></div>
+            </div>` : ""}
+
+            <!-- HISTORY (LAST 20 SAVED) -->
+            <div class="history-card">
+              <div class="history-header">
+                <span class="history-title">LAST ${savedHistory.length} PREDICTIONS (SAVED)</span>
+                <div class="history-controls">
+                  ${["ALL","WIN","LOSS"].map(f => `<button class="filter-button ${state.filter===f?'is-active':''}" data-action="filter" data-filter="${f}">${f}</button>`).join("")}
+                </div>
+              </div>
+              ${state.loading && !state.results.length ? `<div class="loading-row">Reading live feed…</div>` :
+                visible.length ? `<table class="history-table">
+                  <thead><tr><th>Period</th><th>No.</th><th>Signal</th><th>Result</th><th>Status</th></tr></thead>
+                  <tbody>
+                    ${visible.map((h, i) => `<tr class="${i===0?'current':''}">
+                      <td>${esc(shortPeriod(h.period))}</td>
+                      <td class="number-cell">${esc(h.actual)}</td>
+                      <td>${esc(h.predSize)} <span class="number-cell">${esc(h.predNumber)}</span></td>
+                      <td>${esc(h.actualSize)} <span class="number-cell">${esc(h.actual)}</span></td>
+                      <td>${statusChip(h.status)}${h.channel ? `<span class="channel-tag">${esc(h.channel.split(" ")[0])}</span>` : ""}</td>
+                    </tr>`).join("")}
+                  </tbody>
+                </table>` : `<div class="history-empty">No saved predictions yet. History builds as rounds complete.</div>`}
+            </div>
+
+            <div class="detail-footer">
+              <span>TOP 1 AUTO-SWITCH · REFRESHED ${state.updatedAt || "ON OPEN"} · ${state.results.length} API RESULTS</span>
+            </div>
+            ${state.toast ? `<div class="toast-note">${esc(state.toast)}</div>` : ""}
+          `;
+
+          bind();
+        }
+
+        function bind() {
+          app.querySelectorAll("[data-action]").forEach(btn => {
+            btn.addEventListener("click", () => {
+              const action = btn.dataset.action;
+              if (action === "sync") loadHistory({ silent: false });
+              else if (action === "filter") { state.filter = btn.dataset.filter; render(); }
+            });
+          });
+        }
+
+        // === LOAD DATA ===
+        async function loadHistory({ silent = false } = {}) {
+          if (requestInFlight) return;
+          requestInFlight = true;
+          state.error = "";
+          if (!silent) { state.loading = true; render(); }
+          let changed = false;
+          try {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 12000);
+            const response = await fetch(API_URL, { method: "GET", cache: "no-store", headers: { Accept: "application/json" }, signal: controller.signal });
+            clearTimeout(timeout);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const payload = await response.json();
+            const rows = normalise(payload);
+            if (!rows.length) throw new Error("No results returned");
+            const signature = rows.slice(0,10).map(r=>`${r.period}:${r.number}`).join("|");
+            changed = signature !== state.dataSignature;
+            state.results = rows;
+            state.dataSignature = signature;
+            state.targetPeriod = nextDecimal(rows[0].period);
+            const apiDrift = Number(payload.serviceTime || Date.now()) - Date.now();
+            state.serverOffset = Math.abs(apiDrift) <= 3000 ? apiDrift : 0;
+            state.synced = true;
+            state.updatedAt = new Date(Date.now() + state.serverOffset).toLocaleTimeString([], { hour:"2-digit", minute:"2-digit", second:"2-digit" });
+
+            // Compute TOP 1
+            const top1 = getTop1(rows);
+            state.top1 = top1;
+
+            // Save to history if new period
+            if (changed) {
+              updateSavedHistory(top1, rows);
+            }
+
+            updateCountdown();
+          } catch (error) {
+            state.synced = false;
+            state.error = error.name === "AbortError" ? "Live feed timed out." : `Feed error: ${error.message}`;
+          } finally {
+            requestInFlight = false;
+            state.loading = false;
+            if (!silent || changed || state.error) render();
+          }
+        }
+
+        function updateCountdown() {
+          const serverNow = Date.now() + state.serverOffset;
+          const remainder = 60000 - (serverNow % 60000);
+          state.seconds = Math.max(1, Math.min(60, Math.ceil(remainder / 1000)));
+          const cd = app.querySelector(".countdown span");
+          if (cd) cd.innerHTML = `${state.seconds}s<small>LEFT</small>`;
+          const cdEl = app.querySelector(".countdown");
+          if (cdEl) { if (state.seconds <= 5) cdEl.classList.add("urgent"); else cdEl.classList.remove("urgent"); }
+        }
+
+        // === TICK ===
+        setInterval(() => {
+          updateCountdown();
+          if (state.seconds === 2 && boundaryRequestedFor !== state.targetPeriod) {
+            boundaryRequestedFor = state.targetPeriod;
+            loadHistory({ silent: true });
+          }
+        }, 1000);
+
+        // Poll every 20s
+        setInterval(() => loadHistory({ silent: true }), 20000);
+
+        // Initial
+        render();
+        loadHistory();
+      })();
+    </script>
+  </body>
+</html>
