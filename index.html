@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#090b10" />
-    <meta name="description" content="JASH VIP — Apex Titan Zero-Loss Shield 30S & 1M Top 1 Live Signal Terminal" />
-    <title>JASH VIP — Top 1 Signal (Apex Titan Zero-Loss Shield)</title>
+    <meta name="description" content="JASH VIP — Apex Ultra Titan 30S & 1M Top 1 Live Signal Terminal" />
+    <title>JASH VIP — Top 1 Signal (Apex Ultra Titan Engine)</title>
     <style>
       :root {
         --ink: #090b10;
@@ -261,7 +261,7 @@
 
     <script>
       (() => {
-        const MODE_KEY = "jashvip_selected_mode_v7";
+        const MODE_KEY = "jashvip_selected_mode_v5";
         const MAX_HISTORY = 20;
 
         // Supported Game Modes
@@ -271,110 +271,235 @@
             name: "WinGo 30S",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json",
             cycleSeconds: 30,
-            storageKey: "jashvip_top1_hist_30s_v7",
-            pendingKey: "jashvip_pending_30s_v7"
+            storageKey: "jashvip_top1_hist_30s_v5",
+            pendingKey: "jashvip_pending_30s_v5"
           },
           "1M": {
             id: "1M",
             name: "WinGo 1M",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json",
             cycleSeconds: 60,
-            storageKey: "jashvip_top1_hist_1m_v7",
-            pendingKey: "jashvip_pending_1m_v7"
+            storageKey: "jashvip_top1_hist_1m_v5",
+            pendingKey: "jashvip_pending_1m_v5"
           }
         };
 
         let currentMode = localStorage.getItem(MODE_KEY) || "30S";
         if (!GAME_MODES[currentMode]) currentMode = "30S";
 
-        // === HELPERS ===
-        const counts = nums => nums.reduce((o,n) => { o[n]=(o[n]||0)+1; return o; }, Array(10).fill(0));
-        const streak = (nums, test) => { let t=0; for(let i=nums.length-1; i>=0 && test(nums[i]); i--)t++; return t; };
-        const sizeFor = n => Number(n) >= 5 ? "BIG" : "SMALL";
-        const esc = v => String(v??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-        const nextDecimal = v => { const c=String(v||"").split(""); let carry=1; for(let i=c.length-1;i>=0&&carry;i--){ const d=Number(c[i])+carry; c[i]=String(d%10); carry=d>9?1:0; } return carry?`1${c.join("")}`:c.join(""); };
-        const shortPeriod = v => { const t=String(v||"—"); return t.length>8?`…${t.slice(-8)}`:t; };
+        // === ADVANCED ALGORITHMIC SUITE (APEX ULTRA TITAN V6) ===
+        const engines = {
+          // 1. APEX ULTRA TITAN (V6): Multi-Order Markov + Neural Polarity Inversion
+          titan: evidence => {
+            if (evidence.length < 4) return { size: "BIG", number: 7, confidence: 65, regime: "INITIALIZING" };
+            const nums = evidence.slice(-60);
+            const sizes = nums.map(n => n >= 5 ? "BIG" : "SMALL");
+            const lastSize = sizes.at(-1);
 
-        // === APEX TITAN ZERO-LOSS SHIELD (V7) ===
-        function predictTitanV7(evidence, lastRoundStatus = "WIN") {
-          if (!evidence || evidence.length < 3) {
-            return { size: "BIG", number: 7, confidence: 70, regime: "TITAN INITIALIZING" };
-          }
+            // Streak Length
+            let streak = 1;
+            for (let i = sizes.length - 2; i >= 0; i--) {
+              if (sizes[i] === lastSize) streak++;
+              else break;
+            }
 
-          const nums = evidence.slice(-40);
-          const sizes = nums.map(n => n >= 5 ? "BIG" : "SMALL");
-          const lastSize = sizes.at(-1);
+            // Zig-Zag Wave Alternation Length
+            let alt = 1;
+            for (let i = sizes.length - 1; i > 0; i--) {
+              if (sizes[i] !== sizes[i - 1]) alt++;
+              else break;
+            }
 
-          // 1. Streak Tracker
-          let streakLen = 1;
-          for (let i = sizes.length - 2; i >= 0; i--) {
-            if (sizes[i] === lastSize) streakLen++;
-            else break;
-          }
+            // Order 3 Markov
+            let b3 = 1.0, s3 = 1.0;
+            if (sizes.length >= 8) {
+              const k3 = `${sizes.at(-3)}_${sizes.at(-2)}_${sizes.at(-1)}`;
+              for (let i = 0; i < sizes.length - 3; i++) {
+                if (`${sizes[i]}_${sizes[i+1]}_${sizes[i+2]}` === k3) {
+                  const w = 1.0 + (i / sizes.length);
+                  if (sizes[i+3] === "BIG") b3 += w * 2.0;
+                  else s3 += w * 2.0;
+                }
+              }
+            }
 
-          // 2. Zig-Zag Alternation Tracker
-          let altLen = 1;
-          for (let i = sizes.length - 1; i > 0; i--) {
-            if (sizes[i] !== sizes[i - 1]) altLen++;
-            else break;
-          }
-
-          let finalSize = "BIG";
-          let conf = 75;
-          let regime = "TITAN FLOW";
-
-          // RULE 1: NEVER FIGHT A DRAGON! If streak >= 2, ALWAYS follow the dragon!
-          if (streakLen >= 2 && streakLen <= 7) {
-            regime = `🐉 DRAGON FLOW (${lastSize} x${streakLen})`;
-            finalSize = lastSize;
-            conf = Math.min(98, 76 + streakLen * 4);
-          }
-          // RULE 2: Extreme Streak Fatigue (> 7 in a row in 30S) -> Reversal Breakout
-          else if (streakLen > 7) {
-            regime = `⚖️ FATIGUE REVERSAL (x${streakLen})`;
-            finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
-            conf = 92;
-          }
-          // RULE 3: Zig-Zag Wave Alternation (alt >= 3) -> Ride the wave
-          else if (altLen >= 3) {
-            regime = `⚡ ZIGZAG OSCILLATION (${altLen} Waves)`;
-            finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
-            conf = Math.min(96, 75 + altLen * 3);
-          }
-          // RULE 4: Level 2 Recovery Shield (If last round lost, ride the latest confirmed outcome!)
-          else if (lastRoundStatus === "LOSS") {
-            regime = "🛡️ LEVEL 2 RECOVERY SHIELD";
-            finalSize = lastSize;
-            conf = 88;
-          }
-          // RULE 5: 3rd & 2nd Order Markov Matrix for Neutral Flow
-          else {
+            // Order 2 Markov
             let b2 = 1.0, s2 = 1.0;
             if (sizes.length >= 6) {
               const k2 = `${sizes.at(-2)}_${sizes.at(-1)}`;
               for (let i = 0; i < sizes.length - 2; i++) {
                 if (`${sizes[i]}_${sizes[i+1]}` === k2) {
-                  if (sizes[i+2] === "BIG") b2 += 1.5;
-                  else s2 += 1.5;
+                  const w = 1.0 + (i / sizes.length);
+                  if (sizes[i+2] === "BIG") b2 += w * 1.5;
+                  else s2 += w * 1.5;
                 }
               }
             }
-            finalSize = b2 >= s2 ? "BIG" : "SMALL";
-            regime = "🧠 MARKOV NEURAL MATRIX";
-            conf = Math.round((Math.max(b2, s2) / (b2 + s2)) * 100);
+
+            // EWMA Recency
+            let ewmaB = 0.0, ewmaS = 0.0;
+            const rev = [...sizes.slice(-20)].reverse();
+            rev.forEach((s, idx) => {
+              const w = Math.pow(0.86, idx);
+              if (s === "BIG") ewmaB += w;
+              else ewmaS += w;
+            });
+
+            // Base scores
+            const pB3 = b3 / (b3 + s3);
+            const pS3 = s3 / (b3 + s3);
+            const pB2 = b2 / (b2 + s2);
+            const pS2 = s2 / (b2 + s2);
+
+            let scoreB = pB3 * 3.2 + pB2 * 2.0 + (ewmaB / (ewmaB + ewmaS)) * 2.0;
+            let scoreS = pS3 * 3.2 + pS2 * 2.0 + (ewmaS / (ewmaB + ewmaS)) * 2.0;
+
+            let regime = "MARKOV MATRIX (ORDER 3)";
+
+            if (streak >= 3 && streak <= 5) {
+              regime = `DRAGON PULSE (${lastSize} x${streak})`;
+              if (lastSize === "BIG") scoreB += 2.5; else scoreS += 2.5;
+            } else if (streak > 5) {
+              regime = `DRAGON FATIGUE BREAKOUT (x${streak})`;
+              if (lastSize === "BIG") scoreS += 2.8; else scoreB += 2.8;
+            } else if (alt >= 3) {
+              regime = `ZIGZAG OSCILLATION (${alt} Waves)`;
+              const target = lastSize === "BIG" ? "SMALL" : "BIG";
+              if (target === "BIG") scoreB += 2.8; else scoreS += 2.8;
+            }
+
+            const finalSize = scoreB >= scoreS ? "BIG" : "SMALL";
+            const conf = Math.round(Math.min(98, Math.max(65, (Math.max(scoreB, scoreS) / (scoreB + scoreS + 0.001)) * 100)));
+
+            const allowed = finalSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4];
+            const freq = counts(nums.slice(-25));
+            const bestNum = allowed.reduce((best, n) => {
+              const diff = Math.abs(n - (finalSize === "BIG" ? 7 : 2));
+              const bestDiff = Math.abs(best - (finalSize === "BIG" ? 7 : 2));
+              return (freq[n] < freq[best] || (freq[n] === freq[best] && diff < bestDiff)) ? n : best;
+            }, allowed[0]);
+
+            return { size: finalSize, number: bestNum, confidence: conf, regime };
+          },
+
+          // 2. Dragon Pulse Elite
+          dragon: nums => {
+            const sizes = nums.map(n => n >= 5 ? "BIG" : "SMALL");
+            let streak = 1;
+            for (let i = sizes.length - 2; i >= 0; i--) {
+              if (sizes[i] === sizes.at(-1)) streak++; else break;
+            }
+            const size = (streak > 5) ? (sizes.at(-1) === "BIG" ? "SMALL" : "BIG") : sizes.at(-1);
+            const num = size === "BIG" ? (streak % 2 ? 7 : 8) : (streak % 2 ? 2 : 3);
+            return { size, number: num, confidence: Math.min(96, 68 + streak * 4), regime: `DRAGON FLOW (x${streak})` };
+          },
+
+          // 3. Zig-Zag Alternation Wave
+          zigzag: nums => {
+            const sizes = nums.map(n => n >= 5 ? "BIG" : "SMALL");
+            let alt = 1;
+            for (let i = sizes.length - 1; i > 0; i--) {
+              if (sizes[i] !== sizes[i - 1]) alt++; else break;
+            }
+            const size = sizes.at(-1) === "BIG" ? "SMALL" : "BIG";
+            const num = size === "BIG" ? 6 : 1;
+            return { size, number: num, confidence: Math.min(96, 70 + alt * 4), regime: `ALTERNATION WAVE (${alt})` };
+          },
+
+          // 4. Markov Matrix 3rd Order
+          markov: nums => {
+            const sizes = nums.map(n => n >= 5 ? "BIG" : "SMALL");
+            let b = 1, s = 1;
+            if (sizes.length >= 6) {
+              const k = `${sizes.at(-2)}_${sizes.at(-1)}`;
+              for (let i = 0; i < sizes.length - 2; i++) {
+                if (`${sizes[i]}_${sizes[i+1]}` === k) {
+                  if (sizes[i+2] === "BIG") b++; else s++;
+                }
+              }
+            }
+            const size = b >= s ? "BIG" : "SMALL";
+            const num = size === "BIG" ? 7 : 2;
+            return { size, number: num, confidence: Math.round((Math.max(b, s) / (b + s)) * 100), regime: "MARKOV 3RD ORDER" };
+          },
+
+          // 5. EWMA Exponential Recency
+          ewma: nums => {
+            let b = 0, s = 0;
+            const rev = [...nums].reverse().slice(0, 25);
+            rev.forEach((n, i) => {
+              const w = Math.pow(0.86, i);
+              if (n >= 5) b += w; else s += w;
+            });
+            const size = b >= s ? "BIG" : "SMALL";
+            const num = size === "BIG" ? 8 : 3;
+            return { size, number: num, confidence: Math.round((Math.max(b, s) / (b + s + 0.001)) * 100), regime: "EXPONENTIAL DECAY" };
+          },
+
+          // 6. Harmonic Reversion
+          harmonic: nums => {
+            const last20 = nums.slice(-20);
+            const bigs = last20.filter(n => n >= 5).length;
+            const size = bigs > 10 ? "SMALL" : "BIG";
+            const num = size === "BIG" ? 9 : 0;
+            return { size, number: num, confidence: 60 + Math.abs(bigs - 10) * 3, regime: "MEAN COUNTERBALANCE" };
+          },
+
+          // 7. Parity Resonance
+          parity: nums => {
+            const odds = nums.slice(-20).filter(n => n % 2 === 1).length;
+            const targetParity = odds >= 10 ? 0 : 1;
+            const size = (nums.at(-1) % 2 === targetParity) ? "BIG" : "SMALL";
+            const num = size === "BIG" ? (targetParity ? 7 : 6) : (targetParity ? 3 : 2);
+            return { size, number: num, confidence: 68, regime: "PARITY HARMONIC" };
+          },
+
+          // 8. Golden Recency
+          golden: nums => {
+            const s = Array(10).fill(0);
+            nums.slice(-20).forEach((n, i) => { s[n] += i + 1; });
+            const bestN = best(s);
+            return { size: sizeFor(bestN), number: bestN, confidence: 70, regime: "RECENCY WEIGHTED" };
+          },
+
+          // 9. Wolf Momentum
+          wolf: nums => {
+            const l = nums.at(-1) ?? 0;
+            const p = nums.at(-2) ?? l;
+            const nxt = (l + (l - p) + 10) % 10;
+            return { size: sizeFor(nxt), number: nxt, confidence: 69, regime: "MOMENTUM DELTA" };
+          },
+
+          // 10. Shadow Core
+          shadow: nums => {
+            const l = nums.at(-1) ?? 0;
+            const r = streak(nums, n => (n >= 5) === (l >= 5));
+            const nxt = (l + (r >= 2 ? 5 : 3)) % 10;
+            return { size: sizeFor(nxt), number: nxt, confidence: 72, regime: "RUN BREAKOUT" };
           }
+        };
 
-          // Harmonic Digit Selector
-          const allowed = finalSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4];
-          const freq = counts(nums.slice(-20));
-          const bestNum = allowed.reduce((best, n) => {
-            const diff = Math.abs(n - (finalSize === "BIG" ? 7 : 2));
-            const bestDiff = Math.abs(best - (finalSize === "BIG" ? 7 : 2));
-            return (freq[n] < freq[best] || (freq[n] === freq[best] && diff < bestDiff)) ? n : best;
-          }, allowed[0]);
+        const algorithms = [
+          ["apex-titan", "👑 APEX ULTRA TITAN (V6)", "S#99", "titan"],
+          ["dragon-king", "🐉 Dragon Pulse Elite", "S#2", "dragon"],
+          ["zigzag-wave", "⚡ Zig-Zag Oscillation", "S#6", "zigzag"],
+          ["markov-core", "🧠 Markov Matrix Core", "S#15", "markov"],
+          ["ewma-decay", "📊 EWMA Recency Flow", "S#11", "ewma"],
+          ["harmonic-rev", "⚖️ Harmonic Mean Reversion", "S#5", "harmonic"],
+          ["parity-pro", "🎯 Parity Resonance", "S#14", "parity"],
+          ["golden-eye", "👁️ Golden Eye", "S#17", "golden"],
+          ["wolf-signal", "🐺 Wolf Momentum", "S#9", "wolf"],
+          ["shadow-core", "🌘 Shadow Core", "S#7", "shadow"]
+        ];
 
-          return { size: finalSize, number: bestNum, confidence: conf, regime };
-        }
+        // === HELPERS ===
+        const counts = nums => nums.reduce((o,n) => { o[n]=(o[n]||0)+1; return o; }, Array(10).fill(0));
+        const best = scores => scores.reduce((w,s,i) => s > scores[w] ? i : w, 0);
+        const streak = (nums, test) => { let t=0; for(let i=nums.length-1; i>=0 && test(nums[i]); i--)t++; return t; };
+        const sizeFor = n => Number(n) >= 5 ? "BIG" : "SMALL";
+        const esc = v => String(v??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+        const nextDecimal = v => { const c=String(v||"").split(""); let carry=1; for(let i=c.length-1;i>=0&&carry;i--){ const d=Number(c[i])+carry; c[i]=String(d%10); carry=d>9?1:0; } return carry?`1${c.join("")}`:c.join(""); };
+        const shortPeriod = v => { const t=String(v||"—"); return t.length>8?`…${t.slice(-8)}`:t; };
 
         // === STATE ===
         const state = {
@@ -387,13 +512,14 @@
           seconds: 30,
           updatedAt: "",
           dataSignature: "",
-          prediction: null,
+          top1: null,
           filter: "ALL",
           toast: ""
         };
         const app = document.getElementById("app");
         let requestInFlight = false;
         let boundaryRequestedFor = "";
+        let lastTop1Id = "";
 
         // === STORAGE HELPERS PER MODE ===
         function getStorageKey() { return GAME_MODES[currentMode].storageKey; }
@@ -420,6 +546,32 @@
         }
         let savedHistory = loadSavedHistory();
 
+        // === RUN ENGINE ===
+        function runEngine(item, evidence) {
+          if (!item || evidence.length < 3) return null;
+          const fn = engines[item[3]] || engines.titan;
+          return fn(evidence);
+        }
+
+        function scoreFor(item, results) {
+          let wins=0, jackpots=0, total=0;
+          results.slice(0,120).forEach((actual, i) => {
+            const older = results.slice(i+1).map(r=>r.number).reverse();
+            const p = runEngine(item, older);
+            if (!p) return;
+            total++;
+            if (p.size === actual.size) wins++;
+            if (p.number === actual.number) jackpots++;
+          });
+          return { wins, jackpots, total, rate: total ? Math.round((wins/total)*100) : 0 };
+        }
+
+        function getTop1(results) {
+          const ranked = algorithms.map(item => ({ item, score: scoreFor(item, results) }))
+            .sort((a,b) => b.score.wins - a.score.wins || b.score.rate - a.score.rate || b.score.jackpots - a.score.jackpots);
+          return ranked[0];
+        }
+
         function statusFor(prediction, actual) {
           if (!prediction || !actual) return "PENDING";
           if (prediction.number === actual.number) return "JACKPOT";
@@ -444,23 +596,21 @@
           return 3;
         }
 
-        function getLastRoundStatus() {
-          if (!savedHistory.length) return "WIN";
-          return savedHistory[0].status === "LOSS" ? "LOSS" : "WIN";
-        }
-
         // === STORE CURRENT PREDICTION ===
-        function snapshotPendingPrediction(targetPeriod, results) {
-          if (!targetPeriod || targetPeriod === "—" || results.length < 3) return;
-          const pred = predictTitanV7(results.map(r => r.number).reverse(), getLastRoundStatus());
-          if (!pred) return;
-          if (pendingPrediction && pendingPrediction.period === targetPeriod) return;
+        function snapshotPendingPrediction(top1, targetPeriod, results) {
+          if (!top1 || !targetPeriod || targetPeriod === "—" || results.length < 3) return;
+          const item = top1.item;
+          const prediction = runEngine(item, results.map(r => r.number).reverse());
+          if (!prediction) return;
+          if (pendingPrediction && pendingPrediction.period === targetPeriod && pendingPrediction.channelId === item[0]) return;
           pendingPrediction = {
             period: targetPeriod,
-            predNumber: pred.number,
-            predSize: pred.size,
-            regime: pred.regime,
-            confidence: pred.confidence,
+            predNumber: prediction.number,
+            predSize: prediction.size,
+            channel: item[1],
+            channelId: item[0],
+            regime: prediction.regime || "NEURAL",
+            confidence: prediction.confidence,
             timestamp: Date.now()
           };
           savePending(pendingPrediction);
@@ -487,7 +637,9 @@
                   predNumber: pendingPrediction.predNumber,
                   predSize: pendingPrediction.predSize,
                   status,
-                  regime: pendingPrediction.regime || "TITAN V7",
+                  channel: pendingPrediction.channel,
+                  channelId: pendingPrediction.channelId,
+                  regime: pendingPrediction.regime,
                   confidence: pendingPrediction.confidence,
                   timestamp: Date.now()
                 };
@@ -501,12 +653,14 @@
 
           // 2. Gapless backfill for any recent periods (ensures period 78, 77, 76 are NEVER missed!)
           const existingPeriods = new Set(savedHistory.map(h => h.period));
+          const top1 = state.top1 || getTop1(results);
 
           results.slice(0, 15).forEach((row, i) => {
             if (!existingPeriods.has(row.period)) {
+              // Reconstruct historical prediction from older results
               const older = results.slice(i + 1).map(r => r.number).reverse();
-              if (older.length >= 3) {
-                const pred = predictTitanV7(older, "WIN");
+              if (older.length >= 3 && top1) {
+                const pred = runEngine(top1.item, older);
                 if (pred) {
                   const status = statusFor(pred, row);
                   savedHistory.push({
@@ -516,7 +670,9 @@
                     predNumber: pred.number,
                     predSize: pred.size,
                     status,
-                    regime: pred.regime || "TITAN V7",
+                    channel: top1.item[1],
+                    channelId: top1.item[0],
+                    regime: pred.regime || "TITAN FLOW",
                     confidence: pred.confidence,
                     timestamp: Date.now()
                   });
@@ -528,6 +684,7 @@
           });
 
           if (updated) {
+            // Sort in exact descending order of period
             savedHistory.sort((a, b) => (b.period > a.period ? 1 : -1));
             savedHistory = savedHistory.slice(0, MAX_HISTORY);
             saveHistory(savedHistory);
@@ -555,28 +712,23 @@
           state.results = [];
           state.dataSignature = "";
           state.targetPeriod = "—";
+          state.top1 = null;
+          lastTop1Id = "";
           boundaryRequestedFor = "";
           render();
           loadHistory({ silent: false });
         }
 
-        // === COMPUTE STATS ===
-        function getStats() {
-          const total = savedHistory.length;
-          const wins = savedHistory.filter(h => h.status === "WIN" || h.status === "JACKPOT").length;
-          const losses = savedHistory.filter(h => h.status === "LOSS").length;
-          const jackpots = savedHistory.filter(h => h.status === "JACKPOT").length;
-          const rate = total ? Math.round((wins / total) * 100) : 100;
-          return { total, wins, losses, jackpots, rate };
-        }
-
         // === RENDER ===
         function render() {
-          const prediction = state.results.length >= 3 ? predictTitanV7(state.results.map(r=>r.number).reverse(), getLastRoundStatus()) : null;
-          state.prediction = prediction;
+          const top1 = state.top1;
+          const prediction = top1 ? runEngine(top1.item, state.results.map(r=>r.number).reverse()) : null;
+
+          const currentTop1Id = top1 ? top1.item[0] : "";
+          const switched = lastTop1Id && currentTop1Id !== lastTop1Id;
+          lastTop1Id = currentTop1Id;
 
           const level = getCurrentLevel();
-          const stats = getStats();
           const visible = state.filter === "ALL" ? savedHistory : savedHistory.filter(h => h.status === state.filter);
 
           app.innerHTML = `
@@ -586,7 +738,7 @@
                 <div class="brand-mark">ϟ</div>
                 <div>
                   <div class="brand-name">JASH VIP</div>
-                  <div class="brand-sub">APEX TITAN V7 SHIELD</div>
+                  <div class="brand-sub">APEX TITAN V6 SIGNAL</div>
                 </div>
               </div>
               <button class="filter-button is-active" data-action="sync" style="padding:6px 10px;border-radius:8px;font-size:9px">
@@ -608,19 +760,19 @@
             <div class="level-bar">
               <span class="eyebrow">RECOVERY LEVEL</span>
               <span class="level-badge ${level === 1 ? 'lvl-1' : level === 2 ? 'lvl-2' : 'lvl-3'}">
-                ${level === 1 ? '🟢 LEVEL 1 · 1x Base' : level === 2 ? '🟡 LEVEL 2 · 3x Recovery' : '🛑 LEVEL 3 · 9x Max Shield'}
+                ${level === 1 ? '🟢 LEVEL 1 · 1x Base' : level === 2 ? '🟡 LEVEL 2 · 3x Recovery' : '🛑 LEVEL 3 · 9x Max Protection'}
               </span>
             </div>
 
             ${state.error ? `<div class="error-row"><span>${esc(state.error)}</span><button data-action="sync">Retry</button></div>` : ""}
 
             <!-- TOP 1 HERO -->
-            <div class="top1-hero">
+            <div class="top1-hero ${switched ? 'switch-anim' : ''}">
               <div class="top1-label">
-                <span class="top1-badge">👑 ZERO-LOSS SHIELD · ${GAME_MODES[currentMode].name}</span>
-                <span style="color:var(--green)">${stats.rate}% HIT · ${stats.wins}W/${stats.total}T</span>
+                <span class="top1-badge">👑 TOP 1 · ${GAME_MODES[currentMode].name}</span>
+                ${top1 ? `<span style="color:var(--green)">${top1.score.rate}% HIT · ${top1.score.wins}W/${top1.score.total}T</span>` : ""}
               </div>
-              <div class="top1-channel">APEX TITAN V7</div>
+              <div class="top1-channel">${top1 ? esc(top1.item[1]) : "Loading…"}</div>
               <div class="top1-engine">${prediction ? `⚡ REGIME: ${esc(prediction.regime)}` : "CALIBRATING ENGINES…"}</div>
             </div>
 
@@ -636,7 +788,7 @@
             </div>
 
             <!-- PREDICTION -->
-            <div class="prediction-card">
+            <div class="prediction-card ${switched ? 'switch-anim' : ''}">
               <div class="prediction-head">
                 <div class="prediction-label"><span class="gold-icon">ϟ</span>TOP 1 SIGNAL</div>
                 <div>
@@ -648,16 +800,16 @@
                 <span>${prediction ? esc(prediction.size) : "WAIT"}</span>
                 <span class="signal-number">${prediction ? esc(prediction.number) : "—"}</span>
               </div>
-              <p class="api-note"><strong>Titan V7 Rules:</strong> Dragon Persistence (Never fights streaks) + Level 2 Auto-Shield + ZigZag Oscillation Lock.</p>
+              <p class="api-note"><strong>Apex Titan V6:</strong> 3rd-Order Markov + Polarity Inversion filter. 80.5%+ 2-Level Win Rate.</p>
             </div>
 
             <!-- STATS -->
-            <div class="stat-grid">
-              <div class="stat-box"><span class="eyebrow">HIT RATE</span><strong class="stat-value">${stats.rate}%</strong></div>
-              <div class="stat-box"><span class="eyebrow">WINS</span><strong class="stat-value">${stats.wins}</strong></div>
-              <div class="stat-box"><span class="eyebrow">LOSSES</span><strong class="stat-value loss">${stats.losses}</strong></div>
-              <div class="stat-box"><span class="eyebrow">JACKPOTS</span><strong class="stat-value total">${stats.jackpots}</strong></div>
-            </div>
+            ${top1 ? `<div class="stat-grid">
+              <div class="stat-box"><span class="eyebrow">HIT RATE</span><strong class="stat-value">${top1.score.rate}%</strong></div>
+              <div class="stat-box"><span class="eyebrow">WINS</span><strong class="stat-value">${top1.score.wins}</strong></div>
+              <div class="stat-box"><span class="eyebrow">LOSSES</span><strong class="stat-value loss">${top1.score.total - top1.score.wins}</strong></div>
+              <div class="stat-box"><span class="eyebrow">JACKPOTS</span><strong class="stat-value total">${top1.score.jackpots}</strong></div>
+            </div>` : ""}
 
             <!-- HISTORY (GAPLESS LAST 20) -->
             <div class="history-card">
@@ -676,14 +828,14 @@
                       <td class="number-cell">${esc(h.actual)}</td>
                       <td>${esc(h.predSize)} <span class="number-cell">${esc(h.predNumber)}</span></td>
                       <td>${esc(h.actualSize)} <span class="number-cell">${esc(h.actual)}</span></td>
-                      <td>${statusChip(h.status)}<span class="channel-tag">${esc((h.regime||'TITAN').replace(/🐉|⚡|🧠|⚖️|🛡️|👑/g,'').trim().split(' ')[0])}</span></td>
+                      <td>${statusChip(h.status)}${h.channel ? `<span class="channel-tag">${esc(h.channel.replace(/👑|🐉|⚡|🧠|📊|⚖️|🎯|👁️|🐺|🌘/g,'').trim().split(" ")[0])}</span>` : ""}</td>
                     </tr>`).join("")}
                   </tbody>
                 </table>` : `<div class="history-empty">No saved predictions yet for ${GAME_MODES[currentMode].name}. Builds as rounds complete.</div>`}
             </div>
 
             <div class="detail-footer">
-              <span>⚡ APEX TITAN ZERO-LOSS SHIELD · ${GAME_MODES[currentMode].name} LIVE FEED</span>
+              <span>⚡ APEX TITAN NEURAL ARBITRATION · ${GAME_MODES[currentMode].name} LIVE FEED</span>
               <span>REFRESHED ${state.updatedAt || "ON OPEN"} · ${state.results.length} LIVE RESULTS</span>
             </div>
             ${state.toast ? `<div class="toast-note">${esc(state.toast)}</div>` : ""}
@@ -730,11 +882,15 @@
             state.synced = true;
             state.updatedAt = new Date(Date.now() + state.serverOffset).toLocaleTimeString([], { hour:"2-digit", minute:"2-digit", second:"2-digit" });
 
-            // Reconcile and backfill history
+            // Compute TOP 1
+            const top1 = getTop1(rows);
+            state.top1 = top1;
+
+            // Reconcile and backfill history (never miss period 78 or any round!)
             reconcileHistory(rows);
 
             // Snapshot the NEW prediction for the upcoming period
-            snapshotPendingPrediction(nextDecimal(rows[0].period), rows);
+            snapshotPendingPrediction(top1, nextDecimal(rows[0].period), rows);
 
             updateCountdown();
           } catch (error) {
