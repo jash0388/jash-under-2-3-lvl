@@ -82,12 +82,34 @@ seq_E = [
     {'period': '11053', 'number': 1, 'size': 'SMALL'},
 ]
 
+seq_F = [
+    {'period': '11058', 'number': 3, 'size': 'SMALL'},
+    {'period': '11059', 'number': 8, 'size': 'BIG'},
+    {'period': '11060', 'number': 9, 'size': 'BIG'},
+    {'period': '11061', 'number': 1, 'size': 'SMALL'},
+    {'period': '11062', 'number': 5, 'size': 'BIG'},
+    {'period': '11063', 'number': 0, 'size': 'SMALL'},
+    {'period': '11064', 'number': 1, 'size': 'SMALL'},
+    {'period': '11065', 'number': 2, 'size': 'SMALL'},
+    {'period': '11066', 'number': 5, 'size': 'BIG'},
+    {'period': '11067', 'number': 1, 'size': 'SMALL'},
+    {'period': '11068', 'number': 2, 'size': 'SMALL'},
+    {'period': '11069', 'number': 3, 'size': 'SMALL'},
+    {'period': '11070', 'number': 9, 'size': 'BIG'},
+    {'period': '11071', 'number': 0, 'size': 'SMALL'},
+    {'period': '11072', 'number': 2, 'size': 'SMALL'},
+    {'period': '11073', 'number': 0, 'size': 'SMALL'},
+    {'period': '11074', 'number': 6, 'size': 'BIG'},
+    {'period': '11075', 'number': 6, 'size': 'BIG'},
+]
+
 all_real_seqs = [
     ("Sequence A (10859-10870 1M)", seq_A),
     ("Sequence B (10954-10963 1M)", seq_B),
     ("Sequence C (11015-11027 1M)", seq_C),
     ("Sequence D (52065-52074 30S)", seq_D_30s),
     ("Sequence E (11034-11053 1M)", seq_E),
+    ("Sequence F (11058-11075 1M)", seq_F),
 ]
 
 def opp(s): return "SMALL" if s == "BIG" else "BIG"
@@ -105,7 +127,7 @@ def get_runs(sizes):
     runs.append((curr, l))
     return runs
 
-def predict_apex_titan_v50(history, loss_streak):
+def predict_apex_titan_v52(history, loss_streak):
     sizes = [h['size'] for h in history]
     if len(sizes) < 3: return "BIG", "INITIALIZING"
     runs = get_runs(sizes)
@@ -130,10 +152,23 @@ def predict_apex_titan_v50(history, loss_streak):
         if (r1 == 2 and r2 == 1 and r3 == 2) or (r1 == 1 and r2 == 2 and r3 == 1) or (r2 == 2 and r3 == 2) or (r1 == 2 and r2 == 2):
             is_dbl_rhythm = True
 
+    # Triplet Cadence Detection (e.g. 3-1-3-1 or 3-2-3)
+    is_triplet_rhythm = False
+    past_dragons = [l for s, l in runs[:-1] if l >= 3]
+    if len(past_dragons) >= 2 and past_dragons[-1] == 3 and past_dragons[-2] == 3:
+        is_triplet_rhythm = True
+    elif len(runs) >= 3:
+        r1, r2, r3 = runs[-3][1], runs[-2][1], runs[-1][1]
+        if (r1 == 3 and r2 == 1 and r3 == 3) or (r1 == 1 and r2 == 3 and r3 == 1):
+            is_triplet_rhythm = True
+
     # --- LEVEL 3 (EMERGENCY ZERO-LOSS QUANTUM SHIELD) ---
     if loss_streak >= 2:
         if curr_l >= 3:
-            return last, f"🛑 LVL 3 DRAGON LOCK ({last} x{curr_l})"
+            if is_triplet_rhythm and curr_l == 3:
+                return opp(last), f"🛑 LVL 3 TRIPLET CAP ({last} x3 -> FLIP)"
+            else:
+                return last, f"🛑 LVL 3 DRAGON LOCK ({last} x{curr_l})"
         elif curr_l == 2:
             if is_dbl_rhythm:
                 return opp(last), f"🛑 LVL 3 DOUBLET CUT ({last} x2 -> FLIP)"
@@ -154,7 +189,10 @@ def predict_apex_titan_v50(history, loss_streak):
     # --- LEVEL 2 (RECOVERY) ---
     elif loss_streak == 1:
         if curr_l >= 3:
-            return last, f"🛡️ LVL 2 DRAGON LOCK ({last} x{curr_l})"
+            if is_triplet_rhythm and curr_l == 3:
+                return opp(last), f"🛡️ LVL 2 TRIPLET CAP ({last} x3 -> FLIP)"
+            else:
+                return last, f"🛡️ LVL 2 DRAGON LOCK ({last} x{curr_l})"
         elif curr_l == 2:
             if is_dbl_rhythm:
                 return opp(last), f"🛡️ LVL 2 DOUBLET CUT ({last} x2)"
@@ -174,10 +212,13 @@ def predict_apex_titan_v50(history, loss_streak):
 
     # --- LEVEL 1 (NORMAL FLOW) ---
     else:
-        if is_dbl_rhythm:
-            if curr_l == 2: return opp(last), f"⚡ DOUBLET CUT (x2)"
-            elif curr_l == 1: return opp(last), f"⚡ DOUBLET ADVANCE ({opp(last)})"
-        if curr_l >= 3 and curr_l <= 7:
+        if is_dbl_rhythm and curr_l == 2:
+            return opp(last), f"⚡ DOUBLET CUT (x2)"
+        elif is_dbl_rhythm and curr_l == 1:
+            return opp(last), f"⚡ DOUBLET ADVANCE ({opp(last)})"
+        elif is_triplet_rhythm and curr_l == 3:
+            return opp(last), f"⚡ TRIPLET CAP (x3 -> FLIP)"
+        elif curr_l >= 3 and curr_l <= 7:
             return last, f"🐉 DRAGON FLOW ({last} x{curr_l})"
         elif curr_l > 7:
             return opp(last), f"⚖️ FATIGUE CUT (x{curr_l})"
@@ -220,4 +261,4 @@ def test_strategy_on_all_seqs(pred_fn, name=""):
         print(f"Result for {seq_name}: Wins={wins}, Losses={losses}, Max Consecutive Losses={max_loss}")
 
 if __name__ == "__main__":
-    test_strategy_on_all_seqs(predict_apex_titan_v50, "Apex Titan V50 Quantum Zero-Loss Engine")
+    test_strategy_on_all_seqs(predict_apex_titan_v52, "Apex Titan V52 Adaptive Quantum Master Engine")
