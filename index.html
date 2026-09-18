@@ -294,7 +294,7 @@
         const nextDecimal = v => { const c=String(v||"").split(""); let carry=1; for(let i=c.length-1;i>=0&&carry;i--){ const d=Number(c[i])+carry; c[i]=String(d%10); carry=d>9?1:0; } return carry?`1${c.join("")}`:c.join(""); };
         const shortPeriod = v => { const t=String(v||"—"); return t.length>8?`…${t.slice(-8)}`:t; };
 
-        // === APEX TITAN ZERO-LOSS OMNI (V9.2 PURE MOMENTUM & ZIGZAG HARMONICS) ===
+        // === APEX TITAN ZERO-LOSS OMNI (V9.3 SNAPBACK + RESUMPTION + DRAGON FLOW) ===
         function predictTitanV9(evidence, lastRoundStatus = "WIN") {
           if (!evidence || evidence.length < 3) {
             return { size: "BIG", number: 7, confidence: 70, regime: "TITAN INITIALIZING" };
@@ -320,24 +320,37 @@
 
           let finalSize = lastSize;
           let conf = 85;
-          let regime = `🐉 TREND FLOW (${lastSize} x${streak})`;
+          let regime = `🐉 DRAGON FLOW (${lastSize} x${streak})`;
 
-          // RULE 1: STRICT ZIGZAG OSCILLATION (Must be strictly >= 3 switches)
-          if (alt >= 3) {
+          // RULE 1: SINGLE-BLIP SNAPBACK (Streak >= 2 broken by 1 blip: [B,B,S] -> predict BIG)
+          if (sizes.length >= 3 && streak === 1 && sizes.at(-2) === sizes.at(-3)) {
+            finalSize = sizes.at(-2);
+            regime = `🧲 SNAPBACK SHIELD (${finalSize})`;
+            conf = 94;
+          }
+          // RULE 2: 1-2 CADENCE RESUMPTION ([B,B,S,B] -> predict BIG)
+          else if (sizes.length >= 4 && streak === 1 && sizes.at(-1) === sizes.at(-3) && sizes.at(-3) === sizes.at(-4) && sizes.at(-2) !== sizes.at(-1)) {
+            finalSize = sizes.at(-1);
+            regime = `🛡️ RESUMPTION SHIELD (${finalSize})`;
+            conf = 92;
+          }
+          // RULE 3: PURE DRAGON FLOW (Streak >= 2)
+          else if (streak >= 2) {
+            finalSize = lastSize;
+            regime = `🐉 DRAGON FLOW (${lastSize} x${streak})`;
+            conf = Math.min(99, 82 + streak * 3);
+          }
+          // RULE 4: STRICT ZIGZAG OSCILLATION (alt >= 3)
+          else if (alt >= 3) {
             finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
             regime = `⚡ ZIGZAG WAVE (${alt} Waves)`;
             conf = Math.min(97, 80 + alt * 3);
           }
-          // RULE 2: PURE DRAGON / MOMENTUM (Streak >= 1) -> Always follow the confirmed side!
+          // RULE 5: DEFAULT MOMENTUM
           else {
             finalSize = lastSize;
-            if (streak >= 2) {
-              regime = `🐉 DRAGON FLOW (${lastSize} x${streak})`;
-              conf = Math.min(99, 82 + streak * 3);
-            } else {
-              regime = `🚀 MOMENTUM LOCK (${lastSize})`;
-              conf = 88;
-            }
+            regime = `🚀 MOMENTUM (${lastSize})`;
+            conf = 85;
           }
 
           // Harmonic Digit Selector
