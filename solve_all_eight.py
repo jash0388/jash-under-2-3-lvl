@@ -152,7 +152,7 @@ seq_H = [
     {'period': '11141', 'number': 7, 'size': 'BIG'},
 ]
 
-all_real_seqs = [
+all_eight = [
     ("Seq A (10859-10870 1M)", seq_A),
     ("Seq B (10954-10963 1M)", seq_B),
     ("Seq C (11015-11027 1M)", seq_C),
@@ -179,103 +179,107 @@ def get_runs(sizes):
     return runs
 
 def predict_apex_titan_v70(history, loss_streak):
-    sizes = [h['size'] for h in history]
-    nums = [h['number'] for h in history]
-    if len(sizes) < 3: return "BIG", "INITIALIZING"
+    if len(history) < 3:
+        return "BIG", "INIT"
+    nums = [x['number'] for x in history][-50:]
+    sizes = [x['size'] for x in history][-50:]
     runs = get_runs(sizes)
+    
     c_side, c_len = runs[-1]
     p_side, p_len = runs[-2] if len(runs) >= 2 else (opp(c_side), 0)
     p3_side, p3_len = runs[-3] if len(runs) >= 3 else (c_side, 0)
     last_s = sizes[-1]
-
+    
     alt = 0
     for r_s, r_l in reversed(runs):
         if r_l == 1:
             alt += 1
         else:
             break
-
+            
     # Level 3 Recovery (Zero-Loss Quantum Shield)
     if loss_streak >= 2:
         if p_len == 2 and c_len == 1:
-            return p_side, f"🛑 LVL 3 DOUBLET ADVANCE ({p_side})"
+            return p_side, f"LVL3 DOUBLET ADVANCE ({p_side})"
         elif c_len == 2:
-            return opp(c_side), f"🛑 LVL 3 DOUBLET CUT ({opp(c_side)})"
+            return opp(c_side), f"LVL3 DOUBLET CUT ({opp(c_side)})"
         elif c_len == 1 and p_len == 1:
             if p3_len >= 5 and len(nums) >= 2 and abs(nums[-1] - nums[-2]) >= 5:
-                return opp(last_s), f"🛑 LVL 3 VOLATILE DRAGON BREAK ({opp(last_s)})"
+                return opp(last_s), f"LVL3 VOLATILE DRAGON BREAK ({opp(last_s)})"
             elif p3_len >= 2 and c_side == p3_side and alt < 3:
-                return c_side, f"🛑 LVL 3 CADENCE RESTORE ({c_side})"
+                return c_side, f"LVL3 CADENCE RESTORE ({c_side})"
             else:
-                return opp(last_s), f"🛑 LVL 3 ANTI-WHIPSAW CHOP FLIP ({opp(last_s)})"
+                return opp(last_s), f"LVL3 ANTI-WHIPSAW CHOP FLIP ({opp(last_s)})"
         elif c_len >= 3:
-            return c_side, f"🛑 LVL 3 DRAGON RIDE ({c_side} x{c_len})"
+            return c_side, f"LVL3 DRAGON RIDE ({c_side} x{c_len})"
         else:
-            return last_s, f"🛑 LVL 3 MOMENTUM FOLLOW ({last_s})"
-
-    # Level 2 Recovery (streak == 1)
+            return last_s, f"LVL3 MOMENTUM FOLLOW ({last_s})"
+            
+    # Level 2 Recovery
     elif loss_streak == 1:
         if p_len == 2 and c_len == 1:
-            return p_side, f"🛡️ LVL 2 DOUBLET ADVANCE ({p_side})"
+            return p_side, f"LVL2 DOUBLET ADVANCE ({p_side})"
         elif c_len >= 2:
-            return c_side, f"🛡️ LVL 2 DRAGON LOCK ({c_side} x{c_len})"
+            return c_side, f"LVL2 DRAGON LOCK ({c_side} x{c_len})"
         elif alt >= 3:
-            return opp(last_s), f"🛡️ LVL 2 CHOP FLIP ({opp(last_s)})"
+            return opp(last_s), f"LVL2 CHOP FLIP ({opp(last_s)})"
         else:
-            return last_s, f"🛡️ LVL 2 MOMENTUM FOLLOW ({last_s})"
-
-    # Level 1 Base Prediction (streak == 0)
+            return last_s, f"LVL2 MOMENTUM FOLLOW ({last_s})"
+            
+    # Level 1 Base Prediction
     else:
         if c_len == 3 and p_len == 1 and p3_len == 3:
-            return opp(c_side), "⚡ TRIPLET DRAGON CAP (x3 -> FLIP)"
+            return opp(c_side), "TRIPLET CAP"
         elif c_len >= 3:
-            return c_side, f"🐉 DRAGON FLOW ({c_side} x{c_len})"
+            return c_side, f"DRAGON ({c_side} x{c_len})"
         elif c_len == 1 and p_len == 2 and p3_len == 1:
-            return p_side, f"⚡ DOUBLET CADENCE INTERCEPT ({p_side})"
+            return p_side, f"DOUBLET CADENCE ({p_side})"
         elif alt >= 2:
-            return opp(last_s), f"⚡ CHOP OSCILLATE (x{alt} -> {opp(last_s)})"
+            return opp(last_s), f"CHOP OSCILLATE ({opp(last_s)})"
         else:
             w = sizes[-5:]
-            b_score = sum((1.5**i) for i, s in enumerate(w) if s == 'BIG')
-            s_score = sum((1.5**i) for i, s in enumerate(w) if s == 'SMALL')
-            if b_score > s_score: return "BIG", "🌊 MICRO-TREND (BIG)"
-            elif s_score > b_score: return "SMALL", "🌊 MICRO-TREND (SMALL)"
-            return last_s, f"🌊 MOMENTUM ({last_s})"
+            b_score = sum(1.5**i for i, s in enumerate(w) if s == "BIG")
+            s_score = sum(1.5**i for i, s in enumerate(w) if s == "SMALL")
+            if b_score > s_score:
+                return "BIG", "MICRO-TREND BIG"
+            elif s_score > b_score:
+                return "SMALL", "MICRO-TREND SMALL"
+            else:
+                return last_s, f"MOMENTUM ({last_s})"
 
-def test_strategy_on_all_seqs(pred_fn, name=""):
-    print(f"\n==================== {name} ====================")
-    total_max = 0
-    for seq_name, seq in all_real_seqs:
-        hist = []
-        loss_streak = 0
-        max_loss = 0
-        wins, losses = 0, 0
-        print(f"\n--- {seq_name} ---")
-        for r in seq:
-            if len(hist) < 3:
-                hist.append(r)
-                continue
-            pred, reg = pred_fn(hist, loss_streak)
-            won = (pred == r['size'])
-            if won:
+def evaluate_all(predictor_fn):
+    results = []
+    max_all = 0
+    for name, seq in all_eight:
+        history = seq[:3]
+        wins = 0
+        losses = 0
+        streak = 0
+        max_streak = 0
+        details = []
+        for item in seq[3:]:
+            pred, tag = predictor_fn(history, streak)
+            act = item['size']
+            if pred == act:
                 wins += 1
-                lvl = 1 if loss_streak == 0 else loss_streak + 1
-                status = f"✅ WIN (Lvl {lvl})"
-                loss_streak = 0
+                details.append((item['period'], pred, act, 'WIN', streak + 1, tag))
+                streak = 0
             else:
                 losses += 1
-                loss_streak += 1
-                max_loss = max(max_loss, loss_streak)
-                status = f"❌ LOSS (Lvl {loss_streak})"
-            print(f"{r['period']}: Pred={pred:5s} | Act={r['size']:5s}({r['number']}) | {status:15s} | {reg}")
-            hist.append(r)
-        if max_loss > total_max: total_max = max_loss
-        pass_status = "✅ PASS (<=2 losses)" if max_loss <= 2 else "❌ FAIL"
-        print(f"Result for {seq_name}: Wins={wins}, Losses={losses}, Max Consecutive Losses={max_loss} -> {pass_status}")
-    print(f"\n==========================================")
-    print(f"ALL-SEQUENCE VERIFICATION SUMMARY: MAX CONSECUTIVE LOSSES = {total_max}")
-    print(f"==========================================")
+                streak += 1
+                if streak > max_streak: max_streak = streak
+                details.append((item['period'], pred, act, 'LOSS', streak, tag))
+            history.append(item)
+        if max_streak > max_all: max_all = max_streak
+        results.append((name, wins, losses, max_streak, details))
+    return max_all, results
 
 if __name__ == "__main__":
-    test_strategy_on_all_seqs(predict_apex_titan_v70, "Apex Titan V70 Neural Quantum Supreme Engine")
+    max_all, results = evaluate_all(predict_apex_titan_v70)
+    print(f"OVERALL MAX CONSECUTIVE LOSSES ACROSS ALL 8 SEQUENCES: {max_all}")
+    for name, wins, losses, max_streak, details in results:
+        status = "✅ PASS (<=2 losses)" if max_streak <= 2 else "❌ FAIL"
+        print(f"\n{name} -> {wins}W/{losses}L, Max Streak: {max_streak} | {status}")
+        for p, pred, act, res, lvl, tag in details:
+            print(f"  P {p}: Pred {pred:<5} | Act {act:<5} | {res:<4} (Lvl {lvl}) | Tag: {tag}")
 
