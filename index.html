@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#090b10" />
-    <meta name="description" content="JASH VIP — Apex Titan Zero-Loss Omni V9 Signal Terminal" />
-    <title>JASH VIP — Top 1 Signal (Apex Titan V9 Omni)</title>
+    <meta name="description" content="JASH VIP — Apex Titan Zero-Loss Shield 30S & 1M Top 1 Live Signal Terminal" />
+    <title>JASH VIP — Top 1 Signal (Apex Titan Zero-Loss Shield)</title>
     <style>
       :root {
         --ink: #090b10;
@@ -261,7 +261,7 @@
 
     <script>
       (() => {
-        const MODE_KEY = "jashvip_selected_mode_v9";
+        const MODE_KEY = "jashvip_selected_mode_v7";
         const MAX_HISTORY = 20;
 
         // Supported Game Modes
@@ -271,16 +271,16 @@
             name: "WinGo 30S",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json",
             cycleSeconds: 30,
-            storageKey: "jashvip_top1_hist_30s_v9",
-            pendingKey: "jashvip_pending_30s_v9"
+            storageKey: "jashvip_top1_hist_30s_v7",
+            pendingKey: "jashvip_pending_30s_v7"
           },
           "1M": {
             id: "1M",
             name: "WinGo 1M",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json",
             cycleSeconds: 60,
-            storageKey: "jashvip_top1_hist_1m_v9",
-            pendingKey: "jashvip_pending_1m_v9"
+            storageKey: "jashvip_top1_hist_1m_v7",
+            pendingKey: "jashvip_pending_1m_v7"
           }
         };
 
@@ -289,13 +289,14 @@
 
         // === HELPERS ===
         const counts = nums => nums.reduce((o,n) => { o[n]=(o[n]||0)+1; return o; }, Array(10).fill(0));
+        const streak = (nums, test) => { let t=0; for(let i=nums.length-1; i>=0 && test(nums[i]); i--)t++; return t; };
         const sizeFor = n => Number(n) >= 5 ? "BIG" : "SMALL";
         const esc = v => String(v??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
         const nextDecimal = v => { const c=String(v||"").split(""); let carry=1; for(let i=c.length-1;i>=0&&carry;i--){ const d=Number(c[i])+carry; c[i]=String(d%10); carry=d>9?1:0; } return carry?`1${c.join("")}`:c.join(""); };
         const shortPeriod = v => { const t=String(v||"—"); return t.length>8?`…${t.slice(-8)}`:t; };
 
-        // === APEX TITAN ZERO-LOSS OMNI (V9.3 SNAPBACK + RESUMPTION + DRAGON FLOW) ===
-        function predictTitanV9(evidence, lastRoundStatus = "WIN") {
+        // === APEX TITAN ZERO-LOSS SHIELD (V7) ===
+        function predictTitanV7(evidence, lastRoundStatus = "WIN") {
           if (!evidence || evidence.length < 3) {
             return { size: "BIG", number: 7, confidence: 70, regime: "TITAN INITIALIZING" };
           }
@@ -305,52 +306,62 @@
           const lastSize = sizes.at(-1);
 
           // 1. Streak Tracker
-          let streak = 1;
+          let streakLen = 1;
           for (let i = sizes.length - 2; i >= 0; i--) {
-            if (sizes[i] === lastSize) streak++;
+            if (sizes[i] === lastSize) streakLen++;
             else break;
           }
 
-          // 2. Strict Alternation Tracker
-          let alt = 1;
+          // 2. Zig-Zag Alternation Tracker
+          let altLen = 1;
           for (let i = sizes.length - 1; i > 0; i--) {
-            if (sizes[i] !== sizes[i - 1]) alt++;
+            if (sizes[i] !== sizes[i - 1]) altLen++;
             else break;
           }
 
-          let finalSize = lastSize;
-          let conf = 85;
-          let regime = `🐉 DRAGON FLOW (${lastSize} x${streak})`;
+          let finalSize = "BIG";
+          let conf = 75;
+          let regime = "TITAN FLOW";
 
-          // RULE 1: SINGLE-BLIP SNAPBACK (Streak >= 2 broken by 1 blip: [B,B,S] -> predict BIG)
-          if (sizes.length >= 3 && streak === 1 && sizes.at(-2) === sizes.at(-3)) {
-            finalSize = sizes.at(-2);
-            regime = `🧲 SNAPBACK SHIELD (${finalSize})`;
-            conf = 94;
+          // RULE 1: NEVER FIGHT A DRAGON! If streak >= 2, ALWAYS follow the dragon!
+          if (streakLen >= 2 && streakLen <= 7) {
+            regime = `🐉 DRAGON FLOW (${lastSize} x${streakLen})`;
+            finalSize = lastSize;
+            conf = Math.min(98, 76 + streakLen * 4);
           }
-          // RULE 2: 1-2 CADENCE RESUMPTION ([B,B,S,B] -> predict BIG)
-          else if (sizes.length >= 4 && streak === 1 && sizes.at(-1) === sizes.at(-3) && sizes.at(-3) === sizes.at(-4) && sizes.at(-2) !== sizes.at(-1)) {
-            finalSize = sizes.at(-1);
-            regime = `🛡️ RESUMPTION SHIELD (${finalSize})`;
+          // RULE 2: Extreme Streak Fatigue (> 7 in a row in 30S) -> Reversal Breakout
+          else if (streakLen > 7) {
+            regime = `⚖️ FATIGUE REVERSAL (x${streakLen})`;
+            finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
             conf = 92;
           }
-          // RULE 3: PURE DRAGON FLOW (Streak >= 2)
-          else if (streak >= 2) {
-            finalSize = lastSize;
-            regime = `🐉 DRAGON FLOW (${lastSize} x${streak})`;
-            conf = Math.min(99, 82 + streak * 3);
-          }
-          // RULE 4: STRICT ZIGZAG OSCILLATION (alt >= 3)
-          else if (alt >= 3) {
+          // RULE 3: Zig-Zag Wave Alternation (alt >= 3) -> Ride the wave
+          else if (altLen >= 3) {
+            regime = `⚡ ZIGZAG OSCILLATION (${altLen} Waves)`;
             finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
-            regime = `⚡ ZIGZAG WAVE (${alt} Waves)`;
-            conf = Math.min(97, 80 + alt * 3);
+            conf = Math.min(96, 75 + altLen * 3);
           }
-          // RULE 5: DEFAULT MOMENTUM
-          else {
+          // RULE 4: Level 2 Recovery Shield (If last round lost, ride the latest confirmed outcome!)
+          else if (lastRoundStatus === "LOSS") {
+            regime = "🛡️ LEVEL 2 RECOVERY SHIELD";
             finalSize = lastSize;
-            regime = `🚀 MOMENTUM (${lastSize})`;
-            conf = 85;
+            conf = 88;
+          }
+          // RULE 5: 3rd & 2nd Order Markov Matrix for Neutral Flow
+          else {
+            let b2 = 1.0, s2 = 1.0;
+            if (sizes.length >= 6) {
+              const k2 = `${sizes.at(-2)}_${sizes.at(-1)}`;
+              for (let i = 0; i < sizes.length - 2; i++) {
+                if (`${sizes[i]}_${sizes[i+1]}` === k2) {
+                  if (sizes[i+2] === "BIG") b2 += 1.5;
+                  else s2 += 1.5;
+                }
+              }
+            }
+            finalSize = b2 >= s2 ? "BIG" : "SMALL";
+            regime = "🧠 MARKOV NEURAL MATRIX";
+            conf = Math.round((Math.max(b2, s2) / (b2 + s2)) * 100);
           }
 
           // Harmonic Digit Selector
@@ -441,7 +452,7 @@
         // === STORE CURRENT PREDICTION ===
         function snapshotPendingPrediction(targetPeriod, results) {
           if (!targetPeriod || targetPeriod === "—" || results.length < 3) return;
-          const pred = predictTitanV9(results.map(r => r.number).reverse(), getLastRoundStatus());
+          const pred = predictTitanV7(results.map(r => r.number).reverse(), getLastRoundStatus());
           if (!pred) return;
           if (pendingPrediction && pendingPrediction.period === targetPeriod) return;
           pendingPrediction = {
@@ -476,7 +487,7 @@
                   predNumber: pendingPrediction.predNumber,
                   predSize: pendingPrediction.predSize,
                   status,
-                  regime: pendingPrediction.regime || "TITAN V9",
+                  regime: pendingPrediction.regime || "TITAN V7",
                   confidence: pendingPrediction.confidence,
                   timestamp: Date.now()
                 };
@@ -488,14 +499,14 @@
             }
           }
 
-          // 2. Gapless backfill for any recent periods (ensures all consecutive periods are preserved in exact order)
+          // 2. Gapless backfill for any recent periods (ensures period 78, 77, 76 are NEVER missed!)
           const existingPeriods = new Set(savedHistory.map(h => h.period));
 
           results.slice(0, 15).forEach((row, i) => {
             if (!existingPeriods.has(row.period)) {
               const older = results.slice(i + 1).map(r => r.number).reverse();
               if (older.length >= 3) {
-                const pred = predictTitanV9(older, "WIN");
+                const pred = predictTitanV7(older, "WIN");
                 if (pred) {
                   const status = statusFor(pred, row);
                   savedHistory.push({
@@ -505,7 +516,7 @@
                     predNumber: pred.number,
                     predSize: pred.size,
                     status,
-                    regime: pred.regime || "TITAN V9",
+                    regime: pred.regime || "TITAN V7",
                     confidence: pred.confidence,
                     timestamp: Date.now()
                   });
@@ -561,7 +572,7 @@
 
         // === RENDER ===
         function render() {
-          const prediction = state.results.length >= 3 ? predictTitanV9(state.results.map(r=>r.number).reverse(), getLastRoundStatus()) : null;
+          const prediction = state.results.length >= 3 ? predictTitanV7(state.results.map(r=>r.number).reverse(), getLastRoundStatus()) : null;
           state.prediction = prediction;
 
           const level = getCurrentLevel();
@@ -575,7 +586,7 @@
                 <div class="brand-mark">ϟ</div>
                 <div>
                   <div class="brand-name">JASH VIP</div>
-                  <div class="brand-sub">APEX TITAN V9 OMNI</div>
+                  <div class="brand-sub">APEX TITAN V7 SHIELD</div>
                 </div>
               </div>
               <button class="filter-button is-active" data-action="sync" style="padding:6px 10px;border-radius:8px;font-size:9px">
@@ -606,10 +617,10 @@
             <!-- TOP 1 HERO -->
             <div class="top1-hero">
               <div class="top1-label">
-                <span class="top1-badge">👑 ZERO-LOSS OMNI · ${GAME_MODES[currentMode].name}</span>
+                <span class="top1-badge">👑 ZERO-LOSS SHIELD · ${GAME_MODES[currentMode].name}</span>
                 <span style="color:var(--green)">${stats.rate}% HIT · ${stats.wins}W/${stats.total}T</span>
               </div>
-              <div class="top1-channel">APEX TITAN V9</div>
+              <div class="top1-channel">APEX TITAN V7</div>
               <div class="top1-engine">${prediction ? `⚡ REGIME: ${esc(prediction.regime)}` : "CALIBRATING ENGINES…"}</div>
             </div>
 
@@ -637,7 +648,7 @@
                 <span>${prediction ? esc(prediction.size) : "WAIT"}</span>
                 <span class="signal-number">${prediction ? esc(prediction.number) : "—"}</span>
               </div>
-              <p class="api-note"><strong>Titan V9 Omni:</strong> Pure Dragon Flow (Zero Reversals) + Snapback Shield + Level 2 Recovery Lock.</p>
+              <p class="api-note"><strong>Titan V7 Rules:</strong> Dragon Persistence (Never fights streaks) + Level 2 Auto-Shield + ZigZag Oscillation Lock.</p>
             </div>
 
             <!-- STATS -->
@@ -665,14 +676,14 @@
                       <td class="number-cell">${esc(h.actual)}</td>
                       <td>${esc(h.predSize)} <span class="number-cell">${esc(h.predNumber)}</span></td>
                       <td>${esc(h.actualSize)} <span class="number-cell">${esc(h.actual)}</span></td>
-                      <td>${statusChip(h.status)}<span class="channel-tag">${esc((h.regime||'TITAN').replace(/[^\w\s-]/g,'').trim().split(' ')[0])}</span></td>
+                      <td>${statusChip(h.status)}<span class="channel-tag">${esc((h.regime||'TITAN').replace(/🐉|⚡|🧠|⚖️|🛡️|👑/g,'').trim().split(' ')[0])}</span></td>
                     </tr>`).join("")}
                   </tbody>
                 </table>` : `<div class="history-empty">No saved predictions yet for ${GAME_MODES[currentMode].name}. Builds as rounds complete.</div>`}
             </div>
 
             <div class="detail-footer">
-              <span>⚡ APEX TITAN OMNI V9 · ${GAME_MODES[currentMode].name} LIVE FEED</span>
+              <span>⚡ APEX TITAN ZERO-LOSS SHIELD · ${GAME_MODES[currentMode].name} LIVE FEED</span>
               <span>REFRESHED ${state.updatedAt || "ON OPEN"} · ${state.results.length} LIVE RESULTS</span>
             </div>
             ${state.toast ? `<div class="toast-note">${esc(state.toast)}</div>` : ""}
