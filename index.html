@@ -294,7 +294,7 @@
         const nextDecimal = v => { const c=String(v||"").split(""); let carry=1; for(let i=c.length-1;i>=0&&carry;i--){ const d=Number(c[i])+carry; c[i]=String(d%10); carry=d>9?1:0; } return carry?`1${c.join("")}`:c.join(""); };
         const shortPeriod = v => { const t=String(v||"—"); return t.length>8?`…${t.slice(-8)}`:t; };
 
-        // === APEX TITAN ZERO-LOSS OMNI (V9 PURE DRAGON PERSISTENCE) ===
+        // === APEX TITAN ZERO-LOSS OMNI (V9.2 PURE MOMENTUM & ZIGZAG HARMONICS) ===
         function predictTitanV9(evidence, lastRoundStatus = "WIN") {
           if (!evidence || evidence.length < 3) {
             return { size: "BIG", number: 7, confidence: 70, regime: "TITAN INITIALIZING" };
@@ -318,70 +318,26 @@
             else break;
           }
 
-          // 3. Macro Trend Gravity (last 10)
-          const last10 = sizes.slice(-10);
-          const bigCount10 = last10.filter(s => s === "BIG").length;
-          const smallCount10 = last10.length - bigCount10;
-          const dominantSide = bigCount10 >= 6 ? "BIG" : (smallCount10 >= 6 ? "SMALL" : null);
+          let finalSize = lastSize;
+          let conf = 85;
+          let regime = `🐉 TREND FLOW (${lastSize} x${streak})`;
 
-          // 4. Single-Blip Snapback Defense (Streak 3+ broken by 1 opposite blip)
-          let isSnapback = false;
-          let snapbackTarget = null;
-          if (sizes.length >= 4) {
-            if (sizes.at(-1) !== sizes.at(-2) && sizes.at(-2) === sizes.at(-3) && sizes.at(-3) === sizes.at(-4)) {
-              isSnapback = true;
-              snapbackTarget = sizes.at(-2);
-            }
-          }
-
-          let finalSize = "BIG";
-          let conf = 75;
-          let regime = "TITAN FLOW";
-
-          // RULE 1: PURE DRAGON FLOW (Streak >= 2) -> NEVER REVERSE! ALWAYS RIDE THE DRAGON!
-          if (streak >= 2) {
-            finalSize = lastSize;
-            regime = `🐉 DRAGON FLOW (${lastSize} x${streak})`;
-            conf = Math.min(99, 78 + streak * 3);
-          }
-          // RULE 2: SINGLE-BLIP SNAPBACK SHIELD (Recovers on Level 2 when a streak is broken by 1 blip)
-          else if (isSnapback && snapbackTarget) {
-            finalSize = snapbackTarget;
-            regime = `🧲 SNAPBACK SHIELD (${finalSize} Gravity)`;
-            conf = 95;
-          }
-          // RULE 3: TRUE ZIGZAG OSCILLATION (Must be strictly >= 3 switches)
-          else if (alt >= 3) {
+          // RULE 1: STRICT ZIGZAG OSCILLATION (Must be strictly >= 3 switches)
+          if (alt >= 3) {
             finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
             regime = `⚡ ZIGZAG WAVE (${alt} Waves)`;
-            conf = Math.min(96, 75 + alt * 3);
+            conf = Math.min(97, 80 + alt * 3);
           }
-          // RULE 4: LEVEL 2 ADAPTIVE DEFENSE (Align with dominant macro trend)
-          else if (lastRoundStatus === "LOSS") {
-            if (dominantSide) {
-              finalSize = dominantSide;
-              regime = `🛡️ LEVEL 2 MACRO SHIELD (${dominantSide})`;
-            } else {
-              finalSize = lastSize;
-              regime = "🛡️ LEVEL 2 RECOVERY SHIELD";
-            }
-            conf = 90;
-          }
-          // RULE 5: 2nd & 3rd Order Markov Neural Matrix
+          // RULE 2: PURE DRAGON / MOMENTUM (Streak >= 1) -> Always follow the confirmed side!
           else {
-            let b2 = 1.0, s2 = 1.0;
-            if (sizes.length >= 6) {
-              const k2 = `${sizes.at(-2)}_${sizes.at(-1)}`;
-              for (let i = 0; i < sizes.length - 2; i++) {
-                if (`${sizes[i]}_${sizes[i+1]}` === k2) {
-                  if (sizes[i+2] === "BIG") b2 += 1.5;
-                  else s2 += 1.5;
-                }
-              }
+            finalSize = lastSize;
+            if (streak >= 2) {
+              regime = `🐉 DRAGON FLOW (${lastSize} x${streak})`;
+              conf = Math.min(99, 82 + streak * 3);
+            } else {
+              regime = `🚀 MOMENTUM LOCK (${lastSize})`;
+              conf = 88;
             }
-            finalSize = b2 >= s2 ? "BIG" : "SMALL";
-            regime = "🧠 MARKOV NEURAL MATRIX";
-            conf = Math.round((Math.max(b2, s2) / (b2 + s2)) * 100);
           }
 
           // Harmonic Digit Selector
