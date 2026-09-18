@@ -234,7 +234,8 @@
     <script>
       (() => {
         const API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json";
-        const STORAGE_KEY = "jashvip_top1_history_v2";
+        const STORAGE_KEY = "jashvip_top1_history_v3";
+        const PENDING_KEY = "jashvip_pending_pred_v3";
         const MAX_HISTORY = 20;
 
         // === ALL ENGINES ===
@@ -332,6 +333,15 @@
         let boundaryRequestedFor = "";
         let lastTop1Id = "";
 
+        // === PENDING PREDICTION (what's currently shown on screen) ===
+        function loadPending() {
+          try { return JSON.parse(localStorage.getItem(PENDING_KEY) || "null"); } catch { return null; }
+        }
+        function savePending(pred) {
+          try { localStorage.setItem(PENDING_KEY, JSON.stringify(pred)); } catch {}
+        }
+        let pendingPrediction = loadPending();
+
         // === STORAGE ===
         function loadSavedHistory() {
           try {
@@ -409,39 +419,60 @@
           return `<span class="result-chip ${cls}">${esc(status)}</span>`;
         }
 
-        // === SAVE PREDICTION TO HISTORY ===
-        function updateSavedHistory(top1, results) {
-          if (!top1 || results.length < 2) return;
+        // === STORE CURRENT PREDICTION (call every render to snapshot what user sees) ===
+        function snapshotPendingPrediction(top1, targetPeriod, results) {
+          if (!top1 || !targetPeriod || targetPeriod === "—" || results.length < 3) return;
           const item = top1.item;
-          // Check last settled result and see if we already have it
+          const prediction = run(item, results.map(r => r.number).reverse());
+          if (!prediction) return;
+          // Only update if period changed or channel changed
+          if (pendingPrediction && pendingPrediction.period === targetPeriod && pendingPrediction.channelId === item[0]) return;
+          pendingPrediction = {
+            period: targetPeriod,
+            predNumber: prediction.number,
+            predSize: prediction.size,
+            channel: item[1],
+            channelId: item[0],
+            confidence: prediction.confidence,
+            timestamp: Date.now()
+          };
+          savePending(pendingPrediction);
+        }
+
+        // === SAVE SETTLED RESULT TO HISTORY ===
+        function settleHistory(results) {
+          if (!pendingPrediction || results.length < 2) return;
           const lastResult = results[0];
           const lastPeriod = lastResult.period;
+
+          // The pending prediction's period should match the just-settled period
+          if (pendingPrediction.period !== lastPeriod) return;
 
           // Don't duplicate
           if (savedHistory.length > 0 && savedHistory[0].period === lastPeriod) return;
 
-          // What was our prediction for this period? (using data BEFORE this result)
-          const olderNums = results.slice(1).map(r => r.number).reverse();
-          const prediction = run(item, olderNums);
-          if (!prediction) return;
-
-          const status = statusFor(prediction, lastResult);
+          const fakePred = { number: pendingPrediction.predNumber, size: pendingPrediction.predSize };
+          const status = statusFor(fakePred, lastResult);
           const entry = {
             period: lastPeriod,
             actual: lastResult.number,
             actualSize: lastResult.size,
-            predNumber: prediction.number,
-            predSize: prediction.size,
+            predNumber: pendingPrediction.predNumber,
+            predSize: pendingPrediction.predSize,
             status,
-            channel: item[1],
-            channelId: item[0],
-            confidence: prediction.confidence,
+            channel: pendingPrediction.channel,
+            channelId: pendingPrediction.channelId,
+            confidence: pendingPrediction.confidence,
             timestamp: Date.now()
           };
 
           savedHistory.unshift(entry);
           savedHistory = savedHistory.slice(0, MAX_HISTORY);
           saveHistory(savedHistory);
+
+          // Clear pending — new prediction will be snapshotted on next render
+          pendingPrediction = null;
+          savePending(null);
         }
 
         // === NORMALISE API DATA ===
@@ -597,14 +628,17 @@
             state.synced = true;
             state.updatedAt = new Date(Date.now() + state.serverOffset).toLocaleTimeString([], { hour:"2-digit", minute:"2-digit", second:"2-digit" });
 
-            // Compute TOP 1
+            // Settle previous prediction FIRST (before recalculating top1)
+            if (changed) {
+              settleHistory(rows);
+            }
+
+            // NOW compute new TOP 1 (rankings may have changed)
             const top1 = getTop1(rows);
             state.top1 = top1;
 
-            // Save to history if new period
-            if (changed) {
-              updateSavedHistory(top1, rows);
-            }
+            // Snapshot the NEW prediction for the upcoming period
+            snapshotPendingPrediction(top1, nextDecimal(rows[0].period), rows);
 
             updateCountdown();
           } catch (error) {
