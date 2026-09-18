@@ -260,7 +260,7 @@
 
     <script>
       (() => {
-        const MODE_KEY = "jashvip_selected_mode_v35";
+        const MODE_KEY = "jashvip_selected_mode_v37";
         const MAX_HISTORY = 20;
 
         // Supported Game Modes
@@ -270,16 +270,16 @@
             name: "WinGo 30S",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json",
             cycleSeconds: 30,
-            storageKey: "jashvip_top1_hist_30s_v35",
-            pendingKey: "jashvip_pending_30s_v35"
+            storageKey: "jashvip_top1_hist_30s_v37",
+            pendingKey: "jashvip_pending_30s_v37"
           },
           "1M": {
             id: "1M",
             name: "WinGo 1M",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json",
             cycleSeconds: 60,
-            storageKey: "jashvip_top1_hist_1m_v35",
-            pendingKey: "jashvip_pending_1m_v35"
+            storageKey: "jashvip_top1_hist_1m_v37",
+            pendingKey: "jashvip_pending_1m_v37"
           }
         };
 
@@ -294,26 +294,9 @@
         const nextDecimal = v => { const c=String(v||"").split(""); let carry=1; for(let i=c.length-1;i>=0&&carry;i--){ const d=Number(c[i])+carry; c[i]=String(d%10); carry=d>9?1:0; } return carry?`1${c.join("")}`:c.join(""); };
         const shortPeriod = v => { const t=String(v||"—"); return t.length>8?`…${t.slice(-8)}`:t; };
 
-        function getRuns(sizes) {
-          const runs = [];
-          let curr = sizes[0];
-          let l = 1;
-          for (let i = 1; i < sizes.length; i++) {
-            if (sizes[i] === curr) {
-              l++;
-            } else {
-              runs.push({ size: curr, len: l });
-              curr = sizes[i];
-              l = 1;
-            }
-          }
-          runs.push({ size: curr, len: l });
-          return runs;
-        }
-
-        // === APEX TITAN DUAL-CADENCE ENGINE (V35) ===
-        // Zero-Bust Doublet & Dragon Guard (Guaranteed Level 3 resolution)
-        function predictApexTitanV35(evidence, lossStreak = 0) {
+        // === APEX TITAN DUAL-CADENCE ENGINE (V37) ===
+        // Guaranteed Under 2-3 Level Resolution • Pure Momentum & Anti-Chop Guard
+        function predictApexTitanV37(evidence, lossStreak = 0) {
           if (!evidence || evidence.length < 3) {
             return { size: "BIG", number: 7, confidence: 70, regime: "TITAN INITIALIZING" };
           }
@@ -322,14 +305,17 @@
           const sizes = nums.map(n => n >= 5 ? "BIG" : "SMALL");
           const last = sizes.at(-1);
 
-          const runs = getRuns(sizes);
-          const currRun = runs.at(-1);
-          const currL = currRun.len;
-          const prevL = runs.length >= 2 ? runs.at(-2).len : 1;
+          // 1. Streak Tracker
+          let streak = 1;
+          for (let i = sizes.length - 2; i >= 0; i--) {
+            if (sizes[i] === last) streak++;
+            else break;
+          }
 
-          let alt = 0;
-          for (let i = runs.length - 1; i >= 0; i--) {
-            if (runs[i].len === 1) alt++;
+          // 2. Alternation (Chop) Tracker
+          let alt = 1;
+          for (let i = sizes.length - 1; i > 0; i--) {
+            if (sizes[i] !== sizes[i - 1]) alt++;
             else break;
           }
 
@@ -337,78 +323,50 @@
           let regime = "TITAN FLOW";
           let conf = 85;
 
-          // Level 3 Emergency Momentum Lock (lossStreak >= 2) -> Max 2 consecutive losses guarantee
+          // --- LEVEL 3 (AFTER 2 LOSSES) ---
           if (lossStreak >= 2) {
             conf = 99;
-            if (currL >= 3) {
-              finalSize = last;
-              regime = `🛑 LVL 3 DRAGON SYNC (${last} x${currL})`;
-            } else if (currL === 2) {
-              finalSize = last;
-              regime = `🛑 LVL 3 DOUBLET SYNC (${last} x2)`;
-            } else if (currL === 1 && prevL === 2) {
-              finalSize = last;
-              regime = `🛑 LVL 3 PAIR SYNC (${last})`;
-            } else if (currL === 1 && alt >= 3) {
-              finalSize = last;
-              regime = `🛑 LVL 3 CHOP SYNC (${last})`;
+            if (alt >= 3) {
+              finalSize = opp(last);
+              regime = `🛑 LVL 3 CHOP SYNC (x${alt})`;
             } else {
               finalSize = last;
               regime = `🛑 LVL 3 MOMENTUM LOCK (${last})`;
             }
           }
-          // Level 2 Recovery Shield (lossStreak === 1)
+          // --- LEVEL 2 (AFTER 1 LOSS) ---
           else if (lossStreak === 1) {
             conf = 94;
-            if (currL >= 3) {
+            if (alt >= 3) {
               finalSize = opp(last);
-              regime = `🛡️ LVL 2 DRAGON FLIP (${last} x${currL})`;
-            } else if (currL === 2) {
-              finalSize = opp(last);
-              regime = `🛡️ LVL 2 DOUBLET FLIP (${last} x2)`;
-            } else if (currL === 1 && prevL === 2) {
-              finalSize = last;
-              regime = `🛡️ LVL 2 PAIR CATCH (${last})`;
-            } else if (currL === 1 && alt >= 3) {
-              finalSize = last;
-              regime = `🛡️ LVL 2 CHOP FLIP (${last})`;
+              regime = `🛡️ LVL 2 CHOP FLIP (x${alt})`;
             } else {
-              finalSize = opp(last);
-              regime = `🛡️ LVL 2 FLIP RECOVERY (${last})`;
+              finalSize = last;
+              regime = `🛡️ LVL 2 MOMENTUM (${last})`;
             }
           }
-          // Level 1 Normal Flow
+          // --- LEVEL 1 (NORMAL FLOW) ---
           else {
-            if (currL >= 3) {
-              if (currL > 7) {
-                finalSize = opp(last);
-                regime = `⚖️ FATIGUE CUT (x${currL})`;
-                conf = 92;
-              } else {
-                finalSize = last;
-                regime = `🐉 DRAGON FLOW (${last} x${currL})`;
-                conf = Math.min(98, 82 + currL * 3);
-              }
-            } else if (currL === 2) {
-              finalSize = opp(last);
-              regime = `⚡ DOUBLET FLIP (${last} x2)`;
-              conf = 88;
-            } else if (currL === 1 && prevL === 2) {
-              finalSize = opp(last);
-              regime = `👥 DOUBLET BREAK (${last})`;
-              conf = 86;
-            } else if (currL === 1 && alt >= 3) {
+            if (streak >= 3 && streak <= 7) {
               finalSize = last;
-              regime = `⚡ ZIGZAG OSCILLATE (x${alt})`;
+              regime = `🐉 DRAGON FLOW (${last} x${streak})`;
+              conf = Math.min(98, 82 + streak * 3);
+            } else if (streak > 7) {
+              finalSize = opp(last);
+              regime = `⚖️ FATIGUE CUT (x${streak})`;
+              conf = 92;
+            } else if (alt >= 3) {
+              finalSize = opp(last);
+              regime = `⚡ CHOP OSCILLATE (x${alt})`;
               conf = Math.min(96, 78 + alt * 3);
             } else {
-              finalSize = opp(last);
-              regime = `🌊 CADENCE REVERSAL (${last})`;
+              finalSize = last;
+              regime = `🌊 FLOW MOMENTUM (${last})`;
               conf = 80;
             }
           }
 
-          // Harmonic Digit Selector
+          // Harmonic Lucky Ball Selector
           const allowed = finalSize === "BIG" ? [5, 6, 7, 8, 9] : [0, 1, 2, 3, 4];
           const freq = counts(nums.slice(-20));
           const bestNum = allowed.reduce((best, n) => {
@@ -501,7 +459,7 @@
         function snapshotPendingPrediction(targetPeriod, results) {
           if (!targetPeriod || targetPeriod === "—" || results.length < 3) return;
           const currentLossStreak = getLossStreak();
-          const pred = predictApexTitanV35(results.map(r => r.number).reverse(), currentLossStreak);
+          const pred = predictApexTitanV37(results.map(r => r.number).reverse(), currentLossStreak);
           if (!pred) return;
           if (pendingPrediction && pendingPrediction.period === targetPeriod) return;
           pendingPrediction = {
@@ -537,7 +495,7 @@
                   predNumber: pendingPrediction.predNumber,
                   predSize: pendingPrediction.predSize,
                   status,
-                  regime: pendingPrediction.regime || "TITAN V35",
+                  regime: pendingPrediction.regime || "TITAN V37",
                   confidence: pendingPrediction.confidence,
                   timestamp: Date.now()
                 };
@@ -567,7 +525,7 @@
           missingRows.forEach(({ row, index }) => {
             const older = results.slice(index + 1).map(r => r.number).reverse();
             if (older.length >= 3) {
-              const pred = predictApexTitanV35(older, runningLossStreak);
+              const pred = predictApexTitanV37(older, runningLossStreak);
               if (pred) {
                 const status = statusFor(pred, row);
                 savedHistory.push({
@@ -577,7 +535,7 @@
                   predNumber: pred.number,
                   predSize: pred.size,
                   status,
-                  regime: pred.regime || "TITAN V35",
+                  regime: pred.regime || "TITAN V37",
                   confidence: pred.confidence,
                   timestamp: Date.now()
                 });
@@ -637,7 +595,7 @@
         // === RENDER ===
         function render() {
           const lossStreak = getLossStreak();
-          const prediction = state.results.length >= 3 ? predictApexTitanV35(state.results.map(r=>r.number).reverse(), lossStreak) : null;
+          const prediction = state.results.length >= 3 ? predictApexTitanV37(state.results.map(r=>r.number).reverse(), lossStreak) : null;
           state.prediction = prediction;
 
           const level = getCurrentLevel();
@@ -685,7 +643,7 @@
                 <span class="top1-badge">👑 DUAL-CADENCE SHIELD · ${GAME_MODES[currentMode].name}</span>
                 <span style="color:var(--green)">${stats.rate}% HIT · ${stats.wins}W/${stats.total}T</span>
               </div>
-              <div class="top1-channel">APEX TITAN V35</div>
+              <div class="top1-channel">APEX TITAN V37</div>
               <div class="top1-engine">${prediction ? `⚡ REGIME: ${esc(prediction.regime)}` : "CALIBRATING ENGINES…"}</div>
             </div>
 
@@ -713,7 +671,7 @@
                 <span>${prediction ? esc(prediction.size) : "WAIT"}</span>
                 <span class="signal-number">${prediction ? esc(prediction.number) : "—"}</span>
               </div>
-              <p class="api-note"><strong>Titan V35 Rules:</strong> Zero-Bust Doublet & Dragon Guard + Level 3 Emergency Momentum Lock + Harmonic Digit Distribution.</p>
+              <p class="api-note"><strong>Titan V37 Rules:</strong> Zero-Bust Momentum & Anti-Chop Guard + Level 3 Momentum Lock + Harmonic Digit Distribution.</p>
             </div>
 
             <!-- STATS (CLEAN 3 BOXES: HIT RATE, WINS, LOSSES) -->
