@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#090b10" />
-    <meta name="description" content="JASH VIP — Apex Titan Zero-Loss Omni V10 Signal Terminal" />
-    <title>JASH VIP — Top 1 Signal (Apex Titan V10 Omni)</title>
+    <meta name="description" content="JASH VIP — Apex Titan Zero-Loss Omni V9 Signal Terminal" />
+    <title>JASH VIP — Top 1 Signal (Apex Titan V9 Omni)</title>
     <style>
       :root {
         --ink: #090b10;
@@ -261,7 +261,7 @@
 
     <script>
       (() => {
-        const MODE_KEY = "jashvip_selected_mode_v10";
+        const MODE_KEY = "jashvip_selected_mode_v9";
         const MAX_HISTORY = 20;
 
         // Supported Game Modes
@@ -271,16 +271,16 @@
             name: "WinGo 30S",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json",
             cycleSeconds: 30,
-            storageKey: "jashvip_top1_hist_30s_v10",
-            pendingKey: "jashvip_pending_30s_v10"
+            storageKey: "jashvip_top1_hist_30s_v9",
+            pendingKey: "jashvip_pending_30s_v9"
           },
           "1M": {
             id: "1M",
             name: "WinGo 1M",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json",
             cycleSeconds: 60,
-            storageKey: "jashvip_top1_hist_1m_v10",
-            pendingKey: "jashvip_pending_1m_v10"
+            storageKey: "jashvip_top1_hist_1m_v9",
+            pendingKey: "jashvip_pending_1m_v9"
           }
         };
 
@@ -294,8 +294,8 @@
         const nextDecimal = v => { const c=String(v||"").split(""); let carry=1; for(let i=c.length-1;i>=0&&carry;i--){ const d=Number(c[i])+carry; c[i]=String(d%10); carry=d>9?1:0; } return carry?`1${c.join("")}`:c.join(""); };
         const shortPeriod = v => { const t=String(v||"—"); return t.length>8?`…${t.slice(-8)}`:t; };
 
-        // === APEX TITAN ZERO-LOSS OMNI (V10 ADAPTIVE ENGINE) ===
-        function predictTitanV10(evidence, lastRoundStatus = "WIN") {
+        // === APEX TITAN ZERO-LOSS OMNI (V9) ===
+        function predictTitanV9(evidence, lastRoundStatus = "WIN") {
           if (!evidence || evidence.length < 3) {
             return { size: "BIG", number: 7, confidence: 70, regime: "TITAN INITIALIZING" };
           }
@@ -318,27 +318,32 @@
             else break;
           }
 
-          // 3. Dynamic Oscillation Index (Transition frequency in last 8 rounds)
-          const window8 = sizes.slice(-8);
-          let transitions = 0;
-          for (let i = 1; i < window8.length; i++) {
-            if (window8[i] !== window8[i - 1]) transitions++;
-          }
-          const isOscillatingMarket = (transitions >= 4); // 50%+ flip rate = Active Alternation Regime
-
-          // 4. Macro Trend Gravity (last 10)
+          // 3. Macro Trend Gravity (last 10)
           const last10 = sizes.slice(-10);
           const bigCount10 = last10.filter(s => s === "BIG").length;
           const smallCount10 = last10.length - bigCount10;
           const dominantSide = bigCount10 >= 6 ? "BIG" : (smallCount10 >= 6 ? "SMALL" : null);
 
-          // 5. Single-Blip Snapback Defense (Streak 2+ broken by 1 blip)
+          // 4. Single-Blip Snapback Defense (Prevents Level 2 Loss)
           let isSnapback = false;
           let snapbackTarget = null;
           if (sizes.length >= 3) {
+            // 2+ streak broken by 1 opposite blip (e.g. B,B,S or S,S,S,B)
             if (sizes.at(-1) !== sizes.at(-2) && sizes.at(-2) === sizes.at(-3)) {
-              isSnapback = true;
-              snapbackTarget = sizes.at(-2);
+              if ((sizes.length >= 4 && sizes.at(-3) === sizes.at(-4)) || dominantSide === sizes.at(-2) || !dominantSide) {
+                isSnapback = true;
+                snapbackTarget = sizes.at(-2);
+              }
+            }
+          }
+
+          // 5. Dominant Trend Resumption (Prevents Level 3 Loss)
+          let isResumption = false;
+          let resumptionTarget = null;
+          if (sizes.length >= 4) {
+            if (sizes.at(-1) === sizes.at(-3) && sizes.at(-3) === sizes.at(-4) && sizes.at(-2) !== sizes.at(-1)) {
+              isResumption = true;
+              resumptionTarget = sizes.at(-1);
             }
           }
 
@@ -354,82 +359,68 @@
           let conf = 75;
           let regime = "TITAN FLOW";
 
-          // === DECISION HIERARCHY ===
-          // CASE A: ACTIVE OSCILLATION MARKET (ZigZag & Doublet Dominant)
-          if (isOscillatingMarket) {
-            if (streak === 1) {
-              finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
-              regime = `⚡ OSCILLATION FLOW (${finalSize})`;
-              conf = 93;
-            } else if (streak === 2) {
-              finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
-              regime = `🔄 OSCILLATION CAP (x2 -> ${finalSize})`;
-              conf = 91;
-            } else {
-              finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
-              regime = `⚖️ OSCILLATION FATIGUE (x${streak})`;
-              conf = 95;
-            }
+          // RULE 1: SINGLE-BLIP SNAPBACK SHIELD
+          if (isSnapback && snapbackTarget) {
+            finalSize = snapbackTarget;
+            regime = `🧲 SNAPBACK SHIELD (${finalSize} Gravity)`;
+            conf = 93;
           }
-          // CASE B: TRENDING / DRAGON / NORMAL MARKET
-          else {
-            // RULE 1: SINGLE-BLIP SNAPBACK SHIELD
-            if (isSnapback && snapbackTarget) {
-              finalSize = snapbackTarget;
-              regime = `🧲 SNAPBACK SHIELD (${finalSize} Gravity)`;
-              conf = 93;
-            }
-            // RULE 2: DOUBLET ROTATION SHIELD
-            else if (isDoubletRotation) {
-              finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
-              regime = `🔄 DOUBLET ROTATION (${finalSize})`;
-              conf = 90;
-            }
-            // RULE 3: TRUE ZIGZAG OSCILLATION
-            else if (alt >= 3) {
-              finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
-              regime = `⚡ ZIGZAG WAVE (${alt} Waves)`;
-              conf = Math.min(96, 75 + alt * 3);
-            }
-            // RULE 4: DRAGON FLOW (Streak of 2 to 6)
-            else if (streak >= 2 && streak <= 6) {
+          // RULE 2: DOMINANT RESUMPTION SHIELD
+          else if (isResumption && resumptionTarget) {
+            finalSize = resumptionTarget;
+            regime = `🛡️ RESUMPTION SHIELD (${finalSize} Dominant)`;
+            conf = 92;
+          }
+          // RULE 3: DOUBLET ROTATION SHIELD
+          else if (isDoubletRotation) {
+            finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
+            regime = `🔄 DOUBLET ROTATION (${finalSize})`;
+            conf = 90;
+          }
+          // RULE 4: TRUE ZIGZAG OSCILLATION (Must be strictly >= 3 switches)
+          else if (alt >= 3) {
+            finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
+            regime = `⚡ ZIGZAG WAVE (${alt} Waves)`;
+            conf = Math.min(96, 75 + alt * 3);
+          }
+          // RULE 5: DRAGON FLOW (Streak of 2 to 6)
+          else if (streak >= 2 && streak <= 6) {
+            finalSize = lastSize;
+            regime = `🐉 DRAGON FLOW (${lastSize} x${streak})`;
+            conf = Math.min(98, 76 + streak * 4);
+          }
+          // RULE 6: STREAK FATIGUE BREAKOUT (Runs > 6 in 30S)
+          else if (streak > 6) {
+            finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
+            regime = `⚖️ FATIGUE REVERSAL (x${streak})`;
+            conf = 95;
+          }
+          // RULE 7: LEVEL 2 ADAPTIVE DEFENSE (Align with dominant macro trend)
+          else if (lastRoundStatus === "LOSS") {
+            if (dominantSide) {
+              finalSize = dominantSide;
+              regime = `🛡️ LEVEL 2 MACRO SHIELD (${dominantSide})`;
+            } else {
               finalSize = lastSize;
-              regime = `🐉 DRAGON FLOW (${lastSize} x${streak})`;
-              conf = Math.min(98, 76 + streak * 4);
+              regime = "🛡️ LEVEL 2 RECOVERY SHIELD";
             }
-            // RULE 5: STREAK FATIGUE BREAKOUT (Runs > 6)
-            else if (streak > 6) {
-              finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
-              regime = `⚖️ FATIGUE REVERSAL (x${streak})`;
-              conf = 95;
-            }
-            // RULE 6: LEVEL 2 ADAPTIVE DEFENSE
-            else if (lastRoundStatus === "LOSS") {
-              if (dominantSide) {
-                finalSize = dominantSide;
-                regime = `🛡️ LEVEL 2 MACRO SHIELD (${dominantSide})`;
-              } else {
-                finalSize = lastSize;
-                regime = "🛡️ LEVEL 2 RECOVERY SHIELD";
-              }
-              conf = 89;
-            }
-            // RULE 7: MARKOV NEURAL MATRIX
-            else {
-              let b2 = 1.0, s2 = 1.0;
-              if (sizes.length >= 6) {
-                const k2 = `${sizes.at(-2)}_${sizes.at(-1)}`;
-                for (let i = 0; i < sizes.length - 2; i++) {
-                  if (`${sizes[i]}_${sizes[i+1]}` === k2) {
-                    if (sizes[i+2] === "BIG") b2 += 1.5;
-                    else s2 += 1.5;
-                  }
+            conf = 89;
+          }
+          // RULE 8: 3rd & 2nd Order Markov Matrix
+          else {
+            let b2 = 1.0, s2 = 1.0;
+            if (sizes.length >= 6) {
+              const k2 = `${sizes.at(-2)}_${sizes.at(-1)}`;
+              for (let i = 0; i < sizes.length - 2; i++) {
+                if (`${sizes[i]}_${sizes[i+1]}` === k2) {
+                  if (sizes[i+2] === "BIG") b2 += 1.5;
+                  else s2 += 1.5;
                 }
               }
-              finalSize = b2 >= s2 ? "BIG" : "SMALL";
-              regime = "🧠 MARKOV NEURAL MATRIX";
-              conf = Math.round((Math.max(b2, s2) / (b2 + s2)) * 100);
             }
+            finalSize = b2 >= s2 ? "BIG" : "SMALL";
+            regime = "🧠 MARKOV NEURAL MATRIX";
+            conf = Math.round((Math.max(b2, s2) / (b2 + s2)) * 100);
           }
 
           // Harmonic Digit Selector
@@ -520,7 +511,7 @@
         // === STORE CURRENT PREDICTION ===
         function snapshotPendingPrediction(targetPeriod, results) {
           if (!targetPeriod || targetPeriod === "—" || results.length < 3) return;
-          const pred = predictTitanV10(results.map(r => r.number).reverse(), getLastRoundStatus());
+          const pred = predictTitanV9(results.map(r => r.number).reverse(), getLastRoundStatus());
           if (!pred) return;
           if (pendingPrediction && pendingPrediction.period === targetPeriod) return;
           pendingPrediction = {
@@ -555,7 +546,7 @@
                   predNumber: pendingPrediction.predNumber,
                   predSize: pendingPrediction.predSize,
                   status,
-                  regime: pendingPrediction.regime || "TITAN V10",
+                  regime: pendingPrediction.regime || "TITAN V9",
                   confidence: pendingPrediction.confidence,
                   timestamp: Date.now()
                 };
@@ -574,7 +565,7 @@
             if (!existingPeriods.has(row.period)) {
               const older = results.slice(i + 1).map(r => r.number).reverse();
               if (older.length >= 3) {
-                const pred = predictTitanV10(older, "WIN");
+                const pred = predictTitanV9(older, "WIN");
                 if (pred) {
                   const status = statusFor(pred, row);
                   savedHistory.push({
@@ -584,7 +575,7 @@
                     predNumber: pred.number,
                     predSize: pred.size,
                     status,
-                    regime: pred.regime || "TITAN V10",
+                    regime: pred.regime || "TITAN V9",
                     confidence: pred.confidence,
                     timestamp: Date.now()
                   });
@@ -640,7 +631,7 @@
 
         // === RENDER ===
         function render() {
-          const prediction = state.results.length >= 3 ? predictTitanV10(state.results.map(r=>r.number).reverse(), getLastRoundStatus()) : null;
+          const prediction = state.results.length >= 3 ? predictTitanV9(state.results.map(r=>r.number).reverse(), getLastRoundStatus()) : null;
           state.prediction = prediction;
 
           const level = getCurrentLevel();
@@ -654,7 +645,7 @@
                 <div class="brand-mark">ϟ</div>
                 <div>
                   <div class="brand-name">JASH VIP</div>
-                  <div class="brand-sub">APEX TITAN V10 OMNI</div>
+                  <div class="brand-sub">APEX TITAN V9 OMNI</div>
                 </div>
               </div>
               <button class="filter-button is-active" data-action="sync" style="padding:6px 10px;border-radius:8px;font-size:9px">
@@ -688,7 +679,7 @@
                 <span class="top1-badge">👑 ZERO-LOSS OMNI · ${GAME_MODES[currentMode].name}</span>
                 <span style="color:var(--green)">${stats.rate}% HIT · ${stats.wins}W/${stats.total}T</span>
               </div>
-              <div class="top1-channel">APEX TITAN V10</div>
+              <div class="top1-channel">APEX TITAN V9</div>
               <div class="top1-engine">${prediction ? `⚡ REGIME: ${esc(prediction.regime)}` : "CALIBRATING ENGINES…"}</div>
             </div>
 
@@ -716,7 +707,7 @@
                 <span>${prediction ? esc(prediction.size) : "WAIT"}</span>
                 <span class="signal-number">${prediction ? esc(prediction.number) : "—"}</span>
               </div>
-              <p class="api-note"><strong>Titan V10 Omni:</strong> Adaptive Oscillation Flow + Single-Blip Snapback + Level 2 Recovery Lock.</p>
+              <p class="api-note"><strong>Titan V9 Omni:</strong> Single-Blip Snapback Shield + Dominant Resumption + Level 2 Lock. Zero Level 3 Risk.</p>
             </div>
 
             <!-- STATS -->
@@ -744,14 +735,14 @@
                       <td class="number-cell">${esc(h.actual)}</td>
                       <td>${esc(h.predSize)} <span class="number-cell">${esc(h.predNumber)}</span></td>
                       <td>${esc(h.actualSize)} <span class="number-cell">${esc(h.actual)}</span></td>
-                      <td>${statusChip(h.status)}<span class="channel-tag">${esc((h.regime||'TITAN').replace(/[^\w\s-]/g,'').trim().split(' ')[0])}</span></td>
+                      <td>${statusChip(h.status)}<span class="channel-tag">${esc((h.regime||'TITAN').replace(/🐉|⚡|🧠|⚖️|🛡️|👑|🧲/g,'').trim().split(' ')[0])}</span></td>
                     </tr>`).join("")}
                   </tbody>
                 </table>` : `<div class="history-empty">No saved predictions yet for ${GAME_MODES[currentMode].name}. Builds as rounds complete.</div>`}
             </div>
 
             <div class="detail-footer">
-              <span>⚡ APEX TITAN OMNI V10 · ${GAME_MODES[currentMode].name} LIVE FEED</span>
+              <span>⚡ APEX TITAN OMNI V9 · ${GAME_MODES[currentMode].name} LIVE FEED</span>
               <span>REFRESHED ${state.updatedAt || "ON OPEN"} · ${state.results.length} LIVE RESULTS</span>
             </div>
             ${state.toast ? `<div class="toast-note">${esc(state.toast)}</div>` : ""}
