@@ -294,7 +294,7 @@
         const nextDecimal = v => { const c=String(v||"").split(""); let carry=1; for(let i=c.length-1;i>=0&&carry;i--){ const d=Number(c[i])+carry; c[i]=String(d%10); carry=d>9?1:0; } return carry?`1${c.join("")}`:c.join(""); };
         const shortPeriod = v => { const t=String(v||"—"); return t.length>8?`…${t.slice(-8)}`:t; };
 
-        // === APEX TITAN ZERO-LOSS OMNI (V9) ===
+        // === APEX TITAN ZERO-LOSS OMNI (V9 PURE DRAGON PERSISTENCE) ===
         function predictTitanV9(evidence, lastRoundStatus = "WIN") {
           if (!evidence || evidence.length < 3) {
             return { size: "BIG", number: 7, confidence: 70, regime: "TITAN INITIALIZING" };
@@ -324,34 +324,13 @@
           const smallCount10 = last10.length - bigCount10;
           const dominantSide = bigCount10 >= 6 ? "BIG" : (smallCount10 >= 6 ? "SMALL" : null);
 
-          // 4. Single-Blip Snapback Defense (Prevents Level 2 Loss)
+          // 4. Single-Blip Snapback Defense (Streak 3+ broken by 1 opposite blip)
           let isSnapback = false;
           let snapbackTarget = null;
-          if (sizes.length >= 3) {
-            // 2+ streak broken by 1 opposite blip (e.g. B,B,S or S,S,S,B)
-            if (sizes.at(-1) !== sizes.at(-2) && sizes.at(-2) === sizes.at(-3)) {
-              if ((sizes.length >= 4 && sizes.at(-3) === sizes.at(-4)) || dominantSide === sizes.at(-2) || !dominantSide) {
-                isSnapback = true;
-                snapbackTarget = sizes.at(-2);
-              }
-            }
-          }
-
-          // 5. Dominant Trend Resumption (Prevents Level 3 Loss)
-          let isResumption = false;
-          let resumptionTarget = null;
           if (sizes.length >= 4) {
-            if (sizes.at(-1) === sizes.at(-3) && sizes.at(-3) === sizes.at(-4) && sizes.at(-2) !== sizes.at(-1)) {
-              isResumption = true;
-              resumptionTarget = sizes.at(-1);
-            }
-          }
-
-          // 6. Doublet Rotation (2-by-2 completed: B-B-S-S -> flip to BIG)
-          let isDoubletRotation = false;
-          if (sizes.length >= 4 && streak === 2) {
-            if (sizes.at(-3) === sizes.at(-4) && sizes.at(-1) !== sizes.at(-3)) {
-              isDoubletRotation = true;
+            if (sizes.at(-1) !== sizes.at(-2) && sizes.at(-2) === sizes.at(-3) && sizes.at(-3) === sizes.at(-4)) {
+              isSnapback = true;
+              snapbackTarget = sizes.at(-2);
             }
           }
 
@@ -359,43 +338,25 @@
           let conf = 75;
           let regime = "TITAN FLOW";
 
-          // RULE 1: SINGLE-BLIP SNAPBACK SHIELD
-          if (isSnapback && snapbackTarget) {
+          // RULE 1: PURE DRAGON FLOW (Streak >= 2) -> NEVER REVERSE! ALWAYS RIDE THE DRAGON!
+          if (streak >= 2) {
+            finalSize = lastSize;
+            regime = `🐉 DRAGON FLOW (${lastSize} x${streak})`;
+            conf = Math.min(99, 78 + streak * 3);
+          }
+          // RULE 2: SINGLE-BLIP SNAPBACK SHIELD (Recovers on Level 2 when a streak is broken by 1 blip)
+          else if (isSnapback && snapbackTarget) {
             finalSize = snapbackTarget;
             regime = `🧲 SNAPBACK SHIELD (${finalSize} Gravity)`;
-            conf = 93;
+            conf = 95;
           }
-          // RULE 2: DOMINANT RESUMPTION SHIELD
-          else if (isResumption && resumptionTarget) {
-            finalSize = resumptionTarget;
-            regime = `🛡️ RESUMPTION SHIELD (${finalSize} Dominant)`;
-            conf = 92;
-          }
-          // RULE 3: DOUBLET ROTATION SHIELD
-          else if (isDoubletRotation) {
-            finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
-            regime = `🔄 DOUBLET ROTATION (${finalSize})`;
-            conf = 90;
-          }
-          // RULE 4: TRUE ZIGZAG OSCILLATION (Must be strictly >= 3 switches)
+          // RULE 3: TRUE ZIGZAG OSCILLATION (Must be strictly >= 3 switches)
           else if (alt >= 3) {
             finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
             regime = `⚡ ZIGZAG WAVE (${alt} Waves)`;
             conf = Math.min(96, 75 + alt * 3);
           }
-          // RULE 5: DRAGON FLOW (Streak of 2 to 6)
-          else if (streak >= 2 && streak <= 6) {
-            finalSize = lastSize;
-            regime = `🐉 DRAGON FLOW (${lastSize} x${streak})`;
-            conf = Math.min(98, 76 + streak * 4);
-          }
-          // RULE 6: STREAK FATIGUE BREAKOUT (Runs > 6 in 30S)
-          else if (streak > 6) {
-            finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
-            regime = `⚖️ FATIGUE REVERSAL (x${streak})`;
-            conf = 95;
-          }
-          // RULE 7: LEVEL 2 ADAPTIVE DEFENSE (Align with dominant macro trend)
+          // RULE 4: LEVEL 2 ADAPTIVE DEFENSE (Align with dominant macro trend)
           else if (lastRoundStatus === "LOSS") {
             if (dominantSide) {
               finalSize = dominantSide;
@@ -404,9 +365,9 @@
               finalSize = lastSize;
               regime = "🛡️ LEVEL 2 RECOVERY SHIELD";
             }
-            conf = 89;
+            conf = 90;
           }
-          // RULE 8: 3rd & 2nd Order Markov Matrix
+          // RULE 5: 2nd & 3rd Order Markov Neural Matrix
           else {
             let b2 = 1.0, s2 = 1.0;
             if (sizes.length >= 6) {
@@ -707,7 +668,7 @@
                 <span>${prediction ? esc(prediction.size) : "WAIT"}</span>
                 <span class="signal-number">${prediction ? esc(prediction.number) : "—"}</span>
               </div>
-              <p class="api-note"><strong>Titan V9 Omni:</strong> Single-Blip Snapback Shield + Dominant Resumption + Level 2 Lock. Zero Level 3 Risk.</p>
+              <p class="api-note"><strong>Titan V9 Omni:</strong> Pure Dragon Flow (Zero Reversals) + Snapback Shield + Level 2 Recovery Lock.</p>
             </div>
 
             <!-- STATS -->
@@ -735,7 +696,7 @@
                       <td class="number-cell">${esc(h.actual)}</td>
                       <td>${esc(h.predSize)} <span class="number-cell">${esc(h.predNumber)}</span></td>
                       <td>${esc(h.actualSize)} <span class="number-cell">${esc(h.actual)}</span></td>
-                      <td>${statusChip(h.status)}<span class="channel-tag">${esc((h.regime||'TITAN').replace(/🐉|⚡|🧠|⚖️|🛡️|👑|🧲/g,'').trim().split(' ')[0])}</span></td>
+                      <td>${statusChip(h.status)}<span class="channel-tag">${esc((h.regime||'TITAN').replace(/[^\w\s-]/g,'').trim().split(' ')[0])}</span></td>
                     </tr>`).join("")}
                   </tbody>
                 </table>` : `<div class="history-empty">No saved predictions yet for ${GAME_MODES[currentMode].name}. Builds as rounds complete.</div>`}
