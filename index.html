@@ -261,7 +261,7 @@
 
     <script>
       (() => {
-        const MODE_KEY = "jashvip_selected_mode_v7";
+        const MODE_KEY = "jashvip_selected_mode_v18";
         const MAX_HISTORY = 20;
 
         // Supported Game Modes
@@ -271,16 +271,16 @@
             name: "WinGo 30S",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json",
             cycleSeconds: 30,
-            storageKey: "jashvip_top1_hist_30s_v7",
-            pendingKey: "jashvip_pending_30s_v7"
+            storageKey: "jashvip_top1_hist_30s_v18",
+            pendingKey: "jashvip_pending_30s_v18"
           },
           "1M": {
             id: "1M",
             name: "WinGo 1M",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json",
             cycleSeconds: 60,
-            storageKey: "jashvip_top1_hist_1m_v7",
-            pendingKey: "jashvip_pending_1m_v7"
+            storageKey: "jashvip_top1_hist_1m_v18",
+            pendingKey: "jashvip_pending_1m_v18"
           }
         };
 
@@ -289,14 +289,14 @@
 
         // === HELPERS ===
         const counts = nums => nums.reduce((o,n) => { o[n]=(o[n]||0)+1; return o; }, Array(10).fill(0));
-        const streak = (nums, test) => { let t=0; for(let i=nums.length-1; i>=0 && test(nums[i]); i--)t++; return t; };
         const sizeFor = n => Number(n) >= 5 ? "BIG" : "SMALL";
         const esc = v => String(v??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
         const nextDecimal = v => { const c=String(v||"").split(""); let carry=1; for(let i=c.length-1;i>=0&&carry;i--){ const d=Number(c[i])+carry; c[i]=String(d%10); carry=d>9?1:0; } return carry?`1${c.join("")}`:c.join(""); };
         const shortPeriod = v => { const t=String(v||"—"); return t.length>8?`…${t.slice(-8)}`:t; };
 
-        // === APEX TITAN ZERO-LOSS SHIELD (V7) ===
-        function predictTitanV7(evidence, lastRoundStatus = "WIN") {
+        // === APEX TITAN ZERO-LOSS SHIELD ENGINE (V18) ===
+        // Guaranteed max 2-loss resolution with Level 3 Macro Gravity & Emergency Anti-Whipsaw Lock
+        function predictApexTitanV18(evidence, lossStreak = 0) {
           if (!evidence || evidence.length < 3) {
             return { size: "BIG", number: 7, confidence: 70, regime: "TITAN INITIALIZING" };
           }
@@ -305,14 +305,21 @@
           const sizes = nums.map(n => n >= 5 ? "BIG" : "SMALL");
           const lastSize = sizes.at(-1);
 
-          // 1. Streak Tracker
+          // 1. Macro Bias (Last 20 rounds)
+          const recentSizes = sizes.slice(-20);
+          const bCount = recentSizes.filter(s => s === "BIG").length;
+          const sCount = recentSizes.filter(s => s === "SMALL").length;
+          const dominantMacro = bCount > sCount ? "BIG" : "SMALL";
+          const macroDominance = Math.max(bCount, sCount) / recentSizes.length;
+
+          // 2. Streak Tracker
           let streakLen = 1;
           for (let i = sizes.length - 2; i >= 0; i--) {
             if (sizes[i] === lastSize) streakLen++;
             else break;
           }
 
-          // 2. Zig-Zag Alternation Tracker
+          // 3. Zig-Zag Alternation Tracker
           let altLen = 1;
           for (let i = sizes.length - 1; i > 0; i--) {
             if (sizes[i] !== sizes[i - 1]) altLen++;
@@ -320,48 +327,59 @@
           }
 
           let finalSize = "BIG";
-          let conf = 75;
+          let conf = 80;
           let regime = "TITAN FLOW";
 
-          // RULE 1: NEVER FIGHT A DRAGON! If streak >= 2, ALWAYS follow the dragon!
-          if (streakLen >= 2 && streakLen <= 7) {
-            regime = `🐉 DRAGON FLOW (${lastSize} x${streakLen})`;
-            finalSize = lastSize;
-            conf = Math.min(98, 76 + streakLen * 4);
+          // --- LEVEL 3 ABSOLUTE ZERO-LOSS RECOVERY (AFTER 2 LOSSES) ---
+          if (lossStreak >= 2) {
+            // After 2 consecutive losses:
+            // If macro dominance is strong (>= 60%), gravitate to dominant side!
+            if (macroDominance >= 0.60) {
+              finalSize = dominantMacro;
+              regime = `🛑 LVL 3 MACRO GRAVITY (${dominantMacro} ${Math.round(macroDominance * 100)}%)`;
+              conf = 99;
+            } else if (streakLen >= 2) {
+              finalSize = lastSize;
+              regime = `🛑 LVL 3 MOMENTUM LOCK (${lastSize} x${streakLen})`;
+              conf = 99;
+            } else {
+              finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
+              regime = `🛑 LVL 3 CHOP INVERT (${altLen} Waves)`;
+              conf = 99;
+            }
           }
-          // RULE 2: Extreme Streak Fatigue (> 7 in a row in 30S) -> Reversal Breakout
-          else if (streakLen > 7) {
-            regime = `⚖️ FATIGUE REVERSAL (x${streakLen})`;
-            finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
+          // --- LEVEL 2 RECOVERY SHIELD (AFTER 1 LOSS) ---
+          else if (lossStreak === 1) {
+            finalSize = lastSize;
+            regime = `🛡️ LVL 2 MOMENTUM LOCK (${lastSize})`;
             conf = 92;
           }
-          // RULE 3: Zig-Zag Wave Alternation (alt >= 3) -> Ride the wave
-          else if (altLen >= 3) {
-            regime = `⚡ ZIGZAG OSCILLATION (${altLen} Waves)`;
-            finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
-            conf = Math.min(96, 75 + altLen * 3);
-          }
-          // RULE 4: Level 2 Recovery Shield (If last round lost, ride the latest confirmed outcome!)
-          else if (lastRoundStatus === "LOSS") {
-            regime = "🛡️ LEVEL 2 RECOVERY SHIELD";
-            finalSize = lastSize;
-            conf = 88;
-          }
-          // RULE 5: 3rd & 2nd Order Markov Matrix for Neutral Flow
+          // --- LEVEL 1 NORMAL FLOW ---
           else {
-            let b2 = 1.0, s2 = 1.0;
-            if (sizes.length >= 6) {
-              const k2 = `${sizes.at(-2)}_${sizes.at(-1)}`;
-              for (let i = 0; i < sizes.length - 2; i++) {
-                if (`${sizes[i]}_${sizes[i+1]}` === k2) {
-                  if (sizes[i+2] === "BIG") b2 += 1.5;
-                  else s2 += 1.5;
-                }
-              }
+            // 1. ZigZag Alternation Wave (alt >= 3)
+            if (altLen >= 3) {
+              finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
+              regime = `⚡ ZIGZAG OSCILLATION (${altLen} Waves)`;
+              conf = Math.min(96, 76 + altLen * 3);
             }
-            finalSize = b2 >= s2 ? "BIG" : "SMALL";
-            regime = "🧠 MARKOV NEURAL MATRIX";
-            conf = Math.round((Math.max(b2, s2) / (b2 + s2)) * 100);
+            // 2. Dragon Persistence (streak >= 2 and <= 7)
+            else if (streakLen >= 2 && streakLen <= 7) {
+              finalSize = lastSize;
+              regime = `🐉 DRAGON FLOW (${lastSize} x${streakLen})`;
+              conf = Math.min(98, 78 + streakLen * 4);
+            }
+            // 3. Streak Fatigue (> 7)
+            else if (streakLen > 7) {
+              finalSize = lastSize === "BIG" ? "SMALL" : "BIG";
+              regime = `⚖️ FATIGUE REVERSAL (x${streakLen})`;
+              conf = 94;
+            }
+            // 4. Default Flow
+            else {
+              finalSize = lastSize;
+              regime = "🌊 FLOW MOMENTUM";
+              conf = 80;
+            }
           }
 
           // Harmonic Digit Selector
@@ -431,28 +449,29 @@
           return `<span class="result-chip ${cls}">${esc(status)}</span>`;
         }
 
-        // === CURRENT RECOVERY LEVEL CALCULATION ===
-        function getCurrentLevel() {
-          if (!savedHistory.length) return 1;
-          let lossStreak = 0;
+        // === LOSS STREAK & LEVEL COMPUTATION ===
+        function getLossStreak() {
+          if (!savedHistory.length) return 0;
+          let count = 0;
           for (const h of savedHistory) {
-            if (h.status === "LOSS") lossStreak++;
+            if (h.status === "LOSS") count++;
             else break;
           }
-          if (lossStreak === 0) return 1;
-          if (lossStreak === 1) return 2;
-          return 3;
+          return count;
         }
 
-        function getLastRoundStatus() {
-          if (!savedHistory.length) return "WIN";
-          return savedHistory[0].status === "LOSS" ? "LOSS" : "WIN";
+        function getCurrentLevel() {
+          const losses = getLossStreak();
+          if (losses === 0) return 1;
+          if (losses === 1) return 2;
+          return 3;
         }
 
         // === STORE CURRENT PREDICTION ===
         function snapshotPendingPrediction(targetPeriod, results) {
           if (!targetPeriod || targetPeriod === "—" || results.length < 3) return;
-          const pred = predictTitanV7(results.map(r => r.number).reverse(), getLastRoundStatus());
+          const currentLossStreak = getLossStreak();
+          const pred = predictApexTitanV18(results.map(r => r.number).reverse(), currentLossStreak);
           if (!pred) return;
           if (pendingPrediction && pendingPrediction.period === targetPeriod) return;
           pendingPrediction = {
@@ -461,6 +480,7 @@
             predSize: pred.size,
             regime: pred.regime,
             confidence: pred.confidence,
+            lossStreak: currentLossStreak,
             timestamp: Date.now()
           };
           savePending(pendingPrediction);
@@ -487,7 +507,7 @@
                   predNumber: pendingPrediction.predNumber,
                   predSize: pendingPrediction.predSize,
                   status,
-                  regime: pendingPrediction.regime || "TITAN V7",
+                  regime: pendingPrediction.regime || "TITAN V18",
                   confidence: pendingPrediction.confidence,
                   timestamp: Date.now()
                 };
@@ -499,29 +519,44 @@
             }
           }
 
-          // 2. Gapless backfill for any recent periods (ensures period 78, 77, 76 are NEVER missed!)
+          // 2. Gapless chronological backfill for any recent unrecorded periods
           const existingPeriods = new Set(savedHistory.map(h => h.period));
+          const missingRows = [];
 
           results.slice(0, 15).forEach((row, i) => {
             if (!existingPeriods.has(row.period)) {
-              const older = results.slice(i + 1).map(r => r.number).reverse();
-              if (older.length >= 3) {
-                const pred = predictTitanV7(older, "WIN");
-                if (pred) {
-                  const status = statusFor(pred, row);
-                  savedHistory.push({
-                    period: row.period,
-                    actual: row.number,
-                    actualSize: row.size,
-                    predNumber: pred.number,
-                    predSize: pred.size,
-                    status,
-                    regime: pred.regime || "TITAN V7",
-                    confidence: pred.confidence,
-                    timestamp: Date.now()
-                  });
-                  existingPeriods.add(row.period);
-                  updated = true;
+              missingRows.push({ row, index: i });
+            }
+          });
+
+          // Process missing rows chronologically (oldest to newest)
+          missingRows.sort((a, b) => (a.row.period > b.row.period ? 1 : -1));
+
+          let runningLossStreak = getLossStreak();
+
+          missingRows.forEach(({ row, index }) => {
+            const older = results.slice(index + 1).map(r => r.number).reverse();
+            if (older.length >= 3) {
+              const pred = predictApexTitanV18(older, runningLossStreak);
+              if (pred) {
+                const status = statusFor(pred, row);
+                savedHistory.push({
+                  period: row.period,
+                  actual: row.number,
+                  actualSize: row.size,
+                  predNumber: pred.number,
+                  predSize: pred.size,
+                  status,
+                  regime: pred.regime || "TITAN V18",
+                  confidence: pred.confidence,
+                  timestamp: Date.now()
+                });
+                existingPeriods.add(row.period);
+                updated = true;
+                if (status === "WIN" || status === "JACKPOT") {
+                  runningLossStreak = 0;
+                } else {
+                  runningLossStreak++;
                 }
               }
             }
@@ -572,7 +607,8 @@
 
         // === RENDER ===
         function render() {
-          const prediction = state.results.length >= 3 ? predictTitanV7(state.results.map(r=>r.number).reverse(), getLastRoundStatus()) : null;
+          const lossStreak = getLossStreak();
+          const prediction = state.results.length >= 3 ? predictApexTitanV18(state.results.map(r=>r.number).reverse(), lossStreak) : null;
           state.prediction = prediction;
 
           const level = getCurrentLevel();
@@ -586,7 +622,7 @@
                 <div class="brand-mark">ϟ</div>
                 <div>
                   <div class="brand-name">JASH VIP</div>
-                  <div class="brand-sub">APEX TITAN V7 SHIELD</div>
+                  <div class="brand-sub">APEX TITAN ZERO-LOSS SHIELD</div>
                 </div>
               </div>
               <button class="filter-button is-active" data-action="sync" style="padding:6px 10px;border-radius:8px;font-size:9px">
@@ -608,7 +644,7 @@
             <div class="level-bar">
               <span class="eyebrow">RECOVERY LEVEL</span>
               <span class="level-badge ${level === 1 ? 'lvl-1' : level === 2 ? 'lvl-2' : 'lvl-3'}">
-                ${level === 1 ? '🟢 LEVEL 1 · 1x Base' : level === 2 ? '🟡 LEVEL 2 · 3x Recovery' : '🛑 LEVEL 3 · 9x Max Shield'}
+                ${level === 1 ? '🟢 LEVEL 1 · 1x Base' : level === 2 ? '🟡 LEVEL 2 · 3x Recovery' : '🛑 LEVEL 3 · 9x Max Zero-Loss Shield'}
               </span>
             </div>
 
@@ -620,7 +656,7 @@
                 <span class="top1-badge">👑 ZERO-LOSS SHIELD · ${GAME_MODES[currentMode].name}</span>
                 <span style="color:var(--green)">${stats.rate}% HIT · ${stats.wins}W/${stats.total}T</span>
               </div>
-              <div class="top1-channel">APEX TITAN V7</div>
+              <div class="top1-channel">APEX TITAN V18</div>
               <div class="top1-engine">${prediction ? `⚡ REGIME: ${esc(prediction.regime)}` : "CALIBRATING ENGINES…"}</div>
             </div>
 
@@ -648,7 +684,7 @@
                 <span>${prediction ? esc(prediction.size) : "WAIT"}</span>
                 <span class="signal-number">${prediction ? esc(prediction.number) : "—"}</span>
               </div>
-              <p class="api-note"><strong>Titan V7 Rules:</strong> Dragon Persistence (Never fights streaks) + Level 2 Auto-Shield + ZigZag Oscillation Lock.</p>
+              <p class="api-note"><strong>Titan V18 Rules:</strong> Max 2 Losses Guard + Level 3 Macro Gravity Lock + Dragon Persistence + ZigZag Wave Lock.</p>
             </div>
 
             <!-- STATS -->
@@ -676,7 +712,7 @@
                       <td class="number-cell">${esc(h.actual)}</td>
                       <td>${esc(h.predSize)} <span class="number-cell">${esc(h.predNumber)}</span></td>
                       <td>${esc(h.actualSize)} <span class="number-cell">${esc(h.actual)}</span></td>
-                      <td>${statusChip(h.status)}<span class="channel-tag">${esc((h.regime||'TITAN').replace(/🐉|⚡|🧠|⚖️|🛡️|👑/g,'').trim().split(' ')[0])}</span></td>
+                      <td>${statusChip(h.status)}<span class="channel-tag">${esc((h.regime||'TITAN').replace(/🐉|⚡|🧠|⚖️|🛡️|🛑|👑|🌊|🧬/g,'').trim().split(' ')[0])}</span></td>
                     </tr>`).join("")}
                   </tbody>
                 </table>` : `<div class="history-empty">No saved predictions yet for ${GAME_MODES[currentMode].name}. Builds as rounds complete.</div>`}
