@@ -260,7 +260,7 @@
 
     <script>
       (() => {
-        const MODE_KEY = "jashvip_selected_mode_v38";
+        const MODE_KEY = "jashvip_selected_mode_v39";
         const MAX_HISTORY = 20;
 
         // Supported Game Modes
@@ -270,16 +270,16 @@
             name: "WinGo 30S",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json",
             cycleSeconds: 30,
-            storageKey: "jashvip_top1_hist_30s_v38",
-            pendingKey: "jashvip_pending_30s_v38"
+            storageKey: "jashvip_top1_hist_30s_v39",
+            pendingKey: "jashvip_pending_30s_v39"
           },
           "1M": {
             id: "1M",
             name: "WinGo 1M",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json",
             cycleSeconds: 60,
-            storageKey: "jashvip_top1_hist_1m_v38",
-            pendingKey: "jashvip_pending_1m_v38"
+            storageKey: "jashvip_top1_hist_1m_v39",
+            pendingKey: "jashvip_pending_1m_v39"
           }
         };
 
@@ -462,33 +462,62 @@
         };
         const app = document.getElementById("app");
         let requestInFlight = false;
+        let activeAbortController = null;
         let boundaryRequestedFor = "";
 
-        // === STORAGE HELPERS PER MODE ===
-        function getStorageKey() { return GAME_MODES[currentMode].storageKey; }
-        function getPendingKey() { return GAME_MODES[currentMode].pendingKey; }
-
-        function loadPending() {
-          try { return JSON.parse(localStorage.getItem(getPendingKey()) || "null"); } catch { return null; }
+        // Period validation per mode:
+        // 30S issues are 2880/day (period numbers contain ...5xxxx)
+        // 1M issues are 1440/day (period numbers contain ...1xxxx)
+        function isValidPeriodForMode(period, mode) {
+          const p = String(period || "");
+          if (!p || !/^\d+$/.test(p)) return false;
+          if (mode === "1M" && p.includes("10005")) return false;
+          if (mode === "30S" && p.includes("10001")) return false;
+          return true;
         }
-        function savePending(pred) {
-          try { localStorage.setItem(getPendingKey(), JSON.stringify(pred)); } catch {}
+
+        // === STORAGE HELPERS PER MODE ===
+        function getStorageKey(mode = currentMode) { return GAME_MODES[mode].storageKey; }
+        function getPendingKey(mode = currentMode) { return GAME_MODES[mode].pendingKey; }
+
+        function loadPending(mode = currentMode) {
+          try {
+            const p = JSON.parse(localStorage.getItem(getPendingKey(mode)) || "null");
+            if (p && (!p.mode || p.mode === mode) && isValidPeriodForMode(p.period, mode)) return p;
+            return null;
+          } catch { return null; }
+        }
+        function savePending(pred, mode = currentMode) {
+          try {
+            if (!pred) {
+              localStorage.removeItem(getPendingKey(mode));
+            } else {
+              localStorage.setItem(getPendingKey(mode), JSON.stringify({ ...pred, mode }));
+            }
+          } catch {}
         }
         let pendingPrediction = loadPending();
 
-        function loadSavedHistory() {
+        function loadSavedHistory(mode = currentMode) {
           try {
-            const data = JSON.parse(localStorage.getItem(getStorageKey()) || "[]");
+            const data = JSON.parse(localStorage.getItem(getStorageKey(mode)) || "[]");
             if (!Array.isArray(data)) return [];
-            return data.slice(0, MAX_HISTORY).map(h => ({
-              ...h,
-              status: h.status === "JACKPOT" ? "WIN" : h.status
-            }));
+            return data
+              .filter(h => (!h.mode || h.mode === mode) && isValidPeriodForMode(h.period, mode))
+              .slice(0, MAX_HISTORY)
+              .map(h => ({
+                ...h,
+                mode,
+                status: h.status === "JACKPOT" ? "WIN" : h.status
+              }));
           } catch { return []; }
         }
-        function saveHistory(history) {
+        function saveHistory(history, mode = currentMode) {
           try {
-            localStorage.setItem(getStorageKey(), JSON.stringify(history.slice(0, MAX_HISTORY)));
+            const clean = history
+              .filter(h => (!h.mode || h.mode === mode) && isValidPeriodForMode(h.period, mode))
+              .slice(0, MAX_HISTORY);
+            localStorage.setItem(getStorageKey(mode), JSON.stringify(clean));
           } catch {}
         }
         let savedHistory = loadSavedHistory();
@@ -523,13 +552,16 @@
         }
 
         // === STORE CURRENT PREDICTION ===
-        function snapshotPendingPrediction(targetPeriod, results) {
+        function snapshotPendingPrediction(targetPeriod, results, reqMode = currentMode) {
+          if (reqMode !== currentMode) return;
           if (!targetPeriod || targetPeriod === "—" || results.length < 3) return;
+          if (!isValidPeriodForMode(targetPeriod, reqMode)) return;
           const currentLossStreak = getLossStreak();
           const pred = predictApexTitanV38(results.map(r => r.number).reverse(), currentLossStreak);
           if (!pred) return;
-          if (pendingPrediction && pendingPrediction.period === targetPeriod) return;
+          if (pendingPrediction && pendingPrediction.period === targetPeriod && pendingPrediction.mode === reqMode) return;
           pendingPrediction = {
+            mode: reqMode,
             period: targetPeriod,
             predNumber: pred.number,
             predSize: pred.size,
@@ -538,24 +570,26 @@
             lossStreak: currentLossStreak,
             timestamp: Date.now()
           };
-          savePending(pendingPrediction);
+          savePending(pendingPrediction, reqMode);
         }
 
         // === ROBUST GAPLESS RECONCILIATION & SETTLEMENT ===
-        function reconcileHistory(results) {
+        function reconcileHistory(results, reqMode = currentMode) {
+          if (reqMode !== currentMode) return;
           if (!results || results.length < 2) return;
 
           let updated = false;
 
           // 1. Settle pending prediction if it matches ANY result in the feed
-          if (pendingPrediction) {
+          if (pendingPrediction && (!pendingPrediction.mode || pendingPrediction.mode === reqMode)) {
             const matchedResult = results.find(r => r.period === pendingPrediction.period);
-            if (matchedResult) {
+            if (matchedResult && isValidPeriodForMode(matchedResult.period, reqMode)) {
               const alreadyExists = savedHistory.some(h => h.period === matchedResult.period);
               if (!alreadyExists) {
                 const fakePred = { number: pendingPrediction.predNumber, size: pendingPrediction.predSize };
                 const status = statusFor(fakePred, matchedResult);
                 const entry = {
+                  mode: reqMode,
                   period: matchedResult.period,
                   actual: matchedResult.number,
                   actualSize: matchedResult.size,
@@ -570,7 +604,7 @@
                 updated = true;
               }
               pendingPrediction = null;
-              savePending(null);
+              savePending(null, reqMode);
             }
           }
 
@@ -579,7 +613,7 @@
           const missingRows = [];
 
           results.slice(0, 15).forEach((row, i) => {
-            if (!existingPeriods.has(row.period)) {
+            if (!existingPeriods.has(row.period) && isValidPeriodForMode(row.period, reqMode)) {
               missingRows.push({ row, index: i });
             }
           });
@@ -596,6 +630,7 @@
               if (pred) {
                 const status = statusFor(pred, row);
                 savedHistory.push({
+                  mode: reqMode,
                   period: row.period,
                   actual: row.number,
                   actualSize: row.size,
@@ -618,9 +653,10 @@
           });
 
           if (updated) {
+            savedHistory = savedHistory.filter(h => (!h.mode || h.mode === reqMode) && isValidPeriodForMode(h.period, reqMode));
             savedHistory.sort((a, b) => (b.period > a.period ? 1 : -1));
             savedHistory = savedHistory.slice(0, MAX_HISTORY);
-            saveHistory(savedHistory);
+            saveHistory(savedHistory, reqMode);
           }
         }
 
@@ -638,14 +674,21 @@
         // === SWITCH MODE ===
         function setGameMode(mode) {
           if (!GAME_MODES[mode] || mode === currentMode) return;
+          if (activeAbortController) {
+            try { activeAbortController.abort(); } catch {}
+            activeAbortController = null;
+          }
+          requestInFlight = false;
           currentMode = mode;
           localStorage.setItem(MODE_KEY, mode);
-          pendingPrediction = loadPending();
-          savedHistory = loadSavedHistory();
+          pendingPrediction = loadPending(mode);
+          savedHistory = loadSavedHistory(mode);
           state.results = [];
           state.dataSignature = "";
           state.targetPeriod = "—";
           boundaryRequestedFor = "";
+          state.loading = true;
+          state.error = "";
           render();
           loadHistory({ silent: false });
         }
@@ -795,18 +838,27 @@
         // === LOAD DATA ===
         async function loadHistory({ silent = false } = {}) {
           if (requestInFlight) return;
+          const reqMode = currentMode;
           requestInFlight = true;
           state.error = "";
           if (!silent) { state.loading = true; render(); }
           let changed = false;
-          const cfg = GAME_MODES[currentMode];
+          const cfg = GAME_MODES[reqMode];
           try {
-            const controller = new AbortController();
+            if (activeAbortController) {
+              try { activeAbortController.abort(); } catch {}
+            }
+            activeAbortController = new AbortController();
+            const controller = activeAbortController;
             const timeout = setTimeout(() => controller.abort(), 8000);
             const response = await fetch(cfg.url, { method: "GET", cache: "no-store", headers: { Accept: "application/json" }, signal: controller.signal });
             clearTimeout(timeout);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const payload = await response.json();
+            
+            // Discard if user switched mode while request was in-flight
+            if (reqMode !== currentMode) return;
+
             const rows = normalise(payload);
             if (!rows.length) throw new Error("No results returned");
             const signature = rows.slice(0,10).map(r=>`${r.period}:${r.number}`).join("|");
@@ -819,20 +871,23 @@
             state.synced = true;
             state.updatedAt = new Date(Date.now() + state.serverOffset).toLocaleTimeString([], { hour:"2-digit", minute:"2-digit", second:"2-digit" });
 
-            // Reconcile and backfill history
-            reconcileHistory(rows);
+            // Reconcile and backfill history STRICTLY for reqMode
+            reconcileHistory(rows, reqMode);
 
             // Snapshot the NEW prediction for the upcoming period
-            snapshotPendingPrediction(nextDecimal(rows[0].period), rows);
+            snapshotPendingPrediction(nextDecimal(rows[0].period), rows, reqMode);
 
             updateCountdown();
           } catch (error) {
+            if (reqMode !== currentMode) return;
             state.synced = false;
             state.error = error.name === "AbortError" ? "Live feed timed out." : `Feed error: ${error.message}`;
           } finally {
-            requestInFlight = false;
-            state.loading = false;
-            if (!silent || changed || state.error) render();
+            if (reqMode === currentMode) {
+              requestInFlight = false;
+              state.loading = false;
+              if (!silent || changed || state.error) render();
+            }
           }
         }
 
@@ -857,10 +912,10 @@
           }
         }, 1000);
 
-        // Dynamic polling interval (every 6s for 30s mode, every 12s for 1m mode)
+        // Dynamic polling interval (every 5s for 30s mode, every 10s for 1m mode)
         setInterval(() => {
           loadHistory({ silent: true });
-        }, currentMode === "30S" ? 6000 : 12000);
+        }, 6000);
 
         // Initial
         render();
