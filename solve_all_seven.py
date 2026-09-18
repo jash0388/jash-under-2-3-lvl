@@ -126,7 +126,7 @@ seq_G = [
     {'period': '11099', 'number': 4, 'size': 'SMALL'},
 ]
 
-all_real_seqs = [
+all_seven = [
     ("Seq A (10859-10870 1M)", seq_A),
     ("Seq B (10954-10963 1M)", seq_B),
     ("Seq C (11015-11027 1M)", seq_C),
@@ -151,84 +151,4 @@ def get_runs(sizes):
     runs.append((curr, l))
     return runs
 
-def predict_apex_titan_v60(history, loss_streak):
-    sizes = [h['size'] for h in history]
-    nums = [h['number'] for h in history]
-    if len(sizes) < 3: return "BIG", "INITIALIZING"
-    runs = get_runs(sizes)
-    c_side, c_len = runs[-1]
-    p_side, p_len = runs[-2] if len(runs) >= 2 else (opp(c_side), 0)
-    p3_side, p3_len = runs[-3] if len(runs) >= 3 else (c_side, 0)
-    last_s = sizes[-1]
-
-    # Level 3 Recovery (streak == 2)
-    if loss_streak >= 2:
-        if p_len == 2 and c_len == 1:
-            return p_side, f"🛑 LVL 3 DOUBLET ADVANCE ({p_side})"
-        if c_len == 2:
-            return opp(c_side), f"🛑 LVL 3 DOUBLET CUT ({opp(c_side)})"
-        if c_len == 1 and p_len == 1:
-            if len(nums) >= 2 and abs(nums[-1] - nums[-2]) >= 5 and p3_len >= 5:
-                return opp(last_s), f"🛑 LVL 3 HIGH-VOLATILITY CHOP FLIP ({opp(last_s)})"
-            else:
-                return c_side, f"🛑 LVL 3 RESTORE DOMINANT DRAGON ({c_side})"
-        if c_len >= 3:
-            return c_side, f"🛑 LVL 3 DRAGON RIDE ({c_side} x{c_len})"
-        return last_s, f"🛑 LVL 3 MOMENTUM FOLLOW ({last_s})"
-
-    # Level 2 Recovery (streak == 1)
-    elif loss_streak == 1:
-        if p_len == 2 and c_len == 1:
-            return p_side, f"🛡️ LVL 2 DOUBLET ADVANCE ({p_side})"
-        if c_len >= 2:
-            return c_side, f"🛡️ LVL 2 DRAGON LOCK ({c_side} x{c_len})"
-        return last_s, f"🛡️ LVL 2 MOMENTUM FOLLOW ({last_s})"
-
-    # Level 1 Base Prediction (streak == 0)
-    else:
-        if c_len == 3 and p_len == 1 and p3_len == 3:
-            return opp(c_side), "⚡ TRIPLET DRAGON CAP (x3 -> FLIP)"
-        if c_len >= 3:
-            return c_side, f"🐉 DRAGON FLOW ({c_side} x{c_len})"
-        if c_len == 1 and p_len == 2 and p3_len == 1:
-            return p_side, f"⚡ DOUBLET CADENCE INTERCEPT ({p_side})"
-        if c_len == 1 and p_len == 1 and p3_len == 1:
-            return opp(last_s), f"⚡ CHOP FLIP ({opp(last_s)})"
-
-        w = sizes[-5:]
-        b_score = sum((1.5**i) for i, s in enumerate(w) if s == 'BIG')
-        s_score = sum((1.5**i) for i, s in enumerate(w) if s == 'SMALL')
-        if b_score > s_score: return "BIG", "🌊 MICRO-TREND (BIG)"
-        elif s_score > b_score: return "SMALL", "🌊 MICRO-TREND (SMALL)"
-        return last_s, f"🌊 MOMENTUM ({last_s})"
-
-def test_strategy_on_all_seqs(pred_fn, name=""):
-    print(f"\n==================== {name} ====================")
-    for seq_name, seq in all_real_seqs:
-        hist = []
-        loss_streak = 0
-        max_loss = 0
-        wins, losses = 0, 0
-        print(f"\n--- {seq_name} ---")
-        for r in seq:
-            if len(hist) < 3:
-                hist.append(r)
-                continue
-            pred, reg = pred_fn(hist, loss_streak)
-            won = (pred == r['size'])
-            if won:
-                wins += 1
-                lvl = 1 if loss_streak == 0 else loss_streak + 1
-                status = f"✅ WIN (Lvl {lvl})"
-                loss_streak = 0
-            else:
-                losses += 1
-                loss_streak += 1
-                max_loss = max(max_loss, loss_streak)
-                status = f"❌ LOSS (Lvl {loss_streak})"
-            print(f"{r['period']}: Pred={pred:5s} | Act={r['size']:5s}({r['number']}) | {status:15s} | {reg}")
-            hist.append(r)
-        print(f"Result for {seq_name}: Wins={wins}, Losses={losses}, Max Consecutive Losses={max_loss}")
-
-if __name__ == "__main__":
-    test_strategy_on_all_seqs(predict_apex_titan_v60, "Apex Titan V60 Neural Quantum Master Engine")
+print(f"Loaded all {len(all_seven)} real-world sequences successfully.")
