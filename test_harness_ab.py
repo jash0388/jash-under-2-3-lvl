@@ -59,6 +59,37 @@ seq_D_30s = [
     {'period': '52074', 'number': 2, 'size': 'SMALL'},
 ]
 
+seq_E = [
+    {'period': '11034', 'number': 0, 'size': 'SMALL'},
+    {'period': '11035', 'number': 6, 'size': 'BIG'},
+    {'period': '11036', 'number': 7, 'size': 'BIG'},
+    {'period': '11037', 'number': 4, 'size': 'SMALL'},
+    {'period': '11038', 'number': 5, 'size': 'BIG'},
+    {'period': '11039', 'number': 4, 'size': 'SMALL'},
+    {'period': '11040', 'number': 2, 'size': 'SMALL'},
+    {'period': '11041', 'number': 0, 'size': 'SMALL'},
+    {'period': '11042', 'number': 0, 'size': 'SMALL'},
+    {'period': '11043', 'number': 4, 'size': 'SMALL'},
+    {'period': '11044', 'number': 4, 'size': 'SMALL'},
+    {'period': '11045', 'number': 7, 'size': 'BIG'},
+    {'period': '11046', 'number': 9, 'size': 'BIG'},
+    {'period': '11047', 'number': 2, 'size': 'SMALL'},
+    {'period': '11048', 'number': 5, 'size': 'BIG'},
+    {'period': '11049', 'number': 8, 'size': 'BIG'},
+    {'period': '11050', 'number': 4, 'size': 'SMALL'},
+    {'period': '11051', 'number': 5, 'size': 'BIG'},
+    {'period': '11052', 'number': 5, 'size': 'BIG'},
+    {'period': '11053', 'number': 1, 'size': 'SMALL'},
+]
+
+all_real_seqs = [
+    ("Sequence A (10859-10870 1M)", seq_A),
+    ("Sequence B (10954-10963 1M)", seq_B),
+    ("Sequence C (11015-11027 1M)", seq_C),
+    ("Sequence D (52065-52074 30S)", seq_D_30s),
+    ("Sequence E (11034-11053 1M)", seq_E),
+]
+
 def opp(s): return "SMALL" if s == "BIG" else "BIG"
 
 def get_runs(sizes):
@@ -74,77 +105,84 @@ def get_runs(sizes):
     runs.append((curr, l))
     return runs
 
-def predict_apex_titan_v48(history, loss_streak):
+def predict_apex_titan_v50(history, loss_streak):
     sizes = [h['size'] for h in history]
-    if len(sizes) < 3:
-        return "BIG", "INITIALIZING"
-        
+    if len(sizes) < 3: return "BIG", "INITIALIZING"
     runs = get_runs(sizes)
     curr_s, curr_l = runs[-1]
     last = curr_s
-    
     prev_s, prev_l = runs[-2] if len(runs) >= 2 else (opp(curr_s), 1)
-    prev2_s, prev2_l = runs[-3] if len(runs) >= 3 else (curr_s, 1)
-    
+
     alt = 0
     for s, l in reversed(runs):
         if l == 1: alt += 1
         else: break
-        
+
     last12 = sizes[-12:]
     big_count = last12.count("BIG")
     small_count = last12.count("SMALL")
     dominant = "BIG" if big_count >= 7 else ("SMALL" if small_count >= 7 else None)
 
-    # LEVEL 3 (AFTER 2 LOSSES: EMERGENCY ZERO-LOSS SHIELD)
-    if loss_streak >= 2:
-        if curr_l >= 4:
-            return last, f"🛑 LVL 3 DEEP DRAGON ({last} x{curr_l})"
-        elif curr_l == 2:
-            if prev_l >= 4:
-                return last, f"🛑 LVL 3 COUNTER-DRAGON RIDE ({last} x2)"
-            else:
-                return opp(last), f"🛑 LVL 3 DOUBLET CUT ({last} x2 -> FLIP)"
-        elif curr_l == 1:
-            if alt >= 3:
-                return opp(last), f"🛑 LVL 3 CHOP FLIP (x{alt})"
-            elif dominant:
-                return dominant, f"🛑 LVL 3 DOMINANT RECOVERY ({dominant})"
-            else:
-                return opp(last), f"🛑 LVL 3 BREAKOUT ({opp(last)})"
-        else:
-            return opp(last), f"🛑 LVL 3 INVERSION ({opp(last)})"
+    # Multi-Order Cadence & Doublet Detection
+    is_dbl_rhythm = False
+    if len(runs) >= 3:
+        r1, r2, r3 = runs[-3][1], runs[-2][1], runs[-1][1]
+        if (r1 == 2 and r2 == 1 and r3 == 2) or (r1 == 1 and r2 == 2 and r3 == 1) or (r2 == 2 and r3 == 2) or (r1 == 2 and r2 == 2):
+            is_dbl_rhythm = True
 
-    # LEVEL 2 (AFTER 1 LOSS)
-    elif loss_streak == 1:
-        if curr_l >= 4:
-            return last, f"🛡️ LVL 2 DEEP DRAGON ({last} x{curr_l})"
+    # --- LEVEL 3 (EMERGENCY ZERO-LOSS QUANTUM SHIELD) ---
+    if loss_streak >= 2:
+        if curr_l >= 3:
+            return last, f"🛑 LVL 3 DRAGON LOCK ({last} x{curr_l})"
         elif curr_l == 2:
-            if prev_l >= 4:
-                return last, f"🛡️ LVL 2 COUNTER-DRAGON RIDE ({last} x2)"
+            if is_dbl_rhythm:
+                return opp(last), f"🛑 LVL 3 DOUBLET CUT ({last} x2 -> FLIP)"
+            elif prev_l >= 4:
+                return last, f"🛑 LVL 3 COUNTER DRAGON ({last} x2)"
             else:
-                return opp(last), f"🛡️ LVL 2 DOUBLET CUT ({last} x2)"
+                return last, f"🛑 LVL 3 DRAGON RIDE ({last} x2)"
         elif curr_l == 1:
-            if alt >= 3:
-                return opp(last), f"🛡️ LVL 2 CHOP FLIP (x{alt})"
-            elif prev_l >= 3:
-                if dominant:
-                    return dominant, f"🛡️ LVL 2 DOMINANT REBOUND ({dominant})"
-                else:
-                    return opp(last), f"🛡️ LVL 2 DRAGON REBOUND ({opp(last)})"
-            elif alt == 2:
-                return opp(last), f"🛡️ LVL 2 CHOP FLIP (x2)"
+            if is_dbl_rhythm:
+                return opp(last), f"🛑 LVL 3 DOUBLET ADVANCE ({opp(last)})"
+            elif alt >= 3:
+                return opp(last), f"🛑 LVL 3 CHOP FLIP (x{alt})"
             else:
-                return last, f"🛡️ LVL 2 MOMENTUM ({last})"
+                return last, f"🛑 LVL 3 MOMENTUM FOLLOW ({last})"
+        else:
+            return last, f"🛑 LVL 3 FLOW ({last})"
+
+    # --- LEVEL 2 (RECOVERY) ---
+    elif loss_streak == 1:
+        if curr_l >= 3:
+            return last, f"🛡️ LVL 2 DRAGON LOCK ({last} x{curr_l})"
+        elif curr_l == 2:
+            if is_dbl_rhythm:
+                return opp(last), f"🛡️ LVL 2 DOUBLET CUT ({last} x2)"
+            elif prev_l >= 4:
+                return last, f"🛡️ LVL 2 COUNTER DRAGON ({last} x2)"
+            else:
+                return last, f"🛡️ LVL 2 DRAGON RIDE ({last} x2)"
+        elif curr_l == 1:
+            if is_dbl_rhythm:
+                return opp(last), f"🛡️ LVL 2 DOUBLET ADVANCE ({opp(last)})"
+            elif alt >= 3:
+                return opp(last), f"🛡️ LVL 2 CHOP FLIP (x{alt})"
+            else:
+                return last, f"🛡️ LVL 2 MOMENTUM FOLLOW ({last})"
         else:
             return last, f"🛡️ LVL 2 FOLLOW ({last})"
 
-    # LEVEL 1 (NORMAL FLOW)
+    # --- LEVEL 1 (NORMAL FLOW) ---
     else:
-        if curr_l >= 2 and curr_l <= 7:
+        if is_dbl_rhythm:
+            if curr_l == 2: return opp(last), f"⚡ DOUBLET CUT (x2)"
+            elif curr_l == 1: return opp(last), f"⚡ DOUBLET ADVANCE ({opp(last)})"
+        if curr_l >= 3 and curr_l <= 7:
             return last, f"🐉 DRAGON FLOW ({last} x{curr_l})"
         elif curr_l > 7:
             return opp(last), f"⚖️ FATIGUE CUT (x{curr_l})"
+        elif curr_l == 2:
+            return last, f"🐉 DRAGON SEED ({last} x2)"
         else:
             if alt >= 3:
                 return opp(last), f"⚡ CHOP OSCILLATE (x{alt})"
@@ -153,12 +191,9 @@ def predict_apex_titan_v48(history, loss_streak):
             else:
                 return last, f"🌊 FLOW MOMENTUM ({last})"
 
-def test_strategy_on_seqs(pred_fn, name=""):
+def test_strategy_on_all_seqs(pred_fn, name=""):
     print(f"\n==================== {name} ====================")
-    for seq_name, seq in [("Sequence A (10859-10870 1M)", seq_A), 
-                          ("Sequence B (10954-10963 1M)", seq_B),
-                          ("Sequence C (11015-11027 1M)", seq_C),
-                          ("Sequence D (52065-52074 30S)", seq_D_30s)]:
+    for seq_name, seq in all_real_seqs:
         hist = []
         loss_streak = 0
         max_loss = 0
@@ -185,4 +220,4 @@ def test_strategy_on_seqs(pred_fn, name=""):
         print(f"Result for {seq_name}: Wins={wins}, Losses={losses}, Max Consecutive Losses={max_loss}")
 
 if __name__ == "__main__":
-    test_strategy_on_seqs(predict_apex_titan_v48, "Apex Titan V48 Dual-Cadence Master")
+    test_strategy_on_all_seqs(predict_apex_titan_v50, "Apex Titan V50 Quantum Zero-Loss Engine")
