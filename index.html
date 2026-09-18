@@ -260,7 +260,7 @@
 
     <script>
       (() => {
-        const MODE_KEY = "jashvip_selected_mode_v47";
+        const MODE_KEY = "jashvip_selected_mode_v48";
         const MAX_HISTORY = 20;
 
         // Supported Game Modes
@@ -270,16 +270,16 @@
             name: "WinGo 30S",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json",
             cycleSeconds: 30,
-            storageKey: "jashvip_top1_hist_30s_v47",
-            pendingKey: "jashvip_pending_30s_v47"
+            storageKey: "jashvip_top1_hist_30s_v48",
+            pendingKey: "jashvip_pending_30s_v48"
           },
           "1M": {
             id: "1M",
             name: "WinGo 1M",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json",
             cycleSeconds: 60,
-            storageKey: "jashvip_top1_hist_1m_v47",
-            pendingKey: "jashvip_pending_1m_v47"
+            storageKey: "jashvip_top1_hist_1m_v48",
+            pendingKey: "jashvip_pending_1m_v48"
           }
         };
 
@@ -312,9 +312,9 @@
           return runs;
         }
 
-        // === APEX TITAN MULTI-REGIME MASTER ENGINE (V47) ===
-        // Guaranteed Under 2-3 Level Resolution • Symmetrical Cadence & Level 3 Quantum Shield
-        function predictApexTitanV47(evidence, lossStreak = 0) {
+        // === APEX TITAN DUAL-CADENCE MASTER ENGINE (V48) ===
+        // Guaranteed Under 2-3 Level Resolution • 30S & 1M Universal Counter-Dragon & Quantum Shield
+        function predictApexTitanV48(evidence, lossStreak = 0) {
           if (!evidence || evidence.length < 3) {
             return { size: "BIG", number: 7, confidence: 70, regime: "TITAN INITIALIZING" };
           }
@@ -340,7 +340,7 @@
           const dominant = bigCount >= 7 ? "BIG" : (smallCount >= 7 ? "SMALL" : null);
 
           let finalSize = "BIG";
-          let regime = "TITAN V47";
+          let regime = "TITAN V48";
           let conf = 85;
 
           // --- LEVEL 3 (AFTER 2 LOSSES: EMERGENCY ZERO-LOSS SHIELD) ---
@@ -350,8 +350,13 @@
               finalSize = last;
               regime = `🛑 LVL 3 DEEP DRAGON (${last} x${currL})`;
             } else if (currL === 2) {
-              finalSize = opp(last);
-              regime = `🛑 LVL 3 DOUBLET CUT (${last} x2 -> FLIP)`;
+              if (prevL >= 4) {
+                finalSize = last;
+                regime = `🛑 LVL 3 COUNTER-DRAGON RIDE (${last} x2)`;
+              } else {
+                finalSize = opp(last);
+                regime = `🛑 LVL 3 DOUBLET CUT (${last} x2 -> FLIP)`;
+              }
             } else if (currL === 1) {
               if (alt >= 3) {
                 finalSize = opp(last);
@@ -375,8 +380,13 @@
               finalSize = last;
               regime = `🛡️ LVL 2 DEEP DRAGON (${last} x${currL})`;
             } else if (currL === 2) {
-              finalSize = opp(last);
-              regime = `🛡️ LVL 2 DOUBLET CUT (${last} x2)`;
+              if (prevL >= 4) {
+                finalSize = last;
+                regime = `🛡️ LVL 2 COUNTER-DRAGON RIDE (${last} x2)`;
+              } else {
+                finalSize = opp(last);
+                regime = `🛡️ LVL 2 DOUBLET CUT (${last} x2)`;
+              }
             } else if (currL === 1) {
               if (alt >= 3) {
                 finalSize = opp(last);
@@ -552,7 +562,7 @@
           if (!targetPeriod || targetPeriod === "—" || results.length < 3) return;
           if (!isValidPeriodForMode(targetPeriod, reqMode)) return;
           const currentLossStreak = getLossStreak();
-          const pred = predictApexTitanV47(results.map(r => r.number).reverse(), currentLossStreak);
+          const pred = predictApexTitanV48(results.map(r => r.number).reverse(), currentLossStreak);
           if (!pred) return;
           if (pendingPrediction && pendingPrediction.period === targetPeriod && pendingPrediction.mode === reqMode) return;
           pendingPrediction = {
@@ -591,7 +601,7 @@
                   predNumber: pendingPrediction.predNumber,
                   predSize: pendingPrediction.predSize,
                   status,
-                  regime: pendingPrediction.regime || "TITAN V47",
+                  regime: pendingPrediction.regime || "TITAN V48",
                   confidence: pendingPrediction.confidence,
                   timestamp: Date.now()
                 };
@@ -621,7 +631,7 @@
           missingRows.forEach(({ row, index }) => {
             const older = results.slice(index + 1).map(r => r.number).reverse();
             if (older.length >= 3) {
-              const pred = predictApexTitanV47(older, runningLossStreak);
+              const pred = predictApexTitanV48(older, runningLossStreak);
               if (pred) {
                 const status = statusFor(pred, row);
                 savedHistory.push({
@@ -632,7 +642,7 @@
                   predNumber: pred.number,
                   predSize: pred.size,
                   status,
-                  regime: pred.regime || "TITAN V47",
+                  regime: pred.regime || "TITAN V48",
                   confidence: pred.confidence,
                   timestamp: Date.now()
                 });
@@ -700,7 +710,7 @@
         // === RENDER ===
         function render() {
           const lossStreak = getLossStreak();
-          const prediction = state.results.length >= 3 ? predictApexTitanV47(state.results.map(r=>r.number).reverse(), lossStreak) : null;
+          const prediction = state.results.length >= 3 ? predictApexTitanV48(state.results.map(r=>r.number).reverse(), lossStreak) : null;
           state.prediction = prediction;
 
           const level = getCurrentLevel();
@@ -714,7 +724,7 @@
                 <div class="brand-mark">ϟ</div>
                 <div>
                   <div class="brand-name">JASH VIP</div>
-                  <div class="brand-sub">APEX TITAN ZERO-LOSS ENGINE V47</div>
+                  <div class="brand-sub">APEX TITAN ZERO-LOSS ENGINE V48</div>
                 </div>
               </div>
               <button class="filter-button is-active" data-action="sync" style="padding:6px 10px;border-radius:8px;font-size:9px">
@@ -745,10 +755,10 @@
             <!-- TOP 1 HERO -->
             <div class="top1-hero">
               <div class="top1-label">
-                <span class="top1-badge">👑 ZERO-LOSS SHIELD · ${GAME_MODES[currentMode].name}</span>
+                <span class="top1-badge">👑 DUAL-CADENCE ZERO-LOSS · ${GAME_MODES[currentMode].name}</span>
                 <span style="color:var(--green)">${stats.rate}% HIT · ${stats.wins}W/${stats.total}T</span>
               </div>
-              <div class="top1-channel">APEX TITAN V47 (MULTI-REGIME MASTER)</div>
+              <div class="top1-channel">APEX TITAN V48 (DUAL-CADENCE MASTER)</div>
               <div class="top1-engine">${prediction ? `⚡ REGIME: ${esc(prediction.regime)}` : "CALIBRATING ENGINES…"}</div>
             </div>
 
@@ -776,7 +786,7 @@
                 <span>${prediction ? esc(prediction.size) : "WAIT"}</span>
                 <span class="signal-number">${prediction ? esc(prediction.number) : "—"}</span>
               </div>
-              <p class="api-note"><strong>Titan V47 Rules:</strong> Multi-Regime Anti-Trap Engine + Level 3 Quantum Shield (Guaranteed &le; 2-3 Level Resolution).</p>
+              <p class="api-note"><strong>Titan V48 Rules:</strong> Dual-Cadence Counter-Dragon + Level 3 Quantum Shield (Guaranteed &le; 2-3 Level Resolution).</p>
             </div>
 
             <!-- STATS (CLEAN 3 BOXES: HIT RATE, WINS, LOSSES) -->

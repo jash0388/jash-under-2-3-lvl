@@ -46,13 +46,22 @@ seq_C = [
     {'period': '11027', 'number': 2, 'size': 'SMALL'},
 ]
 
+seq_D_30s = [
+    {'period': '52065', 'number': 1, 'size': 'SMALL'},
+    {'period': '52066', 'number': 3, 'size': 'SMALL'},
+    {'period': '52067', 'number': 2, 'size': 'SMALL'},
+    {'period': '52068', 'number': 0, 'size': 'SMALL'},
+    {'period': '52069', 'number': 4, 'size': 'SMALL'},
+    {'period': '52070', 'number': 0, 'size': 'SMALL'},
+    {'period': '52071', 'number': 8, 'size': 'BIG'},
+    {'period': '52072', 'number': 6, 'size': 'BIG'},
+    {'period': '52073', 'number': 7, 'size': 'BIG'},
+    {'period': '52074', 'number': 2, 'size': 'SMALL'},
+]
+
 def opp(s): return "SMALL" if s == "BIG" else "BIG"
 
-def predict_apex_titan_v47(history, loss_streak):
-    sizes = [h['size'] for h in history]
-    if len(sizes) < 3:
-        return "BIG", "INITIALIZING"
-        
+def get_runs(sizes):
     runs = []
     curr = sizes[0]
     l = 1
@@ -63,7 +72,14 @@ def predict_apex_titan_v47(history, loss_streak):
             curr = s
             l = 1
     runs.append((curr, l))
-    
+    return runs
+
+def predict_apex_titan_v48(history, loss_streak):
+    sizes = [h['size'] for h in history]
+    if len(sizes) < 3:
+        return "BIG", "INITIALIZING"
+        
+    runs = get_runs(sizes)
     curr_s, curr_l = runs[-1]
     last = curr_s
     
@@ -85,7 +101,10 @@ def predict_apex_titan_v47(history, loss_streak):
         if curr_l >= 4:
             return last, f"🛑 LVL 3 DEEP DRAGON ({last} x{curr_l})"
         elif curr_l == 2:
-            return opp(last), f"🛑 LVL 3 DOUBLET CUT ({last} x2 -> FLIP)"
+            if prev_l >= 4:
+                return last, f"🛑 LVL 3 COUNTER-DRAGON RIDE ({last} x2)"
+            else:
+                return opp(last), f"🛑 LVL 3 DOUBLET CUT ({last} x2 -> FLIP)"
         elif curr_l == 1:
             if alt >= 3:
                 return opp(last), f"🛑 LVL 3 CHOP FLIP (x{alt})"
@@ -101,7 +120,10 @@ def predict_apex_titan_v47(history, loss_streak):
         if curr_l >= 4:
             return last, f"🛡️ LVL 2 DEEP DRAGON ({last} x{curr_l})"
         elif curr_l == 2:
-            return opp(last), f"🛡️ LVL 2 DOUBLET CUT ({last} x2)"
+            if prev_l >= 4:
+                return last, f"🛡️ LVL 2 COUNTER-DRAGON RIDE ({last} x2)"
+            else:
+                return opp(last), f"🛡️ LVL 2 DOUBLET CUT ({last} x2)"
         elif curr_l == 1:
             if alt >= 3:
                 return opp(last), f"🛡️ LVL 2 CHOP FLIP (x{alt})"
@@ -133,9 +155,10 @@ def predict_apex_titan_v47(history, loss_streak):
 
 def test_strategy_on_seqs(pred_fn, name=""):
     print(f"\n==================== {name} ====================")
-    for seq_name, seq in [("Sequence A (10859-10870)", seq_A), 
-                          ("Sequence B (10954-10963)", seq_B),
-                          ("Sequence C (11015-11027)", seq_C)]:
+    for seq_name, seq in [("Sequence A (10859-10870 1M)", seq_A), 
+                          ("Sequence B (10954-10963 1M)", seq_B),
+                          ("Sequence C (11015-11027 1M)", seq_C),
+                          ("Sequence D (52065-52074 30S)", seq_D_30s)]:
         hist = []
         loss_streak = 0
         max_loss = 0
@@ -162,4 +185,4 @@ def test_strategy_on_seqs(pred_fn, name=""):
         print(f"Result for {seq_name}: Wins={wins}, Losses={losses}, Max Consecutive Losses={max_loss}")
 
 if __name__ == "__main__":
-    test_strategy_on_seqs(predict_apex_titan_v47, "Apex Titan V47 Multi-Regime Master")
+    test_strategy_on_seqs(predict_apex_titan_v48, "Apex Titan V48 Dual-Cadence Master")
