@@ -38,8 +38,8 @@ NEW_PREDICTOR_CODE = """  // === 30S CADENCE ZERO-LOSS ENGINE ===
         finalSize = opp(cSide);
         regime = `🛑 L3 DRAGON CUT (${opp(cSide)})`;
       } else if (cLen === 2) {
-        finalSize = opp(cSide);
-        regime = `🛑 L3 DOUBLET EXHAUSTION CUT (${opp(cSide)})`;
+        finalSize = cSide;
+        regime = `🛑 L3 DOUBLET RIDE (${cSide} x2)`;
       } else if (alt >= 3) {
         finalSize = opp(lastS);
         regime = `🛑 L3 DEEP CHOP OSCILLATE (${opp(lastS)})`;
@@ -65,11 +65,11 @@ NEW_PREDICTOR_CODE = """  // === 30S CADENCE ZERO-LOSS ENGINE ===
         finalSize = opp(cSide);
         regime = `🛡️ L2 DOUBLET CUT (${opp(cSide)})`;
       } else if (alt >= 3) {
-        finalSize = opp(lastS);
-        regime = `🛡️ L2 CHOP FLIP (${opp(lastS)})`;
+        finalSize = cSide;
+        regime = `🛡️ L2 CHOP BREAK RIDE (${cSide})`;
       } else if (alt >= 2) {
-        finalSize = lastS;
-        regime = `🛡️ L2 CHOP STABILIZE (${lastS})`;
+        finalSize = opp(lastS);
+        regime = `🛡️ L2 CHOP OSCILLATE (${opp(lastS)})`;
       } else if (cLen === 1) {
         finalSize = cSide;
         regime = `🛡️ L2 DOUBLET RIDE (${cSide})`;
