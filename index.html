@@ -248,6 +248,169 @@
       .api-note { margin: 8px 0 0; color: #748084; font: 8px/1.45 var(--mono); }
       .api-note strong { color: #a9b4af; font-weight: 500; }
 
+      /* LOCK SCREEN / SECURITY VAULT */
+      .vault-overlay {
+        min-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 10px;
+        animation: switch-flash .4s ease;
+      }
+      .vault-card {
+        width: 100%;
+        max-width: 360px;
+        padding: 26px 20px;
+        border: 1px solid rgba(226, 184, 77, .35);
+        border-radius: 20px;
+        background: linear-gradient(160deg, rgba(16, 26, 22, 0.95), rgba(9, 13, 17, 0.98));
+        box-shadow: 0 0 35px rgba(0, 0, 0, 0.6), inset 0 0 25px rgba(36, 216, 140, 0.05), 0 0 0 1px rgba(36, 216, 140, 0.15);
+        text-align: center;
+      }
+      .vault-icon-wrap {
+        position: relative;
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 16px;
+        display: grid;
+        place-items: center;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #19382b, #101918);
+        border: 1px solid rgba(226, 184, 77, 0.6);
+        box-shadow: 0 0 20px rgba(36, 216, 140, 0.25), inset 0 0 12px rgba(226, 184, 77, 0.2);
+        font-size: 26px;
+        color: var(--gold);
+      }
+      .vault-title {
+        color: #f0efe7;
+        font: 20px/1.2 var(--serif);
+        font-weight: 700;
+        letter-spacing: .02em;
+        margin-bottom: 4px;
+      }
+      .vault-sub {
+        color: #7b878a;
+        font: 9px/1.4 var(--mono);
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+      .pin-slots {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+      .pin-slot {
+        width: 48px;
+        height: 54px;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(123, 147, 143, 0.3);
+        border-radius: 12px;
+        background: rgba(13, 17, 22, 0.85);
+        color: var(--green-soft);
+        font: 24px var(--mono);
+        font-weight: 700;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+        transition: all .2s ease;
+      }
+      .pin-slot.filled {
+        border-color: rgba(36, 216, 140, 0.8);
+        background: rgba(22, 54, 40, 0.6);
+        box-shadow: 0 0 15px rgba(36, 216, 140, 0.3), inset 0 0 8px rgba(36, 216, 140, 0.2);
+      }
+      .vault-msg {
+        min-height: 24px;
+        margin-bottom: 18px;
+        font: 10px/1.3 var(--mono);
+        color: #8fa09d;
+        letter-spacing: .04em;
+        transition: color .2s ease;
+      }
+      .vault-msg.err {
+        color: #ff6b6d;
+        animation: shake-err .4s ease both;
+      }
+      .vault-msg.ok {
+        color: var(--green);
+      }
+      @keyframes shake-err {
+        0%, 100% { transform: translateX(0); }
+        20%, 60% { transform: translateX(-6px); }
+        40%, 80% { transform: translateX(6px); }
+      }
+      .keypad-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .key-btn {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(123, 147, 143, 0.22);
+        border-radius: 12px;
+        background: rgba(17, 24, 28, 0.7);
+        color: #e8e6db;
+        font: 16px var(--mono);
+        font-weight: 600;
+        transition: all .15s ease;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+      }
+      .key-btn:active {
+        transform: scale(0.94);
+        background: rgba(36, 216, 140, 0.25);
+        border-color: rgba(36, 216, 140, 0.6);
+        color: #fff;
+      }
+      .key-btn.action-btn {
+        font-size: 11px;
+        letter-spacing: .06em;
+        color: #9aa8a6;
+      }
+      .key-btn.submit-btn {
+        background: linear-gradient(135deg, rgba(36, 216, 140, 0.3), rgba(226, 184, 77, 0.3));
+        border-color: rgba(36, 216, 140, 0.6);
+        color: #f1f0e8;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .vault-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 10px;
+        padding: 5px 10px;
+        border-radius: 99px;
+        background: rgba(36, 216, 140, 0.08);
+        border: 1px solid rgba(36, 216, 140, 0.2);
+        color: var(--green-soft);
+        font: 8px var(--mono);
+        letter-spacing: .06em;
+        text-transform: uppercase;
+      }
+      .lock-out-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 5px 9px;
+        border: 1px solid rgba(217, 87, 89, 0.4);
+        border-radius: 8px;
+        background: rgba(217, 87, 89, 0.1);
+        color: #ff8b8d;
+        font: 9px var(--mono);
+        letter-spacing: .05em;
+        transition: all .2s ease;
+      }
+      .lock-out-btn:hover {
+        background: rgba(217, 87, 89, 0.25);
+        color: #fff;
+      }
+
       @media (min-width: 700px) {
         body { padding: 28px 0; }
         .terminal-frame { min-height: calc(100vh - 56px); border-radius: 24px; }
@@ -774,6 +937,126 @@
           loadHistory({ silent: false });
         }
 
+        // === AUTHENTICATION & LOCK SYSTEM ===
+        const AUTH_TOKEN_KEY = "jashvip_auth_token_v1um";
+        let isAuthenticated = false;
+        let enteredPin = "";
+        let isVerifying = false;
+        let pinMsg = "ENTER 4-DIGIT SECURITY CIPHER";
+        let pinStatus = ""; // "err", "ok", or ""
+
+        // Anti-Inspect / Security Guards
+        document.addEventListener("contextmenu", e => e.preventDefault());
+        document.addEventListener("keydown", e => {
+          if (
+            e.key === "F12" ||
+            ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) ||
+            ((e.ctrlKey || e.metaKey) && (e.key === "u" || e.key === "U"))
+          ) {
+            e.preventDefault();
+          }
+        });
+
+        // Keypad Input Handler
+        function handleKeypad(key) {
+          if (!isAuthenticated) {
+            if (isVerifying) return;
+            if (key === "del") {
+              enteredPin = enteredPin.slice(0, -1);
+              pinMsg = "ENTER 4-DIGIT SECURITY CIPHER";
+              pinStatus = "";
+              render();
+            } else if (key === "submit") {
+              if (enteredPin.length === 4) submitPin(enteredPin);
+            } else if (/^\d$/.test(key) && enteredPin.length < 4) {
+              enteredPin += key;
+              pinStatus = "";
+              render();
+              if (enteredPin.length === 4) {
+                submitPin(enteredPin);
+              }
+            }
+          }
+        }
+
+        // Server-Side PIN Verification
+        async function submitPin(pin) {
+          if (isVerifying || pin.length !== 4) return;
+          isVerifying = true;
+          pinMsg = "VERIFYING CIPHER WITH SERVER...";
+          pinStatus = "";
+          render();
+
+          try {
+            const res = await fetch("/api/verify-pin", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ pin })
+            });
+            const data = await res.json();
+
+            if (res.ok && data.success && data.token) {
+              sessionStorage.setItem(AUTH_TOKEN_KEY, data.token);
+              isAuthenticated = true;
+              isVerifying = false;
+              pinMsg = "ACCESS GRANTED · UNLOCKING...";
+              pinStatus = "ok";
+              render();
+              setTimeout(() => {
+                loadHistory({ silent: false });
+              }, 200);
+            } else {
+              isVerifying = false;
+              pinMsg = data.error || "ACCESS DENIED · INCORRECT CODE";
+              pinStatus = "err";
+              enteredPin = "";
+              render();
+            }
+          } catch (e) {
+            isVerifying = false;
+            pinMsg = "SERVER VERIFICATION ERROR · RETRY";
+            pinStatus = "err";
+            enteredPin = "";
+            render();
+          }
+        }
+
+        // Lock Vault / Logout
+        function lockVault() {
+          sessionStorage.removeItem(AUTH_TOKEN_KEY);
+          isAuthenticated = false;
+          enteredPin = "";
+          pinMsg = "VAULT LOCKED · ENTER PASSCODE";
+          pinStatus = "";
+          render();
+        }
+
+        // Validate Existing Session on Load
+        async function checkSavedSession() {
+          const token = sessionStorage.getItem(AUTH_TOKEN_KEY);
+          if (!token) {
+            isAuthenticated = false;
+            render();
+            return;
+          }
+          try {
+            const res = await fetch(`/api/verify-pin?token=${encodeURIComponent(token)}`);
+            const data = await res.json();
+            if (data && data.authenticated) {
+              isAuthenticated = true;
+              render();
+              loadHistory({ silent: false });
+            } else {
+              sessionStorage.removeItem(AUTH_TOKEN_KEY);
+              isAuthenticated = false;
+              render();
+            }
+          } catch (e) {
+            isAuthenticated = false;
+            render();
+          }
+        }
+
         // === COMPUTE STATS (ONLY WIN & LOSS) ===
         function getStats() {
           const total = savedHistory.length;
@@ -785,6 +1068,38 @@
 
         // === RENDER ===
         function render() {
+          // If NOT authenticated, render the Cyberpunk Lock Screen
+          if (!isAuthenticated) {
+            const dots = [0, 1, 2, 3].map(i => `<div class="pin-slot ${i < enteredPin.length ? 'filled' : ''}">${i < enteredPin.length ? '•' : ''}</div>`).join("");
+            app.innerHTML = `
+              <div class="vault-overlay">
+                <div class="vault-card">
+                  <div class="vault-icon-wrap">🔒</div>
+                  <h1 class="vault-title">JASH VIP VAULT</h1>
+                  <div class="vault-sub">APEX TITAN v1UM ENCRYPTED ACCESS</div>
+
+                  <div class="pin-slots">${dots}</div>
+                  <div class="vault-msg ${pinStatus}">${esc(pinMsg)}</div>
+
+                  <div class="keypad-grid">
+                    ${['1','2','3','4','5','6','7','8','9'].map(n => `<button class="key-btn" data-key="${n}">${n}</button>`).join("")}
+                    <button class="key-btn action-btn" data-key="del">⌫ DEL</button>
+                    <button class="key-btn" data-key="0">0</button>
+                    <button class="key-btn submit-btn" data-key="submit">${isVerifying ? '…' : 'UNLOCK ➔'}</button>
+                  </div>
+
+                  <div class="vault-badge">
+                    <span class="live-dot"></span>
+                    <span>SERVER-SIDE CIPHER VERIFIED</span>
+                  </div>
+                </div>
+              </div>
+            `;
+            bindKeypad();
+            return;
+          }
+
+          // Render Full Authenticated Terminal
           const lossStreak = getLossStreak();
           const prediction = state.results.length >= 3 ? predictApexTitanV1UM(state.results.map(r=>r.number).reverse(), lossStreak, currentMode) : null;
           state.prediction = prediction;
@@ -803,9 +1118,12 @@
                   <div class="brand-sub">APEX TITAN UNIVERSAL MASTER v1UM</div>
                 </div>
               </div>
-              <button class="filter-button is-active" data-action="sync" style="padding:6px 10px;border-radius:8px;font-size:9px">
-                <span class="live-dot"></span>${state.synced ? "LIVE" : state.loading ? "SYNCING…" : "RETRY"}
-              </button>
+              <div style="display:flex;align-items:center;gap:6px">
+                <button class="filter-button is-active" data-action="sync" style="padding:6px 10px;border-radius:8px;font-size:9px">
+                  <span class="live-dot"></span>${state.synced ? "LIVE" : state.loading ? "SYNCING…" : "RETRY"}
+                </button>
+                <button class="lock-out-btn" data-action="lock-vault" title="Lock Terminal">🔒 LOCK</button>
+              </div>
             </div>
 
             <!-- MODE SELECTOR (30S / 1M) -->
@@ -905,6 +1223,27 @@
           bind();
         }
 
+        function bindKeypad() {
+          app.querySelectorAll("[data-key]").forEach(btn => {
+            btn.addEventListener("click", () => {
+              handleKeypad(btn.dataset.key);
+            });
+          });
+        }
+
+        // Global Physical Keyboard Listener for PIN
+        window.addEventListener("keydown", e => {
+          if (!isAuthenticated) {
+            if (/^\d$/.test(e.key)) {
+              handleKeypad(e.key);
+            } else if (e.key === "Backspace") {
+              handleKeypad("del");
+            } else if (e.key === "Enter") {
+              handleKeypad("submit");
+            }
+          }
+        });
+
         function bind() {
           app.querySelectorAll("[data-action]").forEach(btn => {
             btn.addEventListener("click", () => {
@@ -912,13 +1251,14 @@
               if (action === "sync") loadHistory({ silent: false });
               else if (action === "filter") { state.filter = btn.dataset.filter; render(); }
               else if (action === "set-mode") { setGameMode(btn.dataset.mode); }
+              else if (action === "lock-vault") { lockVault(); }
             });
           });
         }
 
         // === LOAD DATA ===
         async function loadHistory({ silent = false } = {}) {
-          if (requestInFlight) return;
+          if (!isAuthenticated || requestInFlight) return;
           const reqMode = currentMode;
           requestInFlight = true;
           state.error = "";
@@ -938,7 +1278,7 @@
             const payload = await response.json();
             
             // Discard if user switched mode while request was in-flight
-            if (reqMode !== currentMode) return;
+            if (reqMode !== currentMode || !isAuthenticated) return;
 
             const rows = normalise(payload);
             if (!rows.length) throw new Error("No results returned");
@@ -960,11 +1300,11 @@
 
             updateCountdown();
           } catch (error) {
-            if (reqMode !== currentMode) return;
+            if (reqMode !== currentMode || !isAuthenticated) return;
             state.synced = false;
             state.error = error.name === "AbortError" ? "Live feed timed out." : `Feed error: ${error.message}`;
           } finally {
-            if (reqMode === currentMode) {
+            if (reqMode === currentMode && isAuthenticated) {
               requestInFlight = false;
               state.loading = false;
               if (!silent || changed || state.error) render();
@@ -973,6 +1313,7 @@
         }
 
         function updateCountdown() {
+          if (!isAuthenticated) return;
           const cfg = GAME_MODES[currentMode];
           const cycleMs = cfg.cycleSeconds * 1000;
           const serverNow = Date.now() + state.serverOffset;
@@ -986,6 +1327,7 @@
 
         // === TICK ===
         setInterval(() => {
+          if (!isAuthenticated) return;
           updateCountdown();
           if (state.seconds === 2 && boundaryRequestedFor !== state.targetPeriod) {
             boundaryRequestedFor = state.targetPeriod;
@@ -993,14 +1335,14 @@
           }
         }, 1000);
 
-        // Dynamic polling interval (every 5s for 30s mode, every 10s for 1m mode)
+        // Dynamic polling interval (every 6s)
         setInterval(() => {
+          if (!isAuthenticated) return;
           loadHistory({ silent: true });
         }, 6000);
 
-        // Initial
-        render();
-        loadHistory();
+        // Initial Session Check
+        checkSavedSession();
       })();
     </script>
   </body>
