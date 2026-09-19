@@ -22,7 +22,7 @@ def get_runs(sizes):
     runs.append((curr, l))
     return runs
 
-def predict_apex_titan_v80(nums, loss_streak=0):
+def predict_apex_titan_v90(nums, loss_streak=0):
     if len(nums) < 3:
         return "BIG", 7, "TITAN INITIALIZING"
     sizes = ["BIG" if n >= 5 else "SMALL" for n in nums][-50:]
@@ -30,7 +30,6 @@ def predict_apex_titan_v80(nums, loss_streak=0):
     
     c_side, c_len = runs[-1]
     p_side, p_len = runs[-2] if len(runs) >= 2 else (opp(c_side), 0)
-    p3_side, p3_len = runs[-3] if len(runs) >= 3 else (c_side, 0)
     last_s = sizes[-1]
     last_n = nums[-1]
     prev_n = nums[-2] if len(nums) >= 2 else last_n
@@ -45,9 +44,12 @@ def predict_apex_titan_v80(nums, loss_streak=0):
 
     # Level 3 Recovery (Zero-Loss Cascade Shield)
     if loss_streak >= 2:
-        if c_len >= 3:
+        if c_len >= 4:
             final_size = c_side
-            regime = f"🛑 LVL 3 DRAGON RIDE ({c_side} x{c_len})"
+            regime = f"🛑 LVL 3 MOMENTUM LOCK ({c_side} x{c_len})"
+        elif c_len == 3:
+            final_size = opp(c_side)
+            regime = f"🛑 LVL 3 DRAGON EXHAUSTION CUT ({opp(c_side)})"
         elif c_len == 2:
             final_size = c_side
             regime = f"🛑 LVL 3 DOUBLET RIDE ({c_side} x2)"
@@ -55,20 +57,26 @@ def predict_apex_titan_v80(nums, loss_streak=0):
             final_size = c_side
             regime = f"🛑 LVL 3 CHOP BREAK RIDE ({c_side})"
         elif alt >= 2:
-            final_size = opp(c_side)
-            regime = f"🛑 LVL 3 CHOP OSCILLATE ({opp(c_side)})"
+            final_size = opp(last_s)
+            regime = f"🛑 LVL 3 CHOP OSCILLATE ({opp(last_s)})"
         elif delta >= 5:
             final_size = opp(c_side)
             regime = f"🛑 LVL 3 VOLATILE DELTA BREAK (d={delta})"
         else:
-            final_size = opp(c_side)
-            regime = f"🛑 LVL 3 CASCADE SHIELD FLIP ({opp(c_side)})"
+            final_size = c_side
+            regime = f"🛑 LVL 3 MOMENTUM LOCK ({c_side})"
 
     # Level 2 Recovery (streak == 1)
     elif loss_streak == 1:
-        if c_len >= 3:
+        if c_len >= 4:
+            final_size = c_side
+            regime = f"🛡️ LVL 2 DRAGON RIDE ({c_side} x{c_len})"
+        elif c_len == 3:
             final_size = opp(c_side)
-            regime = f"🛡️ LVL 2 DRAGON EXHAUSTION CUT ({opp(c_side)})"
+            regime = f"🛡️ LVL 2 DRAGON CUT ({opp(c_side)})"
+        elif c_len == 2:
+            final_size = opp(c_side)
+            regime = f"🛡️ LVL 2 DOUBLET CUT ({opp(c_side)})"
         elif alt >= 3:
             final_size = opp(last_s)
             regime = f"🛡️ LVL 2 DEEP CHOP FLIP ({opp(last_s)})"
@@ -84,12 +92,12 @@ def predict_apex_titan_v80(nums, loss_streak=0):
 
     # Level 1 Base Prediction (streak == 0)
     else:
-        if c_len == 3 and p_len == 1 and p3_len == 3:
+        if c_len >= 4:
             final_size = c_side
-            regime = f"⚡ TRIPLET CADENCE FOLLOW ({c_side})"
-        elif c_len >= 3:
+            regime = f"🌊 DRAGON EXTENSION RIDE ({c_side} x{c_len})"
+        elif c_len == 3:
             final_size = opp(c_side)
-            regime = f"🐉 DRAGON EXHAUSTION CUT ({opp(c_side)} x{c_len})"
+            regime = f"🐉 DRAGON EXHAUSTION CUT ({opp(c_side)} x3)"
         elif alt >= 3:
             final_size = c_side
             regime = f"⚡ DEEP CHOP BREAK FLOW ({c_side})"
@@ -173,7 +181,7 @@ def main():
             next_period = str(int(latest_period) + 1)
             if next_period not in processed_periods:
                 nums_chronological = [x["number"] for x in reversed(history)]
-                pred_size, lucky_num, regime = predict_apex_titan_v80(nums_chronological, loss_streak)
+                pred_size, lucky_num, regime = predict_apex_titan_v90(nums_chronological, loss_streak)
                 current_stake = stakes[loss_streak]
                 
                 pending = {

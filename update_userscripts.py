@@ -4,11 +4,20 @@ import os
 files = [
     "/Users/jashwanthsingh/Downloads/signal_top1_follower.user.js",
     "/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V70_AUTOBET.user.js",
+    "/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V80_AUTOBET.user.js",
+    "/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V90_AUTOBET.user.js",
     "/Users/jashwanthsingh/Downloads/JASH_BOT.user.js",
     "/Users/jashwanthsingh/Downloads/jash_perc_win.user.js"
 ]
 
-NEW_PREDICTOR_CODE = """  function predictApexTitanV80(evidence, lossStreak = 0) {
+# If V80 exists and V90 doesn't, copy V80 to V90 first
+if os.path.exists("/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V80_AUTOBET.user.js"):
+    with open("/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V80_AUTOBET.user.js", "r", encoding="utf-8") as f:
+        src = f.read()
+    with open("/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V90_AUTOBET.user.js", "w", encoding="utf-8") as f:
+        f.write(src)
+
+NEW_PREDICTOR_CODE = """  function predictApexTitanV90(evidence, lossStreak = 0) {
     if (!evidence || evidence.length < 3) {
       return { size: 'BIG', number: 7, confidence: 70, regime: 'TITAN INITIALIZING' };
     }
@@ -25,10 +34,6 @@ NEW_PREDICTOR_CODE = """  function predictApexTitanV80(evidence, lossStreak = 0)
     const pSide = pRun.size;
     const pLen = pRun.len;
 
-    const p3Run = runs.length >= 3 ? runs.at(-3) : { size: cSide, len: 0 };
-    const p3Side = p3Run.size;
-    const p3Len = p3Run.len;
-
     const lastS = sizes.at(-1);
     const lastN = nums.at(-1);
     const prevN = nums.length >= 2 ? nums.at(-2) : lastN;
@@ -41,15 +46,18 @@ NEW_PREDICTOR_CODE = """  function predictApexTitanV80(evidence, lossStreak = 0)
     }
 
     let finalSize = 'BIG';
-    let regime = 'TITAN V80';
+    let regime = 'TITAN V90';
     let conf = 88;
 
     // --- LEVEL 3 RECOVERY (STREAK >= 2: ZERO-LOSS CASCADE SHIELD) ---
     if (lossStreak >= 2) {
       conf = 99;
-      if (cLen >= 3) {
+      if (cLen >= 4) {
         finalSize = cSide;
-        regime = `🛑 LVL 3 DRAGON RIDE (${cSide} x${cLen})`;
+        regime = `🛑 LVL 3 MOMENTUM LOCK (${cSide} x${cLen})`;
+      } else if (cLen === 3) {
+        finalSize = opp(cSide);
+        regime = `🛑 LVL 3 DRAGON EXHAUSTION CUT (${opp(cSide)})`;
       } else if (cLen === 2) {
         finalSize = cSide;
         regime = `🛑 LVL 3 DOUBLET RIDE (${cSide} x2)`;
@@ -57,22 +65,28 @@ NEW_PREDICTOR_CODE = """  function predictApexTitanV80(evidence, lossStreak = 0)
         finalSize = cSide;
         regime = `🛑 LVL 3 CHOP BREAK RIDE (${cSide})`;
       } else if (alt >= 2) {
-        finalSize = opp(cSide);
-        regime = `🛑 LVL 3 CHOP OSCILLATE (${opp(cSide)})`;
+        finalSize = opp(lastS);
+        regime = `🛑 LVL 3 CHOP OSCILLATE (${opp(lastS)})`;
       } else if (delta >= 5) {
         finalSize = opp(cSide);
         regime = `🛑 LVL 3 VOLATILE DELTA BREAK (d=${delta})`;
       } else {
-        finalSize = opp(cSide);
-        regime = `🛑 LVL 3 CASCADE SHIELD FLIP (${opp(cSide)})`;
+        finalSize = cSide;
+        regime = `🛑 LVL 3 MOMENTUM LOCK (${cSide})`;
       }
     }
     // --- LEVEL 2 RECOVERY (STREAK == 1) ---
     else if (lossStreak === 1) {
       conf = 95;
-      if (cLen >= 3) {
+      if (cLen >= 4) {
+        finalSize = cSide;
+        regime = `🛡️ LVL 2 DRAGON RIDE (${cSide} x${cLen})`;
+      } else if (cLen === 3) {
         finalSize = opp(cSide);
-        regime = `🛡️ LVL 2 DRAGON EXHAUSTION CUT (${opp(cSide)})`;
+        regime = `🛡️ LVL 2 DRAGON CUT (${opp(cSide)})`;
+      } else if (cLen === 2) {
+        finalSize = opp(cSide);
+        regime = `🛡️ LVL 2 DOUBLET CUT (${opp(cSide)})`;
       } else if (alt >= 3) {
         finalSize = opp(lastS);
         regime = `🛡️ LVL 2 DEEP CHOP FLIP (${opp(lastS)})`;
@@ -89,13 +103,13 @@ NEW_PREDICTOR_CODE = """  function predictApexTitanV80(evidence, lossStreak = 0)
     }
     // --- LEVEL 1 BASE PREDICTION (STREAK == 0) ---
     else {
-      if (cLen === 3 && pLen === 1 && p3Len === 3) {
+      if (cLen >= 4) {
         finalSize = cSide;
-        regime = `⚡ TRIPLET CADENCE FOLLOW (${cSide})`;
+        regime = `🌊 DRAGON EXTENSION RIDE (${cSide} x${cLen})`;
         conf = 94;
-      } else if (cLen >= 3) {
+      } else if (cLen === 3) {
         finalSize = opp(cSide);
-        regime = `🐉 DRAGON EXHAUSTION CUT (${opp(cSide)} x${cLen})`;
+        regime = `🐉 DRAGON EXHAUSTION CUT (${opp(cSide)} x3)`;
         conf = 96;
       } else if (alt >= 3) {
         finalSize = cSide;
@@ -130,15 +144,14 @@ for fpath in files:
         content = f.read()
     
     # Replace function definition
-    content = re.sub(r'function predictApexTitanV70\(evidence, lossStreak = 0\) \{[\s\S]*?return \{ size: finalSize, number: bestNum, confidence: conf, regime \};\s*\}', NEW_PREDICTOR_CODE, content)
+    content = re.sub(r'function predictApexTitanV[0-9]+\(evidence, lossStreak = 0\) \{[\s\S]*?return \{ size: finalSize, number: bestNum, confidence: conf, regime \};\s*\}', NEW_PREDICTOR_CODE, content)
     
-    # Replace function calls
-    content = content.replace("predictApexTitanV70", "predictApexTitanV80")
-    content = content.replace("V70", "V80")
-    content = content.replace("v70", "v80")
+    # Replace function calls and strings
+    content = re.sub(r'predictApexTitanV[0-9]+', 'predictApexTitanV90', content)
+    content = content.replace("V80", "V90").replace("v80", "v90").replace("V81", "V90").replace("v81", "v90").replace("V70", "V90").replace("v70", "v90")
     
     with open(fpath, "w", encoding="utf-8") as f:
         f.write(content)
     print(f"Updated {fpath}")
 
-print("All userscripts updated successfully!")
+print("All userscripts updated successfully to Apex Titan V90!")
