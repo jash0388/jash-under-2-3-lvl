@@ -1,12 +1,24 @@
 import re
 import os
 
+# Create V1UM script from V100 or V90
+src_script = "/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V100_AUTOBET.user.js"
+if not os.path.exists(src_script):
+    src_script = "/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V90_AUTOBET.user.js"
+
+if os.path.exists(src_script):
+    with open(src_script, "r", encoding="utf-8") as f:
+        src = f.read()
+    with open("/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V1UM_AUTOBET.user.js", "w", encoding="utf-8") as f:
+        f.write(src)
+
 files = [
     "/Users/jashwanthsingh/Downloads/signal_top1_follower.user.js",
-    "/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V70_AUTOBET.user.js",
-    "/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V80_AUTOBET.user.js",
-    "/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V90_AUTOBET.user.js",
+    "/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V1UM_AUTOBET.user.js",
     "/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V100_AUTOBET.user.js",
+    "/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V90_AUTOBET.user.js",
+    "/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V80_AUTOBET.user.js",
+    "/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V70_AUTOBET.user.js",
     "/Users/jashwanthsingh/Downloads/JASH_BOT.user.js",
     "/Users/jashwanthsingh/Downloads/jash_perc_win.user.js"
 ]
@@ -206,8 +218,8 @@ NEW_PREDICTOR_CODE = """  // === 30S CADENCE ZERO-LOSS ENGINE ===
     return { finalSize, regime, conf };
   }
 
-  // === APEX TITAN NEURAL MASTER (V100) ===
-  function predictApexTitanV100(evidence, lossStreak = 0, mode = '30S') {
+  // === APEX TITAN UNIVERSAL MASTER (v1UM) ===
+  function predictApexTitanV1UM(evidence, lossStreak = 0, mode = '30S') {
     if (!evidence || evidence.length < 3) {
       return { size: 'BIG', number: 7, confidence: 70, regime: 'TITAN INITIALIZING' };
     }
@@ -235,15 +247,15 @@ for fpath in files:
         content = f.read()
     
     # Replace old predictor function
-    content = re.sub(r'function predictApexTitanV[0-9]+\(evidence, lossStreak = 0\) \{[\s\S]*?return \{ size: finalSize, number: bestNum, confidence: conf, regime \};\s*\}', NEW_PREDICTOR_CODE, content)
+    content = re.sub(r'function predictApexTitanV[0-9A-Za-z]+\(evidence, lossStreak = 0\) \{[\s\S]*?return \{ size: finalSize, number: bestNum, confidence: conf, regime \};\s*\}', NEW_PREDICTOR_CODE, content)
     content = re.sub(r'// === 30S CADENCE ZERO-LOSS ENGINE ===[\s\S]*?return \{ size: res\.finalSize, number: bestNum, confidence: res\.conf, regime: res\.regime \};\s*\}', NEW_PREDICTOR_CODE, content)
 
     # Replace function calls and strings
-    content = re.sub(r'predictApexTitanV[0-9]+', 'predictApexTitanV100', content)
-    content = content.replace("V90", "V100").replace("v90", "v100")
+    content = re.sub(r'predictApexTitanV[0-9A-Za-z]+', 'predictApexTitanV1UM', content)
+    content = re.sub(r'V100|v100|V90|v90|V80|v80|V70|v70', 'v1UM', content)
     
     with open(fpath, "w", encoding="utf-8") as f:
         f.write(content)
     print(f"Updated {fpath}")
 
-print("All userscripts successfully updated to Apex Titan V100!")
+print("All userscripts successfully updated to Apex Titan v1UM!")

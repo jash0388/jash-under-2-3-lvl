@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#090b10" />
-    <meta name="description" content="JASH VIP — Apex Titan Zero-Loss Shield 30S & 1M Top 1 Live Signal Terminal" />
-    <title>JASH VIP — Top 1 Signal (Apex Titan Zero-Loss Shield)</title>
+    <meta name="description" content="JASH VIP — Apex Titan v1UM Universal Master 30S & 1M Top 1 Live Signal Terminal" />
+    <title>JASH VIP — Top 1 Signal (Apex Titan v1UM Universal Master)</title>
     <style>
       :root {
         --ink: #090b10;
@@ -264,7 +264,7 @@
 
     <script>
       (() => {
-        const MODE_KEY = "jashvip_selected_mode_v100";
+        const MODE_KEY = "jashvip_selected_mode_v1um";
         const MAX_HISTORY = 100;
 
         // Supported Game Modes
@@ -274,16 +274,16 @@
             name: "WinGo 30S",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json",
             cycleSeconds: 30,
-            storageKey: "jashvip_top1_hist_30s_v100",
-            pendingKey: "jashvip_pending_30s_v100"
+            storageKey: "jashvip_top1_hist_30s_v1um",
+            pendingKey: "jashvip_pending_30s_v1um"
           },
           "1M": {
             id: "1M",
             name: "WinGo 1M",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json",
             cycleSeconds: 60,
-            storageKey: "jashvip_top1_hist_1m_v100",
-            pendingKey: "jashvip_pending_1m_v100"
+            storageKey: "jashvip_top1_hist_1m_v1um",
+            pendingKey: "jashvip_pending_1m_v1um"
           }
         };
 
@@ -505,8 +505,8 @@
           return { finalSize, regime, conf };
         }
 
-        // === APEX TITAN NEURAL MASTER (V100) ===
-        function predictApexTitanV100(evidence, lossStreak = 0, mode = currentMode) {
+        // === APEX TITAN UNIVERSAL MASTER (v1UM) ===
+        function predictApexTitanV1UM(evidence, lossStreak = 0, mode = currentMode) {
           if (!evidence || evidence.length < 3) {
             return { size: "BIG", number: 7, confidence: 70, regime: "TITAN INITIALIZING" };
           }
@@ -638,7 +638,7 @@
           if (!targetPeriod || targetPeriod === "—" || results.length < 3) return;
           if (!isValidPeriodForMode(targetPeriod, reqMode)) return;
           const currentLossStreak = getLossStreak();
-          const pred = predictApexTitanV100(results.map(r => r.number).reverse(), currentLossStreak, reqMode);
+          const pred = predictApexTitanV1UM(results.map(r => r.number).reverse(), currentLossStreak, reqMode);
           if (!pred) return;
           if (pendingPrediction && pendingPrediction.period === targetPeriod && pendingPrediction.mode === reqMode) return;
           pendingPrediction = {
@@ -677,7 +677,7 @@
                   predNumber: pendingPrediction.predNumber,
                   predSize: pendingPrediction.predSize,
                   status,
-                  regime: pendingPrediction.regime || "TITAN V100",
+                  regime: pendingPrediction.regime || "TITAN v1UM",
                   confidence: pendingPrediction.confidence,
                   timestamp: Date.now()
                 };
@@ -707,7 +707,7 @@
           missingRows.forEach(({ row, index }) => {
             const older = results.slice(index + 1).map(r => r.number).reverse();
             if (older.length >= 3) {
-              const pred = predictApexTitanV100(older, runningLossStreak, reqMode);
+              const pred = predictApexTitanV1UM(older, runningLossStreak, reqMode);
               if (pred) {
                 const status = statusFor(pred, row);
                 savedHistory.push({
@@ -718,7 +718,7 @@
                   predNumber: pred.number,
                   predSize: pred.size,
                   status,
-                  regime: pred.regime || "TITAN V100",
+                  regime: pred.regime || "TITAN v1UM",
                   confidence: pred.confidence,
                   timestamp: Date.now()
                 });
@@ -786,7 +786,7 @@
         // === RENDER ===
         function render() {
           const lossStreak = getLossStreak();
-          const prediction = state.results.length >= 3 ? predictApexTitanV100(state.results.map(r=>r.number).reverse(), lossStreak, currentMode) : null;
+          const prediction = state.results.length >= 3 ? predictApexTitanV1UM(state.results.map(r=>r.number).reverse(), lossStreak, currentMode) : null;
           state.prediction = prediction;
 
           const level = getCurrentLevel();
@@ -800,7 +800,7 @@
                 <div class="brand-mark">ϟ</div>
                 <div>
                   <div class="brand-name">JASH VIP</div>
-                  <div class="brand-sub">APEX TITAN DUAL-CADENCE V100</div>
+                  <div class="brand-sub">APEX TITAN UNIVERSAL MASTER v1UM</div>
                 </div>
               </div>
               <button class="filter-button is-active" data-action="sync" style="padding:6px 10px;border-radius:8px;font-size:9px">
@@ -834,7 +834,7 @@
                 <span class="top1-badge">👑 NEURAL MASTER · ${GAME_MODES[currentMode].name}</span>
                 <span style="color:var(--green)">${stats.rate}% HIT · ${stats.wins}W/${stats.total}T</span>
               </div>
-              <div class="top1-channel">APEX TITAN V100 (CASCADE-FREE ZERO LOSS SHIELD)</div>
+              <div class="top1-channel">APEX TITAN v1UM (CASCADE-FREE ZERO LOSS SHIELD)</div>
               <div class="top1-engine">${prediction ? `⚡ REGIME: ${esc(prediction.regime)}` : "CALIBRATING ENGINES…"}</div>
             </div>
 
@@ -862,7 +862,7 @@
                 <span>${prediction ? esc(prediction.size) : "WAIT"}</span>
                 <span class="signal-number">${prediction ? esc(prediction.number) : "—"}</span>
               </div>
-              <p class="api-note"><strong>Titan V100 Rules:</strong> Anti-Doublet Trap + Dual-Cadence Mode Optimization (Strict &le; 2 Max Losses across all market sequences).</p>
+              <p class="api-note"><strong>Titan v1UM Rules:</strong> Anti-Doublet Trap + Dual-Cadence Mode Optimization (Strict &le; 2 Max Losses across all market sequences).</p>
             </div>
 
             <!-- STATS (CLEAN 3 BOXES: HIT RATE, WINS, LOSSES) -->
