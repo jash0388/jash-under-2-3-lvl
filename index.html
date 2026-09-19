@@ -190,9 +190,13 @@
       .history-controls { display: flex; gap: 4px; }
       .filter-button { padding: 4px 6px; border-radius: 5px; color: #768182; font: 8px var(--mono); }
       .filter-button.is-active { color: #0d1612; background: var(--green); }
+      .history-scroll-wrap { max-height: 480px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(36,216,140,.3) transparent; }
+      .history-scroll-wrap::-webkit-scrollbar { width: 4px; }
+      .history-scroll-wrap::-webkit-scrollbar-thumb { background: rgba(36,216,140,.3); border-radius: 4px; }
       .history-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
       .history-table th {
-        padding: 8px 4px; color: #3fbd83; background: rgba(0,45,30,.24);
+        position: sticky; top: 0; z-index: 2;
+        padding: 8px 4px; color: #3fbd83; background: #0c1815;
         font: 8px var(--mono); font-weight: 500; text-align: left;
       }
       .history-table th:first-child, .history-table td:first-child { width: 24%; padding-left: 10px; }
@@ -261,7 +265,7 @@
     <script>
       (() => {
         const MODE_KEY = "jashvip_selected_mode_v80";
-        const MAX_HISTORY = 20;
+        const MAX_HISTORY = 100;
 
         // Supported Game Modes
         const GAME_MODES = {
@@ -589,7 +593,7 @@
           const existingPeriods = new Set(savedHistory.map(h => h.period));
           const missingRows = [];
 
-          results.slice(0, 15).forEach((row, i) => {
+          results.forEach((row, i) => {
             if (!existingPeriods.has(row.period) && isValidPeriodForMode(row.period, reqMode)) {
               missingRows.push({ row, index: i });
             }
@@ -777,7 +781,7 @@
                 </div>
               </div>
               ${state.loading && !state.results.length ? `<div class="loading-row">Reading live ${GAME_MODES[currentMode].name} feed…</div>` :
-                visible.length ? `<table class="history-table">
+                visible.length ? `<div class="history-scroll-wrap"><table class="history-table">
                   <thead><tr><th>Period</th><th>No.</th><th>Signal</th><th>Result</th><th>Status</th></tr></thead>
                   <tbody>
                     ${visible.map((h, i) => `<tr class="${i===0?'current':''}">
@@ -788,7 +792,7 @@
                       <td>${statusChip(h.status)}<span class="channel-tag">${esc((h.regime||'TITAN').replace(/🐉|⚡|🧠|⚖️|🛡️|🛑|👑|🌊|🧬/g,'').trim().split(' ')[0])}</span></td>
                     </tr>`).join("")}
                   </tbody>
-                </table>` : `<div class="history-empty">No saved predictions yet for ${GAME_MODES[currentMode].name}. Builds as rounds complete.</div>`}
+                </table></div>` : `<div class="history-empty">No saved predictions yet for ${GAME_MODES[currentMode].name}. Builds as rounds complete.</div>`}
             </div>
 
             <div class="detail-footer">
