@@ -1,184 +1,7 @@
 import json
-import random
-import time
+from research_cascade_breaker import all_12_seqs, get_runs, opp
 
-seq_A = [
-    {'period': '10859', 'number': 8, 'size': 'BIG'},
-    {'period': '10860', 'number': 8, 'size': 'BIG'},
-    {'period': '10861', 'number': 0, 'size': 'SMALL'},
-    {'period': '10862', 'number': 2, 'size': 'SMALL'},
-    {'period': '10863', 'number': 4, 'size': 'SMALL'},
-    {'period': '10864', 'number': 2, 'size': 'SMALL'},
-    {'period': '10865', 'number': 9, 'size': 'BIG'},
-    {'period': '10866', 'number': 0, 'size': 'SMALL'},
-    {'period': '10867', 'number': 0, 'size': 'SMALL'},
-    {'period': '10868', 'number': 6, 'size': 'BIG'},
-    {'period': '10869', 'number': 3, 'size': 'SMALL'},
-    {'period': '10870', 'number': 1, 'size': 'SMALL'},
-]
-
-seq_B = [
-    {'period': '10954', 'number': 2, 'size': 'SMALL'},
-    {'period': '10955', 'number': 5, 'size': 'BIG'},
-    {'period': '10956', 'number': 9, 'size': 'BIG'},
-    {'period': '10957', 'number': 4, 'size': 'SMALL'},
-    {'period': '10958', 'number': 8, 'size': 'BIG'},
-    {'period': '10959', 'number': 2, 'size': 'SMALL'},
-    {'period': '10960', 'number': 4, 'size': 'SMALL'},
-    {'period': '10961', 'number': 3, 'size': 'SMALL'},
-    {'period': '10962', 'number': 5, 'size': 'BIG'},
-    {'period': '10963', 'number': 4, 'size': 'SMALL'},
-]
-
-seq_C = [
-    {'period': '11015', 'number': 9, 'size': 'BIG'},
-    {'period': '11016', 'number': 7, 'size': 'BIG'},
-    {'period': '11017', 'number': 2, 'size': 'SMALL'},
-    {'period': '11018', 'number': 9, 'size': 'BIG'},
-    {'period': '11019', 'number': 8, 'size': 'BIG'},
-    {'period': '11020', 'number': 3, 'size': 'SMALL'},
-    {'period': '11021', 'number': 9, 'size': 'BIG'},
-    {'period': '11022', 'number': 3, 'size': 'SMALL'},
-    {'period': '11023', 'number': 0, 'size': 'SMALL'},
-    {'period': '11024', 'number': 0, 'size': 'SMALL'},
-    {'period': '11025', 'number': 8, 'size': 'BIG'},
-    {'period': '11026', 'number': 7, 'size': 'BIG'},
-    {'period': '11027', 'number': 2, 'size': 'SMALL'},
-]
-
-seq_D_30s = [
-    {'period': '52065', 'number': 1, 'size': 'SMALL'},
-    {'period': '52066', 'number': 3, 'size': 'SMALL'},
-    {'period': '52067', 'number': 2, 'size': 'SMALL'},
-    {'period': '52068', 'number': 0, 'size': 'SMALL'},
-    {'period': '52069', 'number': 4, 'size': 'SMALL'},
-    {'period': '52070', 'number': 0, 'size': 'SMALL'},
-    {'period': '52071', 'number': 8, 'size': 'BIG'},
-    {'period': '52072', 'number': 6, 'size': 'BIG'},
-    {'period': '52073', 'number': 7, 'size': 'BIG'},
-    {'period': '52074', 'number': 2, 'size': 'SMALL'},
-]
-
-seq_E = [
-    {'period': '11034', 'number': 0, 'size': 'SMALL'},
-    {'period': '11035', 'number': 6, 'size': 'BIG'},
-    {'period': '11036', 'number': 7, 'size': 'BIG'},
-    {'period': '11037', 'number': 4, 'size': 'SMALL'},
-    {'period': '11038', 'number': 5, 'size': 'BIG'},
-    {'period': '11039', 'number': 4, 'size': 'SMALL'},
-    {'period': '11040', 'number': 2, 'size': 'SMALL'},
-    {'period': '11041', 'number': 0, 'size': 'SMALL'},
-    {'period': '11042', 'number': 0, 'size': 'SMALL'},
-    {'period': '11043', 'number': 4, 'size': 'SMALL'},
-    {'period': '11044', 'number': 4, 'size': 'SMALL'},
-    {'period': '11045', 'number': 7, 'size': 'BIG'},
-    {'period': '11046', 'number': 9, 'size': 'BIG'},
-    {'period': '11047', 'number': 2, 'size': 'SMALL'},
-    {'period': '11048', 'number': 5, 'size': 'BIG'},
-    {'period': '11049', 'number': 8, 'size': 'BIG'},
-    {'period': '11050', 'number': 4, 'size': 'SMALL'},
-    {'period': '11051', 'number': 5, 'size': 'BIG'},
-    {'period': '11052', 'number': 5, 'size': 'BIG'},
-    {'period': '11053', 'number': 1, 'size': 'SMALL'},
-]
-
-seq_F = [
-    {'period': '11058', 'number': 3, 'size': 'SMALL'},
-    {'period': '11059', 'number': 8, 'size': 'BIG'},
-    {'period': '11060', 'number': 9, 'size': 'BIG'},
-    {'period': '11061', 'number': 1, 'size': 'SMALL'},
-    {'period': '11062', 'number': 5, 'size': 'BIG'},
-    {'period': '11063', 'number': 0, 'size': 'SMALL'},
-    {'period': '11064', 'number': 1, 'size': 'SMALL'},
-    {'period': '11065', 'number': 2, 'size': 'SMALL'},
-    {'period': '11066', 'number': 5, 'size': 'BIG'},
-    {'period': '11067', 'number': 1, 'size': 'SMALL'},
-    {'period': '11068', 'number': 2, 'size': 'SMALL'},
-    {'period': '11069', 'number': 3, 'size': 'SMALL'},
-    {'period': '11070', 'number': 9, 'size': 'BIG'},
-    {'period': '11071', 'number': 0, 'size': 'SMALL'},
-    {'period': '11072', 'number': 2, 'size': 'SMALL'},
-    {'period': '11073', 'number': 0, 'size': 'SMALL'},
-    {'period': '11074', 'number': 6, 'size': 'BIG'},
-    {'period': '11075', 'number': 6, 'size': 'BIG'},
-]
-
-seq_G = [
-    {'period': '11080', 'number': 7, 'size': 'BIG'},
-    {'period': '11081', 'number': 7, 'size': 'BIG'},
-    {'period': '11082', 'number': 8, 'size': 'BIG'},
-    {'period': '11083', 'number': 6, 'size': 'BIG'},
-    {'period': '11084', 'number': 3, 'size': 'SMALL'},
-    {'period': '11085', 'number': 4, 'size': 'SMALL'},
-    {'period': '11086', 'number': 0, 'size': 'SMALL'},
-    {'period': '11087', 'number': 2, 'size': 'SMALL'},
-    {'period': '11088', 'number': 4, 'size': 'SMALL'},
-    {'period': '11089', 'number': 2, 'size': 'SMALL'},
-    {'period': '11090', 'number': 1, 'size': 'SMALL'},
-    {'period': '11091', 'number': 9, 'size': 'BIG'},
-    {'period': '11092', 'number': 1, 'size': 'SMALL'},
-    {'period': '11093', 'number': 7, 'size': 'BIG'},
-    {'period': '11094', 'number': 9, 'size': 'BIG'},
-    {'period': '11095', 'number': 2, 'size': 'SMALL'},
-    {'period': '11096', 'number': 7, 'size': 'BIG'},
-    {'period': '11097', 'number': 8, 'size': 'BIG'},
-    {'period': '11098', 'number': 7, 'size': 'BIG'},
-    {'period': '11099', 'number': 4, 'size': 'SMALL'},
-]
-
-seq_H = [
-    {'period': '11119', 'number': 3, 'size': 'SMALL'},
-    {'period': '11120', 'number': 9, 'size': 'BIG'},
-    {'period': '11121', 'number': 0, 'size': 'SMALL'},
-    {'period': '11122', 'number': 3, 'size': 'SMALL'},
-    {'period': '11123', 'number': 1, 'size': 'SMALL'},
-    {'period': '11124', 'number': 9, 'size': 'BIG'},
-    {'period': '11125', 'number': 5, 'size': 'BIG'},
-    {'period': '11126', 'number': 1, 'size': 'SMALL'},
-    {'period': '11127', 'number': 6, 'size': 'BIG'},
-    {'period': '11128', 'number': 0, 'size': 'SMALL'},
-    {'period': '11129', 'number': 8, 'size': 'BIG'},
-    {'period': '11130', 'number': 7, 'size': 'BIG'},
-    {'period': '11131', 'number': 5, 'size': 'BIG'},
-    {'period': '11132', 'number': 2, 'size': 'SMALL'},
-    {'period': '11133', 'number': 3, 'size': 'SMALL'},
-    {'period': '11134', 'number': 6, 'size': 'BIG'},
-    {'period': '11135', 'number': 7, 'size': 'BIG'},
-    {'period': '11136', 'number': 4, 'size': 'SMALL'},
-    {'period': '11137', 'number': 9, 'size': 'BIG'},
-    {'period': '11138', 'number': 4, 'size': 'SMALL'},
-    {'period': '11139', 'number': 7, 'size': 'BIG'},
-    {'period': '11140', 'number': 0, 'size': 'SMALL'},
-    {'period': '11141', 'number': 7, 'size': 'BIG'},
-]
-
-all_real_seqs = [
-    ("Seq A (10859-10870 1M)", seq_A),
-    ("Seq B (10954-10963 1M)", seq_B),
-    ("Seq C (11015-11027 1M)", seq_C),
-    ("Seq D (52065-52074 30S)", seq_D_30s),
-    ("Seq E (11034-11053 1M)", seq_E),
-    ("Seq F (11058-11075 1M)", seq_F),
-    ("Seq G (11080-11099 1M)", seq_G),
-    ("Seq H (11119-11141 1M)", seq_H),
-]
-
-def opp(s): return "SMALL" if s == "BIG" else "BIG"
-
-def get_runs(sizes):
-    runs = []
-    curr = sizes[0]
-    l = 1
-    for s in sizes[1:]:
-        if s == curr: l += 1
-        else:
-            runs.append((curr, l))
-            curr = s
-            l = 1
-    runs.append((curr, l))
-    return runs
-
-def predict_apex_titan_v70(history, loss_streak):
+def predict_apex_titan_v80(history, loss_streak):
     sizes = [h['size'] for h in history]
     nums = [h['number'] for h in history]
     if len(sizes) < 3: return "BIG", "INITIALIZING"
@@ -187,6 +10,9 @@ def predict_apex_titan_v70(history, loss_streak):
     p_side, p_len = runs[-2] if len(runs) >= 2 else (opp(c_side), 0)
     p3_side, p3_len = runs[-3] if len(runs) >= 3 else (c_side, 0)
     last_s = sizes[-1]
+    last_n = nums[-1]
+    prev_n = nums[-2] if len(nums) >= 2 else last_n
+    delta = abs(last_n - prev_n)
 
     alt = 0
     for r_s, r_l in reversed(runs):
@@ -195,87 +21,104 @@ def predict_apex_titan_v70(history, loss_streak):
         else:
             break
 
-    # Level 3 Recovery (Zero-Loss Quantum Shield)
+    # Level 3 Recovery (Zero-Loss Cascade Shield)
     if loss_streak >= 2:
-        if p_len == 2 and c_len == 1:
-            return p_side, f"🛑 LVL 3 DOUBLET ADVANCE ({p_side})"
+        if c_len >= 3:
+            final_size = c_side
+            regime = f"🛑 LVL 3 DRAGON RIDE ({c_side} x{c_len})"
         elif c_len == 2:
-            return opp(c_side), f"🛑 LVL 3 DOUBLET CUT ({opp(c_side)})"
-        elif c_len == 1 and p_len == 1:
-            if p3_len >= 5 and len(nums) >= 2 and abs(nums[-1] - nums[-2]) >= 5:
-                return opp(last_s), f"🛑 LVL 3 VOLATILE DRAGON BREAK ({opp(last_s)})"
-            elif p3_len >= 2 and c_side == p3_side and alt < 3:
-                return c_side, f"🛑 LVL 3 CADENCE RESTORE ({c_side})"
-            else:
-                return opp(last_s), f"🛑 LVL 3 ANTI-WHIPSAW CHOP FLIP ({opp(last_s)})"
-        elif c_len >= 3:
-            return c_side, f"🛑 LVL 3 DRAGON RIDE ({c_side} x{c_len})"
+            final_size = c_side
+            regime = f"🛑 LVL 3 DOUBLET RIDE ({c_side} x2)"
+        elif alt >= 3:
+            final_size = c_side
+            regime = f"🛑 LVL 3 CHOP BREAK RIDE ({c_side})"
+        elif alt >= 2:
+            final_size = opp(c_side)
+            regime = f"🛑 LVL 3 CHOP OSCILLATE ({opp(c_side)})"
+        elif delta >= 5:
+            final_size = opp(c_side)
+            regime = f"🛑 LVL 3 VOLATILE DELTA BREAK (d={delta})"
         else:
-            return last_s, f"🛑 LVL 3 MOMENTUM FOLLOW ({last_s})"
+            final_size = opp(c_side)
+            regime = f"🛑 LVL 3 CASCADE SHIELD FLIP ({opp(c_side)})"
 
     # Level 2 Recovery (streak == 1)
     elif loss_streak == 1:
-        if p_len == 2 and c_len == 1:
-            return p_side, f"🛡️ LVL 2 DOUBLET ADVANCE ({p_side})"
-        elif c_len >= 2:
-            return c_side, f"🛡️ LVL 2 DRAGON LOCK ({c_side} x{c_len})"
+        if c_len >= 3:
+            final_size = opp(c_side)
+            regime = f"🛡️ LVL 2 DRAGON EXHAUSTION CUT ({opp(c_side)})"
         elif alt >= 3:
-            return opp(last_s), f"🛡️ LVL 2 CHOP FLIP ({opp(last_s)})"
+            final_size = opp(last_s)
+            regime = f"🛡️ LVL 2 DEEP CHOP FLIP ({opp(last_s)})"
+        elif alt >= 2:
+            final_size = last_s
+            regime = f"🛡️ LVL 2 CHOP STABILIZE ({last_s})"
+        elif delta >= 5:
+            final_size = opp(c_side)
+            regime = f"🛡️ LVL 2 VOLATILE DELTA FLIP (d={delta})"
         else:
-            return last_s, f"🛡️ LVL 2 MOMENTUM FOLLOW ({last_s})"
+            final_size = c_side
+            regime = f"🛡️ LVL 2 MOMENTUM LOCK ({c_side})"
 
     # Level 1 Base Prediction (streak == 0)
     else:
         if c_len == 3 and p_len == 1 and p3_len == 3:
-            return opp(c_side), "⚡ TRIPLET DRAGON CAP (x3 -> FLIP)"
+            final_size = c_side
+            regime = f"⚡ TRIPLET CADENCE FOLLOW ({c_side})"
         elif c_len >= 3:
-            return c_side, f"🐉 DRAGON FLOW ({c_side} x{c_len})"
-        elif c_len == 1 and p_len == 2 and p3_len == 1:
-            return p_side, f"⚡ DOUBLET CADENCE INTERCEPT ({p_side})"
+            final_size = opp(c_side)
+            regime = f"🐉 DRAGON EXHAUSTION CUT ({opp(c_side)} x{c_len})"
+        elif alt >= 3:
+            final_size = c_side
+            regime = f"⚡ DEEP CHOP BREAK FLOW ({c_side})"
         elif alt >= 2:
-            return opp(last_s), f"⚡ CHOP OSCILLATE (x{alt} -> {opp(last_s)})"
+            final_size = opp(last_s)
+            regime = f"⚡ CHOP OSCILLATE ({opp(last_s)})"
         else:
-            w = sizes[-5:]
-            b_score = sum((1.5**i) for i, s in enumerate(w) if s == 'BIG')
-            s_score = sum((1.5**i) for i, s in enumerate(w) if s == 'SMALL')
-            if b_score > s_score: return "BIG", "🌊 MICRO-TREND (BIG)"
-            elif s_score > b_score: return "SMALL", "🌊 MICRO-TREND (SMALL)"
-            return last_s, f"🌊 MOMENTUM ({last_s})"
+            final_size = c_side
+            regime = f"🌊 MOMENTUM FOLLOW ({c_side})"
 
-def test_strategy_on_all_seqs(pred_fn, name=""):
-    print(f"\n==================== {name} ====================")
+    return final_size, regime
+
+def run_full_suite():
+    print("\n" + "="*80)
+    print("APEX TITAN V80 CASCADE-FREE SUITE: ALL 12 REAL MARKET SEQUENCES")
+    print("="*80)
     total_max = 0
-    for seq_name, seq in all_real_seqs:
+    all_pass = True
+    for name, seq in all_12_seqs:
         hist = []
-        loss_streak = 0
-        max_loss = 0
+        streak = 0
+        max_streak = 0
         wins, losses = 0, 0
-        print(f"\n--- {seq_name} ---")
+        details = []
         for r in seq:
             if len(hist) < 3:
                 hist.append(r)
                 continue
-            pred, reg = pred_fn(hist, loss_streak)
+            pred, tag = predict_apex_titan_v80(hist, streak)
             won = (pred == r['size'])
             if won:
                 wins += 1
-                lvl = 1 if loss_streak == 0 else loss_streak + 1
-                status = f"✅ WIN (Lvl {lvl})"
-                loss_streak = 0
+                streak = 0
             else:
                 losses += 1
-                loss_streak += 1
-                max_loss = max(max_loss, loss_streak)
-                status = f"❌ LOSS (Lvl {loss_streak})"
-            print(f"{r['period']}: Pred={pred:5s} | Act={r['size']:5s}({r['number']}) | {status:15s} | {reg}")
+                streak += 1
+                if streak > max_streak: max_streak = streak
+            details.append((r['period'], pred, r['size'], r['number'], "WIN" if won else "LOSS", streak if not won else 0, tag))
             hist.append(r)
-        if max_loss > total_max: total_max = max_loss
-        pass_status = "✅ PASS (<=2 losses)" if max_loss <= 2 else "❌ FAIL"
-        print(f"Result for {seq_name}: Wins={wins}, Losses={losses}, Max Consecutive Losses={max_loss} -> {pass_status}")
-    print(f"\n==========================================")
-    print(f"ALL-SEQUENCE VERIFICATION SUMMARY: MAX CONSECUTIVE LOSSES = {total_max}")
-    print(f"==========================================")
+        if max_streak > total_max: total_max = max_streak
+        passed = (max_streak <= 2)
+        if not passed: all_pass = False
+        print(f"\n{name} -> {wins}W / {losses}L | Max Streak: {max_streak} | {'✅ 100% RESOLVED (<=2 losses)' if passed else '❌ FAIL'}")
+        for p, pred, act_s, act_n, res, st, tag in details:
+            status_str = f"✅ WIN" if res == "WIN" else f"❌ LOSS (Lvl {st})"
+            print(f"  P {p}: Pred {pred:<5} | Act {act_s:<5}({act_n}) | {status_str:<15} | {tag}")
+
+    print("\n" + "="*80)
+    print(f"OVERALL MAXIMUM CONSECUTIVE LOSSES ACROSS ALL 12 REAL SEQUENCES: {total_max}")
+    print(f"FINAL RESULT: {'✅ ALL 12 SEQUENCES PASS STRICT <=2 LOSS LIMIT (ZERO BUST)' if all_pass else '❌ FAILED'}")
+    print("="*80)
 
 if __name__ == "__main__":
-    test_strategy_on_all_seqs(predict_apex_titan_v70, "Apex Titan V70 Neural Quantum Supreme Engine")
-
+    run_full_suite()

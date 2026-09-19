@@ -22,7 +22,7 @@ def get_runs(sizes):
     runs.append((curr, l))
     return runs
 
-def predict_apex_titan_v70(nums, loss_streak=0):
+def predict_apex_titan_v80(nums, loss_streak=0):
     if len(nums) < 3:
         return "BIG", 7, "TITAN INITIALIZING"
     sizes = ["BIG" if n >= 5 else "SMALL" for n in nums][-50:]
@@ -32,6 +32,9 @@ def predict_apex_titan_v70(nums, loss_streak=0):
     p_side, p_len = runs[-2] if len(runs) >= 2 else (opp(c_side), 0)
     p3_side, p3_len = runs[-3] if len(runs) >= 3 else (c_side, 0)
     last_s = sizes[-1]
+    last_n = nums[-1]
+    prev_n = nums[-2] if len(nums) >= 2 else last_n
+    delta = abs(last_n - prev_n)
 
     alt = 0
     for r_s, r_l in reversed(runs):
@@ -40,73 +43,62 @@ def predict_apex_titan_v70(nums, loss_streak=0):
         else:
             break
 
-    # Level 3 Recovery (Zero-Loss Quantum Shield)
+    # Level 3 Recovery (Zero-Loss Cascade Shield)
     if loss_streak >= 2:
-        if p_len == 2 and c_len == 1:
-            final_size = p_side
-            regime = f"🛑 LVL 3 DOUBLET ADVANCE ({p_side})"
-        elif c_len == 2:
-            final_size = opp(c_side)
-            regime = f"🛑 LVL 3 DOUBLET CUT ({opp(c_side)})"
-        elif c_len == 1 and p_len == 1:
-            if p3_len >= 5 and len(nums) >= 2 and abs(nums[-1] - nums[-2]) >= 5:
-                final_size = opp(last_s)
-                regime = f"🛑 LVL 3 VOLATILE DRAGON BREAK FLIP ({opp(last_s)})"
-            elif p3_len >= 2 and c_side == p3_side and alt < 3:
-                final_size = c_side
-                regime = f"🛑 LVL 3 CADENCE RESTORE ({c_side})"
-            else:
-                final_size = opp(last_s)
-                regime = f"🛑 LVL 3 ANTI-WHIPSAW CHOP FLIP ({opp(last_s)})"
-        elif c_len >= 3:
+        if c_len >= 3:
             final_size = c_side
             regime = f"🛑 LVL 3 DRAGON RIDE ({c_side} x{c_len})"
+        elif c_len == 2:
+            final_size = c_side
+            regime = f"🛑 LVL 3 DOUBLET RIDE ({c_side} x2)"
+        elif alt >= 3:
+            final_size = c_side
+            regime = f"🛑 LVL 3 CHOP BREAK RIDE ({c_side})"
+        elif alt >= 2:
+            final_size = opp(c_side)
+            regime = f"🛑 LVL 3 CHOP OSCILLATE ({opp(c_side)})"
+        elif delta >= 5:
+            final_size = opp(c_side)
+            regime = f"🛑 LVL 3 VOLATILE DELTA BREAK (d={delta})"
         else:
-            final_size = last_s
-            regime = f"🛑 LVL 3 MOMENTUM FOLLOW ({last_s})"
+            final_size = opp(c_side)
+            regime = f"🛑 LVL 3 CASCADE SHIELD FLIP ({opp(c_side)})"
 
     # Level 2 Recovery (streak == 1)
     elif loss_streak == 1:
-        if p_len == 2 and c_len == 1:
-            final_size = p_side
-            regime = f"🛡️ LVL 2 DOUBLET ADVANCE ({p_side})"
-        elif c_len >= 2:
-            final_size = c_side
-            regime = f"🛡️ LVL 2 DRAGON LOCK ({c_side} x{c_len})"
+        if c_len >= 3:
+            final_size = opp(c_side)
+            regime = f"🛡️ LVL 2 DRAGON EXHAUSTION CUT ({opp(c_side)})"
         elif alt >= 3:
             final_size = opp(last_s)
-            regime = f"🛡️ LVL 2 CHOP FLIP ({opp(last_s)})"
-        else:
+            regime = f"🛡️ LVL 2 DEEP CHOP FLIP ({opp(last_s)})"
+        elif alt >= 2:
             final_size = last_s
-            regime = f"🛡️ LVL 2 MOMENTUM FOLLOW ({last_s})"
+            regime = f"🛡️ LVL 2 CHOP STABILIZE ({last_s})"
+        elif delta >= 5:
+            final_size = opp(c_side)
+            regime = f"🛡️ LVL 2 VOLATILE DELTA FLIP (d={delta})"
+        else:
+            final_size = c_side
+            regime = f"🛡️ LVL 2 MOMENTUM LOCK ({c_side})"
 
     # Level 1 Base Prediction (streak == 0)
     else:
         if c_len == 3 and p_len == 1 and p3_len == 3:
-            final_size = opp(c_side)
-            regime = "⚡ TRIPLET DRAGON CAP (x3 -> FLIP)"
-        elif c_len >= 3:
             final_size = c_side
-            regime = f"🐉 DRAGON FLOW ({c_side} x{c_len})"
-        elif c_len == 1 and p_len == 2 and p3_len == 1:
-            final_size = p_side
-            regime = f"⚡ DOUBLET CADENCE INTERCEPT ({p_side})"
+            regime = f"⚡ TRIPLET CADENCE FOLLOW ({c_side})"
+        elif c_len >= 3:
+            final_size = opp(c_side)
+            regime = f"🐉 DRAGON EXHAUSTION CUT ({opp(c_side)} x{c_len})"
+        elif alt >= 3:
+            final_size = c_side
+            regime = f"⚡ DEEP CHOP BREAK FLOW ({c_side})"
         elif alt >= 2:
             final_size = opp(last_s)
-            regime = f"⚡ CHOP OSCILLATE (x{alt} -> {opp(last_s)})"
+            regime = f"⚡ CHOP OSCILLATE ({opp(last_s)})"
         else:
-            w = sizes[-5:]
-            b_score = sum((1.5**i) for i, s in enumerate(w) if s == "BIG")
-            s_score = sum((1.5**i) for i, s in enumerate(w) if s == "SMALL")
-            if b_score > s_score:
-                final_size = "BIG"
-                regime = "🌊 MICRO-TREND (BIG)"
-            elif s_score > b_score:
-                final_size = "SMALL"
-                regime = "🌊 MICRO-TREND (SMALL)"
-            else:
-                final_size = last_s
-                regime = f"🌊 MOMENTUM ({last_s})"
+            final_size = c_side
+            regime = f"🌊 MOMENTUM FOLLOW ({c_side})"
 
     # Harmonic Lucky Ball
     allowed = [5, 6, 7, 8, 9] if final_size == "BIG" else [0, 1, 2, 3, 4]
@@ -181,7 +173,7 @@ def main():
             next_period = str(int(latest_period) + 1)
             if next_period not in processed_periods:
                 nums_chronological = [x["number"] for x in reversed(history)]
-                pred_size, lucky_num, regime = predict_apex_titan_v70(nums_chronological, loss_streak)
+                pred_size, lucky_num, regime = predict_apex_titan_v80(nums_chronological, loss_streak)
                 current_stake = stakes[loss_streak]
                 
                 pending = {
