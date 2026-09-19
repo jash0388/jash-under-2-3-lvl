@@ -264,7 +264,7 @@
 
     <script>
       (() => {
-        const MODE_KEY = "jashvip_selected_mode_v80";
+        const MODE_KEY = "jashvip_selected_mode_v81";
         const MAX_HISTORY = 100;
 
         // Supported Game Modes
@@ -274,16 +274,16 @@
             name: "WinGo 30S",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json",
             cycleSeconds: 30,
-            storageKey: "jashvip_top1_hist_30s_v80",
-            pendingKey: "jashvip_pending_30s_v80"
+            storageKey: "jashvip_top1_hist_30s_v81",
+            pendingKey: "jashvip_pending_30s_v81"
           },
           "1M": {
             id: "1M",
             name: "WinGo 1M",
             url: "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json",
             cycleSeconds: 60,
-            storageKey: "jashvip_top1_hist_1m_v80",
-            pendingKey: "jashvip_pending_1m_v80"
+            storageKey: "jashvip_top1_hist_1m_v81",
+            pendingKey: "jashvip_pending_1m_v81"
           }
         };
 
@@ -296,8 +296,6 @@
         const opp = s => s === "BIG" ? "SMALL" : "BIG";
         const esc = v => String(v??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
         const nextDecimal = v => { const c=String(v||"").split(""); let carry=1; for(let i=c.length-1;i>=0&&carry;i--){ const d=Number(c[i])+carry; c[i]=String(d%10); carry=d>9?1:0; } return carry?`1${c.join("")}`:c.join(""); };
-        const prevDecimal = v => { const c=String(v||"").split(""); let borrow=1; for(let i=c.length-1;i>=0&&borrow;i--){ let d=Number(c[i])-borrow; if(d<0){ d+=10; borrow=1; } else { borrow=0; } c[i]=String(d); } return c.join(""); };
-        const generateDeterministicNumber = p => { let h=0; for(let i=0;i<p.length;i++){ h=(h*31+p.charCodeAt(i))%1000000007; } return Math.abs(h%10); };
         const shortPeriod = v => { const t=String(v||"—"); return t.length>8?`…${t.slice(-8)}`:t; };
 
         function getRuns(sizes) {
@@ -634,55 +632,6 @@
               }
             }
           });
-
-          // 3. Pre-seed up to MAX_HISTORY if history is sparse (ensures immediate 100 continuous rounds on open)
-          if (savedHistory.length < MAX_HISTORY && results.length >= 2) {
-            const oldestExistingPeriod = savedHistory.length ? savedHistory[savedHistory.length - 1].period : results[results.length - 1].period;
-            const fullSequence = [];
-            let curr = oldestExistingPeriod;
-            const needed = MAX_HISTORY - savedHistory.length + 15;
-            for (let i = 0; i < needed; i++) {
-              curr = prevDecimal(curr);
-              const num = generateDeterministicNumber(curr);
-              fullSequence.unshift({
-                period: curr,
-                number: num,
-                size: sizeFor(num)
-              });
-            }
-
-            let streak = 0;
-            const seededEntries = [];
-            for (let i = 0; i < fullSequence.length; i++) {
-              const item = fullSequence[i];
-              if (i < 3) continue;
-              const evidence = fullSequence.slice(Math.max(0, i - 50), i).map(x => x.number);
-              const pred = predictApexTitanV80(evidence, streak);
-              const won = pred.size === item.size;
-              if (won) streak = 0;
-              else streak++;
-              seededEntries.unshift({
-                mode: reqMode,
-                period: item.period,
-                actual: item.number,
-                actualSize: item.size,
-                predNumber: pred.number,
-                predSize: pred.size,
-                status: won ? "WIN" : "LOSS",
-                regime: pred.regime,
-                confidence: pred.confidence,
-                timestamp: Date.now() - (fullSequence.length - i) * (GAME_MODES[reqMode].cycleSeconds * 1000)
-              });
-            }
-
-            seededEntries.forEach(entry => {
-              if (!existingPeriods.has(entry.period) && savedHistory.length < MAX_HISTORY && isValidPeriodForMode(entry.period, reqMode)) {
-                savedHistory.push(entry);
-                existingPeriods.add(entry.period);
-                updated = true;
-              }
-            });
-          }
 
           if (updated) {
             savedHistory = savedHistory.filter(h => (!h.mode || h.mode === reqMode) && isValidPeriodForMode(h.period, reqMode));
