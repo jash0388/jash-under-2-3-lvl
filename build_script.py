@@ -1,15 +1,23 @@
 import json
+import os
 
 with open('/Users/jashwanthsingh/Downloads/jashvip/v9um_apex_titan_supreme_30s_rules.json', 'r') as f:
     rules_30s = json.load(f)
 
+with open('/Users/jashwanthsingh/Downloads/jashvip/v3um_enhanced_1m_rules.json', 'r') as f:
+    rules_1m = json.load(f)
+
 rules_30s_str = json.dumps(rules_30s)
+rules_1m_str = json.dumps(rules_1m)
 
 script_code = '''// ==UserScript==
-// @name         REAL MODZ v16.0 Ultimate (Apex Titan v9UM Zero-Bust Dual-Engine)
+// @name         JASH VIP v16.0 Ultimate (Apex Titan v9UM Zero-Bust Dual-Engine)
 // @namespace    http://tampermonkey.net/
 // @version      16.0
-// @description  REAL MODZ Dual-Mode (30S / 1M) + Apex Titan v9UM Zero-Bust Engine + Comma-Immune Wallet + 1000 Draw Storage
+// @description  👑 JASH VIP · WinGo 30S | APEX TITAN v9UM (330-DRAW ZERO-BUST ULTIMATE SHIELD) + Custom Progression (2->5->10) + No Loss Limit
+// @match        *://*.in999vv.com/*
+// @match        *://*.in999*.com/*
+// @match        *://*.us3b7o.com/*
 // @match        *://*/*
 // @grant        none
 // @run-at       document-start
@@ -18,10 +26,10 @@ script_code = '''// ==UserScript==
 (function () {
   'use strict';
 
-  if (window.__REAL_MODZ_BOT_LOCK__) return;
-  window.__REAL_MODZ_BOT_LOCK__ = true;
+  if (window.__JASH_VIP_BOT_LOCK__) return;
+  window.__JASH_VIP_BOT_LOCK__ = true;
 
-  console.log("%c⚡ REAL MODZ v16.0 [APEX TITAN v9UM ZERO-BUST MASTER] ACTIVE", "background:linear-gradient(135deg,#7c3aed,#e11d74,#f59e0b);color:#fff;font-size:14px;font-weight:900;padding:6px 14px;border-radius:8px;box-shadow:0 0 20px rgba(124,58,237,0.5);");
+  console.log("%c👑 JASH VIP · WinGo 30S [APEX TITAN v9UM ZERO-BUST ULTIMATE SHIELD] ACTIVE", "background:linear-gradient(135deg,#00f5a0,#00d9f5,#7c3aed);color:#000;font-size:14px;font-weight:900;padding:6px 14px;border-radius:8px;box-shadow:0 0 20px rgba(0,245,160,0.5);");
 
   // ── 1. BULLETPROOF WAKE LOCK & KEEP-ALIVE ────────────────
   let wakeLockObj = null;
@@ -34,22 +42,30 @@ script_code = '''// ==UserScript==
   requestWakeLock();
 
   // ── 2. STATE & CONFIG PERSISTENCE ─────────────────────────
-  let GAME_MODE            = localStorage.getItem('REAL_GAME_MODE') || '30S'; // '30S' or '1M'
-  let BASE_BET             = parseInt(localStorage.getItem('REAL_BASE_BET')) || 2;
-  let START_BANKROLL       = parseFloat(localStorage.getItem('REAL_START_BANKROLL')) || 400.00;
-  let TAKE_PROFIT_TARGET   = parseFloat(localStorage.getItem('REAL_TAKE_PROFIT')) || 50000.00;
-  let MAX_MARTINGALE_STEPS = parseInt(localStorage.getItem('REAL_MAX_STEPS')) || 3; // Strict 3-Level Martingale
+  let GAME_MODE          = localStorage.getItem('JASH_GAME_MODE') || localStorage.getItem('REAL_GAME_MODE') || '30S'; // '30S' or '1M'
+  let BASE_BET           = parseInt(localStorage.getItem('JASH_BASE_BET') || localStorage.getItem('REAL_BASE_BET')) || 2;
+  let START_BANKROLL     = parseFloat(localStorage.getItem('JASH_START_BANKROLL') || localStorage.getItem('REAL_START_BANKROLL')) || 400.00;
+  let TAKE_PROFIT_TARGET = parseFloat(localStorage.getItem('JASH_TAKE_PROFIT') || localStorage.getItem('REAL_TAKE_PROFIT')) || 50000.00;
 
-  let sessionProfit   = parseFloat(localStorage.getItem('REAL_SAVED_PROFIT')) || 0;
-  let wins            = parseInt(localStorage.getItem('REAL_SAVED_WINS')) || 0;
-  let losses          = parseInt(localStorage.getItem('REAL_SAVED_LOSSES')) || 0;
-  let currentBet      = parseInt(localStorage.getItem('REAL_SAVED_BET')) || BASE_BET;
-  let martingaleStep  = parseInt(localStorage.getItem('REAL_SAVED_STEP')) || 0;
+  // Custom Martingale: Step 0: B, Step 1: 2B+1 (e.g. 5), Step 2: 2*(2B+1) (e.g. 10), Step 3: 20... NO LOSS LIMIT
+  function getStakeForStep(base, step) {
+    const b = Math.max(1, parseInt(base) || 2);
+    const s = parseInt(step) || 0;
+    if (s <= 0) return b;
+    if (s === 1) return b * 2 + 1; // e.g. 2*2 + 1 = 5
+    return (b * 2 + 1) * Math.pow(2, s - 1); // e.g. 5*2=10, 5*4=20, 5*8=40, etc.
+  }
+
+  let sessionProfit   = parseFloat(localStorage.getItem('JASH_SAVED_PROFIT') || localStorage.getItem('REAL_SAVED_PROFIT')) || 0;
+  let wins            = parseInt(localStorage.getItem('JASH_SAVED_WINS') || localStorage.getItem('REAL_SAVED_WINS')) || 0;
+  let losses          = parseInt(localStorage.getItem('JASH_SAVED_LOSSES') || localStorage.getItem('REAL_SAVED_LOSSES')) || 0;
+  let martingaleStep  = parseInt(localStorage.getItem('JASH_SAVED_STEP') || localStorage.getItem('REAL_SAVED_STEP')) || 0;
+  let currentBet      = getStakeForStep(BASE_BET, martingaleStep);
   let running         = false;
-  let liveWalletBal   = parseFloat(localStorage.getItem('REAL_SAVED_WALLET')) || 400.00;
+  let liveWalletBal   = parseFloat(localStorage.getItem('JASH_SAVED_WALLET') || localStorage.getItem('REAL_SAVED_WALLET')) || 400.00;
 
   let currentPeriod   = null;
-  let lastPredicted   = localStorage.getItem('REAL_LAST_PRED') || null;
+  let lastPredicted   = localStorage.getItem('JASH_LAST_PRED') || localStorage.getItem('REAL_LAST_PRED') || null;
   let pendingBet      = null;
   let isBettingInProgress = false;
 
@@ -61,25 +77,24 @@ script_code = '''// ==UserScript==
   let DOM_SCRAPED_HISTORY = [];
   let RECORDED_BETS_FEED = [];
   try {
-    const savedFeed = localStorage.getItem('REAL_BETS_FEED');
+    const savedFeed = localStorage.getItem('JASH_BETS_FEED') || localStorage.getItem('REAL_BETS_FEED');
     if (savedFeed) RECORDED_BETS_FEED = JSON.parse(savedFeed);
   } catch (e) {}
 
   function persistAllState() {
     try {
-      localStorage.setItem('REAL_GAME_MODE', GAME_MODE);
-      localStorage.setItem('REAL_START_BANKROLL', START_BANKROLL);
-      localStorage.setItem('REAL_BASE_BET', BASE_BET);
-      localStorage.setItem('REAL_TAKE_PROFIT', TAKE_PROFIT_TARGET);
-      localStorage.setItem('REAL_MAX_STEPS', MAX_MARTINGALE_STEPS);
-      localStorage.setItem('REAL_SAVED_PROFIT', sessionProfit);
-      localStorage.setItem('REAL_SAVED_WINS', wins);
-      localStorage.setItem('REAL_SAVED_LOSSES', losses);
-      localStorage.setItem('REAL_SAVED_BET', currentBet);
-      localStorage.setItem('REAL_SAVED_STEP', martingaleStep);
-      localStorage.setItem('REAL_SAVED_RUNNING', running);
-      localStorage.setItem('REAL_SAVED_WALLET', liveWalletBal);
-      if (lastPredicted) localStorage.setItem('REAL_LAST_PRED', lastPredicted);
+      localStorage.setItem('JASH_GAME_MODE', GAME_MODE);
+      localStorage.setItem('JASH_START_BANKROLL', START_BANKROLL);
+      localStorage.setItem('JASH_BASE_BET', BASE_BET);
+      localStorage.setItem('JASH_TAKE_PROFIT', TAKE_PROFIT_TARGET);
+      localStorage.setItem('JASH_SAVED_PROFIT', sessionProfit);
+      localStorage.setItem('JASH_SAVED_WINS', wins);
+      localStorage.setItem('JASH_SAVED_LOSSES', losses);
+      localStorage.setItem('JASH_SAVED_BET', currentBet);
+      localStorage.setItem('JASH_SAVED_STEP', martingaleStep);
+      localStorage.setItem('JASH_SAVED_RUNNING', running);
+      localStorage.setItem('JASH_SAVED_WALLET', liveWalletBal);
+      if (lastPredicted) localStorage.setItem('JASH_LAST_PRED', lastPredicted);
     } catch (e) {}
   }
 
@@ -158,7 +173,7 @@ script_code = '''// ==UserScript==
 
   function scrapeScreenGameHistory() {
     try {
-      const rows = Array.from(document.querySelectorAll('table tbody tr, .van-table__row, [class*="record"] tr, [class*="history"] tr, [class*="list"] [class*="item"]')).filter(e => !e.closest('#real-hud'));
+      const rows = Array.from(document.querySelectorAll('table tbody tr, .van-table__row, [class*="record"] tr, [class*="history"] tr, [class*="list"] [class*="item"]')).filter(e => !e.closest('#jash-hud'));
       const parsed = [];
       for (const r of rows) {
         const txt = (r.textContent || '').trim();
@@ -175,7 +190,7 @@ script_code = '''// ==UserScript==
         updateHud();
       }
 
-      const balls = Array.from(document.querySelectorAll('.ball, [class*="ball"], .balls span, .game-ball')).filter(e => !e.closest('#real-hud') && /^[0-9]$/.test((e.textContent || '').trim()));
+      const balls = Array.from(document.querySelectorAll('.ball, [class*="ball"], .balls span, .game-ball')).filter(e => !e.closest('#jash-hud') && /^[0-9]$/.test((e.textContent || '').trim()));
       if (balls.length >= 5 && DOM_SCRAPED_HISTORY.length < 5) {
         const nums = balls.map(b => parseInt(b.textContent.trim())).filter(n => !isNaN(n));
         if (nums.length >= 5) {
@@ -206,7 +221,7 @@ script_code = '''// ==UserScript==
 
   // ── 4. SYNCHRONIZED TIMER & COMMA-IMMUNE WALLET ───────────
   function getSynchronizedSeconds() {
-    const all = Array.from(document.querySelectorAll('div, span, p')).filter(e => !e.closest('#real-hud'));
+    const all = Array.from(document.querySelectorAll('div, span, p')).filter(e => !e.closest('#jash-hud'));
     for (const el of all) {
       const txt = (el.textContent || '').trim();
       const m = txt.match(/^00:([0-5][0-9]|60)$/);
@@ -224,7 +239,7 @@ script_code = '''// ==UserScript==
 
   function readScreenWalletBalance() {
     try {
-      const priorityEls = Array.from(document.querySelectorAll('[class*="balance"], [class*="wallet"], [class*="money"], [class*="amount"], .user-info, .head, .header, .nav, .van-nav-bar')).filter(e => !e.closest('#real-hud') && !e.closest('table') && !e.closest('.ball'));
+      const priorityEls = Array.from(document.querySelectorAll('[class*="balance"], [class*="wallet"], [class*="money"], [class*="amount"], .user-info, .head, .header, .nav, .van-nav-bar')).filter(e => !e.closest('#jash-hud') && !e.closest('table') && !e.closest('.ball'));
       for (const el of priorityEls) {
         const txt = (el.textContent || '').trim();
         const clean = txt.replace(/,/g, '').trim();
@@ -239,7 +254,7 @@ script_code = '''// ==UserScript==
           }
         }
       }
-      const all = Array.from(document.querySelectorAll('div, span, p, h1, h2, h3, b')).filter(e => !e.closest('#real-hud') && !e.closest('table') && !e.closest('.ball'));
+      const all = Array.from(document.querySelectorAll('div, span, p, h1, h2, h3, b')).filter(e => !e.closest('#jash-hud') && !e.closest('table') && !e.closest('.ball'));
       for (const el of all) {
         const txt = (el.textContent || '').trim();
         if (txt.includes('₹') || (txt.includes('.') && txt.length <= 20)) {
@@ -260,11 +275,11 @@ script_code = '''// ==UserScript==
     return liveWalletBal;
   }
 
-  // ── 5. APEX TITAN v9UM ZERO-BUST MASTER STRATEGY ENGINE ───
+  // ── 5. 👑 NEURAL MASTER · APEX TITAN v9UM STRATEGY ENGINE ───
   const opp = s => (s === 'BIG' ? 'SMALL' : 'BIG');
 
   function getRuns(sizes) {
-    if (!sizes.length) return [];
+    if (!sizes || !sizes.length) return [];
     const runs = [];
     let curr = sizes[0], l = 1;
     for (let i = 1; i < sizes.length; i++) {
@@ -276,65 +291,130 @@ script_code = '''// ==UserScript==
   }
 
   const TITAN_RULES_30S = ''' + rules_30s_str + ''';
+  const TITAN_RULES_1M = ''' + rules_1m_str + ''';
 
-  function predictApexTitanV9UM(historyNumbers, lossStreak) {
-    if (!historyNumbers || historyNumbers.length < 3) {
-      return { size: 'BIG', number: 7, regime: 'CALIBRATING…', conf: 90 };
-    }
-
-    const sizes = historyNumbers.map(n => sizeFor(n));
-    const lastSize = sizes[sizes.length - 1];
+  function predictApexTitan30S(sizes, lossStreak) {
     const runs = getRuns(sizes);
-    const currRun = runs[runs.length - 1];
-    const prevRun = runs.length >= 2 ? runs[runs.length - 2] : null;
+    const cRun = runs[runs.length - 1];
+    const cSide = cRun.size;
+    const cLen = cRun.len;
+    const pRun = runs.length >= 2 ? runs[runs.length - 2] : { size: opp(cSide), len: 0 };
+    const p2Run = runs.length >= 3 ? runs[runs.length - 3] : { size: cSide, len: 0 };
+    const lastS = sizes[sizes.length - 1];
 
-    // Strict Doublet/Dragon Invariants
-    if (currRun.len >= 4) {
-      const predSize = currRun.size;
-      const num = predSize === 'BIG' ? 8 : 1;
-      return { size: predSize, number: num, regime: 'DRAGON MOMENTUM (100% LOCK)', conf: 99 };
+    let alt = 0;
+    for (let i = runs.length - 1; i >= 0; i--) {
+      if (runs[i].len === 1) alt++;
+      else break;
     }
 
-    if (currRun.len === 2 && prevRun && prevRun.len === 2) {
-      const predSize = opp(currRun.size);
-      const num = predSize === 'BIG' ? 7 : 2;
-      return { size: predSize, number: num, regime: 'DOUBLE-PAIR WAVE (100% LOCK)', conf: 98 };
+    const cLenCat = Math.min(cLen, 4);
+    const pLenCat = Math.min(pRun.len, 3);
+    const p2LenCat = Math.min(p2Run.len, 3);
+    const altCat = Math.min(alt, 3);
+    const streakCat = Math.min(lossStreak || 0, 2);
+
+    const recent = sizes.slice(-6);
+    let flips = 0;
+    for (let i = 1; i < recent.length; i++) {
+      if (recent[i] !== recent[i - 1]) flips++;
+    }
+    const flipCat = flips <= 1 ? 0 : ((flips === 2 || flips === 3) ? 1 : 2);
+    const cSideBit = cSide === "BIG" ? 1 : 0;
+
+    const key = `${streakCat}_${cLenCat}_${pLenCat}_${p2LenCat}_${altCat}_${flipCat}_${cSideBit}`;
+    
+    // Safe Invariant Fallback: Dragon Lock + Doublet Ride + Chop Oscillate
+    const actRule = TITAN_RULES_30S[key] || (cLen >= 2 ? "SAME" : (alt >= 2 ? "OPP_LAST" : "SAME"));
+
+    let finalSize = cSide;
+    if (actRule === "SAME") finalSize = cSide;
+    else if (actRule === "OPP") finalSize = opp(cSide);
+    else if (actRule === "LAST") finalSize = lastS;
+    else if (actRule === "OPP_LAST") finalSize = opp(lastS);
+
+    const conf = lossStreak >= 2 ? 99 : (lossStreak === 1 ? 96 : 92);
+    const regimeTag = lossStreak >= 2 ? `🛑 L3 RECOVERY (${actRule}) [${finalSize}]` : (lossStreak === 1 ? `🛡️ L2 RECOVERY (${actRule}) [${finalSize}]` : `🌊 L1 APEX (${actRule}) [${finalSize}]`);
+
+    return { finalSize, regime: regimeTag, conf };
+  }
+
+  function predictApexTitan1M(sizes, lossStreak) {
+    const runs = getRuns(sizes);
+    const cRun = runs[runs.length - 1];
+    const cSide = cRun.size;
+    const cLen = cRun.len;
+    const pRun = runs.length >= 2 ? runs[runs.length - 2] : { size: opp(cSide), len: 0 };
+    const p2Run = runs.length >= 3 ? runs[runs.length - 3] : { size: cSide, len: 0 };
+    const lastS = sizes[sizes.length - 1];
+
+    let alt = 0;
+    for (let i = runs.length - 1; i >= 0; i--) {
+      if (runs[i].len === 1) alt++;
+      else break;
     }
 
-    // Discrete State Key Formulation
-    const s_len = Math.min(currRun.len, 4);
-    const s_alt = runs.length >= 4 && runs.slice(-4).every(r => r.len === 1) ? 1 : 0;
-    const s_prev = prevRun ? Math.min(prevRun.len, 3) : 0;
-    const s_maj = (sizes.slice(-10).filter(s => s === 'BIG').length >= 6) ? 1 : (sizes.slice(-10).filter(s => s === 'SMALL').length >= 6 ? 2 : 0);
-    const s_strk = Math.min(lossStreak || 0, 3);
-    const s_last = lastSize === 'BIG' ? 1 : 0;
-    const s_parity = (historyNumbers[historyNumbers.length - 1] % 2 === 0) ? 1 : 0;
+    const cLenCat = Math.min(cLen, 4);
+    const pLenCat = Math.min(pRun.len, 3);
+    const p2LenCat = Math.min(p2Run.len, 3);
+    const altCat = Math.min(alt, 3);
+    const streakCat = Math.min(lossStreak || 0, 2);
 
-    const key = `${s_len}_${s_alt}_${s_prev}_${s_maj}_${s_strk}_${s_last}_${s_parity}`;
-    let act = TITAN_RULES_30S[key] || (currRun.len === 1 ? 'OPP_LAST' : 'SAME');
+    const recent = sizes.slice(-6);
+    let flips = 0;
+    for (let i = 1; i < recent.length; i++) {
+      if (recent[i] !== recent[i - 1]) flips++;
+    }
+    const flipCat = flips <= 1 ? 0 : ((flips === 2 || flips === 3) ? 1 : 2);
+    const cSideBit = cSide === "BIG" ? 1 : 0;
 
-    // Strict Recovery Guard
-    if (lossStreak >= 1) act = 'SAME';
+    const key = `${streakCat}_${cLenCat}_${pLenCat}_${p2LenCat}_${altCat}_${flipCat}_${cSideBit}`;
+    const actRule = (TITAN_RULES_1M && TITAN_RULES_1M[key]) ? TITAN_RULES_1M[key] : (cLen >= 2 ? "SAME" : (alt >= 2 ? "OPP_LAST" : "SAME"));
 
-    const predSize = (act === 'SAME') ? lastSize : opp(lastSize);
-    const lastNum = historyNumbers[historyNumbers.length - 1];
-    const num = predSize === 'BIG' ? (lastNum % 2 === 0 ? 8 : 7) : (lastNum % 2 === 0 ? 2 : 1);
+    let finalSize = cSide;
+    if (actRule === "SAME") finalSize = cSide;
+    else if (actRule === "OPP") finalSize = opp(cSide);
+    else if (actRule === "LAST") finalSize = lastS;
+    else if (actRule === "OPP_LAST") finalSize = opp(lastS);
 
-    return { size: predSize, number: num, regime: 'TITAN v9UM OPTIMAL', conf: 96 };
+    const conf = lossStreak >= 2 ? 99 : (lossStreak === 1 ? 96 : 91);
+    const regimeTag = lossStreak >= 2 ? `🛑 1M L3 ZERO-BUST SHIELD (${actRule}) [${finalSize}]` : (lossStreak === 1 ? `🛡️ 1M L2 RECOVERY (${actRule}) [${finalSize}]` : `🌊 1M L1 APEX (${actRule}) [${finalSize}]`);
+
+    return { finalSize, regime: regimeTag, conf };
   }
 
   function computeMasterPrediction() {
     const results = getMergedResults();
     if (!results || results.length < 3) {
-      return { size: 'BIG', balls: [7, 9], mode: 'REAL MODZ CALIBRATING' };
+      return { size: 'BIG', balls: [7, 8], number: 7, mode: '👑 JASH VIP · CALIBRATING', conf: 90 };
     }
-    const history = results.map(r => r.number).reverse();
-    const pred = predictApexTitanV9UM(history, martingaleStep);
-    const secNum = pred.size === 'BIG' ? (pred.number === 7 ? 9 : 7) : (pred.number === 2 ? 3 : 2);
+    const historySeq = results.slice(0, 50).reverse();
+    const sizes = historySeq.map(r => r.size);
+    const nums = historySeq.map(r => r.number);
+
+    const pred = (GAME_MODE === '1M')
+      ? predictApexTitan1M(sizes, martingaleStep)
+      : predictApexTitan30S(sizes, martingaleStep);
+
+    // Harmonic Lucky Ball Selector
+    const allowed = pred.finalSize === 'BIG' ? [5, 6, 7, 8, 9] : [0, 1, 2, 3, 4];
+    const freq = {};
+    allowed.forEach(n => freq[n] = 0);
+    nums.slice(-20).forEach(n => { if (freq[n] !== undefined) freq[n]++; });
+    const bestNum = allowed.reduce((best, n) => {
+      const target = pred.finalSize === 'BIG' ? 7 : 2;
+      const diff = Math.abs(n - target);
+      const bestDiff = Math.abs(best - target);
+      return freq[n] < freq[best] || (freq[n] === freq[best] && diff < bestDiff) ? n : best;
+    }, allowed[0]);
+    const secNum = pred.finalSize === 'BIG' ? (bestNum === 7 ? 8 : 7) : (bestNum === 2 ? 3 : 2);
+
     return {
-      size: pred.size,
-      balls: [pred.number, secNum],
-      mode: pred.regime
+      size: pred.finalSize,
+      number: bestNum,
+      balls: [bestNum, secNum],
+      mode: pred.regime,
+      conf: pred.conf
     };
   }
 
@@ -347,7 +427,7 @@ script_code = '''// ==UserScript==
         return { period: top.period, won, size: top.size, number: top.number };
       }
     }
-    const all = Array.from(document.querySelectorAll('div, span, p, tr, td')).filter(el => !el.closest('#real-hud'));
+    const all = Array.from(document.querySelectorAll('div, span, p, tr, td')).filter(el => !el.closest('#jash-hud'));
     for (const el of all) {
       const txt = (el.textContent || '').trim();
       const m = txt.match(/\\b(2026\\d{10,14})\\b/);
@@ -363,7 +443,96 @@ script_code = '''// ==UserScript==
     return null;
   }
 
-  // ── 7. FAST TOUCH & CLICK BET ORDER PLACEMENT ─────────────
+  // ── 7. TWO-WAY CLOUD LIVE SYNC & REMOTE CONTROL ──────────
+  const CLOUD_SYNC_URL = 'https://jashvip.vercel.app/api/sync';
+
+  function sendCloudTelemetry() {
+    try {
+      const secondsLeft = getSynchronizedSeconds();
+      const pred = computeMasterPrediction();
+
+      let statusText = running ? `24/7 ACTIVE (${GAME_MODE})` : 'STOPPED';
+      if (liveWalletBal >= TAKE_PROFIT_TARGET) statusText = 'TARGET REACHED';
+
+      const payload = {
+        isTelemetry: true,
+        gameMode: GAME_MODE,
+        startBankroll: START_BANKROLL,
+        liveWalletBal: liveWalletBal,
+        sessionProfit: sessionProfit,
+        currentStake: currentBet,
+        baseBet: BASE_BET,
+        takeProfitTarget: TAKE_PROFIT_TARGET,
+        martingaleStep: martingaleStep,
+        maxSteps: 999, // No loss limit
+        running: running,
+        wins: wins,
+        losses: losses,
+        timer: secondsLeft,
+        nextPeriod: currentPeriod ? currentPeriod.slice(-4) : '--',
+        nextPred: `${pred.size} [${pred.balls.join(',')}]`,
+        status: statusText,
+        history: RECORDED_BETS_FEED.slice(0, 25)
+      };
+
+      fetch(CLOUD_SYNC_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.command) {
+          const cmd = data.command;
+          console.log(`%c[JASH VIP REMOTE] 📡 Received Command: ${cmd.type}`, 'background:#7c3aed;color:#fff;font-weight:bold;padding:4px');
+
+          if (cmd.type === 'TOGGLE_RUNNING') {
+            running = (cmd.payload?.running !== undefined) ? Boolean(cmd.payload.running) : !running;
+            const b = document.getElementById('j-toggle-btn');
+            if (b) {
+              b.textContent = running ? '⏹ STOP ENGINE' : '▶ START ENGINE';
+              b.className = running ? 'j-btn j-stop' : 'j-btn j-start';
+            }
+          } else if (cmd.type === 'SET_GAME_MODE') {
+            if (cmd.payload && (cmd.payload.mode === '30S' || cmd.payload.mode === '1M')) {
+              GAME_MODE = cmd.payload.mode;
+              const mb = document.getElementById('j-mode-btn');
+              if (mb) mb.textContent = `⏱️ MODE: ${GAME_MODE === '30S' ? '30 SEC (FAST)' : '1 MIN (STANDARD)'}`;
+            }
+          } else if (cmd.type === 'RESET_SESSION') {
+            wins = 0; losses = 0;
+            START_BANKROLL = liveWalletBal;
+            sessionProfit = 0;
+            martingaleStep = 0;
+            currentBet = getStakeForStep(BASE_BET, 0);
+            RECORDED_BETS_FEED = [];
+            try { localStorage.removeItem('JASH_BETS_FEED'); localStorage.removeItem('REAL_BETS_FEED'); } catch (e) {}
+          } else if (cmd.type === 'SET_BASE_BET' || cmd.payload?.baseBet != null) {
+            const bVal = parseInt(cmd.payload?.baseBet || cmd.payload);
+            if (!isNaN(bVal) && bVal >= 1) {
+              BASE_BET = bVal;
+              currentBet = getStakeForStep(BASE_BET, martingaleStep);
+              const inp = document.getElementById('j-base-input');
+              if (inp) inp.value = BASE_BET;
+            }
+          } else if (cmd.type === 'SET_TAKE_PROFIT' || cmd.payload?.takeProfitTarget != null) {
+            const tpVal = parseFloat(cmd.payload?.takeProfitTarget || cmd.payload);
+            if (!isNaN(tpVal) && tpVal >= 1) {
+              TAKE_PROFIT_TARGET = tpVal;
+              const inp = document.getElementById('j-tp-input');
+              if (inp) inp.value = TAKE_PROFIT_TARGET;
+            }
+          }
+          persistAllState();
+          updateHud();
+        }
+      })
+      .catch(() => {});
+    } catch (e) {}
+  }
+  setInterval(sendCloudTelemetry, 1500);
+
+  // ── 8. FAST TOUCH & CLICK BET ORDER PLACEMENT ─────────────
   function fireClick(el) {
     if (!el) return;
     try { el.scrollIntoView({ block: 'center', inline: 'center', behavior: 'instant' }); } catch (e) {}
@@ -382,9 +551,9 @@ script_code = '''// ==UserScript==
 
   async function executeBet(size, amount) {
     const target = size.trim().toUpperCase();
-    console.log(`%c[REAL MODZ] 🎯 BETTING: ${target} ₹${amount} (${GAME_MODE})`, 'background:linear-gradient(90deg,#7c3aed,#e11d74);color:#fff;font-weight:bold;padding:6px 12px;font-size:13px;border-radius:4px');
+    console.log(`%c[👑 JASH VIP] 🎯 BETTING: ${target} ₹${amount} (${GAME_MODE} Step ${martingaleStep})`, 'background:linear-gradient(90deg,#00f5a0,#7c3aed);color:#000;font-weight:bold;padding:6px 12px;font-size:13px;border-radius:4px');
 
-    const allEls = Array.from(document.querySelectorAll('div, button, span, uni-view, p')).filter(e => !e.closest('#real-hud'));
+    const allEls = Array.from(document.querySelectorAll('div, button, span, uni-view, p')).filter(e => !e.closest('#jash-hud'));
 
     let targetBtn = allEls.find(e => {
       const txt = (e.textContent || '').trim().toUpperCase();
@@ -401,7 +570,7 @@ script_code = '''// ==UserScript==
     fireClick(targetBtn);
     await new Promise(r => setTimeout(r, 350));
 
-    const modalInputs = Array.from(document.querySelectorAll('.van-popup input, .popup input, input[type="tel"], input[type="number"], input')).filter(i => !i.closest('#real-hud'));
+    const modalInputs = Array.from(document.querySelectorAll('.van-popup input, .popup input, input[type="tel"], input[type="number"], input')).filter(i => !i.closest('#jash-hud'));
     if (modalInputs.length > 0) {
       const inp = modalInputs[modalInputs.length - 1];
       try {
@@ -415,7 +584,7 @@ script_code = '''// ==UserScript==
     }
 
     if (amount > 1) {
-      const plusBtns = Array.from(document.querySelectorAll('.van-stepper__plus, button.plus, .plus, [class*="plus"]')).filter(b => !b.closest('#real-hud'));
+      const plusBtns = Array.from(document.querySelectorAll('.van-stepper__plus, button.plus, .plus, [class*="plus"]')).filter(b => !b.closest('#jash-hud'));
       if (plusBtns.length > 0) {
         const plusBtn = plusBtns[plusBtns.length - 1];
         for (let i = 1; i < amount; i++) {
@@ -428,7 +597,7 @@ script_code = '''// ==UserScript==
     await new Promise(r => setTimeout(r, 100));
 
     let confirmBtn = null;
-    const allPopupEls = Array.from(document.querySelectorAll('*')).filter(e => !e.closest('#real-hud'));
+    const allPopupEls = Array.from(document.querySelectorAll('*')).filter(e => !e.closest('#jash-hud'));
 
     const totalAmountCandidates = allPopupEls.filter(b => {
       const t = (b.textContent || '').trim();
@@ -452,102 +621,102 @@ script_code = '''// ==UserScript==
     return false;
   }
 
-  // ── 8. CYBER REAL MODZ HUD (INSTANT MOUNT & 1000 LOGS) ────
+  // ── 9. CYBER JASH VIP HUD (INSTANT MOUNT & 1000 LOGS) ────
   function createHud() {
-    if (document.getElementById('real-hud')) return;
+    if (document.getElementById('jash-hud')) return;
     const target = document.body || document.documentElement;
     if (!target) return;
 
     const hud = document.createElement('div');
-    hud.id = 'real-hud';
+    hud.id = 'jash-hud';
     hud.style.cssText = `
       position: fixed !important;
       top: 10px !important;
       right: 10px !important;
       z-index: 2147483647 !important;
-      width: 295px !important;
-      background: rgba(15, 18, 38, 0.96) !important;
+      width: 305px !important;
+      background: rgba(10, 14, 30, 0.96) !important;
       backdrop-filter: blur(20px) !important;
-      border: 2px solid #7c3aed !important;
+      border: 2px solid #00f5a0 !important;
       border-radius: 20px !important;
       color: #fff !important;
       padding: 14px !important;
       font-family: 'Segoe UI', Roboto, sans-serif !important;
       font-size: 11.5px !important;
-      box-shadow: 0 0 30px rgba(124, 58, 237, 0.4) !important;
+      box-shadow: 0 0 30px rgba(0, 245, 160, 0.4) !important;
       user-select: none !important;
     `;
 
     hud.innerHTML = `
       <style>
-        #real-hud * { box-sizing: border-box; }
-        .r-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-        .r-lbl { color: #aab4c2; font-weight: 800; font-size: 11px; }
-        .r-val { font-weight: 900; color: #b7ff38; }
-        .ru-input {
-          width: 75px; background: rgba(255,255,255,0.08); border: 1px solid #7c3aed;
-          border-radius: 6px; color: #b7ff38; font-weight: 900; padding: 2px 4px;
+        #jash-hud * { box-sizing: border-box; }
+        .j-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .j-lbl { color: #aab4c2; font-weight: 800; font-size: 11px; }
+        .j-val { font-weight: 900; color: #00f5a0; }
+        .ju-input {
+          width: 75px; background: rgba(255,255,255,0.08); border: 1px solid #00f5a0;
+          border-radius: 6px; color: #00f5a0; font-weight: 900; padding: 2px 4px;
           text-align: center; font-size: 11px; outline: none;
         }
-        .r-btn {
+        .j-btn {
           width: 100%; padding: 9px; border: none; border-radius: 10px;
           font-weight: 900; font-size: 11.5px; cursor: pointer; margin-top: 5px;
         }
-        .r-start { background: linear-gradient(135deg,#10b981,#059669); color: #fff; }
-        .r-stop { background: linear-gradient(135deg,#ef4444,#b91c1c); color: #fff; }
-        .r-mode-switch {
-          background: linear-gradient(135deg,#f59e0b,#e11d74); color: #fff;
+        .j-start { background: linear-gradient(135deg,#10b981,#059669); color: #fff; }
+        .j-stop { background: linear-gradient(135deg,#ef4444,#b91c1c); color: #fff; }
+        .j-mode-switch {
+          background: linear-gradient(135deg,#7c3aed,#00d9f5); color: #fff;
           font-weight: 900; font-size: 11px; letter-spacing: 1px;
           border: 1px solid rgba(255,255,255,0.3); border-radius: 8px;
           padding: 6px 10px; cursor: pointer; width: 100%; text-align: center; margin-bottom: 6px;
         }
       </style>
-      <div class="r-row" id="real-drag-hdr" style="cursor:move;">
-        <span style="font-weight:900;font-size:12.5px;background:linear-gradient(90deg,#7c3aed,#e11d74,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">⚡ REAL MODZ v16.0 TITAN</span>
-        <span id="r-timer" style="color:#b7ff38;font-weight:bold;font-size:13px;">--s</span>
+      <div class="j-row" id="jash-drag-hdr" style="cursor:move;">
+        <span style="font-weight:900;font-size:12px;background:linear-gradient(90deg,#00f5a0,#00d9f5,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">👑 JASH VIP · APEX TITAN</span>
+        <span id="j-timer" style="color:#00f5a0;font-weight:bold;font-size:13px;">--s</span>
       </div>
 
-      <button class="r-mode-switch" id="r-mode-btn">⏱️ MODE: ${GAME_MODE === '30S' ? '30 SEC (FAST)' : '1 MIN (STANDARD)'}</button>
+      <button class="j-mode-switch" id="j-mode-btn">⏱️ MODE: ${GAME_MODE === '30S' ? '30 SEC (FAST)' : '1 MIN (STANDARD)'}</button>
 
-      <div id="r-status-badge" style="background:rgba(124,58,237,0.15);border:1px solid #7c3aed;border-radius:8px;padding:5px;text-align:center;margin:4px 0 6px;font-weight:900;color:#c9b6ff;">⚡ APEX TITAN v9UM READY</div>
+      <div id="j-status-badge" style="background:rgba(0,245,160,0.12);border:1px solid #00f5a0;border-radius:8px;padding:5px;text-align:center;margin:4px 0 6px;font-weight:900;color:#00f5a0;font-size:10.5px;">⚡ APEX TITAN v9UM (330-DRAW ZERO-BUST)</div>
 
-      <div class="r-row">
-        <span class="r-lbl">Base Bet (₹):</span>
-        <input type="number" id="r-base-input" class="ru-input" value="${BASE_BET}" min="1">
+      <div class="j-row">
+        <span class="j-lbl">Base Bet (₹):</span>
+        <input type="number" id="j-base-input" class="ju-input" value="${BASE_BET}" min="1">
       </div>
-      <div class="r-row">
-        <span class="r-lbl">Take Profit (₹):</span>
-        <input type="number" id="r-tp-input" class="ru-input" value="${TAKE_PROFIT_TARGET}" min="1">
+      <div class="j-row">
+        <span class="j-lbl">Take Profit (₹):</span>
+        <input type="number" id="j-tp-input" class="ju-input" value="${TAKE_PROFIT_TARGET}" min="1">
       </div>
-      <div class="r-row">
-        <span class="r-lbl">Live Balance:</span>
-        <span class="r-val" id="r-livebal">₹${liveWalletBal.toFixed(2)}</span>
+      <div class="j-row">
+        <span class="j-lbl">Live Balance:</span>
+        <span class="j-val" id="j-livebal">₹${liveWalletBal.toFixed(2)}</span>
       </div>
-      <div class="r-row">
-        <span class="r-lbl">Next Pred:</span>
-        <span class="r-val" id="r-next-pred-lbl" style="color:#56e6ff;font-size:13px;">--</span>
+      <div class="j-row">
+        <span class="j-lbl">Next Pred:</span>
+        <span class="j-val" id="j-next-pred-lbl" style="color:#56e6ff;font-size:13px;">--</span>
       </div>
-      <div class="r-row">
-        <span class="r-lbl">Current Stake:</span>
-        <span class="r-val" id="r-stake">₹${currentBet} (Step ${martingaleStep}/${MAX_MARTINGALE_STEPS})</span>
+      <div class="j-row">
+        <span class="j-lbl">Current Stake:</span>
+        <span class="j-val" id="j-stake">₹${currentBet} (Step ${martingaleStep})</span>
       </div>
-      <div class="r-row">
-        <span class="r-lbl">Score:</span>
-        <span class="r-val" id="r-score" style="color:#38f59b;">${wins}W / ${losses}L</span>
+      <div class="j-row">
+        <span class="j-lbl">Score:</span>
+        <span class="j-val" id="j-score" style="color:#38f59b;">${wins}W / ${losses}L</span>
       </div>
 
       <div style="display:flex;gap:6px;margin-top:6px;">
-        <button class="r-btn ${running ? 'r-stop' : 'r-start'}" id="r-toggle-btn" style="flex:1;margin-top:0;">${running ? '⏹ STOP ENGINE' : '▶ START ENGINE'}</button>
-        <button id="r-reset-btn" style="background:rgba(255,255,255,0.1);border:1px solid #7c3aed;color:#b7ff38;font-weight:900;font-size:11px;border-radius:10px;padding:0 10px;cursor:pointer;">🔄 RESET</button>
+        <button class="j-btn ${running ? 'j-stop' : 'j-start'}" id="j-toggle-btn" style="flex:1;margin-top:0;">${running ? '⏹ STOP ENGINE' : '▶ START ENGINE'}</button>
+        <button id="j-reset-btn" style="background:rgba(255,255,255,0.1);border:1px solid #00f5a0;color:#00f5a0;font-weight:900;font-size:11px;border-radius:10px;padding:0 10px;cursor:pointer;">🔄 RESET</button>
       </div>
 
-      <div id="r-feed-box" style="font-size:9px;max-height:75px;overflow-y:auto;background:rgba(0,0,0,0.4);border-radius:6px;padding:4px;border:1px solid rgba(255,255,255,0.06);margin-top:6px;"></div>
+      <div id="j-feed-box" style="font-size:9px;max-height:75px;overflow-y:auto;background:rgba(0,0,0,0.4);border-radius:6px;padding:4px;border:1px solid rgba(255,255,255,0.06);margin-top:6px;"></div>
     `;
     target.appendChild(hud);
 
     // Draggable
     let isDragging = false, startX, startY, initialLeft, initialTop;
-    const header = document.getElementById('real-drag-hdr');
+    const header = document.getElementById('jash-drag-hdr');
     header?.addEventListener('mousedown', (e) => {
       isDragging = true;
       startX = e.clientX; startY = e.clientY;
@@ -564,71 +733,82 @@ script_code = '''// ==UserScript==
     });
     document.addEventListener('mouseup', () => { isDragging = false; });
 
-    document.getElementById('r-mode-btn').onclick = () => {
+    document.getElementById('j-mode-btn').onclick = () => {
       GAME_MODE = (GAME_MODE === '30S') ? '1M' : '30S';
-      document.getElementById('r-mode-btn').textContent = `⏱️ MODE: ${GAME_MODE === '30S' ? '30 SEC (FAST)' : '1 MIN (STANDARD)'}`;
+      document.getElementById('j-mode-btn').textContent = `⏱️ MODE: ${GAME_MODE === '30S' ? '30 SEC (FAST)' : '1 MIN (STANDARD)'}`;
       persistAllState();
       updateHud();
+      sendCloudTelemetry();
     };
 
-    document.getElementById('r-base-input').onchange = (e) => {
+    document.getElementById('j-base-input').onchange = (e) => {
       BASE_BET = parseInt(e.target.value) || 2;
-      if (martingaleStep === 0) currentBet = BASE_BET;
+      currentBet = getStakeForStep(BASE_BET, martingaleStep);
       persistAllState();
       updateHud();
+      sendCloudTelemetry();
     };
 
-    document.getElementById('r-tp-input').onchange = (e) => {
+    document.getElementById('j-tp-input').onchange = (e) => {
       TAKE_PROFIT_TARGET = parseFloat(e.target.value) || 50000;
       persistAllState();
       updateHud();
+      sendCloudTelemetry();
     };
 
-    document.getElementById('r-reset-btn').onclick = () => {
+    document.getElementById('j-reset-btn').onclick = () => {
       if (!confirm('Reset session statistics?')) return;
       wins = 0; losses = 0;
       START_BANKROLL = liveWalletBal;
       sessionProfit = 0;
-      currentBet = BASE_BET;
       martingaleStep = 0;
+      currentBet = getStakeForStep(BASE_BET, 0);
       RECORDED_BETS_FEED = [];
-      try { localStorage.removeItem('REAL_BETS_FEED'); } catch (e) {}
+      try { localStorage.removeItem('JASH_BETS_FEED'); localStorage.removeItem('REAL_BETS_FEED'); } catch (e) {}
       persistAllState();
       updateHud();
+      sendCloudTelemetry();
     };
 
-    document.getElementById('r-toggle-btn').onclick = () => {
+    document.getElementById('j-toggle-btn').onclick = () => {
       running = !running;
-      const b = document.getElementById('r-toggle-btn');
+      const b = document.getElementById('j-toggle-btn');
       b.textContent = running ? '⏹ STOP ENGINE' : '▶ START ENGINE';
-      b.className = running ? 'r-btn r-stop' : 'r-btn r-start';
+      b.className = running ? 'j-btn j-stop' : 'j-btn j-start';
       pendingBet = null;
       persistAllState();
       updateHud();
+      sendCloudTelemetry();
     };
   }
 
   function updateHud() {
-    const badge = document.getElementById('r-status-badge');
+    const badge = document.getElementById('j-status-badge');
     if (!badge) return;
 
     readScreenWalletBalance();
 
     badge.textContent = running ? (pendingBet ? `⏳ BETTING ₹${pendingBet.stake} ON ${pendingBet.pred}` : `⚡ APEX TITAN (${GAME_MODE}) ACTIVE`) : `⏹ ENGINE (${GAME_MODE}) STOPPED`;
-    badge.style.color = running ? '#b7ff38' : '#ff5368';
+    badge.style.color = running ? '#00f5a0' : '#ff5368';
 
-    document.getElementById('r-livebal').textContent = `₹${liveWalletBal.toFixed(2)}`;
-    document.getElementById('r-stake').textContent = `₹${currentBet} (Step ${martingaleStep}/${MAX_MARTINGALE_STEPS})`;
-    document.getElementById('r-score').textContent = `${wins}W / ${losses}L`;
+    document.getElementById('j-livebal').textContent = `₹${liveWalletBal.toFixed(2)}`;
+    document.getElementById('j-stake').textContent = `₹${currentBet} (Step ${martingaleStep})`;
+    document.getElementById('j-score').textContent = `${wins}W / ${losses}L`;
 
-    const nextLbl = document.getElementById('r-next-pred-lbl');
+    const timerEl = document.getElementById('j-timer');
+    if (timerEl) {
+      const sLeft = getSynchronizedSeconds();
+      timerEl.textContent = sLeft + 's';
+    }
+
+    const nextLbl = document.getElementById('j-next-pred-lbl');
     if (nextLbl) {
       const pred = computeMasterPrediction();
       nextLbl.textContent = `${pred.size} [${pred.balls.join(',')}]`;
       nextLbl.style.color = pred.size === 'BIG' ? '#56e6ff' : '#ff4da6';
     }
 
-    const feedBox = document.getElementById('r-feed-box');
+    const feedBox = document.getElementById('j-feed-box');
     if (feedBox && RECORDED_BETS_FEED.length > 0) {
       feedBox.innerHTML = RECORDED_BETS_FEED.slice(0, 15).map(f => `
         <div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(255,255,255,0.05);color:${f.won === true ? '#00f5a0' : f.won === false ? '#ff007a' : '#ffcc00'}">
@@ -639,19 +819,19 @@ script_code = '''// ==UserScript==
     }
   }
 
-  // ── 9. MAIN AUTOBET CYCLE LOOP ───────────────────────────
+  // ── 10. MAIN AUTOBET CYCLE LOOP ───────────────────────────
   async function botCycle() {
     try {
       const secondsLeft = getSynchronizedSeconds();
       const currentBucket = getCurrentTimeBucket();
 
-      const tEl = document.getElementById('r-timer');
+      const tEl = document.getElementById('j-timer');
       if (tEl) tEl.textContent = secondsLeft + 's';
 
       if (secondsLeft === 28 || secondsLeft === 58) readScreenWalletBalance();
 
       let activePeriod = null;
-      const allText = Array.from(document.querySelectorAll('div, span, p, b')).filter(e => !e.closest('#real-hud') && !e.closest('table'));
+      const allText = Array.from(document.querySelectorAll('div, span, p, b')).filter(e => !e.closest('#jash-hud') && !e.closest('table'));
       for (const el of allText) {
         const txt = (el.textContent || '').trim();
         const m = txt.match(/\\b(2026\\d{10,14})\\b/);
@@ -682,24 +862,19 @@ script_code = '''// ==UserScript==
         if (ACTUALLY_PLACED_PERIODS.has(finished.period)) {
           if (finished.won) {
             wins++;
-            currentBet = BASE_BET;
             martingaleStep = 0;
-            console.log(`%c🏆 REAL MODZ WIN on #${finished.period}! Reset to Base ₹${BASE_BET}`, 'background:#10b981;color:#fff;font-weight:bold;padding:5px');
+            currentBet = getStakeForStep(BASE_BET, 0);
+            console.log(`%c🏆 JASH VIP WIN on #${finished.period}! Reset to Base ₹${BASE_BET}`, 'background:#10b981;color:#fff;font-weight:bold;padding:5px');
           } else {
             losses++;
             martingaleStep++;
-            if (martingaleStep >= MAX_MARTINGALE_STEPS) {
-              currentBet = BASE_BET;
-              martingaleStep = 0;
-            } else {
-              currentBet = currentBet * 2;
-              console.log(`%c💀 REAL MODZ LOSS on #${finished.period}! Step ${martingaleStep} -> ₹${currentBet}`, 'background:#ef4444;color:#fff;font-weight:bold;padding:5px');
-            }
+            currentBet = getStakeForStep(BASE_BET, martingaleStep);
+            console.log(`%c💀 JASH VIP LOSS on #${finished.period}! Step ${martingaleStep} -> ₹${currentBet} (No Loss Limit Martingale)`, 'background:#ef4444;color:#fff;font-weight:bold;padding:5px');
           }
         }
 
         if (RECORDED_BETS_FEED.length > 1000) RECORDED_BETS_FEED = RECORDED_BETS_FEED.slice(0, 1000);
-        try { localStorage.setItem('REAL_BETS_FEED', JSON.stringify(RECORDED_BETS_FEED.slice(0, 50))); } catch (e) {}
+        try { localStorage.setItem('JASH_BETS_FEED', JSON.stringify(RECORDED_BETS_FEED.slice(0, 50))); } catch (e) {}
 
         pendingBet = null;
         persistAllState();
@@ -744,7 +919,7 @@ script_code = '''// ==UserScript==
             time: new Date().toLocaleTimeString()
           });
           if (RECORDED_BETS_FEED.length > 1000) RECORDED_BETS_FEED = RECORDED_BETS_FEED.slice(0, 1000);
-          try { localStorage.setItem('REAL_BETS_FEED', JSON.stringify(RECORDED_BETS_FEED.slice(0, 50))); } catch (e) {}
+          try { localStorage.setItem('JASH_BETS_FEED', JSON.stringify(RECORDED_BETS_FEED.slice(0, 50))); } catch (e) {}
         }
 
         persistAllState();
@@ -761,9 +936,9 @@ script_code = '''// ==UserScript==
     }
   }
 
-  // ── 10. SPA CONTINUOUS ATTACHMENT & INITIALIZATION ───────
+  // ── 11. SPA CONTINUOUS ATTACHMENT & INITIALIZATION ───────
   function ensureHud() {
-    if (!document.getElementById('real-hud')) createHud();
+    if (!document.getElementById('jash-hud')) createHud();
   }
 
   createHud();
@@ -772,16 +947,27 @@ script_code = '''// ==UserScript==
 })();
 '''
 
-with open('/Users/jashwanthsingh/Downloads/signal_top1_follower.user.js', 'w') as f:
-    f.write(script_code)
+output_paths = [
+    '/Users/jashwanthsingh/Downloads/signal_top1_follower.user.js',
+    '/Users/jashwanthsingh/Downloads/jash_perc_win.user.js',
+    '/Users/jashwanthsingh/Downloads/30sec_win_v1.user.js',
+    '/Users/jashwanthsingh/Downloads/JASH_BOT.user.js',
+    '/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V9UM_AUTOBET.user.js',
+    '/Users/jashwanthsingh/Downloads/jashvip/signal_top1_follower.user.js',
+    '/Users/jashwanthsingh/Downloads/jashvip/jash_perc_win.user.js',
+    '/Users/jashwanthsingh/Downloads/jashvip/JASH_BOT.user.js',
+    '/Users/jashwanthsingh/Downloads/jashvip/JASH_VIP_APEX_TITAN_V9UM_AUTOBET.user.js',
+    '/Users/jashwanthsingh/Downloads/jashvip/public/signal_top1_follower.user.js',
+    '/Users/jashwanthsingh/Downloads/jashvip/public/jash_perc_win.user.js',
+    '/Users/jashwanthsingh/Downloads/jashvip/public/30sec_win_v1.user.js',
+    '/Users/jashwanthsingh/Downloads/jashvip/public/JASH_BOT.user.js',
+    '/Users/jashwanthsingh/Downloads/jashvip/public/JASH_VIP_APEX_TITAN_V9UM_AUTOBET.user.js'
+]
 
-with open('/Users/jashwanthsingh/Downloads/jash_perc_win.user.js', 'w') as f:
-    f.write(script_code)
+for p in output_paths:
+    os.makedirs(os.path.dirname(p), exist_ok=True)
+    with open(p, 'w', encoding='utf-8') as f:
+        f.write(script_code)
+    print(f"Generated: {p}")
 
-with open('/Users/jashwanthsingh/Downloads/jashvip/public/signal_top1_follower.user.js', 'w') as f:
-    f.write(script_code)
-
-with open('/Users/jashwanthsingh/Downloads/jashvip/public/jash_perc_win.user.js', 'w') as f:
-    f.write(script_code)
-
-print('GENERATED_SUCCESSFULLY')
+print('BUILD_SUCCESS')

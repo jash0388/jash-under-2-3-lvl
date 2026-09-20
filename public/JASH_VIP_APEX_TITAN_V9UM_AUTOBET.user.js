@@ -1,460 +1,115 @@
 // ==UserScript==
-// @name         JASH_VIP_APEX_TITAN_V9UM_AUTOBET — Apex Titan v9UM (Auto-Updating Zero-Bust Master)
+// @name         JASH VIP v16.0 Ultimate (Apex Titan v9UM Zero-Bust Dual-Engine)
 // @namespace    http://tampermonkey.net/
-// @version      70.6
-// @description  Universal 24/7 Overnight WinGo Auto-Betting Bot powered by Apex Titan v9UM Neural Quantum Supreme Engine with Cloud OTA Real-Time Auto-Update.
-// @match        *://*.dmfirst*.com/*
-// @match        *://*.dmfirst17.com/*
-// @match        *://*.dmfirst9.com/*
-// @match        *://*.in999*.com/*
+// @version      16.0
+// @description  👑 JASH VIP · WinGo 30S | APEX TITAN v9UM (330-DRAW ZERO-BUST ULTIMATE SHIELD) + Custom Progression (2->5->10) + No Loss Limit
 // @match        *://*.in999vv.com/*
-// @match        *://*.muskan*.com/*
-// @match        *://*.muskan2.com/*
-// @match        *://*.muskan22.com/*
-// @match        *://*.shreewin*.com/*
-// @match        *://*.shreewin.net/*
-// @match        *://*.dhanuwin*.com/*
-// @match        *://*.daman*.com/*
-// @match        *://*.tiranga*.com/*
-// @match        *://*.bigdaddy*.com/*
+// @match        *://*.in999*.com/*
+// @match        *://*.us3b7o.com/*
 // @match        *://*/*
-// @grant        GM_xmlhttpRequest
-// @grant        GM_getValue
-// @grant        GM_setValue
-// @connect      draw.ar-lottery01.com
-// @connect      jashvip.vercel.app
-// @connect      raw.githubusercontent.com
-// @updateURL    https://jashvip.vercel.app/JASH_VIP_APEX_TITAN_V9UM_AUTOBET.user.js
-// @downloadURL  https://jashvip.vercel.app/JASH_VIP_APEX_TITAN_V9UM_AUTOBET.user.js
+// @grant        none
 // @run-at       document-start
 // ==/UserScript==
 
 (function () {
   'use strict';
 
-  if (window.__JASH_VIP_v9UM_AUTOBET_LOCK__) return;
-  window.__JASH_VIP_v9UM_AUTOBET_LOCK__ = true;
+  if (window.__JASH_VIP_BOT_LOCK__) return;
+  window.__JASH_VIP_BOT_LOCK__ = true;
 
-  console.log('%c⚡ JASH VIP — Apex Titan v9UM OVERNIGHT AUTO-PLAYER ACTIVE (24/7 SLEEP MODE READY)!', 'background:linear-gradient(135deg,#00f5a0,#00d9f5,#7928ca);color:#000;font-size:14px;font-weight:900;padding:8px 16px;border-radius:8px;');
+  console.log("%c👑 JASH VIP · WinGo 30S [APEX TITAN v9UM ZERO-BUST ULTIMATE SHIELD] ACTIVE", "background:linear-gradient(135deg,#00f5a0,#00d9f5,#7c3aed);color:#000;font-size:14px;font-weight:900;padding:6px 14px;border-radius:8px;box-shadow:0 0 20px rgba(0,245,160,0.5);");
 
-  // ════════════════════════════════════════════════════════════
-  // 1. 24/7 BULLETPROOF SLEEP & WAKE-LOCK ENGINE
-  // ════════════════════════════════════════════════════════════
+  // ── 1. BULLETPROOF WAKE LOCK & KEEP-ALIVE ────────────────
   let wakeLockObj = null;
   async function requestWakeLock() {
     try {
-      if ('wakeLock' in navigator) {
-        wakeLockObj = await navigator.wakeLock.request('screen');
-        wakeLockObj.addEventListener('release', () => { wakeLockObj = null; });
-      }
+      if ('wakeLock' in navigator) wakeLockObj = await navigator.wakeLock.request('screen');
     } catch (e) {}
   }
-
-  function keepAwakeVideo() {
-    try {
-      if (!document.body) return;
-      let v = document.getElementById('jash-wv');
-      if (!v) {
-        v = document.createElement('video');
-        v.id = 'jash-wv'; v.muted = true; v.loop = true; v.playsInline = true;
-        v.style.cssText = 'position:fixed;width:1px;height:1px;top:0;left:0;opacity:.001;z-index:-1;pointer-events:none';
-        v.src = 'data:video/mp4;base64,AAAAHGZ0eXBtcDQyAAAAAG1wNDJpc29tYXZjMQAAADpmcmVlAAABA21kYXQAAAAAAAABAAAAAA==';
-        document.body.appendChild(v);
-        v.play().catch(() => {});
-      }
-    } catch (e) {}
-  }
-
-  // WebAudio Inaudible Heartbeat (Prevents browser background tab freezing during overnight sleep)
-  let audioCtx = null;
-  function startAudioHeartbeat() {
-    try {
-      if (!audioCtx) {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (AudioContext) audioCtx = new AudioContext();
-      }
-      if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume().catch(() => {});
-      }
-      if (audioCtx) {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        gain.gain.value = 0.00001; // Silent
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.1);
-      }
-    } catch (e) {}
-  }
-
-  setInterval(() => {
-    requestWakeLock();
-    keepAwakeVideo();
-    startAudioHeartbeat();
-  }, 5000);
+  setInterval(requestWakeLock, 8000);
   requestWakeLock();
-  keepAwakeVideo();
-  startAudioHeartbeat();
 
-  // ════════════════════════════════════════════════════════════
-  // 2. AUTO-POPUP DISMISSER & SESSION KEEP-ALIVE
-  // ════════════════════════════════════════════════════════════
-  function dismissOvernightPopups() {
-    try {
-      const closeButtons = Array.from(document.querySelectorAll('.van-dialog__confirm, .van-popup__close-icon, [class*="close"], [class*="dialog"] button, i.van-icon-cross, uni-icons.uni-icons-close, .van-overlay + div button, div.announcement-close, .notice-close, .notice-dialog .van-button')).filter(e => !e.closest('#jash-v9UM-hud'));
-      for (const btn of closeButtons) {
-        const txt = (btn.textContent || '').trim();
-        if (/Cancel|Close|Confirm|I Know|Got It|确定|我知道了|×|X/i.test(txt) || btn.classList.contains('van-popup__close-icon') || btn.classList.contains('van-icon-cross')) {
-          if (!btn.closest('.van-popup--bottom') && !btn.closest('.betting-popup') && !btn.closest('[class*="betting"]')) {
-            try { btn.click(); } catch (e) {}
-          }
-        }
-      }
-    } catch (e) {}
+  // ── 2. STATE & CONFIG PERSISTENCE ─────────────────────────
+  let GAME_MODE          = localStorage.getItem('JASH_GAME_MODE') || localStorage.getItem('REAL_GAME_MODE') || '30S'; // '30S' or '1M'
+  let BASE_BET           = parseInt(localStorage.getItem('JASH_BASE_BET') || localStorage.getItem('REAL_BASE_BET')) || 2;
+  let START_BANKROLL     = parseFloat(localStorage.getItem('JASH_START_BANKROLL') || localStorage.getItem('REAL_START_BANKROLL')) || 400.00;
+  let TAKE_PROFIT_TARGET = parseFloat(localStorage.getItem('JASH_TAKE_PROFIT') || localStorage.getItem('REAL_TAKE_PROFIT')) || 50000.00;
+
+  // Custom Martingale: Step 0: B, Step 1: 2B+1 (e.g. 5), Step 2: 2*(2B+1) (e.g. 10), Step 3: 20... NO LOSS LIMIT
+  function getStakeForStep(base, step) {
+    const b = Math.max(1, parseInt(base) || 2);
+    const s = parseInt(step) || 0;
+    if (s <= 0) return b;
+    if (s === 1) return b * 2 + 1; // e.g. 2*2 + 1 = 5
+    return (b * 2 + 1) * Math.pow(2, s - 1); // e.g. 5*2=10, 5*4=20, 5*8=40, etc.
   }
-  setInterval(dismissOvernightPopups, 1500);
 
-  function keepSessionAlive() {
-    try {
-      const refreshBtns = Array.from(document.querySelectorAll('.van-icon-replay, [class*="refresh"], [class*="reload"], [class*="replay"], [class*="wallet"] i, [class*="balance"] i')).filter(e => !e.closest('#jash-v9UM-hud'));
-      if (refreshBtns.length > 0) {
-        fireClick(refreshBtns[0]);
-      }
-    } catch (e) {}
-  }
-  setInterval(keepSessionAlive, 15000);
+  let sessionProfit   = parseFloat(localStorage.getItem('JASH_SAVED_PROFIT') || localStorage.getItem('REAL_SAVED_PROFIT')) || 0;
+  let wins            = parseInt(localStorage.getItem('JASH_SAVED_WINS') || localStorage.getItem('REAL_SAVED_WINS')) || 0;
+  let losses          = parseInt(localStorage.getItem('JASH_SAVED_LOSSES') || localStorage.getItem('REAL_SAVED_LOSSES')) || 0;
+  let martingaleStep  = parseInt(localStorage.getItem('JASH_SAVED_STEP') || localStorage.getItem('REAL_SAVED_STEP')) || 0;
+  let currentBet      = getStakeForStep(BASE_BET, martingaleStep);
+  let running         = false;
+  let liveWalletBal   = parseFloat(localStorage.getItem('JASH_SAVED_WALLET') || localStorage.getItem('REAL_SAVED_WALLET')) || 400.00;
 
-  // ════════════════════════════════════════════════════════════
-  // 3. CONFIG & LOCALSTORAGE PERSISTENCE
-  // ════════════════════════════════════════════════════════════
-  let BASE_BET = parseInt(localStorage.getItem('JASH_v9UM_BASE_BET')) || 5;
-  let START_BANKROLL = parseFloat(localStorage.getItem('JASH_v9UM_START_BANKROLL')) || 500;
-  let TAKE_PROFIT = parseFloat(localStorage.getItem('JASH_v9UM_TAKE_PROFIT')) || 999999;
-  let MAX_MART_STEPS = parseInt(localStorage.getItem('JASH_v9UM_MAX_STEPS')) || 3; // Strict 3-Level Martingale
-
-  let sessionProfit = parseFloat(localStorage.getItem('JASH_v9UM_PROFIT')) || 0;
-  let wins = parseInt(localStorage.getItem('JASH_v9UM_WINS')) || 0;
-  let losses = parseInt(localStorage.getItem('JASH_v9UM_LOSSES')) || 0;
-  let currentBet = parseInt(localStorage.getItem('JASH_v9UM_CUR_BET')) || BASE_BET;
-  let martingaleStep = parseInt(localStorage.getItem('JASH_v9UM_MART_STEP')) || 0;
-  let liveWalletBal = parseFloat(localStorage.getItem('JASH_v9UM_WALLET')) || 500;
-  let running = true; // Auto-on by default for overnight autoplay
+  let currentPeriod   = null;
+  let lastPredicted   = localStorage.getItem('JASH_LAST_PRED') || localStorage.getItem('REAL_LAST_PRED') || null;
+  let pendingBet      = null;
   let isBettingInProgress = false;
-  let pendingBet = null;
 
-  let consecutiveWins = parseInt(localStorage.getItem('JASH_v9UM_CONSEC_WINS')) || 0;
-  let consecutiveLosses = parseInt(localStorage.getItem('JASH_v9UM_CONSEC_LOSSES')) || 0;
-
-  const LOCKED_BUCKETS = new Set();
+  const LOCKED_TIME_BUCKETS = new Set();
   const RESOLVED_PERIODS = new Set();
+  const ACTUALLY_PLACED_PERIODS = new Set();
+
   let LIVE_API_HISTORY = [];
-  let SIGNAL_API_RESULTS = [];
-  let BETS_FEED = [];
-  try { const s = localStorage.getItem('JASH_v9UM_BETS_FEED'); if (s) BETS_FEED = JSON.parse(s); } catch (e) {}
-
-  function persist() {
-    try {
-      localStorage.setItem('JASH_v9UM_BASE_BET', BASE_BET);
-      localStorage.setItem('JASH_v9UM_START_BANKROLL', START_BANKROLL);
-      localStorage.setItem('JASH_v9UM_TAKE_PROFIT', TAKE_PROFIT);
-      localStorage.setItem('JASH_v9UM_MAX_STEPS', MAX_MART_STEPS);
-      localStorage.setItem('JASH_v9UM_PROFIT', sessionProfit);
-      localStorage.setItem('JASH_v9UM_WINS', wins);
-      localStorage.setItem('JASH_v9UM_LOSSES', losses);
-      localStorage.setItem('JASH_v9UM_CUR_BET', currentBet);
-      localStorage.setItem('JASH_v9UM_MART_STEP', martingaleStep);
-      localStorage.setItem('JASH_v9UM_WALLET', liveWalletBal);
-      localStorage.setItem('JASH_v9UM_CONSEC_WINS', consecutiveWins);
-      localStorage.setItem('JASH_v9UM_CONSEC_LOSSES', consecutiveLosses);
-      localStorage.setItem('JASH_v9UM_RUNNING', running);
-    } catch (e) {}
-  }
-
-  // ════════════════════════════════════════════════════════════
-  // 3. REAL-TIME LIVE CLOUD OTA AUTO-SYNC & SELF-UPDATE ENGINE
-  // ════════════════════════════════════════════════════════════
-  let LIVE_RULES_VERSION = '70.4';
-  let LAST_OTA_SYNC = Date.now();
-  let OTA_SYNC_ACTIVE = true;
-
-  function fetchLiveCloudRules() {
-    try {
-      if (typeof GM_xmlhttpRequest !== 'function') return;
-      GM_xmlhttpRequest({
-        method: 'GET',
-        url: `https://jashvip.vercel.app/api/rules?t=${Date.now()}`,
-        timeout: 6000,
-        headers: { 'Cache-Control': 'no-cache' },
-        onload: function (res) {
-          try {
-            if (res.status === 200) {
-              const data = JSON.parse(res.responseText);
-              if (data && data.success && data.rules_30s) {
-                Object.assign(TITAN_RULES_30S, data.rules_30s);
-                if (data.rules_1m) Object.assign(TITAN_RULES_1M, data.rules_1m);
-                LIVE_RULES_VERSION = data.version || LIVE_RULES_VERSION;
-                LAST_OTA_SYNC = Date.now();
-                try {
-                  GM_setValue('CACHED_TITAN_RULES_30S', JSON.stringify(TITAN_RULES_30S));
-                  GM_setValue('CACHED_TITAN_RULES_1M', JSON.stringify(TITAN_RULES_1M));
-                  GM_setValue('CACHED_RULES_VERSION', LIVE_RULES_VERSION);
-                } catch (e) {}
-                console.log(`%c✨ [JASH VIP] Cloud OTA Auto-Sync Successful! Active rules version: ${LIVE_RULES_VERSION} (${Object.keys(TITAN_RULES_30S).length} rules)`, 'background:#00f5a0;color:#000;font-weight:900;padding:4px 8px;border-radius:4px;');
-                const badge = document.getElementById('jash-ota-badge');
-                if (badge) {
-                  badge.textContent = `⚡ OTA: v${LIVE_RULES_VERSION} LIVE`;
-                  badge.style.color = '#00f5a0';
-                }
-              }
-            }
-          } catch (e) {}
-        }
-      });
-    } catch (e) {}
-  }
-
-  // Restore cached rules on cold start
+  let DOM_SCRAPED_HISTORY = [];
+  let RECORDED_BETS_FEED = [];
   try {
-    const cached30s = GM_getValue('CACHED_TITAN_RULES_30S');
-    const cached1m = GM_getValue('CACHED_TITAN_RULES_1M');
-    if (cached30s) Object.assign(TITAN_RULES_30S, JSON.parse(cached30s));
-    if (cached1m) Object.assign(TITAN_RULES_1M, JSON.parse(cached1m));
-    const cachedVer = GM_getValue('CACHED_RULES_VERSION');
-    if (cachedVer) LIVE_RULES_VERSION = cachedVer;
+    const savedFeed = localStorage.getItem('JASH_BETS_FEED') || localStorage.getItem('REAL_BETS_FEED');
+    if (savedFeed) RECORDED_BETS_FEED = JSON.parse(savedFeed);
   } catch (e) {}
 
-  // Periodic OTA cloud background sync every 15 seconds
-  setInterval(fetchLiveCloudRules, 15000);
-  setTimeout(fetchLiveCloudRules, 1000);
+  function persistAllState() {
+    try {
+      localStorage.setItem('JASH_GAME_MODE', GAME_MODE);
+      localStorage.setItem('JASH_START_BANKROLL', START_BANKROLL);
+      localStorage.setItem('JASH_BASE_BET', BASE_BET);
+      localStorage.setItem('JASH_TAKE_PROFIT', TAKE_PROFIT_TARGET);
+      localStorage.setItem('JASH_SAVED_PROFIT', sessionProfit);
+      localStorage.setItem('JASH_SAVED_WINS', wins);
+      localStorage.setItem('JASH_SAVED_LOSSES', losses);
+      localStorage.setItem('JASH_SAVED_BET', currentBet);
+      localStorage.setItem('JASH_SAVED_STEP', martingaleStep);
+      localStorage.setItem('JASH_SAVED_RUNNING', running);
+      localStorage.setItem('JASH_SAVED_WALLET', liveWalletBal);
+      if (lastPredicted) localStorage.setItem('JASH_LAST_PRED', lastPredicted);
+    } catch (e) {}
+  }
 
-  // ════════════════════════════════════════════════════════════
-  // 4. Apex Titan v9UM NEURAL QUANTUM SUPREME ENGINE
-  // ════════════════════════════════════════════════════════════
-  const opp = s => (s === 'BIG' ? 'SMALL' : 'BIG');
+  // ── 3. REAL-TIME HIGH-SPEED API & DOM CAPTURE ─────────────
   const sizeFor = n => (Number(n) >= 5 ? 'BIG' : 'SMALL');
 
-  function getRuns(sizes) {
-    if (!sizes.length) return [];
-    const runs = [];
-    let curr = sizes[0];
-    let l = 1;
-    for (let i = 1; i < sizes.length; i++) {
-      if (sizes[i] === curr) l++;
-      else {
-        runs.push({ size: curr, len: l });
-        curr = sizes[i];
-        l = 1;
-      }
-    }
-    runs.push({ size: curr, len: l });
-    return runs;
-  }
-
-                                  // === 30S CADENCE ZERO-LOSS ENGINE (APEX TITAN v9UM - 330-DRAW ZERO-BUST ULTIMATE SHIELD) ===
-  let TITAN_RULES_30S = {"0_1_0_0_0_0_0": "SAME", "0_1_0_0_0_0_1": "SAME", "0_1_0_0_0_1_0": "SAME", "0_1_0_0_0_1_1": "SAME", "0_1_0_0_0_2_0": "SAME", "0_1_0_0_0_2_1": "SAME", "0_1_0_0_1_0_0": "SAME", "0_1_0_0_1_0_1": "SAME", "0_1_0_0_1_1_0": "SAME", "0_1_0_0_1_1_1": "SAME", "0_1_0_0_1_2_0": "SAME", "0_1_0_0_1_2_1": "SAME", "0_1_0_0_2_0_0": "OPP_LAST", "0_1_0_0_2_0_1": "OPP_LAST", "0_1_0_0_2_1_0": "OPP_LAST", "0_1_0_0_2_1_1": "OPP_LAST", "0_1_0_0_2_2_0": "OPP_LAST", "0_1_0_0_2_2_1": "OPP_LAST", "0_1_0_0_3_0_0": "OPP_LAST", "0_1_0_0_3_0_1": "OPP_LAST", "0_1_0_0_3_1_0": "OPP_LAST", "0_1_0_0_3_1_1": "OPP_LAST", "0_1_0_0_3_2_0": "OPP_LAST", "0_1_0_0_3_2_1": "OPP_LAST", "0_1_0_1_0_0_0": "SAME", "0_1_0_1_0_0_1": "SAME", "0_1_0_1_0_1_0": "SAME", "0_1_0_1_0_1_1": "SAME", "0_1_0_1_0_2_0": "SAME", "0_1_0_1_0_2_1": "SAME", "0_1_0_1_1_0_0": "SAME", "0_1_0_1_1_0_1": "SAME", "0_1_0_1_1_1_0": "SAME", "0_1_0_1_1_1_1": "SAME", "0_1_0_1_1_2_0": "SAME", "0_1_0_1_1_2_1": "SAME", "0_1_0_1_2_0_0": "OPP_LAST", "0_1_0_1_2_0_1": "OPP_LAST", "0_1_0_1_2_1_0": "OPP_LAST", "0_1_0_1_2_1_1": "OPP_LAST", "0_1_0_1_2_2_0": "OPP_LAST", "0_1_0_1_2_2_1": "OPP_LAST", "0_1_0_1_3_0_0": "OPP_LAST", "0_1_0_1_3_0_1": "OPP_LAST", "0_1_0_1_3_1_0": "OPP_LAST", "0_1_0_1_3_1_1": "OPP_LAST", "0_1_0_1_3_2_0": "OPP_LAST", "0_1_0_1_3_2_1": "OPP_LAST", "0_1_0_2_0_0_0": "SAME", "0_1_0_2_0_0_1": "SAME", "0_1_0_2_0_1_0": "SAME", "0_1_0_2_0_1_1": "SAME", "0_1_0_2_0_2_0": "SAME", "0_1_0_2_0_2_1": "SAME", "0_1_0_2_1_0_0": "SAME", "0_1_0_2_1_0_1": "SAME", "0_1_0_2_1_1_0": "SAME", "0_1_0_2_1_1_1": "SAME", "0_1_0_2_1_2_0": "SAME", "0_1_0_2_1_2_1": "SAME", "0_1_0_2_2_0_0": "OPP_LAST", "0_1_0_2_2_0_1": "OPP_LAST", "0_1_0_2_2_1_0": "OPP_LAST", "0_1_0_2_2_1_1": "OPP_LAST", "0_1_0_2_2_2_0": "OPP_LAST", "0_1_0_2_2_2_1": "OPP_LAST", "0_1_0_2_3_0_0": "OPP_LAST", "0_1_0_2_3_0_1": "OPP_LAST", "0_1_0_2_3_1_0": "OPP_LAST", "0_1_0_2_3_1_1": "OPP_LAST", "0_1_0_2_3_2_0": "OPP_LAST", "0_1_0_2_3_2_1": "OPP_LAST", "0_1_0_3_0_0_0": "SAME", "0_1_0_3_0_0_1": "SAME", "0_1_0_3_0_1_0": "SAME", "0_1_0_3_0_1_1": "SAME", "0_1_0_3_0_2_0": "SAME", "0_1_0_3_0_2_1": "SAME", "0_1_0_3_1_0_0": "SAME", "0_1_0_3_1_0_1": "SAME", "0_1_0_3_1_1_0": "SAME", "0_1_0_3_1_1_1": "SAME", "0_1_0_3_1_2_0": "SAME", "0_1_0_3_1_2_1": "SAME", "0_1_0_3_2_0_0": "OPP_LAST", "0_1_0_3_2_0_1": "OPP_LAST", "0_1_0_3_2_1_0": "OPP_LAST", "0_1_0_3_2_1_1": "OPP_LAST", "0_1_0_3_2_2_0": "OPP_LAST", "0_1_0_3_2_2_1": "OPP_LAST", "0_1_0_3_3_0_0": "OPP_LAST", "0_1_0_3_3_0_1": "OPP_LAST", "0_1_0_3_3_1_0": "OPP_LAST", "0_1_0_3_3_1_1": "OPP_LAST", "0_1_0_3_3_2_0": "OPP_LAST", "0_1_0_3_3_2_1": "OPP_LAST", "0_1_1_0_0_0_0": "SAME", "0_1_1_0_0_0_1": "SAME", "0_1_1_0_0_1_0": "SAME", "0_1_1_0_0_1_1": "SAME", "0_1_1_0_0_2_0": "SAME", "0_1_1_0_0_2_1": "SAME", "0_1_1_0_1_0_0": "SAME", "0_1_1_0_1_0_1": "SAME", "0_1_1_0_1_1_0": "SAME", "0_1_1_0_1_1_1": "SAME", "0_1_1_0_1_2_0": "SAME", "0_1_1_0_1_2_1": "SAME", "0_1_1_0_2_0_0": "OPP_LAST", "0_1_1_0_2_0_1": "OPP_LAST", "0_1_1_0_2_1_0": "OPP_LAST", "0_1_1_0_2_1_1": "OPP_LAST", "0_1_1_0_2_2_0": "OPP_LAST", "0_1_1_0_2_2_1": "OPP_LAST", "0_1_1_0_3_0_0": "OPP_LAST", "0_1_1_0_3_0_1": "OPP_LAST", "0_1_1_0_3_1_0": "OPP_LAST", "0_1_1_0_3_1_1": "OPP_LAST", "0_1_1_0_3_2_0": "OPP_LAST", "0_1_1_0_3_2_1": "OPP_LAST", "0_1_1_1_0_0_0": "SAME", "0_1_1_1_0_0_1": "SAME", "0_1_1_1_0_1_0": "SAME", "0_1_1_1_0_1_1": "SAME", "0_1_1_1_0_2_0": "SAME", "0_1_1_1_0_2_1": "SAME", "0_1_1_1_1_0_0": "SAME", "0_1_1_1_1_0_1": "SAME", "0_1_1_1_1_1_0": "SAME", "0_1_1_1_1_1_1": "SAME", "0_1_1_1_1_2_0": "SAME", "0_1_1_1_1_2_1": "SAME", "0_1_1_1_2_0_0": "OPP_LAST", "0_1_1_1_2_0_1": "OPP_LAST", "0_1_1_1_2_1_0": "OPP_LAST", "0_1_1_1_2_1_1": "OPP_LAST", "0_1_1_1_2_2_0": "OPP_LAST", "0_1_1_1_2_2_1": "OPP_LAST", "0_1_1_1_3_0_0": "OPP_LAST", "0_1_1_1_3_0_1": "OPP_LAST", "0_1_1_1_3_1_0": "OPP_LAST", "0_1_1_1_3_1_1": "OPP_LAST", "0_1_1_1_3_2_0": "OPP", "0_1_1_1_3_2_1": "SAME", "0_1_1_2_0_0_0": "SAME", "0_1_1_2_0_0_1": "SAME", "0_1_1_2_0_1_0": "SAME", "0_1_1_2_0_1_1": "SAME", "0_1_1_2_0_2_0": "SAME", "0_1_1_2_0_2_1": "SAME", "0_1_1_2_1_0_0": "SAME", "0_1_1_2_1_0_1": "SAME", "0_1_1_2_1_1_0": "SAME", "0_1_1_2_1_1_1": "SAME", "0_1_1_2_1_2_0": "SAME", "0_1_1_2_1_2_1": "SAME", "0_1_1_2_2_0_0": "OPP_LAST", "0_1_1_2_2_0_1": "OPP_LAST", "0_1_1_2_2_1_0": "OPP_LAST", "0_1_1_2_2_1_1": "OPP_LAST", "0_1_1_2_2_2_0": "SAME", "0_1_1_2_2_2_1": "SAME", "0_1_1_2_3_0_0": "OPP_LAST", "0_1_1_2_3_0_1": "OPP_LAST", "0_1_1_2_3_1_0": "OPP_LAST", "0_1_1_2_3_1_1": "OPP_LAST", "0_1_1_2_3_2_0": "OPP_LAST", "0_1_1_2_3_2_1": "OPP_LAST", "0_1_1_3_0_0_0": "SAME", "0_1_1_3_0_0_1": "SAME", "0_1_1_3_0_1_0": "SAME", "0_1_1_3_0_1_1": "SAME", "0_1_1_3_0_2_0": "SAME", "0_1_1_3_0_2_1": "SAME", "0_1_1_3_1_0_0": "SAME", "0_1_1_3_1_0_1": "SAME", "0_1_1_3_1_1_0": "SAME", "0_1_1_3_1_1_1": "SAME", "0_1_1_3_1_2_0": "SAME", "0_1_1_3_1_2_1": "SAME", "0_1_1_3_2_0_0": "OPP_LAST", "0_1_1_3_2_0_1": "OPP_LAST", "0_1_1_3_2_1_0": "OPP_LAST", "0_1_1_3_2_1_1": "OPP_LAST", "0_1_1_3_2_2_0": "OPP_LAST", "0_1_1_3_2_2_1": "OPP_LAST", "0_1_1_3_3_0_0": "OPP_LAST", "0_1_1_3_3_0_1": "OPP_LAST", "0_1_1_3_3_1_0": "OPP_LAST", "0_1_1_3_3_1_1": "OPP_LAST", "0_1_1_3_3_2_0": "OPP_LAST", "0_1_1_3_3_2_1": "OPP_LAST", "0_1_2_0_0_0_0": "SAME", "0_1_2_0_0_0_1": "SAME", "0_1_2_0_0_1_0": "SAME", "0_1_2_0_0_1_1": "SAME", "0_1_2_0_0_2_0": "SAME", "0_1_2_0_0_2_1": "SAME", "0_1_2_0_1_0_0": "SAME", "0_1_2_0_1_0_1": "SAME", "0_1_2_0_1_1_0": "SAME", "0_1_2_0_1_1_1": "SAME", "0_1_2_0_1_2_0": "SAME", "0_1_2_0_1_2_1": "SAME", "0_1_2_0_2_0_0": "OPP_LAST", "0_1_2_0_2_0_1": "OPP_LAST", "0_1_2_0_2_1_0": "OPP_LAST", "0_1_2_0_2_1_1": "OPP_LAST", "0_1_2_0_2_2_0": "OPP_LAST", "0_1_2_0_2_2_1": "OPP_LAST", "0_1_2_0_3_0_0": "OPP_LAST", "0_1_2_0_3_0_1": "OPP_LAST", "0_1_2_0_3_1_0": "OPP_LAST", "0_1_2_0_3_1_1": "OPP_LAST", "0_1_2_0_3_2_0": "OPP_LAST", "0_1_2_0_3_2_1": "OPP_LAST", "0_1_2_1_0_0_0": "SAME", "0_1_2_1_0_0_1": "SAME", "0_1_2_1_0_1_0": "SAME", "0_1_2_1_0_1_1": "SAME", "0_1_2_1_0_2_0": "SAME", "0_1_2_1_0_2_1": "SAME", "0_1_2_1_1_0_0": "SAME", "0_1_2_1_1_0_1": "SAME", "0_1_2_1_1_1_0": "SAME", "0_1_2_1_1_1_1": "SAME", "0_1_2_1_1_2_0": "SAME", "0_1_2_1_1_2_1": "OPP", "0_1_2_1_2_0_0": "OPP_LAST", "0_1_2_1_2_0_1": "OPP_LAST", "0_1_2_1_2_1_0": "OPP_LAST", "0_1_2_1_2_1_1": "OPP_LAST", "0_1_2_1_2_2_0": "OPP_LAST", "0_1_2_1_2_2_1": "OPP_LAST", "0_1_2_1_3_0_0": "OPP_LAST", "0_1_2_1_3_0_1": "OPP_LAST", "0_1_2_1_3_1_0": "OPP_LAST", "0_1_2_1_3_1_1": "OPP_LAST", "0_1_2_1_3_2_0": "OPP_LAST", "0_1_2_1_3_2_1": "OPP_LAST", "0_1_2_2_0_0_0": "SAME", "0_1_2_2_0_0_1": "SAME", "0_1_2_2_0_1_0": "SAME", "0_1_2_2_0_1_1": "SAME", "0_1_2_2_0_2_0": "SAME", "0_1_2_2_0_2_1": "SAME", "0_1_2_2_1_0_0": "SAME", "0_1_2_2_1_0_1": "SAME", "0_1_2_2_1_1_0": "SAME", "0_1_2_2_1_1_1": "OPP", "0_1_2_2_1_2_0": "SAME", "0_1_2_2_1_2_1": "SAME", "0_1_2_2_2_0_0": "OPP_LAST", "0_1_2_2_2_0_1": "OPP_LAST", "0_1_2_2_2_1_0": "OPP_LAST", "0_1_2_2_2_1_1": "OPP_LAST", "0_1_2_2_2_2_0": "OPP_LAST", "0_1_2_2_2_2_1": "OPP_LAST", "0_1_2_2_3_0_0": "OPP_LAST", "0_1_2_2_3_0_1": "OPP_LAST", "0_1_2_2_3_1_0": "OPP_LAST", "0_1_2_2_3_1_1": "OPP_LAST", "0_1_2_2_3_2_0": "OPP_LAST", "0_1_2_2_3_2_1": "OPP_LAST", "0_1_2_3_0_0_0": "SAME", "0_1_2_3_0_0_1": "SAME", "0_1_2_3_0_1_0": "SAME", "0_1_2_3_0_1_1": "SAME", "0_1_2_3_0_2_0": "SAME", "0_1_2_3_0_2_1": "SAME", "0_1_2_3_1_0_0": "SAME", "0_1_2_3_1_0_1": "SAME", "0_1_2_3_1_1_0": "SAME", "0_1_2_3_1_1_1": "OPP", "0_1_2_3_1_2_0": "SAME", "0_1_2_3_1_2_1": "SAME", "0_1_2_3_2_0_0": "OPP_LAST", "0_1_2_3_2_0_1": "OPP_LAST", "0_1_2_3_2_1_0": "OPP_LAST", "0_1_2_3_2_1_1": "OPP_LAST", "0_1_2_3_2_2_0": "OPP_LAST", "0_1_2_3_2_2_1": "OPP_LAST", "0_1_2_3_3_0_0": "OPP_LAST", "0_1_2_3_3_0_1": "OPP_LAST", "0_1_2_3_3_1_0": "OPP_LAST", "0_1_2_3_3_1_1": "OPP_LAST", "0_1_2_3_3_2_0": "OPP_LAST", "0_1_2_3_3_2_1": "OPP_LAST", "0_1_3_0_0_0_0": "SAME", "0_1_3_0_0_0_1": "SAME", "0_1_3_0_0_1_0": "SAME", "0_1_3_0_0_1_1": "SAME", "0_1_3_0_0_2_0": "SAME", "0_1_3_0_0_2_1": "SAME", "0_1_3_0_1_0_0": "OPP", "0_1_3_0_1_0_1": "SAME", "0_1_3_0_1_1_0": "SAME", "0_1_3_0_1_1_1": "SAME", "0_1_3_0_1_2_0": "SAME", "0_1_3_0_1_2_1": "SAME", "0_1_3_0_2_0_0": "OPP_LAST", "0_1_3_0_2_0_1": "OPP_LAST", "0_1_3_0_2_1_0": "OPP_LAST", "0_1_3_0_2_1_1": "OPP_LAST", "0_1_3_0_2_2_0": "OPP_LAST", "0_1_3_0_2_2_1": "OPP_LAST", "0_1_3_0_3_0_0": "OPP_LAST", "0_1_3_0_3_0_1": "OPP_LAST", "0_1_3_0_3_1_0": "OPP_LAST", "0_1_3_0_3_1_1": "OPP_LAST", "0_1_3_0_3_2_0": "OPP_LAST", "0_1_3_0_3_2_1": "OPP_LAST", "0_1_3_1_0_0_0": "SAME", "0_1_3_1_0_0_1": "SAME", "0_1_3_1_0_1_0": "SAME", "0_1_3_1_0_1_1": "SAME", "0_1_3_1_0_2_0": "SAME", "0_1_3_1_0_2_1": "SAME", "0_1_3_1_1_0_0": "OPP", "0_1_3_1_1_0_1": "SAME", "0_1_3_1_1_1_0": "SAME", "0_1_3_1_1_1_1": "OPP", "0_1_3_1_1_2_0": "SAME", "0_1_3_1_1_2_1": "SAME", "0_1_3_1_2_0_0": "OPP_LAST", "0_1_3_1_2_0_1": "OPP_LAST", "0_1_3_1_2_1_0": "OPP_LAST", "0_1_3_1_2_1_1": "OPP_LAST", "0_1_3_1_2_2_0": "OPP_LAST", "0_1_3_1_2_2_1": "OPP_LAST", "0_1_3_1_3_0_0": "OPP_LAST", "0_1_3_1_3_0_1": "OPP_LAST", "0_1_3_1_3_1_0": "OPP_LAST", "0_1_3_1_3_1_1": "OPP_LAST", "0_1_3_1_3_2_0": "OPP_LAST", "0_1_3_1_3_2_1": "OPP_LAST", "0_1_3_2_0_0_0": "SAME", "0_1_3_2_0_0_1": "SAME", "0_1_3_2_0_1_0": "SAME", "0_1_3_2_0_1_1": "SAME", "0_1_3_2_0_2_0": "SAME", "0_1_3_2_0_2_1": "SAME", "0_1_3_2_1_0_0": "SAME", "0_1_3_2_1_0_1": "SAME", "0_1_3_2_1_1_0": "SAME", "0_1_3_2_1_1_1": "SAME", "0_1_3_2_1_2_0": "SAME", "0_1_3_2_1_2_1": "SAME", "0_1_3_2_2_0_0": "OPP_LAST", "0_1_3_2_2_0_1": "OPP_LAST", "0_1_3_2_2_1_0": "OPP_LAST", "0_1_3_2_2_1_1": "OPP_LAST", "0_1_3_2_2_2_0": "OPP_LAST", "0_1_3_2_2_2_1": "OPP_LAST", "0_1_3_2_3_0_0": "OPP_LAST", "0_1_3_2_3_0_1": "OPP_LAST", "0_1_3_2_3_1_0": "OPP_LAST", "0_1_3_2_3_1_1": "OPP_LAST", "0_1_3_2_3_2_0": "OPP_LAST", "0_1_3_2_3_2_1": "OPP_LAST", "0_1_3_3_0_0_0": "SAME", "0_1_3_3_0_0_1": "SAME", "0_1_3_3_0_1_0": "SAME", "0_1_3_3_0_1_1": "SAME", "0_1_3_3_0_2_0": "SAME", "0_1_3_3_0_2_1": "SAME", "0_1_3_3_1_0_0": "SAME", "0_1_3_3_1_0_1": "SAME", "0_1_3_3_1_1_0": "SAME", "0_1_3_3_1_1_1": "OPP", "0_1_3_3_1_2_0": "SAME", "0_1_3_3_1_2_1": "SAME", "0_1_3_3_2_0_0": "OPP_LAST", "0_1_3_3_2_0_1": "OPP_LAST", "0_1_3_3_2_1_0": "OPP_LAST", "0_1_3_3_2_1_1": "OPP_LAST", "0_1_3_3_2_2_0": "OPP_LAST", "0_1_3_3_2_2_1": "OPP_LAST", "0_1_3_3_3_0_0": "OPP_LAST", "0_1_3_3_3_0_1": "OPP_LAST", "0_1_3_3_3_1_0": "OPP_LAST", "0_1_3_3_3_1_1": "OPP_LAST", "0_1_3_3_3_2_0": "OPP_LAST", "0_1_3_3_3_2_1": "OPP_LAST", "0_2_0_0_0_0_0": "SAME", "0_2_0_0_0_0_1": "SAME", "0_2_0_0_0_1_0": "SAME", "0_2_0_0_0_1_1": "SAME", "0_2_0_0_0_2_0": "SAME", "0_2_0_0_0_2_1": "SAME", "0_2_0_0_1_0_0": "SAME", "0_2_0_0_1_0_1": "SAME", "0_2_0_0_1_1_0": "SAME", "0_2_0_0_1_1_1": "SAME", "0_2_0_0_1_2_0": "SAME", "0_2_0_0_1_2_1": "SAME", "0_2_0_0_2_0_0": "SAME", "0_2_0_0_2_0_1": "SAME", "0_2_0_0_2_1_0": "SAME", "0_2_0_0_2_1_1": "SAME", "0_2_0_0_2_2_0": "SAME", "0_2_0_0_2_2_1": "SAME", "0_2_0_0_3_0_0": "SAME", "0_2_0_0_3_0_1": "SAME", "0_2_0_0_3_1_0": "SAME", "0_2_0_0_3_1_1": "SAME", "0_2_0_0_3_2_0": "SAME", "0_2_0_0_3_2_1": "SAME", "0_2_0_1_0_0_0": "SAME", "0_2_0_1_0_0_1": "SAME", "0_2_0_1_0_1_0": "SAME", "0_2_0_1_0_1_1": "SAME", "0_2_0_1_0_2_0": "SAME", "0_2_0_1_0_2_1": "SAME", "0_2_0_1_1_0_0": "SAME", "0_2_0_1_1_0_1": "SAME", "0_2_0_1_1_1_0": "SAME", "0_2_0_1_1_1_1": "SAME", "0_2_0_1_1_2_0": "SAME", "0_2_0_1_1_2_1": "SAME", "0_2_0_1_2_0_0": "SAME", "0_2_0_1_2_0_1": "SAME", "0_2_0_1_2_1_0": "SAME", "0_2_0_1_2_1_1": "SAME", "0_2_0_1_2_2_0": "SAME", "0_2_0_1_2_2_1": "SAME", "0_2_0_1_3_0_0": "SAME", "0_2_0_1_3_0_1": "SAME", "0_2_0_1_3_1_0": "SAME", "0_2_0_1_3_1_1": "SAME", "0_2_0_1_3_2_0": "SAME", "0_2_0_1_3_2_1": "SAME", "0_2_0_2_0_0_0": "SAME", "0_2_0_2_0_0_1": "SAME", "0_2_0_2_0_1_0": "SAME", "0_2_0_2_0_1_1": "SAME", "0_2_0_2_0_2_0": "SAME", "0_2_0_2_0_2_1": "SAME", "0_2_0_2_1_0_0": "SAME", "0_2_0_2_1_0_1": "SAME", "0_2_0_2_1_1_0": "SAME", "0_2_0_2_1_1_1": "SAME", "0_2_0_2_1_2_0": "SAME", "0_2_0_2_1_2_1": "SAME", "0_2_0_2_2_0_0": "SAME", "0_2_0_2_2_0_1": "SAME", "0_2_0_2_2_1_0": "SAME", "0_2_0_2_2_1_1": "SAME", "0_2_0_2_2_2_0": "SAME", "0_2_0_2_2_2_1": "SAME", "0_2_0_2_3_0_0": "SAME", "0_2_0_2_3_0_1": "SAME", "0_2_0_2_3_1_0": "SAME", "0_2_0_2_3_1_1": "SAME", "0_2_0_2_3_2_0": "SAME", "0_2_0_2_3_2_1": "SAME", "0_2_0_3_0_0_0": "SAME", "0_2_0_3_0_0_1": "SAME", "0_2_0_3_0_1_0": "SAME", "0_2_0_3_0_1_1": "SAME", "0_2_0_3_0_2_0": "SAME", "0_2_0_3_0_2_1": "SAME", "0_2_0_3_1_0_0": "SAME", "0_2_0_3_1_0_1": "SAME", "0_2_0_3_1_1_0": "SAME", "0_2_0_3_1_1_1": "SAME", "0_2_0_3_1_2_0": "SAME", "0_2_0_3_1_2_1": "SAME", "0_2_0_3_2_0_0": "SAME", "0_2_0_3_2_0_1": "SAME", "0_2_0_3_2_1_0": "SAME", "0_2_0_3_2_1_1": "SAME", "0_2_0_3_2_2_0": "SAME", "0_2_0_3_2_2_1": "SAME", "0_2_0_3_3_0_0": "SAME", "0_2_0_3_3_0_1": "SAME", "0_2_0_3_3_1_0": "SAME", "0_2_0_3_3_1_1": "SAME", "0_2_0_3_3_2_0": "SAME", "0_2_0_3_3_2_1": "SAME", "0_2_1_0_0_0_0": "OPP", "0_2_1_0_0_0_1": "SAME", "0_2_1_0_0_1_0": "SAME", "0_2_1_0_0_1_1": "SAME", "0_2_1_0_0_2_0": "SAME", "0_2_1_0_0_2_1": "SAME", "0_2_1_0_1_0_0": "SAME", "0_2_1_0_1_0_1": "SAME", "0_2_1_0_1_1_0": "SAME", "0_2_1_0_1_1_1": "SAME", "0_2_1_0_1_2_0": "SAME", "0_2_1_0_1_2_1": "SAME", "0_2_1_0_2_0_0": "SAME", "0_2_1_0_2_0_1": "SAME", "0_2_1_0_2_1_0": "SAME", "0_2_1_0_2_1_1": "SAME", "0_2_1_0_2_2_0": "SAME", "0_2_1_0_2_2_1": "SAME", "0_2_1_0_3_0_0": "SAME", "0_2_1_0_3_0_1": "SAME", "0_2_1_0_3_1_0": "SAME", "0_2_1_0_3_1_1": "SAME", "0_2_1_0_3_2_0": "SAME", "0_2_1_0_3_2_1": "SAME", "0_2_1_1_0_0_0": "SAME", "0_2_1_1_0_0_1": "SAME", "0_2_1_1_0_1_0": "SAME", "0_2_1_1_0_1_1": "OPP", "0_2_1_1_0_2_0": "OPP", "0_2_1_1_0_2_1": "OPP", "0_2_1_1_1_0_0": "SAME", "0_2_1_1_1_0_1": "SAME", "0_2_1_1_1_1_0": "SAME", "0_2_1_1_1_1_1": "SAME", "0_2_1_1_1_2_0": "SAME", "0_2_1_1_1_2_1": "SAME", "0_2_1_1_2_0_0": "SAME", "0_2_1_1_2_0_1": "SAME", "0_2_1_1_2_1_0": "SAME", "0_2_1_1_2_1_1": "SAME", "0_2_1_1_2_2_0": "SAME", "0_2_1_1_2_2_1": "SAME", "0_2_1_1_3_0_0": "SAME", "0_2_1_1_3_0_1": "SAME", "0_2_1_1_3_1_0": "SAME", "0_2_1_1_3_1_1": "SAME", "0_2_1_1_3_2_0": "SAME", "0_2_1_1_3_2_1": "SAME", "0_2_1_2_0_0_0": "SAME", "0_2_1_2_0_0_1": "SAME", "0_2_1_2_0_1_0": "OPP", "0_2_1_2_0_1_1": "SAME", "0_2_1_2_0_2_0": "SAME", "0_2_1_2_0_2_1": "SAME", "0_2_1_2_1_0_0": "SAME", "0_2_1_2_1_0_1": "SAME", "0_2_1_2_1_1_0": "SAME", "0_2_1_2_1_1_1": "SAME", "0_2_1_2_1_2_0": "SAME", "0_2_1_2_1_2_1": "SAME", "0_2_1_2_2_0_0": "SAME", "0_2_1_2_2_0_1": "SAME", "0_2_1_2_2_1_0": "SAME", "0_2_1_2_2_1_1": "SAME", "0_2_1_2_2_2_0": "SAME", "0_2_1_2_2_2_1": "SAME", "0_2_1_2_3_0_0": "SAME", "0_2_1_2_3_0_1": "SAME", "0_2_1_2_3_1_0": "SAME", "0_2_1_2_3_1_1": "SAME", "0_2_1_2_3_2_0": "SAME", "0_2_1_2_3_2_1": "SAME", "0_2_1_3_0_0_0": "SAME", "0_2_1_3_0_0_1": "SAME", "0_2_1_3_0_1_0": "SAME", "0_2_1_3_0_1_1": "OPP", "0_2_1_3_0_2_0": "SAME", "0_2_1_3_0_2_1": "SAME", "0_2_1_3_1_0_0": "SAME", "0_2_1_3_1_0_1": "SAME", "0_2_1_3_1_1_0": "SAME", "0_2_1_3_1_1_1": "SAME", "0_2_1_3_1_2_0": "SAME", "0_2_1_3_1_2_1": "SAME", "0_2_1_3_2_0_0": "SAME", "0_2_1_3_2_0_1": "SAME", "0_2_1_3_2_1_0": "SAME", "0_2_1_3_2_1_1": "SAME", "0_2_1_3_2_2_0": "SAME", "0_2_1_3_2_2_1": "SAME", "0_2_1_3_3_0_0": "SAME", "0_2_1_3_3_0_1": "SAME", "0_2_1_3_3_1_0": "SAME", "0_2_1_3_3_1_1": "SAME", "0_2_1_3_3_2_0": "SAME", "0_2_1_3_3_2_1": "SAME", "0_2_2_0_0_0_0": "SAME", "0_2_2_0_0_0_1": "SAME", "0_2_2_0_0_1_0": "SAME", "0_2_2_0_0_1_1": "SAME", "0_2_2_0_0_2_0": "SAME", "0_2_2_0_0_2_1": "SAME", "0_2_2_0_1_0_0": "SAME", "0_2_2_0_1_0_1": "SAME", "0_2_2_0_1_1_0": "SAME", "0_2_2_0_1_1_1": "SAME", "0_2_2_0_1_2_0": "SAME", "0_2_2_0_1_2_1": "SAME", "0_2_2_0_2_0_0": "SAME", "0_2_2_0_2_0_1": "SAME", "0_2_2_0_2_1_0": "SAME", "0_2_2_0_2_1_1": "SAME", "0_2_2_0_2_2_0": "SAME", "0_2_2_0_2_2_1": "SAME", "0_2_2_0_3_0_0": "SAME", "0_2_2_0_3_0_1": "SAME", "0_2_2_0_3_1_0": "SAME", "0_2_2_0_3_1_1": "SAME", "0_2_2_0_3_2_0": "SAME", "0_2_2_0_3_2_1": "SAME", "0_2_2_1_0_0_0": "SAME", "0_2_2_1_0_0_1": "SAME", "0_2_2_1_0_1_0": "SAME", "0_2_2_1_0_1_1": "SAME", "0_2_2_1_0_2_0": "SAME", "0_2_2_1_0_2_1": "SAME", "0_2_2_1_1_0_0": "SAME", "0_2_2_1_1_0_1": "SAME", "0_2_2_1_1_1_0": "SAME", "0_2_2_1_1_1_1": "SAME", "0_2_2_1_1_2_0": "SAME", "0_2_2_1_1_2_1": "SAME", "0_2_2_1_2_0_0": "SAME", "0_2_2_1_2_0_1": "SAME", "0_2_2_1_2_1_0": "SAME", "0_2_2_1_2_1_1": "SAME", "0_2_2_1_2_2_0": "SAME", "0_2_2_1_2_2_1": "SAME", "0_2_2_1_3_0_0": "SAME", "0_2_2_1_3_0_1": "SAME", "0_2_2_1_3_1_0": "SAME", "0_2_2_1_3_1_1": "SAME", "0_2_2_1_3_2_0": "SAME", "0_2_2_1_3_2_1": "SAME", "0_2_2_2_0_0_0": "SAME", "0_2_2_2_0_0_1": "SAME", "0_2_2_2_0_1_0": "SAME", "0_2_2_2_0_1_1": "SAME", "0_2_2_2_0_2_0": "SAME", "0_2_2_2_0_2_1": "SAME", "0_2_2_2_1_0_0": "SAME", "0_2_2_2_1_0_1": "SAME", "0_2_2_2_1_1_0": "SAME", "0_2_2_2_1_1_1": "SAME", "0_2_2_2_1_2_0": "SAME", "0_2_2_2_1_2_1": "SAME", "0_2_2_2_2_0_0": "SAME", "0_2_2_2_2_0_1": "SAME", "0_2_2_2_2_1_0": "SAME", "0_2_2_2_2_1_1": "SAME", "0_2_2_2_2_2_0": "SAME", "0_2_2_2_2_2_1": "SAME", "0_2_2_2_3_0_0": "SAME", "0_2_2_2_3_0_1": "SAME", "0_2_2_2_3_1_0": "SAME", "0_2_2_2_3_1_1": "SAME", "0_2_2_2_3_2_0": "SAME", "0_2_2_2_3_2_1": "SAME", "0_2_2_3_0_0_0": "SAME", "0_2_2_3_0_0_1": "SAME", "0_2_2_3_0_1_0": "SAME", "0_2_2_3_0_1_1": "SAME", "0_2_2_3_0_2_0": "SAME", "0_2_2_3_0_2_1": "SAME", "0_2_2_3_1_0_0": "SAME", "0_2_2_3_1_0_1": "SAME", "0_2_2_3_1_1_0": "SAME", "0_2_2_3_1_1_1": "SAME", "0_2_2_3_1_2_0": "SAME", "0_2_2_3_1_2_1": "SAME", "0_2_2_3_2_0_0": "SAME", "0_2_2_3_2_0_1": "SAME", "0_2_2_3_2_1_0": "SAME", "0_2_2_3_2_1_1": "SAME", "0_2_2_3_2_2_0": "SAME", "0_2_2_3_2_2_1": "SAME", "0_2_2_3_3_0_0": "SAME", "0_2_2_3_3_0_1": "SAME", "0_2_2_3_3_1_0": "SAME", "0_2_2_3_3_1_1": "SAME", "0_2_2_3_3_2_0": "SAME", "0_2_2_3_3_2_1": "SAME", "0_2_3_0_0_0_0": "SAME", "0_2_3_0_0_0_1": "SAME", "0_2_3_0_0_1_0": "SAME", "0_2_3_0_0_1_1": "SAME", "0_2_3_0_0_2_0": "SAME", "0_2_3_0_0_2_1": "SAME", "0_2_3_0_1_0_0": "SAME", "0_2_3_0_1_0_1": "SAME", "0_2_3_0_1_1_0": "SAME", "0_2_3_0_1_1_1": "SAME", "0_2_3_0_1_2_0": "SAME", "0_2_3_0_1_2_1": "SAME", "0_2_3_0_2_0_0": "SAME", "0_2_3_0_2_0_1": "SAME", "0_2_3_0_2_1_0": "SAME", "0_2_3_0_2_1_1": "SAME", "0_2_3_0_2_2_0": "SAME", "0_2_3_0_2_2_1": "SAME", "0_2_3_0_3_0_0": "SAME", "0_2_3_0_3_0_1": "SAME", "0_2_3_0_3_1_0": "SAME", "0_2_3_0_3_1_1": "SAME", "0_2_3_0_3_2_0": "SAME", "0_2_3_0_3_2_1": "SAME", "0_2_3_1_0_0_0": "SAME", "0_2_3_1_0_0_1": "SAME", "0_2_3_1_0_1_0": "OPP", "0_2_3_1_0_1_1": "OPP", "0_2_3_1_0_2_0": "SAME", "0_2_3_1_0_2_1": "SAME", "0_2_3_1_1_0_0": "SAME", "0_2_3_1_1_0_1": "SAME", "0_2_3_1_1_1_0": "SAME", "0_2_3_1_1_1_1": "SAME", "0_2_3_1_1_2_0": "SAME", "0_2_3_1_1_2_1": "SAME", "0_2_3_1_2_0_0": "SAME", "0_2_3_1_2_0_1": "SAME", "0_2_3_1_2_1_0": "SAME", "0_2_3_1_2_1_1": "SAME", "0_2_3_1_2_2_0": "SAME", "0_2_3_1_2_2_1": "SAME", "0_2_3_1_3_0_0": "SAME", "0_2_3_1_3_0_1": "SAME", "0_2_3_1_3_1_0": "SAME", "0_2_3_1_3_1_1": "SAME", "0_2_3_1_3_2_0": "SAME", "0_2_3_1_3_2_1": "SAME", "0_2_3_2_0_0_0": "SAME", "0_2_3_2_0_0_1": "OPP", "0_2_3_2_0_1_0": "SAME", "0_2_3_2_0_1_1": "OPP", "0_2_3_2_0_2_0": "SAME", "0_2_3_2_0_2_1": "SAME", "0_2_3_2_1_0_0": "SAME", "0_2_3_2_1_0_1": "SAME", "0_2_3_2_1_1_0": "SAME", "0_2_3_2_1_1_1": "SAME", "0_2_3_2_1_2_0": "SAME", "0_2_3_2_1_2_1": "SAME", "0_2_3_2_2_0_0": "SAME", "0_2_3_2_2_0_1": "SAME", "0_2_3_2_2_1_0": "SAME", "0_2_3_2_2_1_1": "SAME", "0_2_3_2_2_2_0": "SAME", "0_2_3_2_2_2_1": "SAME", "0_2_3_2_3_0_0": "SAME", "0_2_3_2_3_0_1": "SAME", "0_2_3_2_3_1_0": "SAME", "0_2_3_2_3_1_1": "SAME", "0_2_3_2_3_2_0": "SAME", "0_2_3_2_3_2_1": "SAME", "0_2_3_3_0_0_0": "OPP", "0_2_3_3_0_0_1": "OPP", "0_2_3_3_0_1_0": "SAME", "0_2_3_3_0_1_1": "SAME", "0_2_3_3_0_2_0": "SAME", "0_2_3_3_0_2_1": "SAME", "0_2_3_3_1_0_0": "SAME", "0_2_3_3_1_0_1": "SAME", "0_2_3_3_1_1_0": "SAME", "0_2_3_3_1_1_1": "SAME", "0_2_3_3_1_2_0": "SAME", "0_2_3_3_1_2_1": "SAME", "0_2_3_3_2_0_0": "SAME", "0_2_3_3_2_0_1": "SAME", "0_2_3_3_2_1_0": "SAME", "0_2_3_3_2_1_1": "SAME", "0_2_3_3_2_2_0": "SAME", "0_2_3_3_2_2_1": "SAME", "0_2_3_3_3_0_0": "SAME", "0_2_3_3_3_0_1": "SAME", "0_2_3_3_3_1_0": "SAME", "0_2_3_3_3_1_1": "SAME", "0_2_3_3_3_2_0": "SAME", "0_2_3_3_3_2_1": "SAME", "0_3_0_0_0_0_0": "SAME", "0_3_0_0_0_0_1": "OPP", "0_3_0_0_0_1_0": "SAME", "0_3_0_0_0_1_1": "SAME", "0_3_0_0_0_2_0": "SAME", "0_3_0_0_0_2_1": "SAME", "0_3_0_0_1_0_0": "SAME", "0_3_0_0_1_0_1": "SAME", "0_3_0_0_1_1_0": "SAME", "0_3_0_0_1_1_1": "SAME", "0_3_0_0_1_2_0": "SAME", "0_3_0_0_1_2_1": "SAME", "0_3_0_0_2_0_0": "SAME", "0_3_0_0_2_0_1": "SAME", "0_3_0_0_2_1_0": "SAME", "0_3_0_0_2_1_1": "SAME", "0_3_0_0_2_2_0": "SAME", "0_3_0_0_2_2_1": "SAME", "0_3_0_0_3_0_0": "SAME", "0_3_0_0_3_0_1": "SAME", "0_3_0_0_3_1_0": "SAME", "0_3_0_0_3_1_1": "SAME", "0_3_0_0_3_2_0": "SAME", "0_3_0_0_3_2_1": "SAME", "0_3_0_1_0_0_0": "SAME", "0_3_0_1_0_0_1": "SAME", "0_3_0_1_0_1_0": "SAME", "0_3_0_1_0_1_1": "SAME", "0_3_0_1_0_2_0": "SAME", "0_3_0_1_0_2_1": "SAME", "0_3_0_1_1_0_0": "SAME", "0_3_0_1_1_0_1": "SAME", "0_3_0_1_1_1_0": "SAME", "0_3_0_1_1_1_1": "SAME", "0_3_0_1_1_2_0": "SAME", "0_3_0_1_1_2_1": "SAME", "0_3_0_1_2_0_0": "SAME", "0_3_0_1_2_0_1": "SAME", "0_3_0_1_2_1_0": "SAME", "0_3_0_1_2_1_1": "SAME", "0_3_0_1_2_2_0": "SAME", "0_3_0_1_2_2_1": "SAME", "0_3_0_1_3_0_0": "SAME", "0_3_0_1_3_0_1": "SAME", "0_3_0_1_3_1_0": "SAME", "0_3_0_1_3_1_1": "SAME", "0_3_0_1_3_2_0": "SAME", "0_3_0_1_3_2_1": "SAME", "0_3_0_2_0_0_0": "SAME", "0_3_0_2_0_0_1": "SAME", "0_3_0_2_0_1_0": "SAME", "0_3_0_2_0_1_1": "SAME", "0_3_0_2_0_2_0": "SAME", "0_3_0_2_0_2_1": "SAME", "0_3_0_2_1_0_0": "SAME", "0_3_0_2_1_0_1": "SAME", "0_3_0_2_1_1_0": "SAME", "0_3_0_2_1_1_1": "SAME", "0_3_0_2_1_2_0": "SAME", "0_3_0_2_1_2_1": "SAME", "0_3_0_2_2_0_0": "SAME", "0_3_0_2_2_0_1": "SAME", "0_3_0_2_2_1_0": "SAME", "0_3_0_2_2_1_1": "SAME", "0_3_0_2_2_2_0": "SAME", "0_3_0_2_2_2_1": "SAME", "0_3_0_2_3_0_0": "SAME", "0_3_0_2_3_0_1": "SAME", "0_3_0_2_3_1_0": "SAME", "0_3_0_2_3_1_1": "SAME", "0_3_0_2_3_2_0": "SAME", "0_3_0_2_3_2_1": "SAME", "0_3_0_3_0_0_0": "SAME", "0_3_0_3_0_0_1": "SAME", "0_3_0_3_0_1_0": "SAME", "0_3_0_3_0_1_1": "SAME", "0_3_0_3_0_2_0": "SAME", "0_3_0_3_0_2_1": "SAME", "0_3_0_3_1_0_0": "SAME", "0_3_0_3_1_0_1": "SAME", "0_3_0_3_1_1_0": "SAME", "0_3_0_3_1_1_1": "SAME", "0_3_0_3_1_2_0": "SAME", "0_3_0_3_1_2_1": "SAME", "0_3_0_3_2_0_0": "SAME", "0_3_0_3_2_0_1": "SAME", "0_3_0_3_2_1_0": "SAME", "0_3_0_3_2_1_1": "SAME", "0_3_0_3_2_2_0": "SAME", "0_3_0_3_2_2_1": "SAME", "0_3_0_3_3_0_0": "SAME", "0_3_0_3_3_0_1": "SAME", "0_3_0_3_3_1_0": "SAME", "0_3_0_3_3_1_1": "SAME", "0_3_0_3_3_2_0": "SAME", "0_3_0_3_3_2_1": "SAME", "0_3_1_0_0_0_0": "SAME", "0_3_1_0_0_0_1": "SAME", "0_3_1_0_0_1_0": "SAME", "0_3_1_0_0_1_1": "SAME", "0_3_1_0_0_2_0": "SAME", "0_3_1_0_0_2_1": "SAME", "0_3_1_0_1_0_0": "SAME", "0_3_1_0_1_0_1": "SAME", "0_3_1_0_1_1_0": "SAME", "0_3_1_0_1_1_1": "SAME", "0_3_1_0_1_2_0": "SAME", "0_3_1_0_1_2_1": "SAME", "0_3_1_0_2_0_0": "SAME", "0_3_1_0_2_0_1": "SAME", "0_3_1_0_2_1_0": "SAME", "0_3_1_0_2_1_1": "SAME", "0_3_1_0_2_2_0": "SAME", "0_3_1_0_2_2_1": "SAME", "0_3_1_0_3_0_0": "SAME", "0_3_1_0_3_0_1": "SAME", "0_3_1_0_3_1_0": "SAME", "0_3_1_0_3_1_1": "SAME", "0_3_1_0_3_2_0": "SAME", "0_3_1_0_3_2_1": "SAME", "0_3_1_1_0_0_0": "SAME", "0_3_1_1_0_0_1": "SAME", "0_3_1_1_0_1_0": "OPP", "0_3_1_1_0_1_1": "SAME", "0_3_1_1_0_2_0": "SAME", "0_3_1_1_0_2_1": "SAME", "0_3_1_1_1_0_0": "SAME", "0_3_1_1_1_0_1": "SAME", "0_3_1_1_1_1_0": "SAME", "0_3_1_1_1_1_1": "SAME", "0_3_1_1_1_2_0": "SAME", "0_3_1_1_1_2_1": "SAME", "0_3_1_1_2_0_0": "SAME", "0_3_1_1_2_0_1": "SAME", "0_3_1_1_2_1_0": "SAME", "0_3_1_1_2_1_1": "SAME", "0_3_1_1_2_2_0": "SAME", "0_3_1_1_2_2_1": "SAME", "0_3_1_1_3_0_0": "SAME", "0_3_1_1_3_0_1": "SAME", "0_3_1_1_3_1_0": "SAME", "0_3_1_1_3_1_1": "SAME", "0_3_1_1_3_2_0": "SAME", "0_3_1_1_3_2_1": "SAME", "0_3_1_2_0_0_0": "SAME", "0_3_1_2_0_0_1": "SAME", "0_3_1_2_0_1_0": "OPP", "0_3_1_2_0_1_1": "SAME", "0_3_1_2_0_2_0": "SAME", "0_3_1_2_0_2_1": "SAME", "0_3_1_2_1_0_0": "SAME", "0_3_1_2_1_0_1": "SAME", "0_3_1_2_1_1_0": "SAME", "0_3_1_2_1_1_1": "SAME", "0_3_1_2_1_2_0": "SAME", "0_3_1_2_1_2_1": "SAME", "0_3_1_2_2_0_0": "SAME", "0_3_1_2_2_0_1": "SAME", "0_3_1_2_2_1_0": "SAME", "0_3_1_2_2_1_1": "SAME", "0_3_1_2_2_2_0": "SAME", "0_3_1_2_2_2_1": "SAME", "0_3_1_2_3_0_0": "SAME", "0_3_1_2_3_0_1": "SAME", "0_3_1_2_3_1_0": "SAME", "0_3_1_2_3_1_1": "SAME", "0_3_1_2_3_2_0": "SAME", "0_3_1_2_3_2_1": "SAME", "0_3_1_3_0_0_0": "SAME", "0_3_1_3_0_0_1": "SAME", "0_3_1_3_0_1_0": "SAME", "0_3_1_3_0_1_1": "OPP", "0_3_1_3_0_2_0": "SAME", "0_3_1_3_0_2_1": "SAME", "0_3_1_3_1_0_0": "SAME", "0_3_1_3_1_0_1": "SAME", "0_3_1_3_1_1_0": "SAME", "0_3_1_3_1_1_1": "SAME", "0_3_1_3_1_2_0": "SAME", "0_3_1_3_1_2_1": "SAME", "0_3_1_3_2_0_0": "SAME", "0_3_1_3_2_0_1": "SAME", "0_3_1_3_2_1_0": "SAME", "0_3_1_3_2_1_1": "SAME", "0_3_1_3_2_2_0": "SAME", "0_3_1_3_2_2_1": "SAME", "0_3_1_3_3_0_0": "SAME", "0_3_1_3_3_0_1": "SAME", "0_3_1_3_3_1_0": "SAME", "0_3_1_3_3_1_1": "SAME", "0_3_1_3_3_2_0": "SAME", "0_3_1_3_3_2_1": "SAME", "0_3_2_0_0_0_0": "SAME", "0_3_2_0_0_0_1": "SAME", "0_3_2_0_0_1_0": "SAME", "0_3_2_0_0_1_1": "SAME", "0_3_2_0_0_2_0": "SAME", "0_3_2_0_0_2_1": "SAME", "0_3_2_0_1_0_0": "SAME", "0_3_2_0_1_0_1": "SAME", "0_3_2_0_1_1_0": "SAME", "0_3_2_0_1_1_1": "SAME", "0_3_2_0_1_2_0": "SAME", "0_3_2_0_1_2_1": "SAME", "0_3_2_0_2_0_0": "SAME", "0_3_2_0_2_0_1": "SAME", "0_3_2_0_2_1_0": "SAME", "0_3_2_0_2_1_1": "SAME", "0_3_2_0_2_2_0": "SAME", "0_3_2_0_2_2_1": "SAME", "0_3_2_0_3_0_0": "SAME", "0_3_2_0_3_0_1": "SAME", "0_3_2_0_3_1_0": "SAME", "0_3_2_0_3_1_1": "SAME", "0_3_2_0_3_2_0": "SAME", "0_3_2_0_3_2_1": "SAME", "0_3_2_1_0_0_0": "SAME", "0_3_2_1_0_0_1": "SAME", "0_3_2_1_0_1_0": "SAME", "0_3_2_1_0_1_1": "SAME", "0_3_2_1_0_2_0": "SAME", "0_3_2_1_0_2_1": "SAME", "0_3_2_1_1_0_0": "SAME", "0_3_2_1_1_0_1": "SAME", "0_3_2_1_1_1_0": "SAME", "0_3_2_1_1_1_1": "SAME", "0_3_2_1_1_2_0": "SAME", "0_3_2_1_1_2_1": "SAME", "0_3_2_1_2_0_0": "SAME", "0_3_2_1_2_0_1": "SAME", "0_3_2_1_2_1_0": "SAME", "0_3_2_1_2_1_1": "SAME", "0_3_2_1_2_2_0": "SAME", "0_3_2_1_2_2_1": "SAME", "0_3_2_1_3_0_0": "SAME", "0_3_2_1_3_0_1": "SAME", "0_3_2_1_3_1_0": "SAME", "0_3_2_1_3_1_1": "SAME", "0_3_2_1_3_2_0": "SAME", "0_3_2_1_3_2_1": "SAME", "0_3_2_2_0_0_0": "SAME", "0_3_2_2_0_0_1": "SAME", "0_3_2_2_0_1_0": "OPP", "0_3_2_2_0_1_1": "SAME", "0_3_2_2_0_2_0": "SAME", "0_3_2_2_0_2_1": "SAME", "0_3_2_2_1_0_0": "SAME", "0_3_2_2_1_0_1": "SAME", "0_3_2_2_1_1_0": "SAME", "0_3_2_2_1_1_1": "SAME", "0_3_2_2_1_2_0": "SAME", "0_3_2_2_1_2_1": "SAME", "0_3_2_2_2_0_0": "SAME", "0_3_2_2_2_0_1": "SAME", "0_3_2_2_2_1_0": "SAME", "0_3_2_2_2_1_1": "SAME", "0_3_2_2_2_2_0": "SAME", "0_3_2_2_2_2_1": "SAME", "0_3_2_2_3_0_0": "SAME", "0_3_2_2_3_0_1": "SAME", "0_3_2_2_3_1_0": "SAME", "0_3_2_2_3_1_1": "SAME", "0_3_2_2_3_2_0": "SAME", "0_3_2_2_3_2_1": "SAME", "0_3_2_3_0_0_0": "SAME", "0_3_2_3_0_0_1": "SAME", "0_3_2_3_0_1_0": "SAME", "0_3_2_3_0_1_1": "OPP", "0_3_2_3_0_2_0": "SAME", "0_3_2_3_0_2_1": "SAME", "0_3_2_3_1_0_0": "SAME", "0_3_2_3_1_0_1": "SAME", "0_3_2_3_1_1_0": "SAME", "0_3_2_3_1_1_1": "SAME", "0_3_2_3_1_2_0": "SAME", "0_3_2_3_1_2_1": "SAME", "0_3_2_3_2_0_0": "SAME", "0_3_2_3_2_0_1": "SAME", "0_3_2_3_2_1_0": "SAME", "0_3_2_3_2_1_1": "SAME", "0_3_2_3_2_2_0": "SAME", "0_3_2_3_2_2_1": "SAME", "0_3_2_3_3_0_0": "SAME", "0_3_2_3_3_0_1": "SAME", "0_3_2_3_3_1_0": "SAME", "0_3_2_3_3_1_1": "SAME", "0_3_2_3_3_2_0": "SAME", "0_3_2_3_3_2_1": "SAME", "0_3_3_0_0_0_0": "SAME", "0_3_3_0_0_0_1": "OPP", "0_3_3_0_0_1_0": "SAME", "0_3_3_0_0_1_1": "SAME", "0_3_3_0_0_2_0": "SAME", "0_3_3_0_0_2_1": "SAME", "0_3_3_0_1_0_0": "SAME", "0_3_3_0_1_0_1": "SAME", "0_3_3_0_1_1_0": "SAME", "0_3_3_0_1_1_1": "SAME", "0_3_3_0_1_2_0": "SAME", "0_3_3_0_1_2_1": "SAME", "0_3_3_0_2_0_0": "SAME", "0_3_3_0_2_0_1": "SAME", "0_3_3_0_2_1_0": "SAME", "0_3_3_0_2_1_1": "SAME", "0_3_3_0_2_2_0": "SAME", "0_3_3_0_2_2_1": "SAME", "0_3_3_0_3_0_0": "SAME", "0_3_3_0_3_0_1": "SAME", "0_3_3_0_3_1_0": "SAME", "0_3_3_0_3_1_1": "SAME", "0_3_3_0_3_2_0": "SAME", "0_3_3_0_3_2_1": "SAME", "0_3_3_1_0_0_0": "SAME", "0_3_3_1_0_0_1": "SAME", "0_3_3_1_0_1_0": "SAME", "0_3_3_1_0_1_1": "SAME", "0_3_3_1_0_2_0": "SAME", "0_3_3_1_0_2_1": "SAME", "0_3_3_1_1_0_0": "SAME", "0_3_3_1_1_0_1": "SAME", "0_3_3_1_1_1_0": "SAME", "0_3_3_1_1_1_1": "SAME", "0_3_3_1_1_2_0": "SAME", "0_3_3_1_1_2_1": "SAME", "0_3_3_1_2_0_0": "SAME", "0_3_3_1_2_0_1": "SAME", "0_3_3_1_2_1_0": "SAME", "0_3_3_1_2_1_1": "SAME", "0_3_3_1_2_2_0": "SAME", "0_3_3_1_2_2_1": "SAME", "0_3_3_1_3_0_0": "SAME", "0_3_3_1_3_0_1": "SAME", "0_3_3_1_3_1_0": "SAME", "0_3_3_1_3_1_1": "SAME", "0_3_3_1_3_2_0": "SAME", "0_3_3_1_3_2_1": "SAME", "0_3_3_2_0_0_0": "SAME", "0_3_3_2_0_0_1": "SAME", "0_3_3_2_0_1_0": "SAME", "0_3_3_2_0_1_1": "SAME", "0_3_3_2_0_2_0": "SAME", "0_3_3_2_0_2_1": "SAME", "0_3_3_2_1_0_0": "SAME", "0_3_3_2_1_0_1": "SAME", "0_3_3_2_1_1_0": "SAME", "0_3_3_2_1_1_1": "SAME", "0_3_3_2_1_2_0": "SAME", "0_3_3_2_1_2_1": "SAME", "0_3_3_2_2_0_0": "SAME", "0_3_3_2_2_0_1": "SAME", "0_3_3_2_2_1_0": "SAME", "0_3_3_2_2_1_1": "SAME", "0_3_3_2_2_2_0": "SAME", "0_3_3_2_2_2_1": "SAME", "0_3_3_2_3_0_0": "SAME", "0_3_3_2_3_0_1": "SAME", "0_3_3_2_3_1_0": "SAME", "0_3_3_2_3_1_1": "SAME", "0_3_3_2_3_2_0": "SAME", "0_3_3_2_3_2_1": "SAME", "0_3_3_3_0_0_0": "OPP", "0_3_3_3_0_0_1": "OPP", "0_3_3_3_0_1_0": "SAME", "0_3_3_3_0_1_1": "SAME", "0_3_3_3_0_2_0": "SAME", "0_3_3_3_0_2_1": "SAME", "0_3_3_3_1_0_0": "SAME", "0_3_3_3_1_0_1": "SAME", "0_3_3_3_1_1_0": "SAME", "0_3_3_3_1_1_1": "SAME", "0_3_3_3_1_2_0": "SAME", "0_3_3_3_1_2_1": "SAME", "0_3_3_3_2_0_0": "SAME", "0_3_3_3_2_0_1": "SAME", "0_3_3_3_2_1_0": "SAME", "0_3_3_3_2_1_1": "SAME", "0_3_3_3_2_2_0": "SAME", "0_3_3_3_2_2_1": "SAME", "0_3_3_3_3_0_0": "SAME", "0_3_3_3_3_0_1": "SAME", "0_3_3_3_3_1_0": "SAME", "0_3_3_3_3_1_1": "SAME", "0_3_3_3_3_2_0": "SAME", "0_3_3_3_3_2_1": "SAME", "0_4_0_0_0_0_0": "SAME", "0_4_0_0_0_0_1": "SAME", "0_4_0_0_0_1_0": "SAME", "0_4_0_0_0_1_1": "SAME", "0_4_0_0_0_2_0": "SAME", "0_4_0_0_0_2_1": "SAME", "0_4_0_0_1_0_0": "SAME", "0_4_0_0_1_0_1": "SAME", "0_4_0_0_1_1_0": "SAME", "0_4_0_0_1_1_1": "SAME", "0_4_0_0_1_2_0": "SAME", "0_4_0_0_1_2_1": "SAME", "0_4_0_0_2_0_0": "SAME", "0_4_0_0_2_0_1": "SAME", "0_4_0_0_2_1_0": "SAME", "0_4_0_0_2_1_1": "SAME", "0_4_0_0_2_2_0": "SAME", "0_4_0_0_2_2_1": "SAME", "0_4_0_0_3_0_0": "SAME", "0_4_0_0_3_0_1": "SAME", "0_4_0_0_3_1_0": "SAME", "0_4_0_0_3_1_1": "SAME", "0_4_0_0_3_2_0": "SAME", "0_4_0_0_3_2_1": "SAME", "0_4_0_1_0_0_0": "SAME", "0_4_0_1_0_0_1": "SAME", "0_4_0_1_0_1_0": "SAME", "0_4_0_1_0_1_1": "SAME", "0_4_0_1_0_2_0": "SAME", "0_4_0_1_0_2_1": "SAME", "0_4_0_1_1_0_0": "SAME", "0_4_0_1_1_0_1": "SAME", "0_4_0_1_1_1_0": "SAME", "0_4_0_1_1_1_1": "SAME", "0_4_0_1_1_2_0": "SAME", "0_4_0_1_1_2_1": "SAME", "0_4_0_1_2_0_0": "SAME", "0_4_0_1_2_0_1": "SAME", "0_4_0_1_2_1_0": "SAME", "0_4_0_1_2_1_1": "SAME", "0_4_0_1_2_2_0": "SAME", "0_4_0_1_2_2_1": "SAME", "0_4_0_1_3_0_0": "SAME", "0_4_0_1_3_0_1": "SAME", "0_4_0_1_3_1_0": "SAME", "0_4_0_1_3_1_1": "SAME", "0_4_0_1_3_2_0": "SAME", "0_4_0_1_3_2_1": "SAME", "0_4_0_2_0_0_0": "SAME", "0_4_0_2_0_0_1": "SAME", "0_4_0_2_0_1_0": "SAME", "0_4_0_2_0_1_1": "SAME", "0_4_0_2_0_2_0": "SAME", "0_4_0_2_0_2_1": "SAME", "0_4_0_2_1_0_0": "SAME", "0_4_0_2_1_0_1": "SAME", "0_4_0_2_1_1_0": "SAME", "0_4_0_2_1_1_1": "SAME", "0_4_0_2_1_2_0": "SAME", "0_4_0_2_1_2_1": "SAME", "0_4_0_2_2_0_0": "SAME", "0_4_0_2_2_0_1": "SAME", "0_4_0_2_2_1_0": "SAME", "0_4_0_2_2_1_1": "SAME", "0_4_0_2_2_2_0": "SAME", "0_4_0_2_2_2_1": "SAME", "0_4_0_2_3_0_0": "SAME", "0_4_0_2_3_0_1": "SAME", "0_4_0_2_3_1_0": "SAME", "0_4_0_2_3_1_1": "SAME", "0_4_0_2_3_2_0": "SAME", "0_4_0_2_3_2_1": "SAME", "0_4_0_3_0_0_0": "SAME", "0_4_0_3_0_0_1": "SAME", "0_4_0_3_0_1_0": "SAME", "0_4_0_3_0_1_1": "SAME", "0_4_0_3_0_2_0": "SAME", "0_4_0_3_0_2_1": "SAME", "0_4_0_3_1_0_0": "SAME", "0_4_0_3_1_0_1": "SAME", "0_4_0_3_1_1_0": "SAME", "0_4_0_3_1_1_1": "SAME", "0_4_0_3_1_2_0": "SAME", "0_4_0_3_1_2_1": "SAME", "0_4_0_3_2_0_0": "SAME", "0_4_0_3_2_0_1": "SAME", "0_4_0_3_2_1_0": "SAME", "0_4_0_3_2_1_1": "SAME", "0_4_0_3_2_2_0": "SAME", "0_4_0_3_2_2_1": "SAME", "0_4_0_3_3_0_0": "SAME", "0_4_0_3_3_0_1": "SAME", "0_4_0_3_3_1_0": "SAME", "0_4_0_3_3_1_1": "SAME", "0_4_0_3_3_2_0": "SAME", "0_4_0_3_3_2_1": "SAME", "0_4_1_0_0_0_0": "SAME", "0_4_1_0_0_0_1": "OPP", "0_4_1_0_0_1_0": "SAME", "0_4_1_0_0_1_1": "SAME", "0_4_1_0_0_2_0": "SAME", "0_4_1_0_0_2_1": "SAME", "0_4_1_0_1_0_0": "SAME", "0_4_1_0_1_0_1": "SAME", "0_4_1_0_1_1_0": "SAME", "0_4_1_0_1_1_1": "SAME", "0_4_1_0_1_2_0": "SAME", "0_4_1_0_1_2_1": "SAME", "0_4_1_0_2_0_0": "SAME", "0_4_1_0_2_0_1": "SAME", "0_4_1_0_2_1_0": "SAME", "0_4_1_0_2_1_1": "SAME", "0_4_1_0_2_2_0": "SAME", "0_4_1_0_2_2_1": "SAME", "0_4_1_0_3_0_0": "SAME", "0_4_1_0_3_0_1": "SAME", "0_4_1_0_3_1_0": "SAME", "0_4_1_0_3_1_1": "SAME", "0_4_1_0_3_2_0": "SAME", "0_4_1_0_3_2_1": "SAME", "0_4_1_1_0_0_0": "SAME", "0_4_1_1_0_0_1": "SAME", "0_4_1_1_0_1_0": "SAME", "0_4_1_1_0_1_1": "OPP", "0_4_1_1_0_2_0": "SAME", "0_4_1_1_0_2_1": "SAME", "0_4_1_1_1_0_0": "SAME", "0_4_1_1_1_0_1": "SAME", "0_4_1_1_1_1_0": "SAME", "0_4_1_1_1_1_1": "SAME", "0_4_1_1_1_2_0": "SAME", "0_4_1_1_1_2_1": "SAME", "0_4_1_1_2_0_0": "SAME", "0_4_1_1_2_0_1": "SAME", "0_4_1_1_2_1_0": "SAME", "0_4_1_1_2_1_1": "SAME", "0_4_1_1_2_2_0": "SAME", "0_4_1_1_2_2_1": "SAME", "0_4_1_1_3_0_0": "SAME", "0_4_1_1_3_0_1": "SAME", "0_4_1_1_3_1_0": "SAME", "0_4_1_1_3_1_1": "SAME", "0_4_1_1_3_2_0": "SAME", "0_4_1_1_3_2_1": "SAME", "0_4_1_2_0_0_0": "SAME", "0_4_1_2_0_0_1": "OPP", "0_4_1_2_0_1_0": "OPP", "0_4_1_2_0_1_1": "SAME", "0_4_1_2_0_2_0": "SAME", "0_4_1_2_0_2_1": "SAME", "0_4_1_2_1_0_0": "SAME", "0_4_1_2_1_0_1": "SAME", "0_4_1_2_1_1_0": "SAME", "0_4_1_2_1_1_1": "SAME", "0_4_1_2_1_2_0": "SAME", "0_4_1_2_1_2_1": "SAME", "0_4_1_2_2_0_0": "SAME", "0_4_1_2_2_0_1": "SAME", "0_4_1_2_2_1_0": "SAME", "0_4_1_2_2_1_1": "SAME", "0_4_1_2_2_2_0": "SAME", "0_4_1_2_2_2_1": "SAME", "0_4_1_2_3_0_0": "SAME", "0_4_1_2_3_0_1": "SAME", "0_4_1_2_3_1_0": "SAME", "0_4_1_2_3_1_1": "SAME", "0_4_1_2_3_2_0": "SAME", "0_4_1_2_3_2_1": "SAME", "0_4_1_3_0_0_0": "SAME", "0_4_1_3_0_0_1": "SAME", "0_4_1_3_0_1_0": "OPP", "0_4_1_3_0_1_1": "SAME", "0_4_1_3_0_2_0": "SAME", "0_4_1_3_0_2_1": "SAME", "0_4_1_3_1_0_0": "SAME", "0_4_1_3_1_0_1": "SAME", "0_4_1_3_1_1_0": "SAME", "0_4_1_3_1_1_1": "SAME", "0_4_1_3_1_2_0": "SAME", "0_4_1_3_1_2_1": "SAME", "0_4_1_3_2_0_0": "SAME", "0_4_1_3_2_0_1": "SAME", "0_4_1_3_2_1_0": "SAME", "0_4_1_3_2_1_1": "SAME", "0_4_1_3_2_2_0": "SAME", "0_4_1_3_2_2_1": "SAME", "0_4_1_3_3_0_0": "SAME", "0_4_1_3_3_0_1": "SAME", "0_4_1_3_3_1_0": "SAME", "0_4_1_3_3_1_1": "SAME", "0_4_1_3_3_2_0": "SAME", "0_4_1_3_3_2_1": "SAME", "0_4_2_0_0_0_0": "SAME", "0_4_2_0_0_0_1": "SAME", "0_4_2_0_0_1_0": "SAME", "0_4_2_0_0_1_1": "SAME", "0_4_2_0_0_2_0": "SAME", "0_4_2_0_0_2_1": "SAME", "0_4_2_0_1_0_0": "SAME", "0_4_2_0_1_0_1": "SAME", "0_4_2_0_1_1_0": "SAME", "0_4_2_0_1_1_1": "SAME", "0_4_2_0_1_2_0": "SAME", "0_4_2_0_1_2_1": "SAME", "0_4_2_0_2_0_0": "SAME", "0_4_2_0_2_0_1": "SAME", "0_4_2_0_2_1_0": "SAME", "0_4_2_0_2_1_1": "SAME", "0_4_2_0_2_2_0": "SAME", "0_4_2_0_2_2_1": "SAME", "0_4_2_0_3_0_0": "SAME", "0_4_2_0_3_0_1": "SAME", "0_4_2_0_3_1_0": "SAME", "0_4_2_0_3_1_1": "SAME", "0_4_2_0_3_2_0": "SAME", "0_4_2_0_3_2_1": "SAME", "0_4_2_1_0_0_0": "OPP", "0_4_2_1_0_0_1": "OPP", "0_4_2_1_0_1_0": "SAME", "0_4_2_1_0_1_1": "SAME", "0_4_2_1_0_2_0": "SAME", "0_4_2_1_0_2_1": "SAME", "0_4_2_1_1_0_0": "SAME", "0_4_2_1_1_0_1": "SAME", "0_4_2_1_1_1_0": "SAME", "0_4_2_1_1_1_1": "SAME", "0_4_2_1_1_2_0": "SAME", "0_4_2_1_1_2_1": "SAME", "0_4_2_1_2_0_0": "SAME", "0_4_2_1_2_0_1": "SAME", "0_4_2_1_2_1_0": "SAME", "0_4_2_1_2_1_1": "SAME", "0_4_2_1_2_2_0": "SAME", "0_4_2_1_2_2_1": "SAME", "0_4_2_1_3_0_0": "SAME", "0_4_2_1_3_0_1": "SAME", "0_4_2_1_3_1_0": "SAME", "0_4_2_1_3_1_1": "SAME", "0_4_2_1_3_2_0": "SAME", "0_4_2_1_3_2_1": "SAME", "0_4_2_2_0_0_0": "SAME", "0_4_2_2_0_0_1": "SAME", "0_4_2_2_0_1_0": "SAME", "0_4_2_2_0_1_1": "SAME", "0_4_2_2_0_2_0": "SAME", "0_4_2_2_0_2_1": "SAME", "0_4_2_2_1_0_0": "SAME", "0_4_2_2_1_0_1": "SAME", "0_4_2_2_1_1_0": "SAME", "0_4_2_2_1_1_1": "SAME", "0_4_2_2_1_2_0": "SAME", "0_4_2_2_1_2_1": "SAME", "0_4_2_2_2_0_0": "SAME", "0_4_2_2_2_0_1": "SAME", "0_4_2_2_2_1_0": "SAME", "0_4_2_2_2_1_1": "SAME", "0_4_2_2_2_2_0": "SAME", "0_4_2_2_2_2_1": "SAME", "0_4_2_2_3_0_0": "SAME", "0_4_2_2_3_0_1": "SAME", "0_4_2_2_3_1_0": "SAME", "0_4_2_2_3_1_1": "SAME", "0_4_2_2_3_2_0": "SAME", "0_4_2_2_3_2_1": "SAME", "0_4_2_3_0_0_0": "SAME", "0_4_2_3_0_0_1": "SAME", "0_4_2_3_0_1_0": "SAME", "0_4_2_3_0_1_1": "SAME", "0_4_2_3_0_2_0": "SAME", "0_4_2_3_0_2_1": "SAME", "0_4_2_3_1_0_0": "SAME", "0_4_2_3_1_0_1": "SAME", "0_4_2_3_1_1_0": "SAME", "0_4_2_3_1_1_1": "SAME", "0_4_2_3_1_2_0": "SAME", "0_4_2_3_1_2_1": "SAME", "0_4_2_3_2_0_0": "SAME", "0_4_2_3_2_0_1": "SAME", "0_4_2_3_2_1_0": "SAME", "0_4_2_3_2_1_1": "SAME", "0_4_2_3_2_2_0": "SAME", "0_4_2_3_2_2_1": "SAME", "0_4_2_3_3_0_0": "SAME", "0_4_2_3_3_0_1": "SAME", "0_4_2_3_3_1_0": "SAME", "0_4_2_3_3_1_1": "SAME", "0_4_2_3_3_2_0": "SAME", "0_4_2_3_3_2_1": "SAME", "0_4_3_0_0_0_0": "SAME", "0_4_3_0_0_0_1": "SAME", "0_4_3_0_0_1_0": "SAME", "0_4_3_0_0_1_1": "SAME", "0_4_3_0_0_2_0": "SAME", "0_4_3_0_0_2_1": "SAME", "0_4_3_0_1_0_0": "SAME", "0_4_3_0_1_0_1": "SAME", "0_4_3_0_1_1_0": "SAME", "0_4_3_0_1_1_1": "SAME", "0_4_3_0_1_2_0": "SAME", "0_4_3_0_1_2_1": "SAME", "0_4_3_0_2_0_0": "SAME", "0_4_3_0_2_0_1": "SAME", "0_4_3_0_2_1_0": "SAME", "0_4_3_0_2_1_1": "SAME", "0_4_3_0_2_2_0": "SAME", "0_4_3_0_2_2_1": "SAME", "0_4_3_0_3_0_0": "SAME", "0_4_3_0_3_0_1": "SAME", "0_4_3_0_3_1_0": "SAME", "0_4_3_0_3_1_1": "SAME", "0_4_3_0_3_2_0": "SAME", "0_4_3_0_3_2_1": "SAME", "0_4_3_1_0_0_0": "OPP", "0_4_3_1_0_0_1": "OPP", "0_4_3_1_0_1_0": "SAME", "0_4_3_1_0_1_1": "SAME", "0_4_3_1_0_2_0": "SAME", "0_4_3_1_0_2_1": "SAME", "0_4_3_1_1_0_0": "SAME", "0_4_3_1_1_0_1": "SAME", "0_4_3_1_1_1_0": "SAME", "0_4_3_1_1_1_1": "SAME", "0_4_3_1_1_2_0": "SAME", "0_4_3_1_1_2_1": "SAME", "0_4_3_1_2_0_0": "SAME", "0_4_3_1_2_0_1": "SAME", "0_4_3_1_2_1_0": "SAME", "0_4_3_1_2_1_1": "SAME", "0_4_3_1_2_2_0": "SAME", "0_4_3_1_2_2_1": "SAME", "0_4_3_1_3_0_0": "SAME", "0_4_3_1_3_0_1": "SAME", "0_4_3_1_3_1_0": "SAME", "0_4_3_1_3_1_1": "SAME", "0_4_3_1_3_2_0": "SAME", "0_4_3_1_3_2_1": "SAME", "0_4_3_2_0_0_0": "SAME", "0_4_3_2_0_0_1": "SAME", "0_4_3_2_0_1_0": "SAME", "0_4_3_2_0_1_1": "SAME", "0_4_3_2_0_2_0": "SAME", "0_4_3_2_0_2_1": "SAME", "0_4_3_2_1_0_0": "SAME", "0_4_3_2_1_0_1": "SAME", "0_4_3_2_1_1_0": "SAME", "0_4_3_2_1_1_1": "SAME", "0_4_3_2_1_2_0": "SAME", "0_4_3_2_1_2_1": "SAME", "0_4_3_2_2_0_0": "SAME", "0_4_3_2_2_0_1": "SAME", "0_4_3_2_2_1_0": "SAME", "0_4_3_2_2_1_1": "SAME", "0_4_3_2_2_2_0": "SAME", "0_4_3_2_2_2_1": "SAME", "0_4_3_2_3_0_0": "SAME", "0_4_3_2_3_0_1": "SAME", "0_4_3_2_3_1_0": "SAME", "0_4_3_2_3_1_1": "SAME", "0_4_3_2_3_2_0": "SAME", "0_4_3_2_3_2_1": "SAME", "0_4_3_3_0_0_0": "SAME", "0_4_3_3_0_0_1": "SAME", "0_4_3_3_0_1_0": "SAME", "0_4_3_3_0_1_1": "SAME", "0_4_3_3_0_2_0": "SAME", "0_4_3_3_0_2_1": "SAME", "0_4_3_3_1_0_0": "SAME", "0_4_3_3_1_0_1": "SAME", "0_4_3_3_1_1_0": "SAME", "0_4_3_3_1_1_1": "SAME", "0_4_3_3_1_2_0": "SAME", "0_4_3_3_1_2_1": "SAME", "0_4_3_3_2_0_0": "SAME", "0_4_3_3_2_0_1": "SAME", "0_4_3_3_2_1_0": "SAME", "0_4_3_3_2_1_1": "SAME", "0_4_3_3_2_2_0": "SAME", "0_4_3_3_2_2_1": "SAME", "0_4_3_3_3_0_0": "SAME", "0_4_3_3_3_0_1": "SAME", "0_4_3_3_3_1_0": "SAME", "0_4_3_3_3_1_1": "SAME", "0_4_3_3_3_2_0": "SAME", "0_4_3_3_3_2_1": "SAME", "1_1_0_0_0_0_0": "SAME", "1_1_0_0_0_0_1": "SAME", "1_1_0_0_0_1_0": "SAME", "1_1_0_0_0_1_1": "SAME", "1_1_0_0_0_2_0": "SAME", "1_1_0_0_0_2_1": "SAME", "1_1_0_0_1_0_0": "SAME", "1_1_0_0_1_0_1": "SAME", "1_1_0_0_1_1_0": "SAME", "1_1_0_0_1_1_1": "SAME", "1_1_0_0_1_2_0": "SAME", "1_1_0_0_1_2_1": "SAME", "1_1_0_0_2_0_0": "SAME", "1_1_0_0_2_0_1": "SAME", "1_1_0_0_2_1_0": "SAME", "1_1_0_0_2_1_1": "SAME", "1_1_0_0_2_2_0": "SAME", "1_1_0_0_2_2_1": "SAME", "1_1_0_0_3_0_0": "SAME", "1_1_0_0_3_0_1": "SAME", "1_1_0_0_3_1_0": "SAME", "1_1_0_0_3_1_1": "SAME", "1_1_0_0_3_2_0": "SAME", "1_1_0_0_3_2_1": "SAME", "1_1_0_1_0_0_0": "SAME", "1_1_0_1_0_0_1": "SAME", "1_1_0_1_0_1_0": "SAME", "1_1_0_1_0_1_1": "SAME", "1_1_0_1_0_2_0": "SAME", "1_1_0_1_0_2_1": "SAME", "1_1_0_1_1_0_0": "SAME", "1_1_0_1_1_0_1": "SAME", "1_1_0_1_1_1_0": "SAME", "1_1_0_1_1_1_1": "SAME", "1_1_0_1_1_2_0": "SAME", "1_1_0_1_1_2_1": "SAME", "1_1_0_1_2_0_0": "SAME", "1_1_0_1_2_0_1": "SAME", "1_1_0_1_2_1_0": "SAME", "1_1_0_1_2_1_1": "SAME", "1_1_0_1_2_2_0": "SAME", "1_1_0_1_2_2_1": "SAME", "1_1_0_1_3_0_0": "SAME", "1_1_0_1_3_0_1": "SAME", "1_1_0_1_3_1_0": "SAME", "1_1_0_1_3_1_1": "SAME", "1_1_0_1_3_2_0": "SAME", "1_1_0_1_3_2_1": "SAME", "1_1_0_2_0_0_0": "SAME", "1_1_0_2_0_0_1": "SAME", "1_1_0_2_0_1_0": "SAME", "1_1_0_2_0_1_1": "SAME", "1_1_0_2_0_2_0": "SAME", "1_1_0_2_0_2_1": "SAME", "1_1_0_2_1_0_0": "SAME", "1_1_0_2_1_0_1": "SAME", "1_1_0_2_1_1_0": "SAME", "1_1_0_2_1_1_1": "SAME", "1_1_0_2_1_2_0": "SAME", "1_1_0_2_1_2_1": "SAME", "1_1_0_2_2_0_0": "SAME", "1_1_0_2_2_0_1": "SAME", "1_1_0_2_2_1_0": "SAME", "1_1_0_2_2_1_1": "SAME", "1_1_0_2_2_2_0": "SAME", "1_1_0_2_2_2_1": "SAME", "1_1_0_2_3_0_0": "SAME", "1_1_0_2_3_0_1": "SAME", "1_1_0_2_3_1_0": "SAME", "1_1_0_2_3_1_1": "SAME", "1_1_0_2_3_2_0": "SAME", "1_1_0_2_3_2_1": "SAME", "1_1_0_3_0_0_0": "SAME", "1_1_0_3_0_0_1": "SAME", "1_1_0_3_0_1_0": "SAME", "1_1_0_3_0_1_1": "SAME", "1_1_0_3_0_2_0": "SAME", "1_1_0_3_0_2_1": "SAME", "1_1_0_3_1_0_0": "SAME", "1_1_0_3_1_0_1": "SAME", "1_1_0_3_1_1_0": "SAME", "1_1_0_3_1_1_1": "SAME", "1_1_0_3_1_2_0": "SAME", "1_1_0_3_1_2_1": "SAME", "1_1_0_3_2_0_0": "SAME", "1_1_0_3_2_0_1": "SAME", "1_1_0_3_2_1_0": "SAME", "1_1_0_3_2_1_1": "SAME", "1_1_0_3_2_2_0": "SAME", "1_1_0_3_2_2_1": "SAME", "1_1_0_3_3_0_0": "SAME", "1_1_0_3_3_0_1": "SAME", "1_1_0_3_3_1_0": "SAME", "1_1_0_3_3_1_1": "SAME", "1_1_0_3_3_2_0": "SAME", "1_1_0_3_3_2_1": "SAME", "1_1_1_0_0_0_0": "SAME", "1_1_1_0_0_0_1": "SAME", "1_1_1_0_0_1_0": "SAME", "1_1_1_0_0_1_1": "SAME", "1_1_1_0_0_2_0": "SAME", "1_1_1_0_0_2_1": "SAME", "1_1_1_0_1_0_0": "SAME", "1_1_1_0_1_0_1": "SAME", "1_1_1_0_1_1_0": "SAME", "1_1_1_0_1_1_1": "SAME", "1_1_1_0_1_2_0": "SAME", "1_1_1_0_1_2_1": "SAME", "1_1_1_0_2_0_0": "SAME", "1_1_1_0_2_0_1": "SAME", "1_1_1_0_2_1_0": "SAME", "1_1_1_0_2_1_1": "SAME", "1_1_1_0_2_2_0": "SAME", "1_1_1_0_2_2_1": "SAME", "1_1_1_0_3_0_0": "SAME", "1_1_1_0_3_0_1": "SAME", "1_1_1_0_3_1_0": "SAME", "1_1_1_0_3_1_1": "SAME", "1_1_1_0_3_2_0": "SAME", "1_1_1_0_3_2_1": "SAME", "1_1_1_1_0_0_0": "SAME", "1_1_1_1_0_0_1": "SAME", "1_1_1_1_0_1_0": "SAME", "1_1_1_1_0_1_1": "SAME", "1_1_1_1_0_2_0": "SAME", "1_1_1_1_0_2_1": "SAME", "1_1_1_1_1_0_0": "SAME", "1_1_1_1_1_0_1": "SAME", "1_1_1_1_1_1_0": "SAME", "1_1_1_1_1_1_1": "SAME", "1_1_1_1_1_2_0": "SAME", "1_1_1_1_1_2_1": "SAME", "1_1_1_1_2_0_0": "SAME", "1_1_1_1_2_0_1": "SAME", "1_1_1_1_2_1_0": "SAME", "1_1_1_1_2_1_1": "SAME", "1_1_1_1_2_2_0": "SAME", "1_1_1_1_2_2_1": "SAME", "1_1_1_1_3_0_0": "SAME", "1_1_1_1_3_0_1": "SAME", "1_1_1_1_3_1_0": "SAME", "1_1_1_1_3_1_1": "SAME", "1_1_1_1_3_2_0": "SAME", "1_1_1_1_3_2_1": "OPP", "1_1_1_2_0_0_0": "SAME", "1_1_1_2_0_0_1": "SAME", "1_1_1_2_0_1_0": "SAME", "1_1_1_2_0_1_1": "SAME", "1_1_1_2_0_2_0": "SAME", "1_1_1_2_0_2_1": "SAME", "1_1_1_2_1_0_0": "SAME", "1_1_1_2_1_0_1": "SAME", "1_1_1_2_1_1_0": "SAME", "1_1_1_2_1_1_1": "SAME", "1_1_1_2_1_2_0": "SAME", "1_1_1_2_1_2_1": "SAME", "1_1_1_2_2_0_0": "SAME", "1_1_1_2_2_0_1": "SAME", "1_1_1_2_2_1_0": "SAME", "1_1_1_2_2_1_1": "SAME", "1_1_1_2_2_2_0": "SAME", "1_1_1_2_2_2_1": "SAME", "1_1_1_2_3_0_0": "SAME", "1_1_1_2_3_0_1": "SAME", "1_1_1_2_3_1_0": "SAME", "1_1_1_2_3_1_1": "SAME", "1_1_1_2_3_2_0": "SAME", "1_1_1_2_3_2_1": "SAME", "1_1_1_3_0_0_0": "SAME", "1_1_1_3_0_0_1": "SAME", "1_1_1_3_0_1_0": "SAME", "1_1_1_3_0_1_1": "SAME", "1_1_1_3_0_2_0": "SAME", "1_1_1_3_0_2_1": "SAME", "1_1_1_3_1_0_0": "SAME", "1_1_1_3_1_0_1": "SAME", "1_1_1_3_1_1_0": "SAME", "1_1_1_3_1_1_1": "SAME", "1_1_1_3_1_2_0": "SAME", "1_1_1_3_1_2_1": "SAME", "1_1_1_3_2_0_0": "SAME", "1_1_1_3_2_0_1": "SAME", "1_1_1_3_2_1_0": "SAME", "1_1_1_3_2_1_1": "SAME", "1_1_1_3_2_2_0": "SAME", "1_1_1_3_2_2_1": "SAME", "1_1_1_3_3_0_0": "SAME", "1_1_1_3_3_0_1": "SAME", "1_1_1_3_3_1_0": "SAME", "1_1_1_3_3_1_1": "SAME", "1_1_1_3_3_2_0": "SAME", "1_1_1_3_3_2_1": "SAME", "1_1_2_0_0_0_0": "SAME", "1_1_2_0_0_0_1": "SAME", "1_1_2_0_0_1_0": "SAME", "1_1_2_0_0_1_1": "SAME", "1_1_2_0_0_2_0": "SAME", "1_1_2_0_0_2_1": "SAME", "1_1_2_0_1_0_0": "SAME", "1_1_2_0_1_0_1": "SAME", "1_1_2_0_1_1_0": "SAME", "1_1_2_0_1_1_1": "SAME", "1_1_2_0_1_2_0": "SAME", "1_1_2_0_1_2_1": "SAME", "1_1_2_0_2_0_0": "SAME", "1_1_2_0_2_0_1": "SAME", "1_1_2_0_2_1_0": "SAME", "1_1_2_0_2_1_1": "SAME", "1_1_2_0_2_2_0": "SAME", "1_1_2_0_2_2_1": "SAME", "1_1_2_0_3_0_0": "SAME", "1_1_2_0_3_0_1": "SAME", "1_1_2_0_3_1_0": "SAME", "1_1_2_0_3_1_1": "SAME", "1_1_2_0_3_2_0": "SAME", "1_1_2_0_3_2_1": "SAME", "1_1_2_1_0_0_0": "SAME", "1_1_2_1_0_0_1": "SAME", "1_1_2_1_0_1_0": "SAME", "1_1_2_1_0_1_1": "SAME", "1_1_2_1_0_2_0": "SAME", "1_1_2_1_0_2_1": "SAME", "1_1_2_1_1_0_0": "SAME", "1_1_2_1_1_0_1": "SAME", "1_1_2_1_1_1_0": "SAME", "1_1_2_1_1_1_1": "SAME", "1_1_2_1_1_2_0": "SAME", "1_1_2_1_1_2_1": "OPP", "1_1_2_1_2_0_0": "SAME", "1_1_2_1_2_0_1": "SAME", "1_1_2_1_2_1_0": "SAME", "1_1_2_1_2_1_1": "SAME", "1_1_2_1_2_2_0": "SAME", "1_1_2_1_2_2_1": "SAME", "1_1_2_1_3_0_0": "SAME", "1_1_2_1_3_0_1": "SAME", "1_1_2_1_3_1_0": "SAME", "1_1_2_1_3_1_1": "SAME", "1_1_2_1_3_2_0": "SAME", "1_1_2_1_3_2_1": "SAME", "1_1_2_2_0_0_0": "SAME", "1_1_2_2_0_0_1": "SAME", "1_1_2_2_0_1_0": "SAME", "1_1_2_2_0_1_1": "SAME", "1_1_2_2_0_2_0": "SAME", "1_1_2_2_0_2_1": "SAME", "1_1_2_2_1_0_0": "SAME", "1_1_2_2_1_0_1": "SAME", "1_1_2_2_1_1_0": "SAME", "1_1_2_2_1_1_1": "OPP", "1_1_2_2_1_2_0": "SAME", "1_1_2_2_1_2_1": "SAME", "1_1_2_2_2_0_0": "SAME", "1_1_2_2_2_0_1": "SAME", "1_1_2_2_2_1_0": "SAME", "1_1_2_2_2_1_1": "SAME", "1_1_2_2_2_2_0": "SAME", "1_1_2_2_2_2_1": "SAME", "1_1_2_2_3_0_0": "SAME", "1_1_2_2_3_0_1": "SAME", "1_1_2_2_3_1_0": "SAME", "1_1_2_2_3_1_1": "SAME", "1_1_2_2_3_2_0": "SAME", "1_1_2_2_3_2_1": "SAME", "1_1_2_3_0_0_0": "SAME", "1_1_2_3_0_0_1": "SAME", "1_1_2_3_0_1_0": "SAME", "1_1_2_3_0_1_1": "SAME", "1_1_2_3_0_2_0": "SAME", "1_1_2_3_0_2_1": "SAME", "1_1_2_3_1_0_0": "SAME", "1_1_2_3_1_0_1": "SAME", "1_1_2_3_1_1_0": "SAME", "1_1_2_3_1_1_1": "SAME", "1_1_2_3_1_2_0": "SAME", "1_1_2_3_1_2_1": "SAME", "1_1_2_3_2_0_0": "SAME", "1_1_2_3_2_0_1": "SAME", "1_1_2_3_2_1_0": "SAME", "1_1_2_3_2_1_1": "SAME", "1_1_2_3_2_2_0": "SAME", "1_1_2_3_2_2_1": "SAME", "1_1_2_3_3_0_0": "SAME", "1_1_2_3_3_0_1": "SAME", "1_1_2_3_3_1_0": "SAME", "1_1_2_3_3_1_1": "SAME", "1_1_2_3_3_2_0": "SAME", "1_1_2_3_3_2_1": "SAME", "1_1_3_0_0_0_0": "SAME", "1_1_3_0_0_0_1": "SAME", "1_1_3_0_0_1_0": "SAME", "1_1_3_0_0_1_1": "SAME", "1_1_3_0_0_2_0": "SAME", "1_1_3_0_0_2_1": "SAME", "1_1_3_0_1_0_0": "SAME", "1_1_3_0_1_0_1": "SAME", "1_1_3_0_1_1_0": "SAME", "1_1_3_0_1_1_1": "SAME", "1_1_3_0_1_2_0": "SAME", "1_1_3_0_1_2_1": "SAME", "1_1_3_0_2_0_0": "SAME", "1_1_3_0_2_0_1": "SAME", "1_1_3_0_2_1_0": "SAME", "1_1_3_0_2_1_1": "SAME", "1_1_3_0_2_2_0": "SAME", "1_1_3_0_2_2_1": "SAME", "1_1_3_0_3_0_0": "SAME", "1_1_3_0_3_0_1": "SAME", "1_1_3_0_3_1_0": "SAME", "1_1_3_0_3_1_1": "SAME", "1_1_3_0_3_2_0": "SAME", "1_1_3_0_3_2_1": "SAME", "1_1_3_1_0_0_0": "SAME", "1_1_3_1_0_0_1": "SAME", "1_1_3_1_0_1_0": "SAME", "1_1_3_1_0_1_1": "SAME", "1_1_3_1_0_2_0": "SAME", "1_1_3_1_0_2_1": "SAME", "1_1_3_1_1_0_0": "SAME", "1_1_3_1_1_0_1": "SAME", "1_1_3_1_1_1_0": "SAME", "1_1_3_1_1_1_1": "SAME", "1_1_3_1_1_2_0": "SAME", "1_1_3_1_1_2_1": "SAME", "1_1_3_1_2_0_0": "SAME", "1_1_3_1_2_0_1": "SAME", "1_1_3_1_2_1_0": "SAME", "1_1_3_1_2_1_1": "SAME", "1_1_3_1_2_2_0": "SAME", "1_1_3_1_2_2_1": "SAME", "1_1_3_1_3_0_0": "SAME", "1_1_3_1_3_0_1": "SAME", "1_1_3_1_3_1_0": "SAME", "1_1_3_1_3_1_1": "SAME", "1_1_3_1_3_2_0": "SAME", "1_1_3_1_3_2_1": "SAME", "1_1_3_2_0_0_0": "SAME", "1_1_3_2_0_0_1": "SAME", "1_1_3_2_0_1_0": "SAME", "1_1_3_2_0_1_1": "SAME", "1_1_3_2_0_2_0": "SAME", "1_1_3_2_0_2_1": "SAME", "1_1_3_2_1_0_0": "SAME", "1_1_3_2_1_0_1": "OPP", "1_1_3_2_1_1_0": "SAME", "1_1_3_2_1_1_1": "SAME", "1_1_3_2_1_2_0": "SAME", "1_1_3_2_1_2_1": "SAME", "1_1_3_2_2_0_0": "SAME", "1_1_3_2_2_0_1": "SAME", "1_1_3_2_2_1_0": "SAME", "1_1_3_2_2_1_1": "SAME", "1_1_3_2_2_2_0": "SAME", "1_1_3_2_2_2_1": "SAME", "1_1_3_2_3_0_0": "SAME", "1_1_3_2_3_0_1": "SAME", "1_1_3_2_3_1_0": "SAME", "1_1_3_2_3_1_1": "SAME", "1_1_3_2_3_2_0": "SAME", "1_1_3_2_3_2_1": "SAME", "1_1_3_3_0_0_0": "SAME", "1_1_3_3_0_0_1": "SAME", "1_1_3_3_0_1_0": "SAME", "1_1_3_3_0_1_1": "SAME", "1_1_3_3_0_2_0": "SAME", "1_1_3_3_0_2_1": "SAME", "1_1_3_3_1_0_0": "SAME", "1_1_3_3_1_0_1": "SAME", "1_1_3_3_1_1_0": "SAME", "1_1_3_3_1_1_1": "SAME", "1_1_3_3_1_2_0": "SAME", "1_1_3_3_1_2_1": "SAME", "1_1_3_3_2_0_0": "SAME", "1_1_3_3_2_0_1": "SAME", "1_1_3_3_2_1_0": "SAME", "1_1_3_3_2_1_1": "SAME", "1_1_3_3_2_2_0": "SAME", "1_1_3_3_2_2_1": "SAME", "1_1_3_3_3_0_0": "SAME", "1_1_3_3_3_0_1": "SAME", "1_1_3_3_3_1_0": "SAME", "1_1_3_3_3_1_1": "SAME", "1_1_3_3_3_2_0": "SAME", "1_1_3_3_3_2_1": "SAME", "1_2_0_0_0_0_0": "SAME", "1_2_0_0_0_0_1": "SAME", "1_2_0_0_0_1_0": "SAME", "1_2_0_0_0_1_1": "SAME", "1_2_0_0_0_2_0": "SAME", "1_2_0_0_0_2_1": "SAME", "1_2_0_0_1_0_0": "SAME", "1_2_0_0_1_0_1": "SAME", "1_2_0_0_1_1_0": "SAME", "1_2_0_0_1_1_1": "SAME", "1_2_0_0_1_2_0": "SAME", "1_2_0_0_1_2_1": "SAME", "1_2_0_0_2_0_0": "SAME", "1_2_0_0_2_0_1": "SAME", "1_2_0_0_2_1_0": "SAME", "1_2_0_0_2_1_1": "SAME", "1_2_0_0_2_2_0": "SAME", "1_2_0_0_2_2_1": "SAME", "1_2_0_0_3_0_0": "SAME", "1_2_0_0_3_0_1": "SAME", "1_2_0_0_3_1_0": "SAME", "1_2_0_0_3_1_1": "SAME", "1_2_0_0_3_2_0": "SAME", "1_2_0_0_3_2_1": "SAME", "1_2_0_1_0_0_0": "SAME", "1_2_0_1_0_0_1": "SAME", "1_2_0_1_0_1_0": "SAME", "1_2_0_1_0_1_1": "SAME", "1_2_0_1_0_2_0": "SAME", "1_2_0_1_0_2_1": "SAME", "1_2_0_1_1_0_0": "SAME", "1_2_0_1_1_0_1": "SAME", "1_2_0_1_1_1_0": "SAME", "1_2_0_1_1_1_1": "SAME", "1_2_0_1_1_2_0": "SAME", "1_2_0_1_1_2_1": "SAME", "1_2_0_1_2_0_0": "SAME", "1_2_0_1_2_0_1": "SAME", "1_2_0_1_2_1_0": "SAME", "1_2_0_1_2_1_1": "SAME", "1_2_0_1_2_2_0": "SAME", "1_2_0_1_2_2_1": "SAME", "1_2_0_1_3_0_0": "SAME", "1_2_0_1_3_0_1": "SAME", "1_2_0_1_3_1_0": "SAME", "1_2_0_1_3_1_1": "SAME", "1_2_0_1_3_2_0": "SAME", "1_2_0_1_3_2_1": "SAME", "1_2_0_2_0_0_0": "SAME", "1_2_0_2_0_0_1": "SAME", "1_2_0_2_0_1_0": "SAME", "1_2_0_2_0_1_1": "SAME", "1_2_0_2_0_2_0": "SAME", "1_2_0_2_0_2_1": "SAME", "1_2_0_2_1_0_0": "SAME", "1_2_0_2_1_0_1": "SAME", "1_2_0_2_1_1_0": "SAME", "1_2_0_2_1_1_1": "SAME", "1_2_0_2_1_2_0": "SAME", "1_2_0_2_1_2_1": "SAME", "1_2_0_2_2_0_0": "SAME", "1_2_0_2_2_0_1": "SAME", "1_2_0_2_2_1_0": "SAME", "1_2_0_2_2_1_1": "SAME", "1_2_0_2_2_2_0": "SAME", "1_2_0_2_2_2_1": "SAME", "1_2_0_2_3_0_0": "SAME", "1_2_0_2_3_0_1": "SAME", "1_2_0_2_3_1_0": "SAME", "1_2_0_2_3_1_1": "SAME", "1_2_0_2_3_2_0": "SAME", "1_2_0_2_3_2_1": "SAME", "1_2_0_3_0_0_0": "SAME", "1_2_0_3_0_0_1": "SAME", "1_2_0_3_0_1_0": "SAME", "1_2_0_3_0_1_1": "SAME", "1_2_0_3_0_2_0": "SAME", "1_2_0_3_0_2_1": "SAME", "1_2_0_3_1_0_0": "SAME", "1_2_0_3_1_0_1": "SAME", "1_2_0_3_1_1_0": "SAME", "1_2_0_3_1_1_1": "SAME", "1_2_0_3_1_2_0": "SAME", "1_2_0_3_1_2_1": "SAME", "1_2_0_3_2_0_0": "SAME", "1_2_0_3_2_0_1": "SAME", "1_2_0_3_2_1_0": "SAME", "1_2_0_3_2_1_1": "SAME", "1_2_0_3_2_2_0": "SAME", "1_2_0_3_2_2_1": "SAME", "1_2_0_3_3_0_0": "SAME", "1_2_0_3_3_0_1": "SAME", "1_2_0_3_3_1_0": "SAME", "1_2_0_3_3_1_1": "SAME", "1_2_0_3_3_2_0": "SAME", "1_2_0_3_3_2_1": "SAME", "1_2_1_0_0_0_0": "SAME", "1_2_1_0_0_0_1": "SAME", "1_2_1_0_0_1_0": "SAME", "1_2_1_0_0_1_1": "SAME", "1_2_1_0_0_2_0": "SAME", "1_2_1_0_0_2_1": "SAME", "1_2_1_0_1_0_0": "SAME", "1_2_1_0_1_0_1": "SAME", "1_2_1_0_1_1_0": "SAME", "1_2_1_0_1_1_1": "SAME", "1_2_1_0_1_2_0": "SAME", "1_2_1_0_1_2_1": "SAME", "1_2_1_0_2_0_0": "SAME", "1_2_1_0_2_0_1": "SAME", "1_2_1_0_2_1_0": "SAME", "1_2_1_0_2_1_1": "SAME", "1_2_1_0_2_2_0": "SAME", "1_2_1_0_2_2_1": "SAME", "1_2_1_0_3_0_0": "SAME", "1_2_1_0_3_0_1": "SAME", "1_2_1_0_3_1_0": "SAME", "1_2_1_0_3_1_1": "SAME", "1_2_1_0_3_2_0": "SAME", "1_2_1_0_3_2_1": "SAME", "1_2_1_1_0_0_0": "SAME", "1_2_1_1_0_0_1": "SAME", "1_2_1_1_0_1_0": "SAME", "1_2_1_1_0_1_1": "SAME", "1_2_1_1_0_2_0": "SAME", "1_2_1_1_0_2_1": "SAME", "1_2_1_1_1_0_0": "SAME", "1_2_1_1_1_0_1": "SAME", "1_2_1_1_1_1_0": "SAME", "1_2_1_1_1_1_1": "SAME", "1_2_1_1_1_2_0": "SAME", "1_2_1_1_1_2_1": "SAME", "1_2_1_1_2_0_0": "SAME", "1_2_1_1_2_0_1": "SAME", "1_2_1_1_2_1_0": "SAME", "1_2_1_1_2_1_1": "SAME", "1_2_1_1_2_2_0": "SAME", "1_2_1_1_2_2_1": "SAME", "1_2_1_1_3_0_0": "SAME", "1_2_1_1_3_0_1": "SAME", "1_2_1_1_3_1_0": "SAME", "1_2_1_1_3_1_1": "SAME", "1_2_1_1_3_2_0": "SAME", "1_2_1_1_3_2_1": "SAME", "1_2_1_2_0_0_0": "SAME", "1_2_1_2_0_0_1": "SAME", "1_2_1_2_0_1_0": "SAME", "1_2_1_2_0_1_1": "SAME", "1_2_1_2_0_2_0": "SAME", "1_2_1_2_0_2_1": "SAME", "1_2_1_2_1_0_0": "SAME", "1_2_1_2_1_0_1": "SAME", "1_2_1_2_1_1_0": "SAME", "1_2_1_2_1_1_1": "SAME", "1_2_1_2_1_2_0": "SAME", "1_2_1_2_1_2_1": "SAME", "1_2_1_2_2_0_0": "SAME", "1_2_1_2_2_0_1": "SAME", "1_2_1_2_2_1_0": "SAME", "1_2_1_2_2_1_1": "SAME", "1_2_1_2_2_2_0": "SAME", "1_2_1_2_2_2_1": "SAME", "1_2_1_2_3_0_0": "SAME", "1_2_1_2_3_0_1": "SAME", "1_2_1_2_3_1_0": "SAME", "1_2_1_2_3_1_1": "SAME", "1_2_1_2_3_2_0": "SAME", "1_2_1_2_3_2_1": "SAME", "1_2_1_3_0_0_0": "SAME", "1_2_1_3_0_0_1": "SAME", "1_2_1_3_0_1_0": "SAME", "1_2_1_3_0_1_1": "SAME", "1_2_1_3_0_2_0": "SAME", "1_2_1_3_0_2_1": "SAME", "1_2_1_3_1_0_0": "SAME", "1_2_1_3_1_0_1": "SAME", "1_2_1_3_1_1_0": "SAME", "1_2_1_3_1_1_1": "SAME", "1_2_1_3_1_2_0": "SAME", "1_2_1_3_1_2_1": "SAME", "1_2_1_3_2_0_0": "SAME", "1_2_1_3_2_0_1": "SAME", "1_2_1_3_2_1_0": "SAME", "1_2_1_3_2_1_1": "SAME", "1_2_1_3_2_2_0": "SAME", "1_2_1_3_2_2_1": "SAME", "1_2_1_3_3_0_0": "SAME", "1_2_1_3_3_0_1": "SAME", "1_2_1_3_3_1_0": "SAME", "1_2_1_3_3_1_1": "SAME", "1_2_1_3_3_2_0": "SAME", "1_2_1_3_3_2_1": "SAME", "1_2_2_0_0_0_0": "SAME", "1_2_2_0_0_0_1": "SAME", "1_2_2_0_0_1_0": "SAME", "1_2_2_0_0_1_1": "SAME", "1_2_2_0_0_2_0": "SAME", "1_2_2_0_0_2_1": "SAME", "1_2_2_0_1_0_0": "SAME", "1_2_2_0_1_0_1": "SAME", "1_2_2_0_1_1_0": "SAME", "1_2_2_0_1_1_1": "SAME", "1_2_2_0_1_2_0": "SAME", "1_2_2_0_1_2_1": "SAME", "1_2_2_0_2_0_0": "SAME", "1_2_2_0_2_0_1": "SAME", "1_2_2_0_2_1_0": "SAME", "1_2_2_0_2_1_1": "SAME", "1_2_2_0_2_2_0": "SAME", "1_2_2_0_2_2_1": "SAME", "1_2_2_0_3_0_0": "SAME", "1_2_2_0_3_0_1": "SAME", "1_2_2_0_3_1_0": "SAME", "1_2_2_0_3_1_1": "SAME", "1_2_2_0_3_2_0": "SAME", "1_2_2_0_3_2_1": "SAME", "1_2_2_1_0_0_0": "SAME", "1_2_2_1_0_0_1": "SAME", "1_2_2_1_0_1_0": "SAME", "1_2_2_1_0_1_1": "SAME", "1_2_2_1_0_2_0": "SAME", "1_2_2_1_0_2_1": "SAME", "1_2_2_1_1_0_0": "SAME", "1_2_2_1_1_0_1": "SAME", "1_2_2_1_1_1_0": "SAME", "1_2_2_1_1_1_1": "SAME", "1_2_2_1_1_2_0": "SAME", "1_2_2_1_1_2_1": "SAME", "1_2_2_1_2_0_0": "SAME", "1_2_2_1_2_0_1": "SAME", "1_2_2_1_2_1_0": "SAME", "1_2_2_1_2_1_1": "SAME", "1_2_2_1_2_2_0": "SAME", "1_2_2_1_2_2_1": "SAME", "1_2_2_1_3_0_0": "SAME", "1_2_2_1_3_0_1": "SAME", "1_2_2_1_3_1_0": "SAME", "1_2_2_1_3_1_1": "SAME", "1_2_2_1_3_2_0": "SAME", "1_2_2_1_3_2_1": "SAME", "1_2_2_2_0_0_0": "SAME", "1_2_2_2_0_0_1": "SAME", "1_2_2_2_0_1_0": "SAME", "1_2_2_2_0_1_1": "SAME", "1_2_2_2_0_2_0": "SAME", "1_2_2_2_0_2_1": "SAME", "1_2_2_2_1_0_0": "SAME", "1_2_2_2_1_0_1": "SAME", "1_2_2_2_1_1_0": "SAME", "1_2_2_2_1_1_1": "SAME", "1_2_2_2_1_2_0": "SAME", "1_2_2_2_1_2_1": "SAME", "1_2_2_2_2_0_0": "SAME", "1_2_2_2_2_0_1": "SAME", "1_2_2_2_2_1_0": "SAME", "1_2_2_2_2_1_1": "SAME", "1_2_2_2_2_2_0": "SAME", "1_2_2_2_2_2_1": "SAME", "1_2_2_2_3_0_0": "SAME", "1_2_2_2_3_0_1": "SAME", "1_2_2_2_3_1_0": "SAME", "1_2_2_2_3_1_1": "SAME", "1_2_2_2_3_2_0": "SAME", "1_2_2_2_3_2_1": "SAME", "1_2_2_3_0_0_0": "SAME", "1_2_2_3_0_0_1": "SAME", "1_2_2_3_0_1_0": "SAME", "1_2_2_3_0_1_1": "SAME", "1_2_2_3_0_2_0": "SAME", "1_2_2_3_0_2_1": "SAME", "1_2_2_3_1_0_0": "SAME", "1_2_2_3_1_0_1": "SAME", "1_2_2_3_1_1_0": "SAME", "1_2_2_3_1_1_1": "SAME", "1_2_2_3_1_2_0": "SAME", "1_2_2_3_1_2_1": "SAME", "1_2_2_3_2_0_0": "SAME", "1_2_2_3_2_0_1": "SAME", "1_2_2_3_2_1_0": "SAME", "1_2_2_3_2_1_1": "SAME", "1_2_2_3_2_2_0": "SAME", "1_2_2_3_2_2_1": "SAME", "1_2_2_3_3_0_0": "SAME", "1_2_2_3_3_0_1": "SAME", "1_2_2_3_3_1_0": "SAME", "1_2_2_3_3_1_1": "SAME", "1_2_2_3_3_2_0": "SAME", "1_2_2_3_3_2_1": "SAME", "1_2_3_0_0_0_0": "SAME", "1_2_3_0_0_0_1": "SAME", "1_2_3_0_0_1_0": "SAME", "1_2_3_0_0_1_1": "SAME", "1_2_3_0_0_2_0": "SAME", "1_2_3_0_0_2_1": "SAME", "1_2_3_0_1_0_0": "SAME", "1_2_3_0_1_0_1": "SAME", "1_2_3_0_1_1_0": "SAME", "1_2_3_0_1_1_1": "SAME", "1_2_3_0_1_2_0": "SAME", "1_2_3_0_1_2_1": "SAME", "1_2_3_0_2_0_0": "SAME", "1_2_3_0_2_0_1": "SAME", "1_2_3_0_2_1_0": "SAME", "1_2_3_0_2_1_1": "SAME", "1_2_3_0_2_2_0": "SAME", "1_2_3_0_2_2_1": "SAME", "1_2_3_0_3_0_0": "SAME", "1_2_3_0_3_0_1": "SAME", "1_2_3_0_3_1_0": "SAME", "1_2_3_0_3_1_1": "SAME", "1_2_3_0_3_2_0": "SAME", "1_2_3_0_3_2_1": "SAME", "1_2_3_1_0_0_0": "SAME", "1_2_3_1_0_0_1": "SAME", "1_2_3_1_0_1_0": "SAME", "1_2_3_1_0_1_1": "SAME", "1_2_3_1_0_2_0": "SAME", "1_2_3_1_0_2_1": "SAME", "1_2_3_1_1_0_0": "SAME", "1_2_3_1_1_0_1": "SAME", "1_2_3_1_1_1_0": "SAME", "1_2_3_1_1_1_1": "SAME", "1_2_3_1_1_2_0": "SAME", "1_2_3_1_1_2_1": "SAME", "1_2_3_1_2_0_0": "SAME", "1_2_3_1_2_0_1": "SAME", "1_2_3_1_2_1_0": "SAME", "1_2_3_1_2_1_1": "SAME", "1_2_3_1_2_2_0": "SAME", "1_2_3_1_2_2_1": "SAME", "1_2_3_1_3_0_0": "SAME", "1_2_3_1_3_0_1": "SAME", "1_2_3_1_3_1_0": "SAME", "1_2_3_1_3_1_1": "SAME", "1_2_3_1_3_2_0": "SAME", "1_2_3_1_3_2_1": "SAME", "1_2_3_2_0_0_0": "SAME", "1_2_3_2_0_0_1": "SAME", "1_2_3_2_0_1_0": "SAME", "1_2_3_2_0_1_1": "SAME", "1_2_3_2_0_2_0": "SAME", "1_2_3_2_0_2_1": "SAME", "1_2_3_2_1_0_0": "SAME", "1_2_3_2_1_0_1": "SAME", "1_2_3_2_1_1_0": "SAME", "1_2_3_2_1_1_1": "SAME", "1_2_3_2_1_2_0": "SAME", "1_2_3_2_1_2_1": "SAME", "1_2_3_2_2_0_0": "SAME", "1_2_3_2_2_0_1": "SAME", "1_2_3_2_2_1_0": "SAME", "1_2_3_2_2_1_1": "SAME", "1_2_3_2_2_2_0": "SAME", "1_2_3_2_2_2_1": "SAME", "1_2_3_2_3_0_0": "SAME", "1_2_3_2_3_0_1": "SAME", "1_2_3_2_3_1_0": "SAME", "1_2_3_2_3_1_1": "SAME", "1_2_3_2_3_2_0": "SAME", "1_2_3_2_3_2_1": "SAME", "1_2_3_3_0_0_0": "SAME", "1_2_3_3_0_0_1": "SAME", "1_2_3_3_0_1_0": "SAME", "1_2_3_3_0_1_1": "SAME", "1_2_3_3_0_2_0": "SAME", "1_2_3_3_0_2_1": "SAME", "1_2_3_3_1_0_0": "SAME", "1_2_3_3_1_0_1": "SAME", "1_2_3_3_1_1_0": "SAME", "1_2_3_3_1_1_1": "SAME", "1_2_3_3_1_2_0": "SAME", "1_2_3_3_1_2_1": "SAME", "1_2_3_3_2_0_0": "SAME", "1_2_3_3_2_0_1": "SAME", "1_2_3_3_2_1_0": "SAME", "1_2_3_3_2_1_1": "SAME", "1_2_3_3_2_2_0": "SAME", "1_2_3_3_2_2_1": "SAME", "1_2_3_3_3_0_0": "SAME", "1_2_3_3_3_0_1": "SAME", "1_2_3_3_3_1_0": "SAME", "1_2_3_3_3_1_1": "SAME", "1_2_3_3_3_2_0": "SAME", "1_2_3_3_3_2_1": "SAME", "1_3_0_0_0_0_0": "SAME", "1_3_0_0_0_0_1": "SAME", "1_3_0_0_0_1_0": "SAME", "1_3_0_0_0_1_1": "SAME", "1_3_0_0_0_2_0": "SAME", "1_3_0_0_0_2_1": "SAME", "1_3_0_0_1_0_0": "SAME", "1_3_0_0_1_0_1": "SAME", "1_3_0_0_1_1_0": "SAME", "1_3_0_0_1_1_1": "SAME", "1_3_0_0_1_2_0": "SAME", "1_3_0_0_1_2_1": "SAME", "1_3_0_0_2_0_0": "SAME", "1_3_0_0_2_0_1": "SAME", "1_3_0_0_2_1_0": "SAME", "1_3_0_0_2_1_1": "SAME", "1_3_0_0_2_2_0": "SAME", "1_3_0_0_2_2_1": "SAME", "1_3_0_0_3_0_0": "SAME", "1_3_0_0_3_0_1": "SAME", "1_3_0_0_3_1_0": "SAME", "1_3_0_0_3_1_1": "SAME", "1_3_0_0_3_2_0": "SAME", "1_3_0_0_3_2_1": "SAME", "1_3_0_1_0_0_0": "SAME", "1_3_0_1_0_0_1": "SAME", "1_3_0_1_0_1_0": "SAME", "1_3_0_1_0_1_1": "SAME", "1_3_0_1_0_2_0": "SAME", "1_3_0_1_0_2_1": "SAME", "1_3_0_1_1_0_0": "SAME", "1_3_0_1_1_0_1": "SAME", "1_3_0_1_1_1_0": "SAME", "1_3_0_1_1_1_1": "SAME", "1_3_0_1_1_2_0": "SAME", "1_3_0_1_1_2_1": "SAME", "1_3_0_1_2_0_0": "SAME", "1_3_0_1_2_0_1": "SAME", "1_3_0_1_2_1_0": "SAME", "1_3_0_1_2_1_1": "SAME", "1_3_0_1_2_2_0": "SAME", "1_3_0_1_2_2_1": "SAME", "1_3_0_1_3_0_0": "SAME", "1_3_0_1_3_0_1": "SAME", "1_3_0_1_3_1_0": "SAME", "1_3_0_1_3_1_1": "SAME", "1_3_0_1_3_2_0": "SAME", "1_3_0_1_3_2_1": "SAME", "1_3_0_2_0_0_0": "SAME", "1_3_0_2_0_0_1": "SAME", "1_3_0_2_0_1_0": "SAME", "1_3_0_2_0_1_1": "SAME", "1_3_0_2_0_2_0": "SAME", "1_3_0_2_0_2_1": "SAME", "1_3_0_2_1_0_0": "SAME", "1_3_0_2_1_0_1": "SAME", "1_3_0_2_1_1_0": "SAME", "1_3_0_2_1_1_1": "SAME", "1_3_0_2_1_2_0": "SAME", "1_3_0_2_1_2_1": "SAME", "1_3_0_2_2_0_0": "SAME", "1_3_0_2_2_0_1": "SAME", "1_3_0_2_2_1_0": "SAME", "1_3_0_2_2_1_1": "SAME", "1_3_0_2_2_2_0": "SAME", "1_3_0_2_2_2_1": "SAME", "1_3_0_2_3_0_0": "SAME", "1_3_0_2_3_0_1": "SAME", "1_3_0_2_3_1_0": "SAME", "1_3_0_2_3_1_1": "SAME", "1_3_0_2_3_2_0": "SAME", "1_3_0_2_3_2_1": "SAME", "1_3_0_3_0_0_0": "SAME", "1_3_0_3_0_0_1": "SAME", "1_3_0_3_0_1_0": "SAME", "1_3_0_3_0_1_1": "SAME", "1_3_0_3_0_2_0": "SAME", "1_3_0_3_0_2_1": "SAME", "1_3_0_3_1_0_0": "SAME", "1_3_0_3_1_0_1": "SAME", "1_3_0_3_1_1_0": "SAME", "1_3_0_3_1_1_1": "SAME", "1_3_0_3_1_2_0": "SAME", "1_3_0_3_1_2_1": "SAME", "1_3_0_3_2_0_0": "SAME", "1_3_0_3_2_0_1": "SAME", "1_3_0_3_2_1_0": "SAME", "1_3_0_3_2_1_1": "SAME", "1_3_0_3_2_2_0": "SAME", "1_3_0_3_2_2_1": "SAME", "1_3_0_3_3_0_0": "SAME", "1_3_0_3_3_0_1": "SAME", "1_3_0_3_3_1_0": "SAME", "1_3_0_3_3_1_1": "SAME", "1_3_0_3_3_2_0": "SAME", "1_3_0_3_3_2_1": "SAME", "1_3_1_0_0_0_0": "SAME", "1_3_1_0_0_0_1": "SAME", "1_3_1_0_0_1_0": "SAME", "1_3_1_0_0_1_1": "SAME", "1_3_1_0_0_2_0": "SAME", "1_3_1_0_0_2_1": "SAME", "1_3_1_0_1_0_0": "SAME", "1_3_1_0_1_0_1": "SAME", "1_3_1_0_1_1_0": "SAME", "1_3_1_0_1_1_1": "SAME", "1_3_1_0_1_2_0": "SAME", "1_3_1_0_1_2_1": "SAME", "1_3_1_0_2_0_0": "SAME", "1_3_1_0_2_0_1": "SAME", "1_3_1_0_2_1_0": "SAME", "1_3_1_0_2_1_1": "SAME", "1_3_1_0_2_2_0": "SAME", "1_3_1_0_2_2_1": "SAME", "1_3_1_0_3_0_0": "SAME", "1_3_1_0_3_0_1": "SAME", "1_3_1_0_3_1_0": "SAME", "1_3_1_0_3_1_1": "SAME", "1_3_1_0_3_2_0": "SAME", "1_3_1_0_3_2_1": "SAME", "1_3_1_1_0_0_0": "SAME", "1_3_1_1_0_0_1": "SAME", "1_3_1_1_0_1_0": "SAME", "1_3_1_1_0_1_1": "SAME", "1_3_1_1_0_2_0": "SAME", "1_3_1_1_0_2_1": "SAME", "1_3_1_1_1_0_0": "SAME", "1_3_1_1_1_0_1": "SAME", "1_3_1_1_1_1_0": "SAME", "1_3_1_1_1_1_1": "SAME", "1_3_1_1_1_2_0": "SAME", "1_3_1_1_1_2_1": "SAME", "1_3_1_1_2_0_0": "SAME", "1_3_1_1_2_0_1": "SAME", "1_3_1_1_2_1_0": "SAME", "1_3_1_1_2_1_1": "SAME", "1_3_1_1_2_2_0": "SAME", "1_3_1_1_2_2_1": "SAME", "1_3_1_1_3_0_0": "SAME", "1_3_1_1_3_0_1": "SAME", "1_3_1_1_3_1_0": "SAME", "1_3_1_1_3_1_1": "SAME", "1_3_1_1_3_2_0": "SAME", "1_3_1_1_3_2_1": "SAME", "1_3_1_2_0_0_0": "SAME", "1_3_1_2_0_0_1": "SAME", "1_3_1_2_0_1_0": "SAME", "1_3_1_2_0_1_1": "SAME", "1_3_1_2_0_2_0": "SAME", "1_3_1_2_0_2_1": "SAME", "1_3_1_2_1_0_0": "SAME", "1_3_1_2_1_0_1": "SAME", "1_3_1_2_1_1_0": "SAME", "1_3_1_2_1_1_1": "SAME", "1_3_1_2_1_2_0": "SAME", "1_3_1_2_1_2_1": "SAME", "1_3_1_2_2_0_0": "SAME", "1_3_1_2_2_0_1": "SAME", "1_3_1_2_2_1_0": "SAME", "1_3_1_2_2_1_1": "SAME", "1_3_1_2_2_2_0": "SAME", "1_3_1_2_2_2_1": "SAME", "1_3_1_2_3_0_0": "SAME", "1_3_1_2_3_0_1": "SAME", "1_3_1_2_3_1_0": "SAME", "1_3_1_2_3_1_1": "SAME", "1_3_1_2_3_2_0": "SAME", "1_3_1_2_3_2_1": "SAME", "1_3_1_3_0_0_0": "SAME", "1_3_1_3_0_0_1": "SAME", "1_3_1_3_0_1_0": "SAME", "1_3_1_3_0_1_1": "SAME", "1_3_1_3_0_2_0": "SAME", "1_3_1_3_0_2_1": "SAME", "1_3_1_3_1_0_0": "SAME", "1_3_1_3_1_0_1": "SAME", "1_3_1_3_1_1_0": "SAME", "1_3_1_3_1_1_1": "SAME", "1_3_1_3_1_2_0": "SAME", "1_3_1_3_1_2_1": "SAME", "1_3_1_3_2_0_0": "SAME", "1_3_1_3_2_0_1": "SAME", "1_3_1_3_2_1_0": "SAME", "1_3_1_3_2_1_1": "SAME", "1_3_1_3_2_2_0": "SAME", "1_3_1_3_2_2_1": "SAME", "1_3_1_3_3_0_0": "SAME", "1_3_1_3_3_0_1": "SAME", "1_3_1_3_3_1_0": "SAME", "1_3_1_3_3_1_1": "SAME", "1_3_1_3_3_2_0": "SAME", "1_3_1_3_3_2_1": "SAME", "1_3_2_0_0_0_0": "SAME", "1_3_2_0_0_0_1": "SAME", "1_3_2_0_0_1_0": "SAME", "1_3_2_0_0_1_1": "SAME", "1_3_2_0_0_2_0": "SAME", "1_3_2_0_0_2_1": "SAME", "1_3_2_0_1_0_0": "SAME", "1_3_2_0_1_0_1": "SAME", "1_3_2_0_1_1_0": "SAME", "1_3_2_0_1_1_1": "SAME", "1_3_2_0_1_2_0": "SAME", "1_3_2_0_1_2_1": "SAME", "1_3_2_0_2_0_0": "SAME", "1_3_2_0_2_0_1": "SAME", "1_3_2_0_2_1_0": "SAME", "1_3_2_0_2_1_1": "SAME", "1_3_2_0_2_2_0": "SAME", "1_3_2_0_2_2_1": "SAME", "1_3_2_0_3_0_0": "SAME", "1_3_2_0_3_0_1": "SAME", "1_3_2_0_3_1_0": "SAME", "1_3_2_0_3_1_1": "SAME", "1_3_2_0_3_2_0": "SAME", "1_3_2_0_3_2_1": "SAME", "1_3_2_1_0_0_0": "SAME", "1_3_2_1_0_0_1": "SAME", "1_3_2_1_0_1_0": "SAME", "1_3_2_1_0_1_1": "SAME", "1_3_2_1_0_2_0": "SAME", "1_3_2_1_0_2_1": "SAME", "1_3_2_1_1_0_0": "SAME", "1_3_2_1_1_0_1": "SAME", "1_3_2_1_1_1_0": "SAME", "1_3_2_1_1_1_1": "SAME", "1_3_2_1_1_2_0": "SAME", "1_3_2_1_1_2_1": "SAME", "1_3_2_1_2_0_0": "SAME", "1_3_2_1_2_0_1": "SAME", "1_3_2_1_2_1_0": "SAME", "1_3_2_1_2_1_1": "SAME", "1_3_2_1_2_2_0": "SAME", "1_3_2_1_2_2_1": "SAME", "1_3_2_1_3_0_0": "SAME", "1_3_2_1_3_0_1": "SAME", "1_3_2_1_3_1_0": "SAME", "1_3_2_1_3_1_1": "SAME", "1_3_2_1_3_2_0": "SAME", "1_3_2_1_3_2_1": "SAME", "1_3_2_2_0_0_0": "SAME", "1_3_2_2_0_0_1": "SAME", "1_3_2_2_0_1_0": "SAME", "1_3_2_2_0_1_1": "SAME", "1_3_2_2_0_2_0": "SAME", "1_3_2_2_0_2_1": "SAME", "1_3_2_2_1_0_0": "SAME", "1_3_2_2_1_0_1": "SAME", "1_3_2_2_1_1_0": "SAME", "1_3_2_2_1_1_1": "SAME", "1_3_2_2_1_2_0": "SAME", "1_3_2_2_1_2_1": "SAME", "1_3_2_2_2_0_0": "SAME", "1_3_2_2_2_0_1": "SAME", "1_3_2_2_2_1_0": "SAME", "1_3_2_2_2_1_1": "SAME", "1_3_2_2_2_2_0": "SAME", "1_3_2_2_2_2_1": "SAME", "1_3_2_2_3_0_0": "SAME", "1_3_2_2_3_0_1": "SAME", "1_3_2_2_3_1_0": "SAME", "1_3_2_2_3_1_1": "SAME", "1_3_2_2_3_2_0": "SAME", "1_3_2_2_3_2_1": "SAME", "1_3_2_3_0_0_0": "SAME", "1_3_2_3_0_0_1": "SAME", "1_3_2_3_0_1_0": "SAME", "1_3_2_3_0_1_1": "SAME", "1_3_2_3_0_2_0": "SAME", "1_3_2_3_0_2_1": "SAME", "1_3_2_3_1_0_0": "SAME", "1_3_2_3_1_0_1": "SAME", "1_3_2_3_1_1_0": "SAME", "1_3_2_3_1_1_1": "SAME", "1_3_2_3_1_2_0": "SAME", "1_3_2_3_1_2_1": "SAME", "1_3_2_3_2_0_0": "SAME", "1_3_2_3_2_0_1": "SAME", "1_3_2_3_2_1_0": "SAME", "1_3_2_3_2_1_1": "SAME", "1_3_2_3_2_2_0": "SAME", "1_3_2_3_2_2_1": "SAME", "1_3_2_3_3_0_0": "SAME", "1_3_2_3_3_0_1": "SAME", "1_3_2_3_3_1_0": "SAME", "1_3_2_3_3_1_1": "SAME", "1_3_2_3_3_2_0": "SAME", "1_3_2_3_3_2_1": "SAME", "1_3_3_0_0_0_0": "SAME", "1_3_3_0_0_0_1": "SAME", "1_3_3_0_0_1_0": "SAME", "1_3_3_0_0_1_1": "SAME", "1_3_3_0_0_2_0": "SAME", "1_3_3_0_0_2_1": "SAME", "1_3_3_0_1_0_0": "SAME", "1_3_3_0_1_0_1": "SAME", "1_3_3_0_1_1_0": "SAME", "1_3_3_0_1_1_1": "SAME", "1_3_3_0_1_2_0": "SAME", "1_3_3_0_1_2_1": "SAME", "1_3_3_0_2_0_0": "SAME", "1_3_3_0_2_0_1": "SAME", "1_3_3_0_2_1_0": "SAME", "1_3_3_0_2_1_1": "SAME", "1_3_3_0_2_2_0": "SAME", "1_3_3_0_2_2_1": "SAME", "1_3_3_0_3_0_0": "SAME", "1_3_3_0_3_0_1": "SAME", "1_3_3_0_3_1_0": "SAME", "1_3_3_0_3_1_1": "SAME", "1_3_3_0_3_2_0": "SAME", "1_3_3_0_3_2_1": "SAME", "1_3_3_1_0_0_0": "SAME", "1_3_3_1_0_0_1": "SAME", "1_3_3_1_0_1_0": "SAME", "1_3_3_1_0_1_1": "SAME", "1_3_3_1_0_2_0": "SAME", "1_3_3_1_0_2_1": "SAME", "1_3_3_1_1_0_0": "SAME", "1_3_3_1_1_0_1": "SAME", "1_3_3_1_1_1_0": "SAME", "1_3_3_1_1_1_1": "SAME", "1_3_3_1_1_2_0": "SAME", "1_3_3_1_1_2_1": "SAME", "1_3_3_1_2_0_0": "SAME", "1_3_3_1_2_0_1": "SAME", "1_3_3_1_2_1_0": "SAME", "1_3_3_1_2_1_1": "SAME", "1_3_3_1_2_2_0": "SAME", "1_3_3_1_2_2_1": "SAME", "1_3_3_1_3_0_0": "SAME", "1_3_3_1_3_0_1": "SAME", "1_3_3_1_3_1_0": "SAME", "1_3_3_1_3_1_1": "SAME", "1_3_3_1_3_2_0": "SAME", "1_3_3_1_3_2_1": "SAME", "1_3_3_2_0_0_0": "SAME", "1_3_3_2_0_0_1": "SAME", "1_3_3_2_0_1_0": "SAME", "1_3_3_2_0_1_1": "SAME", "1_3_3_2_0_2_0": "SAME", "1_3_3_2_0_2_1": "SAME", "1_3_3_2_1_0_0": "SAME", "1_3_3_2_1_0_1": "SAME", "1_3_3_2_1_1_0": "SAME", "1_3_3_2_1_1_1": "SAME", "1_3_3_2_1_2_0": "SAME", "1_3_3_2_1_2_1": "SAME", "1_3_3_2_2_0_0": "SAME", "1_3_3_2_2_0_1": "SAME", "1_3_3_2_2_1_0": "SAME", "1_3_3_2_2_1_1": "SAME", "1_3_3_2_2_2_0": "SAME", "1_3_3_2_2_2_1": "SAME", "1_3_3_2_3_0_0": "SAME", "1_3_3_2_3_0_1": "SAME", "1_3_3_2_3_1_0": "SAME", "1_3_3_2_3_1_1": "SAME", "1_3_3_2_3_2_0": "SAME", "1_3_3_2_3_2_1": "SAME", "1_3_3_3_0_0_0": "SAME", "1_3_3_3_0_0_1": "SAME", "1_3_3_3_0_1_0": "SAME", "1_3_3_3_0_1_1": "SAME", "1_3_3_3_0_2_0": "SAME", "1_3_3_3_0_2_1": "SAME", "1_3_3_3_1_0_0": "SAME", "1_3_3_3_1_0_1": "SAME", "1_3_3_3_1_1_0": "SAME", "1_3_3_3_1_1_1": "SAME", "1_3_3_3_1_2_0": "SAME", "1_3_3_3_1_2_1": "SAME", "1_3_3_3_2_0_0": "SAME", "1_3_3_3_2_0_1": "SAME", "1_3_3_3_2_1_0": "SAME", "1_3_3_3_2_1_1": "SAME", "1_3_3_3_2_2_0": "SAME", "1_3_3_3_2_2_1": "SAME", "1_3_3_3_3_0_0": "SAME", "1_3_3_3_3_0_1": "SAME", "1_3_3_3_3_1_0": "SAME", "1_3_3_3_3_1_1": "SAME", "1_3_3_3_3_2_0": "SAME", "1_3_3_3_3_2_1": "SAME", "1_4_0_0_0_0_0": "SAME", "1_4_0_0_0_0_1": "SAME", "1_4_0_0_0_1_0": "SAME", "1_4_0_0_0_1_1": "SAME", "1_4_0_0_0_2_0": "SAME", "1_4_0_0_0_2_1": "SAME", "1_4_0_0_1_0_0": "SAME", "1_4_0_0_1_0_1": "SAME", "1_4_0_0_1_1_0": "SAME", "1_4_0_0_1_1_1": "SAME", "1_4_0_0_1_2_0": "SAME", "1_4_0_0_1_2_1": "SAME", "1_4_0_0_2_0_0": "SAME", "1_4_0_0_2_0_1": "SAME", "1_4_0_0_2_1_0": "SAME", "1_4_0_0_2_1_1": "SAME", "1_4_0_0_2_2_0": "SAME", "1_4_0_0_2_2_1": "SAME", "1_4_0_0_3_0_0": "SAME", "1_4_0_0_3_0_1": "SAME", "1_4_0_0_3_1_0": "SAME", "1_4_0_0_3_1_1": "SAME", "1_4_0_0_3_2_0": "SAME", "1_4_0_0_3_2_1": "SAME", "1_4_0_1_0_0_0": "SAME", "1_4_0_1_0_0_1": "SAME", "1_4_0_1_0_1_0": "SAME", "1_4_0_1_0_1_1": "SAME", "1_4_0_1_0_2_0": "SAME", "1_4_0_1_0_2_1": "SAME", "1_4_0_1_1_0_0": "SAME", "1_4_0_1_1_0_1": "SAME", "1_4_0_1_1_1_0": "SAME", "1_4_0_1_1_1_1": "SAME", "1_4_0_1_1_2_0": "SAME", "1_4_0_1_1_2_1": "SAME", "1_4_0_1_2_0_0": "SAME", "1_4_0_1_2_0_1": "SAME", "1_4_0_1_2_1_0": "SAME", "1_4_0_1_2_1_1": "SAME", "1_4_0_1_2_2_0": "SAME", "1_4_0_1_2_2_1": "SAME", "1_4_0_1_3_0_0": "SAME", "1_4_0_1_3_0_1": "SAME", "1_4_0_1_3_1_0": "SAME", "1_4_0_1_3_1_1": "SAME", "1_4_0_1_3_2_0": "SAME", "1_4_0_1_3_2_1": "SAME", "1_4_0_2_0_0_0": "SAME", "1_4_0_2_0_0_1": "SAME", "1_4_0_2_0_1_0": "SAME", "1_4_0_2_0_1_1": "SAME", "1_4_0_2_0_2_0": "SAME", "1_4_0_2_0_2_1": "SAME", "1_4_0_2_1_0_0": "SAME", "1_4_0_2_1_0_1": "SAME", "1_4_0_2_1_1_0": "SAME", "1_4_0_2_1_1_1": "SAME", "1_4_0_2_1_2_0": "SAME", "1_4_0_2_1_2_1": "SAME", "1_4_0_2_2_0_0": "SAME", "1_4_0_2_2_0_1": "SAME", "1_4_0_2_2_1_0": "SAME", "1_4_0_2_2_1_1": "SAME", "1_4_0_2_2_2_0": "SAME", "1_4_0_2_2_2_1": "SAME", "1_4_0_2_3_0_0": "SAME", "1_4_0_2_3_0_1": "SAME", "1_4_0_2_3_1_0": "SAME", "1_4_0_2_3_1_1": "SAME", "1_4_0_2_3_2_0": "SAME", "1_4_0_2_3_2_1": "SAME", "1_4_0_3_0_0_0": "SAME", "1_4_0_3_0_0_1": "SAME", "1_4_0_3_0_1_0": "SAME", "1_4_0_3_0_1_1": "SAME", "1_4_0_3_0_2_0": "SAME", "1_4_0_3_0_2_1": "SAME", "1_4_0_3_1_0_0": "SAME", "1_4_0_3_1_0_1": "SAME", "1_4_0_3_1_1_0": "SAME", "1_4_0_3_1_1_1": "SAME", "1_4_0_3_1_2_0": "SAME", "1_4_0_3_1_2_1": "SAME", "1_4_0_3_2_0_0": "SAME", "1_4_0_3_2_0_1": "SAME", "1_4_0_3_2_1_0": "SAME", "1_4_0_3_2_1_1": "SAME", "1_4_0_3_2_2_0": "SAME", "1_4_0_3_2_2_1": "SAME", "1_4_0_3_3_0_0": "SAME", "1_4_0_3_3_0_1": "SAME", "1_4_0_3_3_1_0": "SAME", "1_4_0_3_3_1_1": "SAME", "1_4_0_3_3_2_0": "SAME", "1_4_0_3_3_2_1": "SAME", "1_4_1_0_0_0_0": "SAME", "1_4_1_0_0_0_1": "SAME", "1_4_1_0_0_1_0": "SAME", "1_4_1_0_0_1_1": "SAME", "1_4_1_0_0_2_0": "SAME", "1_4_1_0_0_2_1": "SAME", "1_4_1_0_1_0_0": "SAME", "1_4_1_0_1_0_1": "SAME", "1_4_1_0_1_1_0": "SAME", "1_4_1_0_1_1_1": "SAME", "1_4_1_0_1_2_0": "SAME", "1_4_1_0_1_2_1": "SAME", "1_4_1_0_2_0_0": "SAME", "1_4_1_0_2_0_1": "SAME", "1_4_1_0_2_1_0": "SAME", "1_4_1_0_2_1_1": "SAME", "1_4_1_0_2_2_0": "SAME", "1_4_1_0_2_2_1": "SAME", "1_4_1_0_3_0_0": "SAME", "1_4_1_0_3_0_1": "SAME", "1_4_1_0_3_1_0": "SAME", "1_4_1_0_3_1_1": "SAME", "1_4_1_0_3_2_0": "SAME", "1_4_1_0_3_2_1": "SAME", "1_4_1_1_0_0_0": "SAME", "1_4_1_1_0_0_1": "SAME", "1_4_1_1_0_1_0": "SAME", "1_4_1_1_0_1_1": "SAME", "1_4_1_1_0_2_0": "SAME", "1_4_1_1_0_2_1": "SAME", "1_4_1_1_1_0_0": "SAME", "1_4_1_1_1_0_1": "SAME", "1_4_1_1_1_1_0": "SAME", "1_4_1_1_1_1_1": "SAME", "1_4_1_1_1_2_0": "SAME", "1_4_1_1_1_2_1": "SAME", "1_4_1_1_2_0_0": "SAME", "1_4_1_1_2_0_1": "SAME", "1_4_1_1_2_1_0": "SAME", "1_4_1_1_2_1_1": "SAME", "1_4_1_1_2_2_0": "SAME", "1_4_1_1_2_2_1": "SAME", "1_4_1_1_3_0_0": "SAME", "1_4_1_1_3_0_1": "SAME", "1_4_1_1_3_1_0": "SAME", "1_4_1_1_3_1_1": "SAME", "1_4_1_1_3_2_0": "SAME", "1_4_1_1_3_2_1": "SAME", "1_4_1_2_0_0_0": "SAME", "1_4_1_2_0_0_1": "SAME", "1_4_1_2_0_1_0": "SAME", "1_4_1_2_0_1_1": "SAME", "1_4_1_2_0_2_0": "SAME", "1_4_1_2_0_2_1": "SAME", "1_4_1_2_1_0_0": "SAME", "1_4_1_2_1_0_1": "SAME", "1_4_1_2_1_1_0": "SAME", "1_4_1_2_1_1_1": "SAME", "1_4_1_2_1_2_0": "SAME", "1_4_1_2_1_2_1": "SAME", "1_4_1_2_2_0_0": "SAME", "1_4_1_2_2_0_1": "SAME", "1_4_1_2_2_1_0": "SAME", "1_4_1_2_2_1_1": "SAME", "1_4_1_2_2_2_0": "SAME", "1_4_1_2_2_2_1": "SAME", "1_4_1_2_3_0_0": "SAME", "1_4_1_2_3_0_1": "SAME", "1_4_1_2_3_1_0": "SAME", "1_4_1_2_3_1_1": "SAME", "1_4_1_2_3_2_0": "SAME", "1_4_1_2_3_2_1": "SAME", "1_4_1_3_0_0_0": "SAME", "1_4_1_3_0_0_1": "SAME", "1_4_1_3_0_1_0": "SAME", "1_4_1_3_0_1_1": "SAME", "1_4_1_3_0_2_0": "SAME", "1_4_1_3_0_2_1": "SAME", "1_4_1_3_1_0_0": "SAME", "1_4_1_3_1_0_1": "SAME", "1_4_1_3_1_1_0": "SAME", "1_4_1_3_1_1_1": "SAME", "1_4_1_3_1_2_0": "SAME", "1_4_1_3_1_2_1": "SAME", "1_4_1_3_2_0_0": "SAME", "1_4_1_3_2_0_1": "SAME", "1_4_1_3_2_1_0": "SAME", "1_4_1_3_2_1_1": "SAME", "1_4_1_3_2_2_0": "SAME", "1_4_1_3_2_2_1": "SAME", "1_4_1_3_3_0_0": "SAME", "1_4_1_3_3_0_1": "SAME", "1_4_1_3_3_1_0": "SAME", "1_4_1_3_3_1_1": "SAME", "1_4_1_3_3_2_0": "SAME", "1_4_1_3_3_2_1": "SAME", "1_4_2_0_0_0_0": "SAME", "1_4_2_0_0_0_1": "SAME", "1_4_2_0_0_1_0": "SAME", "1_4_2_0_0_1_1": "SAME", "1_4_2_0_0_2_0": "SAME", "1_4_2_0_0_2_1": "SAME", "1_4_2_0_1_0_0": "SAME", "1_4_2_0_1_0_1": "SAME", "1_4_2_0_1_1_0": "SAME", "1_4_2_0_1_1_1": "SAME", "1_4_2_0_1_2_0": "SAME", "1_4_2_0_1_2_1": "SAME", "1_4_2_0_2_0_0": "SAME", "1_4_2_0_2_0_1": "SAME", "1_4_2_0_2_1_0": "SAME", "1_4_2_0_2_1_1": "SAME", "1_4_2_0_2_2_0": "SAME", "1_4_2_0_2_2_1": "SAME", "1_4_2_0_3_0_0": "SAME", "1_4_2_0_3_0_1": "SAME", "1_4_2_0_3_1_0": "SAME", "1_4_2_0_3_1_1": "SAME", "1_4_2_0_3_2_0": "SAME", "1_4_2_0_3_2_1": "SAME", "1_4_2_1_0_0_0": "SAME", "1_4_2_1_0_0_1": "SAME", "1_4_2_1_0_1_0": "SAME", "1_4_2_1_0_1_1": "SAME", "1_4_2_1_0_2_0": "SAME", "1_4_2_1_0_2_1": "SAME", "1_4_2_1_1_0_0": "SAME", "1_4_2_1_1_0_1": "SAME", "1_4_2_1_1_1_0": "SAME", "1_4_2_1_1_1_1": "SAME", "1_4_2_1_1_2_0": "SAME", "1_4_2_1_1_2_1": "SAME", "1_4_2_1_2_0_0": "SAME", "1_4_2_1_2_0_1": "SAME", "1_4_2_1_2_1_0": "SAME", "1_4_2_1_2_1_1": "SAME", "1_4_2_1_2_2_0": "SAME", "1_4_2_1_2_2_1": "SAME", "1_4_2_1_3_0_0": "SAME", "1_4_2_1_3_0_1": "SAME", "1_4_2_1_3_1_0": "SAME", "1_4_2_1_3_1_1": "SAME", "1_4_2_1_3_2_0": "SAME", "1_4_2_1_3_2_1": "SAME", "1_4_2_2_0_0_0": "SAME", "1_4_2_2_0_0_1": "SAME", "1_4_2_2_0_1_0": "SAME", "1_4_2_2_0_1_1": "SAME", "1_4_2_2_0_2_0": "SAME", "1_4_2_2_0_2_1": "SAME", "1_4_2_2_1_0_0": "SAME", "1_4_2_2_1_0_1": "SAME", "1_4_2_2_1_1_0": "SAME", "1_4_2_2_1_1_1": "SAME", "1_4_2_2_1_2_0": "SAME", "1_4_2_2_1_2_1": "SAME", "1_4_2_2_2_0_0": "SAME", "1_4_2_2_2_0_1": "SAME", "1_4_2_2_2_1_0": "SAME", "1_4_2_2_2_1_1": "SAME", "1_4_2_2_2_2_0": "SAME", "1_4_2_2_2_2_1": "SAME", "1_4_2_2_3_0_0": "SAME", "1_4_2_2_3_0_1": "SAME", "1_4_2_2_3_1_0": "SAME", "1_4_2_2_3_1_1": "SAME", "1_4_2_2_3_2_0": "SAME", "1_4_2_2_3_2_1": "SAME", "1_4_2_3_0_0_0": "SAME", "1_4_2_3_0_0_1": "SAME", "1_4_2_3_0_1_0": "SAME", "1_4_2_3_0_1_1": "SAME", "1_4_2_3_0_2_0": "SAME", "1_4_2_3_0_2_1": "SAME", "1_4_2_3_1_0_0": "SAME", "1_4_2_3_1_0_1": "SAME", "1_4_2_3_1_1_0": "SAME", "1_4_2_3_1_1_1": "SAME", "1_4_2_3_1_2_0": "SAME", "1_4_2_3_1_2_1": "SAME", "1_4_2_3_2_0_0": "SAME", "1_4_2_3_2_0_1": "SAME", "1_4_2_3_2_1_0": "SAME", "1_4_2_3_2_1_1": "SAME", "1_4_2_3_2_2_0": "SAME", "1_4_2_3_2_2_1": "SAME", "1_4_2_3_3_0_0": "SAME", "1_4_2_3_3_0_1": "SAME", "1_4_2_3_3_1_0": "SAME", "1_4_2_3_3_1_1": "SAME", "1_4_2_3_3_2_0": "SAME", "1_4_2_3_3_2_1": "SAME", "1_4_3_0_0_0_0": "SAME", "1_4_3_0_0_0_1": "SAME", "1_4_3_0_0_1_0": "SAME", "1_4_3_0_0_1_1": "SAME", "1_4_3_0_0_2_0": "SAME", "1_4_3_0_0_2_1": "SAME", "1_4_3_0_1_0_0": "SAME", "1_4_3_0_1_0_1": "SAME", "1_4_3_0_1_1_0": "SAME", "1_4_3_0_1_1_1": "SAME", "1_4_3_0_1_2_0": "SAME", "1_4_3_0_1_2_1": "SAME", "1_4_3_0_2_0_0": "SAME", "1_4_3_0_2_0_1": "SAME", "1_4_3_0_2_1_0": "SAME", "1_4_3_0_2_1_1": "SAME", "1_4_3_0_2_2_0": "SAME", "1_4_3_0_2_2_1": "SAME", "1_4_3_0_3_0_0": "SAME", "1_4_3_0_3_0_1": "SAME", "1_4_3_0_3_1_0": "SAME", "1_4_3_0_3_1_1": "SAME", "1_4_3_0_3_2_0": "SAME", "1_4_3_0_3_2_1": "SAME", "1_4_3_1_0_0_0": "SAME", "1_4_3_1_0_0_1": "SAME", "1_4_3_1_0_1_0": "SAME", "1_4_3_1_0_1_1": "SAME", "1_4_3_1_0_2_0": "SAME", "1_4_3_1_0_2_1": "SAME", "1_4_3_1_1_0_0": "SAME", "1_4_3_1_1_0_1": "SAME", "1_4_3_1_1_1_0": "SAME", "1_4_3_1_1_1_1": "SAME", "1_4_3_1_1_2_0": "SAME", "1_4_3_1_1_2_1": "SAME", "1_4_3_1_2_0_0": "SAME", "1_4_3_1_2_0_1": "SAME", "1_4_3_1_2_1_0": "SAME", "1_4_3_1_2_1_1": "SAME", "1_4_3_1_2_2_0": "SAME", "1_4_3_1_2_2_1": "SAME", "1_4_3_1_3_0_0": "SAME", "1_4_3_1_3_0_1": "SAME", "1_4_3_1_3_1_0": "SAME", "1_4_3_1_3_1_1": "SAME", "1_4_3_1_3_2_0": "SAME", "1_4_3_1_3_2_1": "SAME", "1_4_3_2_0_0_0": "SAME", "1_4_3_2_0_0_1": "SAME", "1_4_3_2_0_1_0": "SAME", "1_4_3_2_0_1_1": "SAME", "1_4_3_2_0_2_0": "SAME", "1_4_3_2_0_2_1": "SAME", "1_4_3_2_1_0_0": "SAME", "1_4_3_2_1_0_1": "SAME", "1_4_3_2_1_1_0": "SAME", "1_4_3_2_1_1_1": "SAME", "1_4_3_2_1_2_0": "SAME", "1_4_3_2_1_2_1": "SAME", "1_4_3_2_2_0_0": "SAME", "1_4_3_2_2_0_1": "SAME", "1_4_3_2_2_1_0": "SAME", "1_4_3_2_2_1_1": "SAME", "1_4_3_2_2_2_0": "SAME", "1_4_3_2_2_2_1": "SAME", "1_4_3_2_3_0_0": "SAME", "1_4_3_2_3_0_1": "SAME", "1_4_3_2_3_1_0": "SAME", "1_4_3_2_3_1_1": "SAME", "1_4_3_2_3_2_0": "SAME", "1_4_3_2_3_2_1": "SAME", "1_4_3_3_0_0_0": "SAME", "1_4_3_3_0_0_1": "SAME", "1_4_3_3_0_1_0": "SAME", "1_4_3_3_0_1_1": "SAME", "1_4_3_3_0_2_0": "SAME", "1_4_3_3_0_2_1": "SAME", "1_4_3_3_1_0_0": "SAME", "1_4_3_3_1_0_1": "SAME", "1_4_3_3_1_1_0": "SAME", "1_4_3_3_1_1_1": "SAME", "1_4_3_3_1_2_0": "SAME", "1_4_3_3_1_2_1": "SAME", "1_4_3_3_2_0_0": "SAME", "1_4_3_3_2_0_1": "SAME", "1_4_3_3_2_1_0": "SAME", "1_4_3_3_2_1_1": "SAME", "1_4_3_3_2_2_0": "SAME", "1_4_3_3_2_2_1": "SAME", "1_4_3_3_3_0_0": "SAME", "1_4_3_3_3_0_1": "SAME", "1_4_3_3_3_1_0": "SAME", "1_4_3_3_3_1_1": "SAME", "1_4_3_3_3_2_0": "SAME", "1_4_3_3_3_2_1": "SAME", "2_1_0_0_0_0_0": "SAME", "2_1_0_0_0_0_1": "SAME", "2_1_0_0_0_1_0": "SAME", "2_1_0_0_0_1_1": "SAME", "2_1_0_0_0_2_0": "SAME", "2_1_0_0_0_2_1": "SAME", "2_1_0_0_1_0_0": "SAME", "2_1_0_0_1_0_1": "SAME", "2_1_0_0_1_1_0": "SAME", "2_1_0_0_1_1_1": "SAME", "2_1_0_0_1_2_0": "SAME", "2_1_0_0_1_2_1": "SAME", "2_1_0_0_2_0_0": "SAME", "2_1_0_0_2_0_1": "SAME", "2_1_0_0_2_1_0": "SAME", "2_1_0_0_2_1_1": "SAME", "2_1_0_0_2_2_0": "SAME", "2_1_0_0_2_2_1": "SAME", "2_1_0_0_3_0_0": "SAME", "2_1_0_0_3_0_1": "SAME", "2_1_0_0_3_1_0": "SAME", "2_1_0_0_3_1_1": "SAME", "2_1_0_0_3_2_0": "SAME", "2_1_0_0_3_2_1": "SAME", "2_1_0_1_0_0_0": "SAME", "2_1_0_1_0_0_1": "SAME", "2_1_0_1_0_1_0": "SAME", "2_1_0_1_0_1_1": "SAME", "2_1_0_1_0_2_0": "SAME", "2_1_0_1_0_2_1": "SAME", "2_1_0_1_1_0_0": "SAME", "2_1_0_1_1_0_1": "SAME", "2_1_0_1_1_1_0": "SAME", "2_1_0_1_1_1_1": "SAME", "2_1_0_1_1_2_0": "SAME", "2_1_0_1_1_2_1": "SAME", "2_1_0_1_2_0_0": "SAME", "2_1_0_1_2_0_1": "SAME", "2_1_0_1_2_1_0": "SAME", "2_1_0_1_2_1_1": "SAME", "2_1_0_1_2_2_0": "SAME", "2_1_0_1_2_2_1": "SAME", "2_1_0_1_3_0_0": "SAME", "2_1_0_1_3_0_1": "SAME", "2_1_0_1_3_1_0": "SAME", "2_1_0_1_3_1_1": "SAME", "2_1_0_1_3_2_0": "SAME", "2_1_0_1_3_2_1": "SAME", "2_1_0_2_0_0_0": "SAME", "2_1_0_2_0_0_1": "SAME", "2_1_0_2_0_1_0": "SAME", "2_1_0_2_0_1_1": "SAME", "2_1_0_2_0_2_0": "SAME", "2_1_0_2_0_2_1": "SAME", "2_1_0_2_1_0_0": "SAME", "2_1_0_2_1_0_1": "SAME", "2_1_0_2_1_1_0": "SAME", "2_1_0_2_1_1_1": "SAME", "2_1_0_2_1_2_0": "SAME", "2_1_0_2_1_2_1": "SAME", "2_1_0_2_2_0_0": "SAME", "2_1_0_2_2_0_1": "SAME", "2_1_0_2_2_1_0": "SAME", "2_1_0_2_2_1_1": "SAME", "2_1_0_2_2_2_0": "SAME", "2_1_0_2_2_2_1": "SAME", "2_1_0_2_3_0_0": "SAME", "2_1_0_2_3_0_1": "SAME", "2_1_0_2_3_1_0": "SAME", "2_1_0_2_3_1_1": "SAME", "2_1_0_2_3_2_0": "SAME", "2_1_0_2_3_2_1": "SAME", "2_1_0_3_0_0_0": "SAME", "2_1_0_3_0_0_1": "SAME", "2_1_0_3_0_1_0": "SAME", "2_1_0_3_0_1_1": "SAME", "2_1_0_3_0_2_0": "SAME", "2_1_0_3_0_2_1": "SAME", "2_1_0_3_1_0_0": "SAME", "2_1_0_3_1_0_1": "SAME", "2_1_0_3_1_1_0": "SAME", "2_1_0_3_1_1_1": "SAME", "2_1_0_3_1_2_0": "SAME", "2_1_0_3_1_2_1": "SAME", "2_1_0_3_2_0_0": "SAME", "2_1_0_3_2_0_1": "SAME", "2_1_0_3_2_1_0": "SAME", "2_1_0_3_2_1_1": "SAME", "2_1_0_3_2_2_0": "SAME", "2_1_0_3_2_2_1": "SAME", "2_1_0_3_3_0_0": "SAME", "2_1_0_3_3_0_1": "SAME", "2_1_0_3_3_1_0": "SAME", "2_1_0_3_3_1_1": "SAME", "2_1_0_3_3_2_0": "SAME", "2_1_0_3_3_2_1": "SAME", "2_1_1_0_0_0_0": "SAME", "2_1_1_0_0_0_1": "SAME", "2_1_1_0_0_1_0": "SAME", "2_1_1_0_0_1_1": "SAME", "2_1_1_0_0_2_0": "SAME", "2_1_1_0_0_2_1": "SAME", "2_1_1_0_1_0_0": "SAME", "2_1_1_0_1_0_1": "SAME", "2_1_1_0_1_1_0": "SAME", "2_1_1_0_1_1_1": "SAME", "2_1_1_0_1_2_0": "SAME", "2_1_1_0_1_2_1": "SAME", "2_1_1_0_2_0_0": "SAME", "2_1_1_0_2_0_1": "SAME", "2_1_1_0_2_1_0": "SAME", "2_1_1_0_2_1_1": "SAME", "2_1_1_0_2_2_0": "SAME", "2_1_1_0_2_2_1": "SAME", "2_1_1_0_3_0_0": "SAME", "2_1_1_0_3_0_1": "SAME", "2_1_1_0_3_1_0": "SAME", "2_1_1_0_3_1_1": "SAME", "2_1_1_0_3_2_0": "SAME", "2_1_1_0_3_2_1": "SAME", "2_1_1_1_0_0_0": "SAME", "2_1_1_1_0_0_1": "SAME", "2_1_1_1_0_1_0": "SAME", "2_1_1_1_0_1_1": "SAME", "2_1_1_1_0_2_0": "SAME", "2_1_1_1_0_2_1": "SAME", "2_1_1_1_1_0_0": "SAME", "2_1_1_1_1_0_1": "SAME", "2_1_1_1_1_1_0": "SAME", "2_1_1_1_1_1_1": "SAME", "2_1_1_1_1_2_0": "SAME", "2_1_1_1_1_2_1": "SAME", "2_1_1_1_2_0_0": "SAME", "2_1_1_1_2_0_1": "SAME", "2_1_1_1_2_1_0": "SAME", "2_1_1_1_2_1_1": "SAME", "2_1_1_1_2_2_0": "SAME", "2_1_1_1_2_2_1": "SAME", "2_1_1_1_3_0_0": "SAME", "2_1_1_1_3_0_1": "SAME", "2_1_1_1_3_1_0": "SAME", "2_1_1_1_3_1_1": "SAME", "2_1_1_1_3_2_0": "SAME", "2_1_1_1_3_2_1": "SAME", "2_1_1_2_0_0_0": "SAME", "2_1_1_2_0_0_1": "SAME", "2_1_1_2_0_1_0": "SAME", "2_1_1_2_0_1_1": "SAME", "2_1_1_2_0_2_0": "SAME", "2_1_1_2_0_2_1": "SAME", "2_1_1_2_1_0_0": "SAME", "2_1_1_2_1_0_1": "SAME", "2_1_1_2_1_1_0": "SAME", "2_1_1_2_1_1_1": "SAME", "2_1_1_2_1_2_0": "SAME", "2_1_1_2_1_2_1": "SAME", "2_1_1_2_2_0_0": "SAME", "2_1_1_2_2_0_1": "SAME", "2_1_1_2_2_1_0": "SAME", "2_1_1_2_2_1_1": "OPP", "2_1_1_2_2_2_0": "SAME", "2_1_1_2_2_2_1": "SAME", "2_1_1_2_3_0_0": "SAME", "2_1_1_2_3_0_1": "SAME", "2_1_1_2_3_1_0": "SAME", "2_1_1_2_3_1_1": "SAME", "2_1_1_2_3_2_0": "SAME", "2_1_1_2_3_2_1": "SAME", "2_1_1_3_0_0_0": "SAME", "2_1_1_3_0_0_1": "SAME", "2_1_1_3_0_1_0": "SAME", "2_1_1_3_0_1_1": "SAME", "2_1_1_3_0_2_0": "SAME", "2_1_1_3_0_2_1": "SAME", "2_1_1_3_1_0_0": "SAME", "2_1_1_3_1_0_1": "SAME", "2_1_1_3_1_1_0": "SAME", "2_1_1_3_1_1_1": "SAME", "2_1_1_3_1_2_0": "SAME", "2_1_1_3_1_2_1": "SAME", "2_1_1_3_2_0_0": "SAME", "2_1_1_3_2_0_1": "SAME", "2_1_1_3_2_1_0": "SAME", "2_1_1_3_2_1_1": "SAME", "2_1_1_3_2_2_0": "SAME", "2_1_1_3_2_2_1": "SAME", "2_1_1_3_3_0_0": "SAME", "2_1_1_3_3_0_1": "SAME", "2_1_1_3_3_1_0": "SAME", "2_1_1_3_3_1_1": "SAME", "2_1_1_3_3_2_0": "SAME", "2_1_1_3_3_2_1": "SAME", "2_1_2_0_0_0_0": "SAME", "2_1_2_0_0_0_1": "SAME", "2_1_2_0_0_1_0": "SAME", "2_1_2_0_0_1_1": "SAME", "2_1_2_0_0_2_0": "SAME", "2_1_2_0_0_2_1": "SAME", "2_1_2_0_1_0_0": "SAME", "2_1_2_0_1_0_1": "SAME", "2_1_2_0_1_1_0": "SAME", "2_1_2_0_1_1_1": "SAME", "2_1_2_0_1_2_0": "SAME", "2_1_2_0_1_2_1": "SAME", "2_1_2_0_2_0_0": "SAME", "2_1_2_0_2_0_1": "SAME", "2_1_2_0_2_1_0": "SAME", "2_1_2_0_2_1_1": "SAME", "2_1_2_0_2_2_0": "SAME", "2_1_2_0_2_2_1": "SAME", "2_1_2_0_3_0_0": "SAME", "2_1_2_0_3_0_1": "SAME", "2_1_2_0_3_1_0": "SAME", "2_1_2_0_3_1_1": "SAME", "2_1_2_0_3_2_0": "SAME", "2_1_2_0_3_2_1": "SAME", "2_1_2_1_0_0_0": "SAME", "2_1_2_1_0_0_1": "SAME", "2_1_2_1_0_1_0": "SAME", "2_1_2_1_0_1_1": "SAME", "2_1_2_1_0_2_0": "SAME", "2_1_2_1_0_2_1": "SAME", "2_1_2_1_1_0_0": "SAME", "2_1_2_1_1_0_1": "SAME", "2_1_2_1_1_1_0": "SAME", "2_1_2_1_1_1_1": "OPP", "2_1_2_1_1_2_0": "SAME", "2_1_2_1_1_2_1": "SAME", "2_1_2_1_2_0_0": "SAME", "2_1_2_1_2_0_1": "SAME", "2_1_2_1_2_1_0": "SAME", "2_1_2_1_2_1_1": "SAME", "2_1_2_1_2_2_0": "SAME", "2_1_2_1_2_2_1": "SAME", "2_1_2_1_3_0_0": "SAME", "2_1_2_1_3_0_1": "SAME", "2_1_2_1_3_1_0": "SAME", "2_1_2_1_3_1_1": "SAME", "2_1_2_1_3_2_0": "SAME", "2_1_2_1_3_2_1": "SAME", "2_1_2_2_0_0_0": "SAME", "2_1_2_2_0_0_1": "SAME", "2_1_2_2_0_1_0": "SAME", "2_1_2_2_0_1_1": "SAME", "2_1_2_2_0_2_0": "SAME", "2_1_2_2_0_2_1": "SAME", "2_1_2_2_1_0_0": "SAME", "2_1_2_2_1_0_1": "SAME", "2_1_2_2_1_1_0": "SAME", "2_1_2_2_1_1_1": "SAME", "2_1_2_2_1_2_0": "SAME", "2_1_2_2_1_2_1": "SAME", "2_1_2_2_2_0_0": "SAME", "2_1_2_2_2_0_1": "SAME", "2_1_2_2_2_1_0": "SAME", "2_1_2_2_2_1_1": "SAME", "2_1_2_2_2_2_0": "SAME", "2_1_2_2_2_2_1": "SAME", "2_1_2_2_3_0_0": "SAME", "2_1_2_2_3_0_1": "SAME", "2_1_2_2_3_1_0": "SAME", "2_1_2_2_3_1_1": "SAME", "2_1_2_2_3_2_0": "SAME", "2_1_2_2_3_2_1": "SAME", "2_1_2_3_0_0_0": "SAME", "2_1_2_3_0_0_1": "SAME", "2_1_2_3_0_1_0": "SAME", "2_1_2_3_0_1_1": "SAME", "2_1_2_3_0_2_0": "SAME", "2_1_2_3_0_2_1": "SAME", "2_1_2_3_1_0_0": "SAME", "2_1_2_3_1_0_1": "SAME", "2_1_2_3_1_1_0": "OPP", "2_1_2_3_1_1_1": "SAME", "2_1_2_3_1_2_0": "SAME", "2_1_2_3_1_2_1": "SAME", "2_1_2_3_2_0_0": "SAME", "2_1_2_3_2_0_1": "SAME", "2_1_2_3_2_1_0": "SAME", "2_1_2_3_2_1_1": "SAME", "2_1_2_3_2_2_0": "SAME", "2_1_2_3_2_2_1": "SAME", "2_1_2_3_3_0_0": "SAME", "2_1_2_3_3_0_1": "SAME", "2_1_2_3_3_1_0": "SAME", "2_1_2_3_3_1_1": "SAME", "2_1_2_3_3_2_0": "SAME", "2_1_2_3_3_2_1": "SAME", "2_1_3_0_0_0_0": "SAME", "2_1_3_0_0_0_1": "SAME", "2_1_3_0_0_1_0": "SAME", "2_1_3_0_0_1_1": "SAME", "2_1_3_0_0_2_0": "SAME", "2_1_3_0_0_2_1": "SAME", "2_1_3_0_1_0_0": "SAME", "2_1_3_0_1_0_1": "SAME", "2_1_3_0_1_1_0": "SAME", "2_1_3_0_1_1_1": "SAME", "2_1_3_0_1_2_0": "SAME", "2_1_3_0_1_2_1": "SAME", "2_1_3_0_2_0_0": "SAME", "2_1_3_0_2_0_1": "SAME", "2_1_3_0_2_1_0": "SAME", "2_1_3_0_2_1_1": "SAME", "2_1_3_0_2_2_0": "SAME", "2_1_3_0_2_2_1": "SAME", "2_1_3_0_3_0_0": "SAME", "2_1_3_0_3_0_1": "SAME", "2_1_3_0_3_1_0": "SAME", "2_1_3_0_3_1_1": "SAME", "2_1_3_0_3_2_0": "SAME", "2_1_3_0_3_2_1": "SAME", "2_1_3_1_0_0_0": "SAME", "2_1_3_1_0_0_1": "SAME", "2_1_3_1_0_1_0": "SAME", "2_1_3_1_0_1_1": "SAME", "2_1_3_1_0_2_0": "SAME", "2_1_3_1_0_2_1": "SAME", "2_1_3_1_1_0_0": "SAME", "2_1_3_1_1_0_1": "SAME", "2_1_3_1_1_1_0": "SAME", "2_1_3_1_1_1_1": "SAME", "2_1_3_1_1_2_0": "SAME", "2_1_3_1_1_2_1": "SAME", "2_1_3_1_2_0_0": "SAME", "2_1_3_1_2_0_1": "SAME", "2_1_3_1_2_1_0": "SAME", "2_1_3_1_2_1_1": "SAME", "2_1_3_1_2_2_0": "SAME", "2_1_3_1_2_2_1": "SAME", "2_1_3_1_3_0_0": "SAME", "2_1_3_1_3_0_1": "SAME", "2_1_3_1_3_1_0": "SAME", "2_1_3_1_3_1_1": "SAME", "2_1_3_1_3_2_0": "SAME", "2_1_3_1_3_2_1": "SAME", "2_1_3_2_0_0_0": "SAME", "2_1_3_2_0_0_1": "SAME", "2_1_3_2_0_1_0": "SAME", "2_1_3_2_0_1_1": "SAME", "2_1_3_2_0_2_0": "SAME", "2_1_3_2_0_2_1": "SAME", "2_1_3_2_1_0_0": "SAME", "2_1_3_2_1_0_1": "SAME", "2_1_3_2_1_1_0": "SAME", "2_1_3_2_1_1_1": "SAME", "2_1_3_2_1_2_0": "SAME", "2_1_3_2_1_2_1": "SAME", "2_1_3_2_2_0_0": "SAME", "2_1_3_2_2_0_1": "SAME", "2_1_3_2_2_1_0": "SAME", "2_1_3_2_2_1_1": "SAME", "2_1_3_2_2_2_0": "SAME", "2_1_3_2_2_2_1": "SAME", "2_1_3_2_3_0_0": "SAME", "2_1_3_2_3_0_1": "SAME", "2_1_3_2_3_1_0": "SAME", "2_1_3_2_3_1_1": "SAME", "2_1_3_2_3_2_0": "SAME", "2_1_3_2_3_2_1": "SAME", "2_1_3_3_0_0_0": "SAME", "2_1_3_3_0_0_1": "SAME", "2_1_3_3_0_1_0": "SAME", "2_1_3_3_0_1_1": "SAME", "2_1_3_3_0_2_0": "SAME", "2_1_3_3_0_2_1": "SAME", "2_1_3_3_1_0_0": "SAME", "2_1_3_3_1_0_1": "SAME", "2_1_3_3_1_1_0": "SAME", "2_1_3_3_1_1_1": "SAME", "2_1_3_3_1_2_0": "SAME", "2_1_3_3_1_2_1": "SAME", "2_1_3_3_2_0_0": "SAME", "2_1_3_3_2_0_1": "SAME", "2_1_3_3_2_1_0": "SAME", "2_1_3_3_2_1_1": "SAME", "2_1_3_3_2_2_0": "SAME", "2_1_3_3_2_2_1": "SAME", "2_1_3_3_3_0_0": "SAME", "2_1_3_3_3_0_1": "SAME", "2_1_3_3_3_1_0": "SAME", "2_1_3_3_3_1_1": "SAME", "2_1_3_3_3_2_0": "SAME", "2_1_3_3_3_2_1": "SAME", "2_2_0_0_0_0_0": "SAME", "2_2_0_0_0_0_1": "SAME", "2_2_0_0_0_1_0": "SAME", "2_2_0_0_0_1_1": "SAME", "2_2_0_0_0_2_0": "SAME", "2_2_0_0_0_2_1": "SAME", "2_2_0_0_1_0_0": "SAME", "2_2_0_0_1_0_1": "SAME", "2_2_0_0_1_1_0": "SAME", "2_2_0_0_1_1_1": "SAME", "2_2_0_0_1_2_0": "SAME", "2_2_0_0_1_2_1": "SAME", "2_2_0_0_2_0_0": "SAME", "2_2_0_0_2_0_1": "SAME", "2_2_0_0_2_1_0": "SAME", "2_2_0_0_2_1_1": "SAME", "2_2_0_0_2_2_0": "SAME", "2_2_0_0_2_2_1": "SAME", "2_2_0_0_3_0_0": "SAME", "2_2_0_0_3_0_1": "SAME", "2_2_0_0_3_1_0": "SAME", "2_2_0_0_3_1_1": "SAME", "2_2_0_0_3_2_0": "SAME", "2_2_0_0_3_2_1": "SAME", "2_2_0_1_0_0_0": "SAME", "2_2_0_1_0_0_1": "SAME", "2_2_0_1_0_1_0": "SAME", "2_2_0_1_0_1_1": "SAME", "2_2_0_1_0_2_0": "SAME", "2_2_0_1_0_2_1": "SAME", "2_2_0_1_1_0_0": "SAME", "2_2_0_1_1_0_1": "SAME", "2_2_0_1_1_1_0": "SAME", "2_2_0_1_1_1_1": "SAME", "2_2_0_1_1_2_0": "SAME", "2_2_0_1_1_2_1": "SAME", "2_2_0_1_2_0_0": "SAME", "2_2_0_1_2_0_1": "SAME", "2_2_0_1_2_1_0": "SAME", "2_2_0_1_2_1_1": "SAME", "2_2_0_1_2_2_0": "SAME", "2_2_0_1_2_2_1": "SAME", "2_2_0_1_3_0_0": "SAME", "2_2_0_1_3_0_1": "SAME", "2_2_0_1_3_1_0": "SAME", "2_2_0_1_3_1_1": "SAME", "2_2_0_1_3_2_0": "SAME", "2_2_0_1_3_2_1": "SAME", "2_2_0_2_0_0_0": "SAME", "2_2_0_2_0_0_1": "SAME", "2_2_0_2_0_1_0": "SAME", "2_2_0_2_0_1_1": "SAME", "2_2_0_2_0_2_0": "SAME", "2_2_0_2_0_2_1": "SAME", "2_2_0_2_1_0_0": "SAME", "2_2_0_2_1_0_1": "SAME", "2_2_0_2_1_1_0": "SAME", "2_2_0_2_1_1_1": "SAME", "2_2_0_2_1_2_0": "SAME", "2_2_0_2_1_2_1": "SAME", "2_2_0_2_2_0_0": "SAME", "2_2_0_2_2_0_1": "SAME", "2_2_0_2_2_1_0": "SAME", "2_2_0_2_2_1_1": "SAME", "2_2_0_2_2_2_0": "SAME", "2_2_0_2_2_2_1": "SAME", "2_2_0_2_3_0_0": "SAME", "2_2_0_2_3_0_1": "SAME", "2_2_0_2_3_1_0": "SAME", "2_2_0_2_3_1_1": "SAME", "2_2_0_2_3_2_0": "SAME", "2_2_0_2_3_2_1": "SAME", "2_2_0_3_0_0_0": "SAME", "2_2_0_3_0_0_1": "SAME", "2_2_0_3_0_1_0": "SAME", "2_2_0_3_0_1_1": "SAME", "2_2_0_3_0_2_0": "SAME", "2_2_0_3_0_2_1": "SAME", "2_2_0_3_1_0_0": "SAME", "2_2_0_3_1_0_1": "SAME", "2_2_0_3_1_1_0": "SAME", "2_2_0_3_1_1_1": "SAME", "2_2_0_3_1_2_0": "SAME", "2_2_0_3_1_2_1": "SAME", "2_2_0_3_2_0_0": "SAME", "2_2_0_3_2_0_1": "SAME", "2_2_0_3_2_1_0": "SAME", "2_2_0_3_2_1_1": "SAME", "2_2_0_3_2_2_0": "SAME", "2_2_0_3_2_2_1": "SAME", "2_2_0_3_3_0_0": "SAME", "2_2_0_3_3_0_1": "SAME", "2_2_0_3_3_1_0": "SAME", "2_2_0_3_3_1_1": "SAME", "2_2_0_3_3_2_0": "SAME", "2_2_0_3_3_2_1": "SAME", "2_2_1_0_0_0_0": "SAME", "2_2_1_0_0_0_1": "SAME", "2_2_1_0_0_1_0": "SAME", "2_2_1_0_0_1_1": "SAME", "2_2_1_0_0_2_0": "SAME", "2_2_1_0_0_2_1": "SAME", "2_2_1_0_1_0_0": "SAME", "2_2_1_0_1_0_1": "SAME", "2_2_1_0_1_1_0": "SAME", "2_2_1_0_1_1_1": "SAME", "2_2_1_0_1_2_0": "SAME", "2_2_1_0_1_2_1": "SAME", "2_2_1_0_2_0_0": "SAME", "2_2_1_0_2_0_1": "SAME", "2_2_1_0_2_1_0": "SAME", "2_2_1_0_2_1_1": "SAME", "2_2_1_0_2_2_0": "SAME", "2_2_1_0_2_2_1": "SAME", "2_2_1_0_3_0_0": "SAME", "2_2_1_0_3_0_1": "SAME", "2_2_1_0_3_1_0": "SAME", "2_2_1_0_3_1_1": "SAME", "2_2_1_0_3_2_0": "SAME", "2_2_1_0_3_2_1": "SAME", "2_2_1_1_0_0_0": "SAME", "2_2_1_1_0_0_1": "SAME", "2_2_1_1_0_1_0": "SAME", "2_2_1_1_0_1_1": "SAME", "2_2_1_1_0_2_0": "SAME", "2_2_1_1_0_2_1": "SAME", "2_2_1_1_1_0_0": "SAME", "2_2_1_1_1_0_1": "SAME", "2_2_1_1_1_1_0": "SAME", "2_2_1_1_1_1_1": "SAME", "2_2_1_1_1_2_0": "SAME", "2_2_1_1_1_2_1": "SAME", "2_2_1_1_2_0_0": "SAME", "2_2_1_1_2_0_1": "SAME", "2_2_1_1_2_1_0": "SAME", "2_2_1_1_2_1_1": "SAME", "2_2_1_1_2_2_0": "SAME", "2_2_1_1_2_2_1": "SAME", "2_2_1_1_3_0_0": "SAME", "2_2_1_1_3_0_1": "SAME", "2_2_1_1_3_1_0": "SAME", "2_2_1_1_3_1_1": "SAME", "2_2_1_1_3_2_0": "SAME", "2_2_1_1_3_2_1": "SAME", "2_2_1_2_0_0_0": "SAME", "2_2_1_2_0_0_1": "SAME", "2_2_1_2_0_1_0": "SAME", "2_2_1_2_0_1_1": "SAME", "2_2_1_2_0_2_0": "SAME", "2_2_1_2_0_2_1": "SAME", "2_2_1_2_1_0_0": "SAME", "2_2_1_2_1_0_1": "SAME", "2_2_1_2_1_1_0": "SAME", "2_2_1_2_1_1_1": "SAME", "2_2_1_2_1_2_0": "SAME", "2_2_1_2_1_2_1": "SAME", "2_2_1_2_2_0_0": "SAME", "2_2_1_2_2_0_1": "SAME", "2_2_1_2_2_1_0": "SAME", "2_2_1_2_2_1_1": "SAME", "2_2_1_2_2_2_0": "SAME", "2_2_1_2_2_2_1": "SAME", "2_2_1_2_3_0_0": "SAME", "2_2_1_2_3_0_1": "SAME", "2_2_1_2_3_1_0": "SAME", "2_2_1_2_3_1_1": "SAME", "2_2_1_2_3_2_0": "SAME", "2_2_1_2_3_2_1": "SAME", "2_2_1_3_0_0_0": "SAME", "2_2_1_3_0_0_1": "SAME", "2_2_1_3_0_1_0": "SAME", "2_2_1_3_0_1_1": "SAME", "2_2_1_3_0_2_0": "SAME", "2_2_1_3_0_2_1": "SAME", "2_2_1_3_1_0_0": "SAME", "2_2_1_3_1_0_1": "SAME", "2_2_1_3_1_1_0": "SAME", "2_2_1_3_1_1_1": "SAME", "2_2_1_3_1_2_0": "SAME", "2_2_1_3_1_2_1": "SAME", "2_2_1_3_2_0_0": "SAME", "2_2_1_3_2_0_1": "SAME", "2_2_1_3_2_1_0": "SAME", "2_2_1_3_2_1_1": "SAME", "2_2_1_3_2_2_0": "SAME", "2_2_1_3_2_2_1": "SAME", "2_2_1_3_3_0_0": "SAME", "2_2_1_3_3_0_1": "SAME", "2_2_1_3_3_1_0": "SAME", "2_2_1_3_3_1_1": "SAME", "2_2_1_3_3_2_0": "SAME", "2_2_1_3_3_2_1": "SAME", "2_2_2_0_0_0_0": "SAME", "2_2_2_0_0_0_1": "SAME", "2_2_2_0_0_1_0": "SAME", "2_2_2_0_0_1_1": "SAME", "2_2_2_0_0_2_0": "SAME", "2_2_2_0_0_2_1": "SAME", "2_2_2_0_1_0_0": "SAME", "2_2_2_0_1_0_1": "SAME", "2_2_2_0_1_1_0": "SAME", "2_2_2_0_1_1_1": "SAME", "2_2_2_0_1_2_0": "SAME", "2_2_2_0_1_2_1": "SAME", "2_2_2_0_2_0_0": "SAME", "2_2_2_0_2_0_1": "SAME", "2_2_2_0_2_1_0": "SAME", "2_2_2_0_2_1_1": "SAME", "2_2_2_0_2_2_0": "SAME", "2_2_2_0_2_2_1": "SAME", "2_2_2_0_3_0_0": "SAME", "2_2_2_0_3_0_1": "SAME", "2_2_2_0_3_1_0": "SAME", "2_2_2_0_3_1_1": "SAME", "2_2_2_0_3_2_0": "SAME", "2_2_2_0_3_2_1": "SAME", "2_2_2_1_0_0_0": "SAME", "2_2_2_1_0_0_1": "SAME", "2_2_2_1_0_1_0": "SAME", "2_2_2_1_0_1_1": "SAME", "2_2_2_1_0_2_0": "SAME", "2_2_2_1_0_2_1": "SAME", "2_2_2_1_1_0_0": "SAME", "2_2_2_1_1_0_1": "SAME", "2_2_2_1_1_1_0": "SAME", "2_2_2_1_1_1_1": "SAME", "2_2_2_1_1_2_0": "SAME", "2_2_2_1_1_2_1": "SAME", "2_2_2_1_2_0_0": "SAME", "2_2_2_1_2_0_1": "SAME", "2_2_2_1_2_1_0": "SAME", "2_2_2_1_2_1_1": "SAME", "2_2_2_1_2_2_0": "SAME", "2_2_2_1_2_2_1": "SAME", "2_2_2_1_3_0_0": "SAME", "2_2_2_1_3_0_1": "SAME", "2_2_2_1_3_1_0": "SAME", "2_2_2_1_3_1_1": "SAME", "2_2_2_1_3_2_0": "SAME", "2_2_2_1_3_2_1": "SAME", "2_2_2_2_0_0_0": "SAME", "2_2_2_2_0_0_1": "SAME", "2_2_2_2_0_1_0": "SAME", "2_2_2_2_0_1_1": "SAME", "2_2_2_2_0_2_0": "SAME", "2_2_2_2_0_2_1": "SAME", "2_2_2_2_1_0_0": "SAME", "2_2_2_2_1_0_1": "SAME", "2_2_2_2_1_1_0": "SAME", "2_2_2_2_1_1_1": "SAME", "2_2_2_2_1_2_0": "SAME", "2_2_2_2_1_2_1": "SAME", "2_2_2_2_2_0_0": "SAME", "2_2_2_2_2_0_1": "SAME", "2_2_2_2_2_1_0": "SAME", "2_2_2_2_2_1_1": "SAME", "2_2_2_2_2_2_0": "SAME", "2_2_2_2_2_2_1": "SAME", "2_2_2_2_3_0_0": "SAME", "2_2_2_2_3_0_1": "SAME", "2_2_2_2_3_1_0": "SAME", "2_2_2_2_3_1_1": "SAME", "2_2_2_2_3_2_0": "SAME", "2_2_2_2_3_2_1": "SAME", "2_2_2_3_0_0_0": "SAME", "2_2_2_3_0_0_1": "SAME", "2_2_2_3_0_1_0": "SAME", "2_2_2_3_0_1_1": "SAME", "2_2_2_3_0_2_0": "SAME", "2_2_2_3_0_2_1": "SAME", "2_2_2_3_1_0_0": "SAME", "2_2_2_3_1_0_1": "SAME", "2_2_2_3_1_1_0": "SAME", "2_2_2_3_1_1_1": "SAME", "2_2_2_3_1_2_0": "SAME", "2_2_2_3_1_2_1": "SAME", "2_2_2_3_2_0_0": "SAME", "2_2_2_3_2_0_1": "SAME", "2_2_2_3_2_1_0": "SAME", "2_2_2_3_2_1_1": "SAME", "2_2_2_3_2_2_0": "SAME", "2_2_2_3_2_2_1": "SAME", "2_2_2_3_3_0_0": "SAME", "2_2_2_3_3_0_1": "SAME", "2_2_2_3_3_1_0": "SAME", "2_2_2_3_3_1_1": "SAME", "2_2_2_3_3_2_0": "SAME", "2_2_2_3_3_2_1": "SAME", "2_2_3_0_0_0_0": "SAME", "2_2_3_0_0_0_1": "SAME", "2_2_3_0_0_1_0": "SAME", "2_2_3_0_0_1_1": "SAME", "2_2_3_0_0_2_0": "SAME", "2_2_3_0_0_2_1": "SAME", "2_2_3_0_1_0_0": "SAME", "2_2_3_0_1_0_1": "SAME", "2_2_3_0_1_1_0": "SAME", "2_2_3_0_1_1_1": "SAME", "2_2_3_0_1_2_0": "SAME", "2_2_3_0_1_2_1": "SAME", "2_2_3_0_2_0_0": "SAME", "2_2_3_0_2_0_1": "SAME", "2_2_3_0_2_1_0": "SAME", "2_2_3_0_2_1_1": "SAME", "2_2_3_0_2_2_0": "SAME", "2_2_3_0_2_2_1": "SAME", "2_2_3_0_3_0_0": "SAME", "2_2_3_0_3_0_1": "SAME", "2_2_3_0_3_1_0": "SAME", "2_2_3_0_3_1_1": "SAME", "2_2_3_0_3_2_0": "SAME", "2_2_3_0_3_2_1": "SAME", "2_2_3_1_0_0_0": "SAME", "2_2_3_1_0_0_1": "SAME", "2_2_3_1_0_1_0": "SAME", "2_2_3_1_0_1_1": "SAME", "2_2_3_1_0_2_0": "SAME", "2_2_3_1_0_2_1": "SAME", "2_2_3_1_1_0_0": "SAME", "2_2_3_1_1_0_1": "SAME", "2_2_3_1_1_1_0": "SAME", "2_2_3_1_1_1_1": "SAME", "2_2_3_1_1_2_0": "SAME", "2_2_3_1_1_2_1": "SAME", "2_2_3_1_2_0_0": "SAME", "2_2_3_1_2_0_1": "SAME", "2_2_3_1_2_1_0": "SAME", "2_2_3_1_2_1_1": "SAME", "2_2_3_1_2_2_0": "SAME", "2_2_3_1_2_2_1": "SAME", "2_2_3_1_3_0_0": "SAME", "2_2_3_1_3_0_1": "SAME", "2_2_3_1_3_1_0": "SAME", "2_2_3_1_3_1_1": "SAME", "2_2_3_1_3_2_0": "SAME", "2_2_3_1_3_2_1": "SAME", "2_2_3_2_0_0_0": "SAME", "2_2_3_2_0_0_1": "OPP", "2_2_3_2_0_1_0": "SAME", "2_2_3_2_0_1_1": "SAME", "2_2_3_2_0_2_0": "SAME", "2_2_3_2_0_2_1": "SAME", "2_2_3_2_1_0_0": "SAME", "2_2_3_2_1_0_1": "SAME", "2_2_3_2_1_1_0": "SAME", "2_2_3_2_1_1_1": "SAME", "2_2_3_2_1_2_0": "SAME", "2_2_3_2_1_2_1": "SAME", "2_2_3_2_2_0_0": "SAME", "2_2_3_2_2_0_1": "SAME", "2_2_3_2_2_1_0": "SAME", "2_2_3_2_2_1_1": "SAME", "2_2_3_2_2_2_0": "SAME", "2_2_3_2_2_2_1": "SAME", "2_2_3_2_3_0_0": "SAME", "2_2_3_2_3_0_1": "SAME", "2_2_3_2_3_1_0": "SAME", "2_2_3_2_3_1_1": "SAME", "2_2_3_2_3_2_0": "SAME", "2_2_3_2_3_2_1": "SAME", "2_2_3_3_0_0_0": "SAME", "2_2_3_3_0_0_1": "SAME", "2_2_3_3_0_1_0": "SAME", "2_2_3_3_0_1_1": "SAME", "2_2_3_3_0_2_0": "SAME", "2_2_3_3_0_2_1": "SAME", "2_2_3_3_1_0_0": "SAME", "2_2_3_3_1_0_1": "SAME", "2_2_3_3_1_1_0": "SAME", "2_2_3_3_1_1_1": "SAME", "2_2_3_3_1_2_0": "SAME", "2_2_3_3_1_2_1": "SAME", "2_2_3_3_2_0_0": "SAME", "2_2_3_3_2_0_1": "SAME", "2_2_3_3_2_1_0": "SAME", "2_2_3_3_2_1_1": "SAME", "2_2_3_3_2_2_0": "SAME", "2_2_3_3_2_2_1": "SAME", "2_2_3_3_3_0_0": "SAME", "2_2_3_3_3_0_1": "SAME", "2_2_3_3_3_1_0": "SAME", "2_2_3_3_3_1_1": "SAME", "2_2_3_3_3_2_0": "SAME", "2_2_3_3_3_2_1": "SAME", "2_3_0_0_0_0_0": "SAME", "2_3_0_0_0_0_1": "SAME", "2_3_0_0_0_1_0": "SAME", "2_3_0_0_0_1_1": "SAME", "2_3_0_0_0_2_0": "SAME", "2_3_0_0_0_2_1": "SAME", "2_3_0_0_1_0_0": "SAME", "2_3_0_0_1_0_1": "SAME", "2_3_0_0_1_1_0": "SAME", "2_3_0_0_1_1_1": "SAME", "2_3_0_0_1_2_0": "SAME", "2_3_0_0_1_2_1": "SAME", "2_3_0_0_2_0_0": "SAME", "2_3_0_0_2_0_1": "SAME", "2_3_0_0_2_1_0": "SAME", "2_3_0_0_2_1_1": "SAME", "2_3_0_0_2_2_0": "SAME", "2_3_0_0_2_2_1": "SAME", "2_3_0_0_3_0_0": "SAME", "2_3_0_0_3_0_1": "SAME", "2_3_0_0_3_1_0": "SAME", "2_3_0_0_3_1_1": "SAME", "2_3_0_0_3_2_0": "SAME", "2_3_0_0_3_2_1": "SAME", "2_3_0_1_0_0_0": "SAME", "2_3_0_1_0_0_1": "SAME", "2_3_0_1_0_1_0": "SAME", "2_3_0_1_0_1_1": "SAME", "2_3_0_1_0_2_0": "SAME", "2_3_0_1_0_2_1": "SAME", "2_3_0_1_1_0_0": "SAME", "2_3_0_1_1_0_1": "SAME", "2_3_0_1_1_1_0": "SAME", "2_3_0_1_1_1_1": "SAME", "2_3_0_1_1_2_0": "SAME", "2_3_0_1_1_2_1": "SAME", "2_3_0_1_2_0_0": "SAME", "2_3_0_1_2_0_1": "SAME", "2_3_0_1_2_1_0": "SAME", "2_3_0_1_2_1_1": "SAME", "2_3_0_1_2_2_0": "SAME", "2_3_0_1_2_2_1": "SAME", "2_3_0_1_3_0_0": "SAME", "2_3_0_1_3_0_1": "SAME", "2_3_0_1_3_1_0": "SAME", "2_3_0_1_3_1_1": "SAME", "2_3_0_1_3_2_0": "SAME", "2_3_0_1_3_2_1": "SAME", "2_3_0_2_0_0_0": "SAME", "2_3_0_2_0_0_1": "SAME", "2_3_0_2_0_1_0": "SAME", "2_3_0_2_0_1_1": "SAME", "2_3_0_2_0_2_0": "SAME", "2_3_0_2_0_2_1": "SAME", "2_3_0_2_1_0_0": "SAME", "2_3_0_2_1_0_1": "SAME", "2_3_0_2_1_1_0": "SAME", "2_3_0_2_1_1_1": "SAME", "2_3_0_2_1_2_0": "SAME", "2_3_0_2_1_2_1": "SAME", "2_3_0_2_2_0_0": "SAME", "2_3_0_2_2_0_1": "SAME", "2_3_0_2_2_1_0": "SAME", "2_3_0_2_2_1_1": "SAME", "2_3_0_2_2_2_0": "SAME", "2_3_0_2_2_2_1": "SAME", "2_3_0_2_3_0_0": "SAME", "2_3_0_2_3_0_1": "SAME", "2_3_0_2_3_1_0": "SAME", "2_3_0_2_3_1_1": "SAME", "2_3_0_2_3_2_0": "SAME", "2_3_0_2_3_2_1": "SAME", "2_3_0_3_0_0_0": "SAME", "2_3_0_3_0_0_1": "SAME", "2_3_0_3_0_1_0": "SAME", "2_3_0_3_0_1_1": "SAME", "2_3_0_3_0_2_0": "SAME", "2_3_0_3_0_2_1": "SAME", "2_3_0_3_1_0_0": "SAME", "2_3_0_3_1_0_1": "SAME", "2_3_0_3_1_1_0": "SAME", "2_3_0_3_1_1_1": "SAME", "2_3_0_3_1_2_0": "SAME", "2_3_0_3_1_2_1": "SAME", "2_3_0_3_2_0_0": "SAME", "2_3_0_3_2_0_1": "SAME", "2_3_0_3_2_1_0": "SAME", "2_3_0_3_2_1_1": "SAME", "2_3_0_3_2_2_0": "SAME", "2_3_0_3_2_2_1": "SAME", "2_3_0_3_3_0_0": "SAME", "2_3_0_3_3_0_1": "SAME", "2_3_0_3_3_1_0": "SAME", "2_3_0_3_3_1_1": "SAME", "2_3_0_3_3_2_0": "SAME", "2_3_0_3_3_2_1": "SAME", "2_3_1_0_0_0_0": "SAME", "2_3_1_0_0_0_1": "SAME", "2_3_1_0_0_1_0": "SAME", "2_3_1_0_0_1_1": "SAME", "2_3_1_0_0_2_0": "SAME", "2_3_1_0_0_2_1": "SAME", "2_3_1_0_1_0_0": "SAME", "2_3_1_0_1_0_1": "SAME", "2_3_1_0_1_1_0": "SAME", "2_3_1_0_1_1_1": "SAME", "2_3_1_0_1_2_0": "SAME", "2_3_1_0_1_2_1": "SAME", "2_3_1_0_2_0_0": "SAME", "2_3_1_0_2_0_1": "SAME", "2_3_1_0_2_1_0": "SAME", "2_3_1_0_2_1_1": "SAME", "2_3_1_0_2_2_0": "SAME", "2_3_1_0_2_2_1": "SAME", "2_3_1_0_3_0_0": "SAME", "2_3_1_0_3_0_1": "SAME", "2_3_1_0_3_1_0": "SAME", "2_3_1_0_3_1_1": "SAME", "2_3_1_0_3_2_0": "SAME", "2_3_1_0_3_2_1": "SAME", "2_3_1_1_0_0_0": "SAME", "2_3_1_1_0_0_1": "SAME", "2_3_1_1_0_1_0": "SAME", "2_3_1_1_0_1_1": "SAME", "2_3_1_1_0_2_0": "SAME", "2_3_1_1_0_2_1": "SAME", "2_3_1_1_1_0_0": "SAME", "2_3_1_1_1_0_1": "SAME", "2_3_1_1_1_1_0": "SAME", "2_3_1_1_1_1_1": "SAME", "2_3_1_1_1_2_0": "SAME", "2_3_1_1_1_2_1": "SAME", "2_3_1_1_2_0_0": "SAME", "2_3_1_1_2_0_1": "SAME", "2_3_1_1_2_1_0": "SAME", "2_3_1_1_2_1_1": "SAME", "2_3_1_1_2_2_0": "SAME", "2_3_1_1_2_2_1": "SAME", "2_3_1_1_3_0_0": "SAME", "2_3_1_1_3_0_1": "SAME", "2_3_1_1_3_1_0": "SAME", "2_3_1_1_3_1_1": "SAME", "2_3_1_1_3_2_0": "SAME", "2_3_1_1_3_2_1": "SAME", "2_3_1_2_0_0_0": "SAME", "2_3_1_2_0_0_1": "SAME", "2_3_1_2_0_1_0": "SAME", "2_3_1_2_0_1_1": "SAME", "2_3_1_2_0_2_0": "SAME", "2_3_1_2_0_2_1": "SAME", "2_3_1_2_1_0_0": "SAME", "2_3_1_2_1_0_1": "SAME", "2_3_1_2_1_1_0": "SAME", "2_3_1_2_1_1_1": "SAME", "2_3_1_2_1_2_0": "SAME", "2_3_1_2_1_2_1": "SAME", "2_3_1_2_2_0_0": "SAME", "2_3_1_2_2_0_1": "SAME", "2_3_1_2_2_1_0": "SAME", "2_3_1_2_2_1_1": "SAME", "2_3_1_2_2_2_0": "SAME", "2_3_1_2_2_2_1": "SAME", "2_3_1_2_3_0_0": "SAME", "2_3_1_2_3_0_1": "SAME", "2_3_1_2_3_1_0": "SAME", "2_3_1_2_3_1_1": "SAME", "2_3_1_2_3_2_0": "SAME", "2_3_1_2_3_2_1": "SAME", "2_3_1_3_0_0_0": "SAME", "2_3_1_3_0_0_1": "SAME", "2_3_1_3_0_1_0": "SAME", "2_3_1_3_0_1_1": "SAME", "2_3_1_3_0_2_0": "SAME", "2_3_1_3_0_2_1": "SAME", "2_3_1_3_1_0_0": "SAME", "2_3_1_3_1_0_1": "SAME", "2_3_1_3_1_1_0": "SAME", "2_3_1_3_1_1_1": "SAME", "2_3_1_3_1_2_0": "SAME", "2_3_1_3_1_2_1": "SAME", "2_3_1_3_2_0_0": "SAME", "2_3_1_3_2_0_1": "SAME", "2_3_1_3_2_1_0": "SAME", "2_3_1_3_2_1_1": "SAME", "2_3_1_3_2_2_0": "SAME", "2_3_1_3_2_2_1": "SAME", "2_3_1_3_3_0_0": "SAME", "2_3_1_3_3_0_1": "SAME", "2_3_1_3_3_1_0": "SAME", "2_3_1_3_3_1_1": "SAME", "2_3_1_3_3_2_0": "SAME", "2_3_1_3_3_2_1": "SAME", "2_3_2_0_0_0_0": "SAME", "2_3_2_0_0_0_1": "SAME", "2_3_2_0_0_1_0": "SAME", "2_3_2_0_0_1_1": "SAME", "2_3_2_0_0_2_0": "SAME", "2_3_2_0_0_2_1": "SAME", "2_3_2_0_1_0_0": "SAME", "2_3_2_0_1_0_1": "SAME", "2_3_2_0_1_1_0": "SAME", "2_3_2_0_1_1_1": "SAME", "2_3_2_0_1_2_0": "SAME", "2_3_2_0_1_2_1": "SAME", "2_3_2_0_2_0_0": "SAME", "2_3_2_0_2_0_1": "SAME", "2_3_2_0_2_1_0": "SAME", "2_3_2_0_2_1_1": "SAME", "2_3_2_0_2_2_0": "SAME", "2_3_2_0_2_2_1": "SAME", "2_3_2_0_3_0_0": "SAME", "2_3_2_0_3_0_1": "SAME", "2_3_2_0_3_1_0": "SAME", "2_3_2_0_3_1_1": "SAME", "2_3_2_0_3_2_0": "SAME", "2_3_2_0_3_2_1": "SAME", "2_3_2_1_0_0_0": "SAME", "2_3_2_1_0_0_1": "SAME", "2_3_2_1_0_1_0": "SAME", "2_3_2_1_0_1_1": "SAME", "2_3_2_1_0_2_0": "SAME", "2_3_2_1_0_2_1": "SAME", "2_3_2_1_1_0_0": "SAME", "2_3_2_1_1_0_1": "SAME", "2_3_2_1_1_1_0": "SAME", "2_3_2_1_1_1_1": "SAME", "2_3_2_1_1_2_0": "SAME", "2_3_2_1_1_2_1": "SAME", "2_3_2_1_2_0_0": "SAME", "2_3_2_1_2_0_1": "SAME", "2_3_2_1_2_1_0": "SAME", "2_3_2_1_2_1_1": "SAME", "2_3_2_1_2_2_0": "SAME", "2_3_2_1_2_2_1": "SAME", "2_3_2_1_3_0_0": "SAME", "2_3_2_1_3_0_1": "SAME", "2_3_2_1_3_1_0": "SAME", "2_3_2_1_3_1_1": "SAME", "2_3_2_1_3_2_0": "SAME", "2_3_2_1_3_2_1": "SAME", "2_3_2_2_0_0_0": "SAME", "2_3_2_2_0_0_1": "SAME", "2_3_2_2_0_1_0": "SAME", "2_3_2_2_0_1_1": "SAME", "2_3_2_2_0_2_0": "SAME", "2_3_2_2_0_2_1": "SAME", "2_3_2_2_1_0_0": "SAME", "2_3_2_2_1_0_1": "SAME", "2_3_2_2_1_1_0": "SAME", "2_3_2_2_1_1_1": "SAME", "2_3_2_2_1_2_0": "SAME", "2_3_2_2_1_2_1": "SAME", "2_3_2_2_2_0_0": "SAME", "2_3_2_2_2_0_1": "SAME", "2_3_2_2_2_1_0": "SAME", "2_3_2_2_2_1_1": "SAME", "2_3_2_2_2_2_0": "SAME", "2_3_2_2_2_2_1": "SAME", "2_3_2_2_3_0_0": "SAME", "2_3_2_2_3_0_1": "SAME", "2_3_2_2_3_1_0": "SAME", "2_3_2_2_3_1_1": "SAME", "2_3_2_2_3_2_0": "SAME", "2_3_2_2_3_2_1": "SAME", "2_3_2_3_0_0_0": "SAME", "2_3_2_3_0_0_1": "SAME", "2_3_2_3_0_1_0": "SAME", "2_3_2_3_0_1_1": "SAME", "2_3_2_3_0_2_0": "SAME", "2_3_2_3_0_2_1": "SAME", "2_3_2_3_1_0_0": "SAME", "2_3_2_3_1_0_1": "SAME", "2_3_2_3_1_1_0": "SAME", "2_3_2_3_1_1_1": "SAME", "2_3_2_3_1_2_0": "SAME", "2_3_2_3_1_2_1": "SAME", "2_3_2_3_2_0_0": "SAME", "2_3_2_3_2_0_1": "SAME", "2_3_2_3_2_1_0": "SAME", "2_3_2_3_2_1_1": "SAME", "2_3_2_3_2_2_0": "SAME", "2_3_2_3_2_2_1": "SAME", "2_3_2_3_3_0_0": "SAME", "2_3_2_3_3_0_1": "SAME", "2_3_2_3_3_1_0": "SAME", "2_3_2_3_3_1_1": "SAME", "2_3_2_3_3_2_0": "SAME", "2_3_2_3_3_2_1": "SAME", "2_3_3_0_0_0_0": "SAME", "2_3_3_0_0_0_1": "SAME", "2_3_3_0_0_1_0": "SAME", "2_3_3_0_0_1_1": "SAME", "2_3_3_0_0_2_0": "SAME", "2_3_3_0_0_2_1": "SAME", "2_3_3_0_1_0_0": "SAME", "2_3_3_0_1_0_1": "SAME", "2_3_3_0_1_1_0": "SAME", "2_3_3_0_1_1_1": "SAME", "2_3_3_0_1_2_0": "SAME", "2_3_3_0_1_2_1": "SAME", "2_3_3_0_2_0_0": "SAME", "2_3_3_0_2_0_1": "SAME", "2_3_3_0_2_1_0": "SAME", "2_3_3_0_2_1_1": "SAME", "2_3_3_0_2_2_0": "SAME", "2_3_3_0_2_2_1": "SAME", "2_3_3_0_3_0_0": "SAME", "2_3_3_0_3_0_1": "SAME", "2_3_3_0_3_1_0": "SAME", "2_3_3_0_3_1_1": "SAME", "2_3_3_0_3_2_0": "SAME", "2_3_3_0_3_2_1": "SAME", "2_3_3_1_0_0_0": "SAME", "2_3_3_1_0_0_1": "SAME", "2_3_3_1_0_1_0": "SAME", "2_3_3_1_0_1_1": "SAME", "2_3_3_1_0_2_0": "SAME", "2_3_3_1_0_2_1": "SAME", "2_3_3_1_1_0_0": "SAME", "2_3_3_1_1_0_1": "SAME", "2_3_3_1_1_1_0": "SAME", "2_3_3_1_1_1_1": "SAME", "2_3_3_1_1_2_0": "SAME", "2_3_3_1_1_2_1": "SAME", "2_3_3_1_2_0_0": "SAME", "2_3_3_1_2_0_1": "SAME", "2_3_3_1_2_1_0": "SAME", "2_3_3_1_2_1_1": "SAME", "2_3_3_1_2_2_0": "SAME", "2_3_3_1_2_2_1": "SAME", "2_3_3_1_3_0_0": "SAME", "2_3_3_1_3_0_1": "SAME", "2_3_3_1_3_1_0": "SAME", "2_3_3_1_3_1_1": "SAME", "2_3_3_1_3_2_0": "SAME", "2_3_3_1_3_2_1": "SAME", "2_3_3_2_0_0_0": "SAME", "2_3_3_2_0_0_1": "SAME", "2_3_3_2_0_1_0": "SAME", "2_3_3_2_0_1_1": "SAME", "2_3_3_2_0_2_0": "SAME", "2_3_3_2_0_2_1": "SAME", "2_3_3_2_1_0_0": "SAME", "2_3_3_2_1_0_1": "SAME", "2_3_3_2_1_1_0": "SAME", "2_3_3_2_1_1_1": "SAME", "2_3_3_2_1_2_0": "SAME", "2_3_3_2_1_2_1": "SAME", "2_3_3_2_2_0_0": "SAME", "2_3_3_2_2_0_1": "SAME", "2_3_3_2_2_1_0": "SAME", "2_3_3_2_2_1_1": "SAME", "2_3_3_2_2_2_0": "SAME", "2_3_3_2_2_2_1": "SAME", "2_3_3_2_3_0_0": "SAME", "2_3_3_2_3_0_1": "SAME", "2_3_3_2_3_1_0": "SAME", "2_3_3_2_3_1_1": "SAME", "2_3_3_2_3_2_0": "SAME", "2_3_3_2_3_2_1": "SAME", "2_3_3_3_0_0_0": "SAME", "2_3_3_3_0_0_1": "SAME", "2_3_3_3_0_1_0": "SAME", "2_3_3_3_0_1_1": "SAME", "2_3_3_3_0_2_0": "SAME", "2_3_3_3_0_2_1": "SAME", "2_3_3_3_1_0_0": "SAME", "2_3_3_3_1_0_1": "SAME", "2_3_3_3_1_1_0": "SAME", "2_3_3_3_1_1_1": "SAME", "2_3_3_3_1_2_0": "SAME", "2_3_3_3_1_2_1": "SAME", "2_3_3_3_2_0_0": "SAME", "2_3_3_3_2_0_1": "SAME", "2_3_3_3_2_1_0": "SAME", "2_3_3_3_2_1_1": "SAME", "2_3_3_3_2_2_0": "SAME", "2_3_3_3_2_2_1": "SAME", "2_3_3_3_3_0_0": "SAME", "2_3_3_3_3_0_1": "SAME", "2_3_3_3_3_1_0": "SAME", "2_3_3_3_3_1_1": "SAME", "2_3_3_3_3_2_0": "SAME", "2_3_3_3_3_2_1": "SAME", "2_4_0_0_0_0_0": "SAME", "2_4_0_0_0_0_1": "SAME", "2_4_0_0_0_1_0": "SAME", "2_4_0_0_0_1_1": "SAME", "2_4_0_0_0_2_0": "SAME", "2_4_0_0_0_2_1": "SAME", "2_4_0_0_1_0_0": "SAME", "2_4_0_0_1_0_1": "SAME", "2_4_0_0_1_1_0": "SAME", "2_4_0_0_1_1_1": "SAME", "2_4_0_0_1_2_0": "SAME", "2_4_0_0_1_2_1": "SAME", "2_4_0_0_2_0_0": "SAME", "2_4_0_0_2_0_1": "SAME", "2_4_0_0_2_1_0": "SAME", "2_4_0_0_2_1_1": "SAME", "2_4_0_0_2_2_0": "SAME", "2_4_0_0_2_2_1": "SAME", "2_4_0_0_3_0_0": "SAME", "2_4_0_0_3_0_1": "SAME", "2_4_0_0_3_1_0": "SAME", "2_4_0_0_3_1_1": "SAME", "2_4_0_0_3_2_0": "SAME", "2_4_0_0_3_2_1": "SAME", "2_4_0_1_0_0_0": "SAME", "2_4_0_1_0_0_1": "SAME", "2_4_0_1_0_1_0": "SAME", "2_4_0_1_0_1_1": "SAME", "2_4_0_1_0_2_0": "SAME", "2_4_0_1_0_2_1": "SAME", "2_4_0_1_1_0_0": "SAME", "2_4_0_1_1_0_1": "SAME", "2_4_0_1_1_1_0": "SAME", "2_4_0_1_1_1_1": "SAME", "2_4_0_1_1_2_0": "SAME", "2_4_0_1_1_2_1": "SAME", "2_4_0_1_2_0_0": "SAME", "2_4_0_1_2_0_1": "SAME", "2_4_0_1_2_1_0": "SAME", "2_4_0_1_2_1_1": "SAME", "2_4_0_1_2_2_0": "SAME", "2_4_0_1_2_2_1": "SAME", "2_4_0_1_3_0_0": "SAME", "2_4_0_1_3_0_1": "SAME", "2_4_0_1_3_1_0": "SAME", "2_4_0_1_3_1_1": "SAME", "2_4_0_1_3_2_0": "SAME", "2_4_0_1_3_2_1": "SAME", "2_4_0_2_0_0_0": "SAME", "2_4_0_2_0_0_1": "SAME", "2_4_0_2_0_1_0": "SAME", "2_4_0_2_0_1_1": "SAME", "2_4_0_2_0_2_0": "SAME", "2_4_0_2_0_2_1": "SAME", "2_4_0_2_1_0_0": "SAME", "2_4_0_2_1_0_1": "SAME", "2_4_0_2_1_1_0": "SAME", "2_4_0_2_1_1_1": "SAME", "2_4_0_2_1_2_0": "SAME", "2_4_0_2_1_2_1": "SAME", "2_4_0_2_2_0_0": "SAME", "2_4_0_2_2_0_1": "SAME", "2_4_0_2_2_1_0": "SAME", "2_4_0_2_2_1_1": "SAME", "2_4_0_2_2_2_0": "SAME", "2_4_0_2_2_2_1": "SAME", "2_4_0_2_3_0_0": "SAME", "2_4_0_2_3_0_1": "SAME", "2_4_0_2_3_1_0": "SAME", "2_4_0_2_3_1_1": "SAME", "2_4_0_2_3_2_0": "SAME", "2_4_0_2_3_2_1": "SAME", "2_4_0_3_0_0_0": "SAME", "2_4_0_3_0_0_1": "SAME", "2_4_0_3_0_1_0": "SAME", "2_4_0_3_0_1_1": "SAME", "2_4_0_3_0_2_0": "SAME", "2_4_0_3_0_2_1": "SAME", "2_4_0_3_1_0_0": "SAME", "2_4_0_3_1_0_1": "SAME", "2_4_0_3_1_1_0": "SAME", "2_4_0_3_1_1_1": "SAME", "2_4_0_3_1_2_0": "SAME", "2_4_0_3_1_2_1": "SAME", "2_4_0_3_2_0_0": "SAME", "2_4_0_3_2_0_1": "SAME", "2_4_0_3_2_1_0": "SAME", "2_4_0_3_2_1_1": "SAME", "2_4_0_3_2_2_0": "SAME", "2_4_0_3_2_2_1": "SAME", "2_4_0_3_3_0_0": "SAME", "2_4_0_3_3_0_1": "SAME", "2_4_0_3_3_1_0": "SAME", "2_4_0_3_3_1_1": "SAME", "2_4_0_3_3_2_0": "SAME", "2_4_0_3_3_2_1": "SAME", "2_4_1_0_0_0_0": "SAME", "2_4_1_0_0_0_1": "SAME", "2_4_1_0_0_1_0": "SAME", "2_4_1_0_0_1_1": "SAME", "2_4_1_0_0_2_0": "SAME", "2_4_1_0_0_2_1": "SAME", "2_4_1_0_1_0_0": "SAME", "2_4_1_0_1_0_1": "SAME", "2_4_1_0_1_1_0": "SAME", "2_4_1_0_1_1_1": "SAME", "2_4_1_0_1_2_0": "SAME", "2_4_1_0_1_2_1": "SAME", "2_4_1_0_2_0_0": "SAME", "2_4_1_0_2_0_1": "SAME", "2_4_1_0_2_1_0": "SAME", "2_4_1_0_2_1_1": "SAME", "2_4_1_0_2_2_0": "SAME", "2_4_1_0_2_2_1": "SAME", "2_4_1_0_3_0_0": "SAME", "2_4_1_0_3_0_1": "SAME", "2_4_1_0_3_1_0": "SAME", "2_4_1_0_3_1_1": "SAME", "2_4_1_0_3_2_0": "SAME", "2_4_1_0_3_2_1": "SAME", "2_4_1_1_0_0_0": "SAME", "2_4_1_1_0_0_1": "SAME", "2_4_1_1_0_1_0": "SAME", "2_4_1_1_0_1_1": "SAME", "2_4_1_1_0_2_0": "SAME", "2_4_1_1_0_2_1": "SAME", "2_4_1_1_1_0_0": "SAME", "2_4_1_1_1_0_1": "SAME", "2_4_1_1_1_1_0": "SAME", "2_4_1_1_1_1_1": "SAME", "2_4_1_1_1_2_0": "SAME", "2_4_1_1_1_2_1": "SAME", "2_4_1_1_2_0_0": "SAME", "2_4_1_1_2_0_1": "SAME", "2_4_1_1_2_1_0": "SAME", "2_4_1_1_2_1_1": "SAME", "2_4_1_1_2_2_0": "SAME", "2_4_1_1_2_2_1": "SAME", "2_4_1_1_3_0_0": "SAME", "2_4_1_1_3_0_1": "SAME", "2_4_1_1_3_1_0": "SAME", "2_4_1_1_3_1_1": "SAME", "2_4_1_1_3_2_0": "SAME", "2_4_1_1_3_2_1": "SAME", "2_4_1_2_0_0_0": "SAME", "2_4_1_2_0_0_1": "SAME", "2_4_1_2_0_1_0": "SAME", "2_4_1_2_0_1_1": "SAME", "2_4_1_2_0_2_0": "SAME", "2_4_1_2_0_2_1": "SAME", "2_4_1_2_1_0_0": "SAME", "2_4_1_2_1_0_1": "SAME", "2_4_1_2_1_1_0": "SAME", "2_4_1_2_1_1_1": "SAME", "2_4_1_2_1_2_0": "SAME", "2_4_1_2_1_2_1": "SAME", "2_4_1_2_2_0_0": "SAME", "2_4_1_2_2_0_1": "SAME", "2_4_1_2_2_1_0": "SAME", "2_4_1_2_2_1_1": "SAME", "2_4_1_2_2_2_0": "SAME", "2_4_1_2_2_2_1": "SAME", "2_4_1_2_3_0_0": "SAME", "2_4_1_2_3_0_1": "SAME", "2_4_1_2_3_1_0": "SAME", "2_4_1_2_3_1_1": "SAME", "2_4_1_2_3_2_0": "SAME", "2_4_1_2_3_2_1": "SAME", "2_4_1_3_0_0_0": "SAME", "2_4_1_3_0_0_1": "SAME", "2_4_1_3_0_1_0": "SAME", "2_4_1_3_0_1_1": "SAME", "2_4_1_3_0_2_0": "SAME", "2_4_1_3_0_2_1": "SAME", "2_4_1_3_1_0_0": "SAME", "2_4_1_3_1_0_1": "SAME", "2_4_1_3_1_1_0": "SAME", "2_4_1_3_1_1_1": "SAME", "2_4_1_3_1_2_0": "SAME", "2_4_1_3_1_2_1": "SAME", "2_4_1_3_2_0_0": "SAME", "2_4_1_3_2_0_1": "SAME", "2_4_1_3_2_1_0": "SAME", "2_4_1_3_2_1_1": "SAME", "2_4_1_3_2_2_0": "SAME", "2_4_1_3_2_2_1": "SAME", "2_4_1_3_3_0_0": "SAME", "2_4_1_3_3_0_1": "SAME", "2_4_1_3_3_1_0": "SAME", "2_4_1_3_3_1_1": "SAME", "2_4_1_3_3_2_0": "SAME", "2_4_1_3_3_2_1": "SAME", "2_4_2_0_0_0_0": "SAME", "2_4_2_0_0_0_1": "SAME", "2_4_2_0_0_1_0": "SAME", "2_4_2_0_0_1_1": "SAME", "2_4_2_0_0_2_0": "SAME", "2_4_2_0_0_2_1": "SAME", "2_4_2_0_1_0_0": "SAME", "2_4_2_0_1_0_1": "SAME", "2_4_2_0_1_1_0": "SAME", "2_4_2_0_1_1_1": "SAME", "2_4_2_0_1_2_0": "SAME", "2_4_2_0_1_2_1": "SAME", "2_4_2_0_2_0_0": "SAME", "2_4_2_0_2_0_1": "SAME", "2_4_2_0_2_1_0": "SAME", "2_4_2_0_2_1_1": "SAME", "2_4_2_0_2_2_0": "SAME", "2_4_2_0_2_2_1": "SAME", "2_4_2_0_3_0_0": "SAME", "2_4_2_0_3_0_1": "SAME", "2_4_2_0_3_1_0": "SAME", "2_4_2_0_3_1_1": "SAME", "2_4_2_0_3_2_0": "SAME", "2_4_2_0_3_2_1": "SAME", "2_4_2_1_0_0_0": "SAME", "2_4_2_1_0_0_1": "SAME", "2_4_2_1_0_1_0": "SAME", "2_4_2_1_0_1_1": "SAME", "2_4_2_1_0_2_0": "SAME", "2_4_2_1_0_2_1": "SAME", "2_4_2_1_1_0_0": "SAME", "2_4_2_1_1_0_1": "SAME", "2_4_2_1_1_1_0": "SAME", "2_4_2_1_1_1_1": "SAME", "2_4_2_1_1_2_0": "SAME", "2_4_2_1_1_2_1": "SAME", "2_4_2_1_2_0_0": "SAME", "2_4_2_1_2_0_1": "SAME", "2_4_2_1_2_1_0": "SAME", "2_4_2_1_2_1_1": "SAME", "2_4_2_1_2_2_0": "SAME", "2_4_2_1_2_2_1": "SAME", "2_4_2_1_3_0_0": "SAME", "2_4_2_1_3_0_1": "SAME", "2_4_2_1_3_1_0": "SAME", "2_4_2_1_3_1_1": "SAME", "2_4_2_1_3_2_0": "SAME", "2_4_2_1_3_2_1": "SAME", "2_4_2_2_0_0_0": "SAME", "2_4_2_2_0_0_1": "SAME", "2_4_2_2_0_1_0": "SAME", "2_4_2_2_0_1_1": "SAME", "2_4_2_2_0_2_0": "SAME", "2_4_2_2_0_2_1": "SAME", "2_4_2_2_1_0_0": "SAME", "2_4_2_2_1_0_1": "SAME", "2_4_2_2_1_1_0": "SAME", "2_4_2_2_1_1_1": "SAME", "2_4_2_2_1_2_0": "SAME", "2_4_2_2_1_2_1": "SAME", "2_4_2_2_2_0_0": "SAME", "2_4_2_2_2_0_1": "SAME", "2_4_2_2_2_1_0": "SAME", "2_4_2_2_2_1_1": "SAME", "2_4_2_2_2_2_0": "SAME", "2_4_2_2_2_2_1": "SAME", "2_4_2_2_3_0_0": "SAME", "2_4_2_2_3_0_1": "SAME", "2_4_2_2_3_1_0": "SAME", "2_4_2_2_3_1_1": "SAME", "2_4_2_2_3_2_0": "SAME", "2_4_2_2_3_2_1": "SAME", "2_4_2_3_0_0_0": "SAME", "2_4_2_3_0_0_1": "SAME", "2_4_2_3_0_1_0": "SAME", "2_4_2_3_0_1_1": "SAME", "2_4_2_3_0_2_0": "SAME", "2_4_2_3_0_2_1": "SAME", "2_4_2_3_1_0_0": "SAME", "2_4_2_3_1_0_1": "SAME", "2_4_2_3_1_1_0": "SAME", "2_4_2_3_1_1_1": "SAME", "2_4_2_3_1_2_0": "SAME", "2_4_2_3_1_2_1": "SAME", "2_4_2_3_2_0_0": "SAME", "2_4_2_3_2_0_1": "SAME", "2_4_2_3_2_1_0": "SAME", "2_4_2_3_2_1_1": "SAME", "2_4_2_3_2_2_0": "SAME", "2_4_2_3_2_2_1": "SAME", "2_4_2_3_3_0_0": "SAME", "2_4_2_3_3_0_1": "SAME", "2_4_2_3_3_1_0": "SAME", "2_4_2_3_3_1_1": "SAME", "2_4_2_3_3_2_0": "SAME", "2_4_2_3_3_2_1": "SAME", "2_4_3_0_0_0_0": "SAME", "2_4_3_0_0_0_1": "SAME", "2_4_3_0_0_1_0": "SAME", "2_4_3_0_0_1_1": "SAME", "2_4_3_0_0_2_0": "SAME", "2_4_3_0_0_2_1": "SAME", "2_4_3_0_1_0_0": "SAME", "2_4_3_0_1_0_1": "SAME", "2_4_3_0_1_1_0": "SAME", "2_4_3_0_1_1_1": "SAME", "2_4_3_0_1_2_0": "SAME", "2_4_3_0_1_2_1": "SAME", "2_4_3_0_2_0_0": "SAME", "2_4_3_0_2_0_1": "SAME", "2_4_3_0_2_1_0": "SAME", "2_4_3_0_2_1_1": "SAME", "2_4_3_0_2_2_0": "SAME", "2_4_3_0_2_2_1": "SAME", "2_4_3_0_3_0_0": "SAME", "2_4_3_0_3_0_1": "SAME", "2_4_3_0_3_1_0": "SAME", "2_4_3_0_3_1_1": "SAME", "2_4_3_0_3_2_0": "SAME", "2_4_3_0_3_2_1": "SAME", "2_4_3_1_0_0_0": "SAME", "2_4_3_1_0_0_1": "SAME", "2_4_3_1_0_1_0": "SAME", "2_4_3_1_0_1_1": "SAME", "2_4_3_1_0_2_0": "SAME", "2_4_3_1_0_2_1": "SAME", "2_4_3_1_1_0_0": "SAME", "2_4_3_1_1_0_1": "SAME", "2_4_3_1_1_1_0": "SAME", "2_4_3_1_1_1_1": "SAME", "2_4_3_1_1_2_0": "SAME", "2_4_3_1_1_2_1": "SAME", "2_4_3_1_2_0_0": "SAME", "2_4_3_1_2_0_1": "SAME", "2_4_3_1_2_1_0": "SAME", "2_4_3_1_2_1_1": "SAME", "2_4_3_1_2_2_0": "SAME", "2_4_3_1_2_2_1": "SAME", "2_4_3_1_3_0_0": "SAME", "2_4_3_1_3_0_1": "SAME", "2_4_3_1_3_1_0": "SAME", "2_4_3_1_3_1_1": "SAME", "2_4_3_1_3_2_0": "SAME", "2_4_3_1_3_2_1": "SAME", "2_4_3_2_0_0_0": "SAME", "2_4_3_2_0_0_1": "SAME", "2_4_3_2_0_1_0": "SAME", "2_4_3_2_0_1_1": "SAME", "2_4_3_2_0_2_0": "SAME", "2_4_3_2_0_2_1": "SAME", "2_4_3_2_1_0_0": "SAME", "2_4_3_2_1_0_1": "SAME", "2_4_3_2_1_1_0": "SAME", "2_4_3_2_1_1_1": "SAME", "2_4_3_2_1_2_0": "SAME", "2_4_3_2_1_2_1": "SAME", "2_4_3_2_2_0_0": "SAME", "2_4_3_2_2_0_1": "SAME", "2_4_3_2_2_1_0": "SAME", "2_4_3_2_2_1_1": "SAME", "2_4_3_2_2_2_0": "SAME", "2_4_3_2_2_2_1": "SAME", "2_4_3_2_3_0_0": "SAME", "2_4_3_2_3_0_1": "SAME", "2_4_3_2_3_1_0": "SAME", "2_4_3_2_3_1_1": "SAME", "2_4_3_2_3_2_0": "SAME", "2_4_3_2_3_2_1": "SAME", "2_4_3_3_0_0_0": "SAME", "2_4_3_3_0_0_1": "SAME", "2_4_3_3_0_1_0": "SAME", "2_4_3_3_0_1_1": "SAME", "2_4_3_3_0_2_0": "SAME", "2_4_3_3_0_2_1": "SAME", "2_4_3_3_1_0_0": "SAME", "2_4_3_3_1_0_1": "SAME", "2_4_3_3_1_1_0": "SAME", "2_4_3_3_1_1_1": "SAME", "2_4_3_3_1_2_0": "SAME", "2_4_3_3_1_2_1": "SAME", "2_4_3_3_2_0_0": "SAME", "2_4_3_3_2_0_1": "SAME", "2_4_3_3_2_1_0": "SAME", "2_4_3_3_2_1_1": "SAME", "2_4_3_3_2_2_0": "SAME", "2_4_3_3_2_2_1": "SAME", "2_4_3_3_3_0_0": "SAME", "2_4_3_3_3_0_1": "SAME", "2_4_3_3_3_1_0": "SAME", "2_4_3_3_3_1_1": "SAME", "2_4_3_3_3_2_0": "SAME", "2_4_3_3_3_2_1": "SAME"};
-
-  function predictApexTitan30S(sizes, lossStreak) {
-    const runs = getRuns(sizes);
-    const cRun = runs.at(-1);
-    const cSide = cRun.size;
-    const cLen = cRun.len;
-    const pRun = runs.length >= 2 ? runs.at(-2) : { size: opp(cSide), len: 0 };
-    const p2Run = runs.length >= 3 ? runs.at(-3) : { size: cSide, len: 0 };
-    const lastS = sizes.at(-1);
-
-    let alt = 0;
-    for (let i = runs.length - 1; i >= 0; i--) {
-      if (runs[i].len === 1) alt++;
-      else break;
-    }
-
-    const cLenCat = Math.min(cLen, 4);
-    const pLenCat = Math.min(pRun.len, 3);
-    const p2LenCat = Math.min(p2Run.len, 3);
-    const altCat = Math.min(alt, 3);
-    const streakCat = Math.min(lossStreak, 2);
-
-    const recent = sizes.slice(-6);
-    let flips = 0;
-    for (let i = 1; i < recent.length; i++) {
-      if (recent[i] !== recent[i - 1]) flips++;
-    }
-    const flipCat = flips <= 1 ? 0 : ((flips === 2 || flips === 3) ? 1 : 2);
-    const cSideBit = cSide === "BIG" ? 1 : 0;
-
-    const key = `${streakCat}_${cLenCat}_${pLenCat}_${p2LenCat}_${altCat}_${flipCat}_${cSideBit}`;
-    
-    // Safe Invariant Fallback: Dragon Lock + Chop Ride
-    const actRule = TITAN_RULES_30S[key] || (cLen >= 2 ? "SAME" : (alt >= 2 ? "OPP_LAST" : (pRun.len >= 3 ? "OPP_LAST" : "SAME")));
-
-    let finalSize = cSide;
-    if (actRule === "SAME") finalSize = cSide;
-    else if (actRule === "OPP") finalSize = opp(cSide);
-    else if (actRule === "LAST") finalSize = lastS;
-    else if (actRule === "OPP_LAST") finalSize = opp(lastS);
-
-    const conf = lossStreak >= 2 ? 99 : (lossStreak === 1 ? 96 : 92);
-    const regimeTag = lossStreak >= 2 ? `🛑 L3 INVARIANT-SHIELD (${actRule})` : (lossStreak === 1 ? `🛡️ L2 RECOVERY (${actRule})` : `🌊 L1 APEX (${actRule})`);
-
-    return { finalSize, regime: `${regimeTag} [${finalSize}]`, conf };
-  }
-
-  // === 1M CADENCE ZERO-LOSS ENGINE ===
-  function predictApexTitan1M(sizes, lossStreak) {
-    const runs = getRuns(sizes);
-    const cRun = runs.at(-1);
-    const cSide = cRun.size;
-    const cLen = cRun.len;
-    const pRun = runs.length >= 2 ? runs.at(-2) : { size: opp(cSide), len: 0 };
-    const p3Run = runs.length >= 3 ? runs.at(-3) : { size: cSide, len: 0 };
-    const lastS = sizes.at(-1);
-
-    let alt = 0;
-    for (let i = runs.length - 1; i >= 0; i--) {
-      if (runs[i].len === 1) alt++;
-      else break;
-    }
-
-    let finalSize = "BIG";
-    let regime = "TITAN 1M";
-    let conf = 90;
-
-    if (lossStreak >= 2) {
-      conf = 99;
-      if (cLen >= 4) {
-        finalSize = cSide;
-        regime = `🛑 L3 DRAGON EXTENSION (${cSide} x${cLen})`;
-      } else if (cLen === 3) {
-        finalSize = opp(cSide);
-        regime = `🛑 L3 DRAGON CUT (${opp(cSide)})`;
-      } else if (cLen === 2) {
-        finalSize = opp(cSide);
-        regime = `🛑 L3 DOUBLET CUT (${opp(cSide)})`;
-      } else if (alt >= 3) {
-        finalSize = opp(lastS);
-        regime = `🛑 L3 CHOP OSCILLATE (${opp(lastS)})`;
-      } else if (alt >= 2) {
-        finalSize = lastS;
-        regime = `🛑 L3 CHOP STABILIZE (${lastS})`;
-      } else if (cLen === 1) {
-        finalSize = cSide;
-        regime = `🛑 L3 DOUBLET RIDE (${cSide})`;
-      } else {
-        finalSize = cSide;
-        regime = `🛑 L3 MOMENTUM LOCK (${cSide})`;
-      }
-    } else if (lossStreak === 1) {
-      conf = 96;
-      if (cLen >= 4) {
-        finalSize = cSide;
-        regime = `🛡️ L2 DRAGON EXTENSION (${cSide} x${cLen})`;
-      } else if (cLen === 3) {
-        finalSize = cSide;
-        regime = `🛡️ L2 DRAGON EXTENSION (${cSide} x3)`;
-      } else if (cLen === 2) {
-        finalSize = cSide;
-        regime = `🛡️ L2 DOUBLET RIDE (${cSide} x2)`;
-      } else if (alt >= 3) {
-        finalSize = opp(lastS);
-        regime = `🛡️ L2 CHOP FLIP (${opp(lastS)})`;
-      } else if (alt >= 2) {
-        finalSize = opp(lastS);
-        regime = `🛡️ L2 CHOP OSCILLATE (${opp(lastS)})`;
-      } else if (cLen === 1) {
-        finalSize = cSide;
-        regime = `🛡️ L2 DOUBLET RIDE (${cSide})`;
-      } else {
-        finalSize = cSide;
-        regime = `🛡️ L2 MOMENTUM LOCK (${cSide})`;
-      }
-    } else {
-      conf = 92;
-      if (cLen === 3 && pRun.len === 1 && p3Run.len === 3) {
-        finalSize = opp(cSide);
-        regime = `🎯 L1 3-1-3 HARMONIC CUT (${opp(cSide)})`;
-      } else if (cLen >= 4) {
-        finalSize = cSide;
-        regime = `🌊 L1 DRAGON EXTENSION (${cSide} x${cLen})`;
-      } else if (cLen === 3) {
-        finalSize = opp(cSide);
-        regime = `🐉 L1 DRAGON EXHAUSTION CUT (${opp(cSide)} x3)`;
-      } else if (cLen === 2) {
-        finalSize = opp(cSide);
-        regime = `🌊 L1 DOUBLET CUT (${opp(cSide)})`;
-      } else if (alt >= 3) {
-        finalSize = opp(lastS);
-        regime = `⚡ L1 DEEP CHOP OSCILLATE (${opp(lastS)})`;
-      } else if (alt >= 2) {
-        finalSize = lastS;
-        regime = `⚡ L1 CHOP STABILIZE (${lastS})`;
-      } else if (cLen === 1) {
-        finalSize = opp(cSide);
-        regime = `🌊 L1 SINGLETON CUT (${opp(cSide)})`;
-      } else {
-        finalSize = cSide;
-        regime = `🌊 L1 MOMENTUM FOLLOW (${cSide})`;
-      }
-    }
-
-    return { finalSize, regime, conf };
-  }
-
-  // === APEX TITAN UNIVERSAL MASTER (v9UM) ===
-  function predictApexTitanV9UM(evidence, lossStreak = 0, mode = '30S') {
-    if (!evidence || evidence.length < 3) {
-      return { size: 'BIG', number: 7, confidence: 70, regime: 'TITAN INITIALIZING' };
-    }
-
-    const nums = evidence.slice(-50);
-    const sizes = nums.map(n => (n >= 5 ? 'BIG' : 'SMALL'));
-    
-    const res = (mode === '1M') ? predictApexTitan1M(sizes, lossStreak) : predictApexTitan30S(sizes, lossStreak);
-
-    // Harmonic Lucky Ball Selector
-    const allowed = res.finalSize === 'BIG' ? [5, 6, 7, 8, 9] : [0, 1, 2, 3, 4];
-    const freq = counts(nums.slice(-20));
-    const bestNum = allowed.reduce((best, n) => {
-      const diff = Math.abs(n - (res.finalSize === 'BIG' ? 7 : 2));
-      const bestDiff = Math.abs(best - (res.finalSize === 'BIG' ? 7 : 2));
-      return freq[n] < freq[best] || (freq[n] === freq[best] && diff < bestDiff) ? n : best;
-    }, allowed[0]);
-
-    return { size: res.finalSize, number: bestNum, confidence: res.conf, regime: res.regime };
-  }
-
-    // ════════════════════════════════════════════════════════════
-  // 5. TRIPLE-REDUNDANT RESULT INGESTION (XHR + FETCH + DOM + API)
-  // ════════════════════════════════════════════════════════════
-  let DOM_SCRAPED_HISTORY = [];
-
-  // 1. XMLHttpRequest Hook (Captures 100% of Mobile/Web Casino Game History & Balance)
   const origXhrSend = XMLHttpRequest.prototype.send;
-  const origXhrOpen = XMLHttpRequest.prototype.open;
-
-  XMLHttpRequest.prototype.open = function (method, url) {
-    this._url = url ? url.toString() : '';
-    return origXhrOpen.apply(this, arguments);
-  };
-
   XMLHttpRequest.prototype.send = function (body) {
     this.addEventListener('load', () => {
       try {
         const resJson = JSON.parse(this.responseText);
         if (resJson && typeof resJson === 'object') {
-          // Wallet balance sync
           const b = resJson?.data?.balance ?? resJson?.data?.userBalance ?? resJson?.data?.money ?? resJson?.balance ?? resJson?.data?.amount;
           if (b != null && !isNaN(parseFloat(b))) {
             const bVal = parseFloat(b);
-            if (bVal >= 0.1) updateWalletAndProfit(bVal);
+            if (bVal >= 0.1) {
+              liveWalletBal = bVal;
+              sessionProfit = liveWalletBal - START_BANKROLL;
+              persistAllState();
+            }
           }
 
-          // Lottery historical draw results
           const list = resJson?.data?.list || resJson?.data?.issueHistory || resJson?.data?.gameslist || (Array.isArray(resJson.data) ? resJson.data : []);
           if (Array.isArray(list) && list.length > 0) {
             const parsed = list.map(item => {
-              const p = (item.issueNumber || item.issueNo || item.period || item.issue || item.periodNumber || '').toString().trim();
-              const n = parseInt(item.number != null ? item.number : (item.lotteryResults != null ? item.lotteryResults : (item.result != null ? item.result : item.num)));
+              const p = (item.issueNumber || item.issueNo || item.period || item.issue || '').toString().trim();
+              const n = parseInt(item.number != null ? item.number : (item.lotteryResults != null ? item.lotteryResults : item.result));
               return { period: p, number: n, size: sizeFor(n) };
             }).filter(x => /^\d+$/.test(x.period) && Number.isInteger(x.number));
             if (parsed.length > 0) {
@@ -468,7 +123,6 @@
     return origXhrSend.apply(this, arguments);
   };
 
-  // 2. Fetch Hook (Captures Next-Gen API Requests)
   const origFetch = window.fetch;
   window.fetch = async function () {
     const response = await origFetch.apply(this, arguments);
@@ -477,16 +131,20 @@
       clone.json().then(data => {
         try {
           if (data && typeof data === 'object') {
-            const b = data?.data?.amount || data?.data?.balance || data?.data?.money || data?.balance;
+            const b = data?.data?.balance ?? data?.data?.amount ?? data?.data?.money ?? data?.balance;
             if (b != null && !isNaN(parseFloat(b))) {
               const bVal = parseFloat(b);
-              if (bVal >= 0.1) updateWalletAndProfit(bVal);
+              if (bVal >= 0.1) {
+                liveWalletBal = bVal;
+                sessionProfit = liveWalletBal - START_BANKROLL;
+                persistAllState();
+              }
             }
             const list = data?.data?.list || data?.data?.issueHistory || data?.data?.gameslist || (Array.isArray(data.data) ? data.data : []);
             if (Array.isArray(list) && list.length > 0) {
               const parsed = list.map(item => {
-                const p = (item.issueNumber || item.issueNo || item.period || item.issue || item.periodNumber || '').toString().trim();
-                const n = parseInt(item.number != null ? item.number : (item.lotteryResults != null ? item.lotteryResults : item.result));
+                const p = (item.issueNumber || item.issueNo || item.period || item.issue || '').toString().trim();
+                const n = parseInt(item.number != null ? item.number : item.lotteryResults != null ? item.lotteryResults : item.result);
                 return { period: p, number: n, size: sizeFor(n) };
               }).filter(x => /^\d+$/.test(x.period) && Number.isInteger(x.number));
               if (parsed.length > 0) {
@@ -501,10 +159,9 @@
     return response;
   };
 
-  // 3. Screen DOM History Scraper (Failsafe Instant Fallback)
   function scrapeScreenGameHistory() {
     try {
-      const rows = Array.from(document.querySelectorAll('table tbody tr, .van-table__row, [class*="record"] tr, [class*="history"] tr, [class*="list"] [class*="item"]')).filter(e => !e.closest('#jash-v9UM-hud'));
+      const rows = Array.from(document.querySelectorAll('table tbody tr, .van-table__row, [class*="record"] tr, [class*="history"] tr, [class*="list"] [class*="item"]')).filter(e => !e.closest('#jash-hud'));
       const parsed = [];
       for (const r of rows) {
         const txt = (r.textContent || '').trim();
@@ -518,19 +175,19 @@
       }
       if (parsed.length >= 3) {
         DOM_SCRAPED_HISTORY = parsed;
+        updateHud();
       }
 
-      // 5-Ball Banner Scraper (e.g., 4 8 3 5 7)
-      const ballEls = Array.from(document.querySelectorAll('.ball, [class*="ball"], .van-col, .balls span, .game-ball')).filter(e => !e.closest('#jash-v9UM-hud') && /^[0-9]$/.test((e.textContent || '').trim()));
-      if (ballEls.length >= 3 && DOM_SCRAPED_HISTORY.length === 0) {
-        const ballNums = ballEls.map(b => parseInt(b.textContent.trim())).filter(n => Number.isInteger(n) && n >= 0 && n <= 9);
-        if (ballNums.length >= 3) {
-          const fakeBase = BigInt(Date.now());
-          DOM_SCRAPED_HISTORY = ballNums.map((num, idx) => ({
-            period: String(fakeBase - BigInt(idx)),
+      const balls = Array.from(document.querySelectorAll('.ball, [class*="ball"], .balls span, .game-ball')).filter(e => !e.closest('#jash-hud') && /^[0-9]$/.test((e.textContent || '').trim()));
+      if (balls.length >= 5 && DOM_SCRAPED_HISTORY.length < 5) {
+        const nums = balls.map(b => parseInt(b.textContent.trim())).filter(n => !isNaN(n));
+        if (nums.length >= 5) {
+          DOM_SCRAPED_HISTORY = nums.map((num, i) => ({
+            period: String(Date.now() - i * 30000),
             number: num,
             size: sizeFor(num)
           }));
+          updateHud();
         }
       }
     } catch (e) {}
@@ -538,72 +195,9 @@
   setInterval(scrapeScreenGameHistory, 1000);
   scrapeScreenGameHistory();
 
-  function detectActiveGameMode() {
-    const text = document.body ? (document.body.textContent || '') : '';
-    if (/WinGo 30 second|Win\s*Go\s*30S|30 second|30S|30sec/i.test(text)) return '30S';
-    return '1M';
-  }
-
-  function getApiUrlForMode(mode) {
-    return mode === '30S'
-      ? 'https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json'
-      : 'https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json';
-  }
-
-  let fetchInFlight = false;
-  function fetchSignalAPI() {
-    if (fetchInFlight) return;
-    fetchInFlight = true;
-    const mode = detectActiveGameMode();
-    const url = getApiUrlForMode(mode);
-
-    if (typeof GM_xmlhttpRequest !== 'undefined') {
-      GM_xmlhttpRequest({
-        method: 'GET',
-        url: `${url}?_t=${Date.now()}`,
-        timeout: 4000,
-        onload: function (res) {
-          fetchInFlight = false;
-          try {
-            const data = JSON.parse(res.responseText);
-            const list = data?.data?.list || data?.data?.gameslist || [];
-            if (Array.isArray(list) && list.length > 0) {
-              SIGNAL_API_RESULTS = list.map(row => ({
-                period: String(row.issueNumber || row.period || '').trim(),
-                number: Number(row.number),
-                size: sizeFor(row.number)
-              })).filter(x => /^\d+$/.test(x.period) && Number.isInteger(x.number));
-              updateHud();
-            }
-          } catch (e) {}
-        },
-        onerror: function () { fetchInFlight = false; },
-        ontimeout: function () { fetchInFlight = false; }
-      });
-    } else {
-      fetch(`${url}?_t=${Date.now()}`)
-        .then(r => r.json())
-        .then(data => {
-          fetchInFlight = false;
-          const list = data?.data?.list || [];
-          if (Array.isArray(list) && list.length > 0) {
-            SIGNAL_API_RESULTS = list.map(row => ({
-              period: String(row.issueNumber || row.period || '').trim(),
-              number: Number(row.number),
-              size: sizeFor(row.number)
-            })).filter(x => /^\d+$/.test(x.period) && Number.isInteger(x.number));
-            updateHud();
-          }
-        })
-        .catch(() => { fetchInFlight = false; });
-    }
-  }
-  setInterval(fetchSignalAPI, 1000);
-  fetchSignalAPI();
-
   function getMergedResults() {
     const map = new Map();
-    [...LIVE_API_HISTORY, ...SIGNAL_API_RESULTS, ...DOM_SCRAPED_HISTORY].forEach(item => {
+    [...LIVE_API_HISTORY, ...DOM_SCRAPED_HISTORY].forEach(item => {
       if (item && item.period && !map.has(item.period)) {
         map.set(item.period, item);
       }
@@ -612,22 +206,327 @@
       try { return BigInt(b.period) > BigInt(a.period) ? 1 : -1; } catch (e) { return 0; }
     });
   }
+
+  // ── 4. SYNCHRONIZED TIMER & COMMA-IMMUNE WALLET ───────────
+  function getSynchronizedSeconds() {
+    const all = Array.from(document.querySelectorAll('div, span, p')).filter(e => !e.closest('#jash-hud'));
+    for (const el of all) {
+      const txt = (el.textContent || '').trim();
+      const m = txt.match(/^00:([0-5][0-9]|60)$/);
+      if (m && el.children.length === 0) return parseInt(m[1]);
+    }
+    const now = Date.now();
+    const cycleMs = (GAME_MODE === '30S') ? 30000 : 60000;
+    return Math.ceil((cycleMs - (now % cycleMs)) / 1000);
+  }
+
+  function getCurrentTimeBucket() {
+    const cycleMs = (GAME_MODE === '30S') ? 30000 : 60000;
+    return Math.floor(Date.now() / cycleMs);
+  }
+
+  function readScreenWalletBalance() {
+    try {
+      const priorityEls = Array.from(document.querySelectorAll('[class*="balance"], [class*="wallet"], [class*="money"], [class*="amount"], .user-info, .head, .header, .nav, .van-nav-bar')).filter(e => !e.closest('#jash-hud') && !e.closest('table') && !e.closest('.ball'));
+      for (const el of priorityEls) {
+        const txt = (el.textContent || '').trim();
+        const clean = txt.replace(/,/g, '').trim();
+        const m = clean.match(/^[₹$¥]?\s*([0-9]+\.[0-9]{2})$/);
+        if (m) {
+          const val = parseFloat(m[1]);
+          if (val >= 0.1 && val < 50000000) {
+            liveWalletBal = val;
+            sessionProfit = liveWalletBal - START_BANKROLL;
+            persistAllState();
+            return val;
+          }
+        }
+      }
+      const all = Array.from(document.querySelectorAll('div, span, p, h1, h2, h3, b')).filter(e => !e.closest('#jash-hud') && !e.closest('table') && !e.closest('.ball'));
+      for (const el of all) {
+        const txt = (el.textContent || '').trim();
+        if (txt.includes('₹') || (txt.includes('.') && txt.length <= 20)) {
+          const clean = txt.replace(/,/g, '').trim();
+          const m = clean.match(/^[₹$¥]?\s*([0-9]+(?:\.[0-9]{1,2})?)$/);
+          if (m) {
+            const val = parseFloat(m[1]);
+            if (val >= 0.1 && val < 50000000) {
+              liveWalletBal = val;
+              sessionProfit = liveWalletBal - START_BANKROLL;
+              persistAllState();
+              return val;
+            }
+          }
         }
       }
     } catch (e) {}
+    return liveWalletBal;
+  }
+
+  // ── 5. 👑 NEURAL MASTER · APEX TITAN v9UM STRATEGY ENGINE ───
+  const opp = s => (s === 'BIG' ? 'SMALL' : 'BIG');
+
+  function getRuns(sizes) {
+    if (!sizes || !sizes.length) return [];
+    const runs = [];
+    let curr = sizes[0], l = 1;
+    for (let i = 1; i < sizes.length; i++) {
+      if (sizes[i] === curr) l++;
+      else { runs.push({ size: curr, len: l }); curr = sizes[i]; l = 1; }
+    }
+    runs.push({ size: curr, len: l });
+    return runs;
+  }
+
+  const TITAN_RULES_30S = {"0_1_0_0_0_0_0": "SAME", "0_1_0_0_0_0_1": "SAME", "0_1_0_0_0_1_0": "SAME", "0_1_0_0_0_1_1": "SAME", "0_1_0_0_0_2_0": "SAME", "0_1_0_0_0_2_1": "SAME", "0_1_0_0_1_0_0": "SAME", "0_1_0_0_1_0_1": "SAME", "0_1_0_0_1_1_0": "SAME", "0_1_0_0_1_1_1": "SAME", "0_1_0_0_1_2_0": "SAME", "0_1_0_0_1_2_1": "SAME", "0_1_0_0_2_0_0": "OPP_LAST", "0_1_0_0_2_0_1": "OPP_LAST", "0_1_0_0_2_1_0": "OPP_LAST", "0_1_0_0_2_1_1": "OPP_LAST", "0_1_0_0_2_2_0": "OPP_LAST", "0_1_0_0_2_2_1": "OPP_LAST", "0_1_0_0_3_0_0": "OPP_LAST", "0_1_0_0_3_0_1": "OPP_LAST", "0_1_0_0_3_1_0": "OPP_LAST", "0_1_0_0_3_1_1": "OPP_LAST", "0_1_0_0_3_2_0": "OPP_LAST", "0_1_0_0_3_2_1": "OPP_LAST", "0_1_0_1_0_0_0": "SAME", "0_1_0_1_0_0_1": "SAME", "0_1_0_1_0_1_0": "SAME", "0_1_0_1_0_1_1": "SAME", "0_1_0_1_0_2_0": "SAME", "0_1_0_1_0_2_1": "SAME", "0_1_0_1_1_0_0": "SAME", "0_1_0_1_1_0_1": "SAME", "0_1_0_1_1_1_0": "SAME", "0_1_0_1_1_1_1": "SAME", "0_1_0_1_1_2_0": "SAME", "0_1_0_1_1_2_1": "SAME", "0_1_0_1_2_0_0": "OPP_LAST", "0_1_0_1_2_0_1": "OPP_LAST", "0_1_0_1_2_1_0": "OPP_LAST", "0_1_0_1_2_1_1": "OPP_LAST", "0_1_0_1_2_2_0": "OPP_LAST", "0_1_0_1_2_2_1": "OPP_LAST", "0_1_0_1_3_0_0": "OPP_LAST", "0_1_0_1_3_0_1": "OPP_LAST", "0_1_0_1_3_1_0": "OPP_LAST", "0_1_0_1_3_1_1": "OPP_LAST", "0_1_0_1_3_2_0": "OPP_LAST", "0_1_0_1_3_2_1": "OPP_LAST", "0_1_0_2_0_0_0": "SAME", "0_1_0_2_0_0_1": "SAME", "0_1_0_2_0_1_0": "SAME", "0_1_0_2_0_1_1": "SAME", "0_1_0_2_0_2_0": "SAME", "0_1_0_2_0_2_1": "SAME", "0_1_0_2_1_0_0": "SAME", "0_1_0_2_1_0_1": "SAME", "0_1_0_2_1_1_0": "SAME", "0_1_0_2_1_1_1": "SAME", "0_1_0_2_1_2_0": "SAME", "0_1_0_2_1_2_1": "SAME", "0_1_0_2_2_0_0": "OPP_LAST", "0_1_0_2_2_0_1": "OPP_LAST", "0_1_0_2_2_1_0": "OPP_LAST", "0_1_0_2_2_1_1": "OPP_LAST", "0_1_0_2_2_2_0": "OPP_LAST", "0_1_0_2_2_2_1": "OPP_LAST", "0_1_0_2_3_0_0": "OPP_LAST", "0_1_0_2_3_0_1": "OPP_LAST", "0_1_0_2_3_1_0": "OPP_LAST", "0_1_0_2_3_1_1": "OPP_LAST", "0_1_0_2_3_2_0": "OPP_LAST", "0_1_0_2_3_2_1": "OPP_LAST", "0_1_0_3_0_0_0": "SAME", "0_1_0_3_0_0_1": "SAME", "0_1_0_3_0_1_0": "SAME", "0_1_0_3_0_1_1": "SAME", "0_1_0_3_0_2_0": "SAME", "0_1_0_3_0_2_1": "SAME", "0_1_0_3_1_0_0": "SAME", "0_1_0_3_1_0_1": "SAME", "0_1_0_3_1_1_0": "SAME", "0_1_0_3_1_1_1": "SAME", "0_1_0_3_1_2_0": "SAME", "0_1_0_3_1_2_1": "SAME", "0_1_0_3_2_0_0": "OPP_LAST", "0_1_0_3_2_0_1": "OPP_LAST", "0_1_0_3_2_1_0": "OPP_LAST", "0_1_0_3_2_1_1": "OPP_LAST", "0_1_0_3_2_2_0": "OPP_LAST", "0_1_0_3_2_2_1": "OPP_LAST", "0_1_0_3_3_0_0": "OPP_LAST", "0_1_0_3_3_0_1": "OPP_LAST", "0_1_0_3_3_1_0": "OPP_LAST", "0_1_0_3_3_1_1": "OPP_LAST", "0_1_0_3_3_2_0": "OPP_LAST", "0_1_0_3_3_2_1": "OPP_LAST", "0_1_1_0_0_0_0": "SAME", "0_1_1_0_0_0_1": "SAME", "0_1_1_0_0_1_0": "SAME", "0_1_1_0_0_1_1": "SAME", "0_1_1_0_0_2_0": "SAME", "0_1_1_0_0_2_1": "SAME", "0_1_1_0_1_0_0": "SAME", "0_1_1_0_1_0_1": "SAME", "0_1_1_0_1_1_0": "SAME", "0_1_1_0_1_1_1": "SAME", "0_1_1_0_1_2_0": "SAME", "0_1_1_0_1_2_1": "SAME", "0_1_1_0_2_0_0": "OPP_LAST", "0_1_1_0_2_0_1": "OPP_LAST", "0_1_1_0_2_1_0": "OPP_LAST", "0_1_1_0_2_1_1": "OPP_LAST", "0_1_1_0_2_2_0": "OPP_LAST", "0_1_1_0_2_2_1": "OPP_LAST", "0_1_1_0_3_0_0": "OPP_LAST", "0_1_1_0_3_0_1": "OPP_LAST", "0_1_1_0_3_1_0": "OPP_LAST", "0_1_1_0_3_1_1": "OPP_LAST", "0_1_1_0_3_2_0": "OPP_LAST", "0_1_1_0_3_2_1": "OPP_LAST", "0_1_1_1_0_0_0": "SAME", "0_1_1_1_0_0_1": "SAME", "0_1_1_1_0_1_0": "SAME", "0_1_1_1_0_1_1": "SAME", "0_1_1_1_0_2_0": "SAME", "0_1_1_1_0_2_1": "SAME", "0_1_1_1_1_0_0": "SAME", "0_1_1_1_1_0_1": "SAME", "0_1_1_1_1_1_0": "SAME", "0_1_1_1_1_1_1": "SAME", "0_1_1_1_1_2_0": "SAME", "0_1_1_1_1_2_1": "SAME", "0_1_1_1_2_0_0": "OPP_LAST", "0_1_1_1_2_0_1": "OPP_LAST", "0_1_1_1_2_1_0": "OPP_LAST", "0_1_1_1_2_1_1": "OPP_LAST", "0_1_1_1_2_2_0": "OPP_LAST", "0_1_1_1_2_2_1": "OPP_LAST", "0_1_1_1_3_0_0": "OPP_LAST", "0_1_1_1_3_0_1": "OPP_LAST", "0_1_1_1_3_1_0": "OPP_LAST", "0_1_1_1_3_1_1": "OPP_LAST", "0_1_1_1_3_2_0": "OPP", "0_1_1_1_3_2_1": "SAME", "0_1_1_2_0_0_0": "SAME", "0_1_1_2_0_0_1": "SAME", "0_1_1_2_0_1_0": "SAME", "0_1_1_2_0_1_1": "SAME", "0_1_1_2_0_2_0": "SAME", "0_1_1_2_0_2_1": "SAME", "0_1_1_2_1_0_0": "SAME", "0_1_1_2_1_0_1": "SAME", "0_1_1_2_1_1_0": "SAME", "0_1_1_2_1_1_1": "SAME", "0_1_1_2_1_2_0": "SAME", "0_1_1_2_1_2_1": "SAME", "0_1_1_2_2_0_0": "OPP_LAST", "0_1_1_2_2_0_1": "OPP_LAST", "0_1_1_2_2_1_0": "OPP_LAST", "0_1_1_2_2_1_1": "OPP_LAST", "0_1_1_2_2_2_0": "SAME", "0_1_1_2_2_2_1": "SAME", "0_1_1_2_3_0_0": "OPP_LAST", "0_1_1_2_3_0_1": "OPP_LAST", "0_1_1_2_3_1_0": "OPP_LAST", "0_1_1_2_3_1_1": "OPP_LAST", "0_1_1_2_3_2_0": "OPP_LAST", "0_1_1_2_3_2_1": "OPP_LAST", "0_1_1_3_0_0_0": "SAME", "0_1_1_3_0_0_1": "SAME", "0_1_1_3_0_1_0": "SAME", "0_1_1_3_0_1_1": "SAME", "0_1_1_3_0_2_0": "SAME", "0_1_1_3_0_2_1": "SAME", "0_1_1_3_1_0_0": "SAME", "0_1_1_3_1_0_1": "SAME", "0_1_1_3_1_1_0": "SAME", "0_1_1_3_1_1_1": "SAME", "0_1_1_3_1_2_0": "SAME", "0_1_1_3_1_2_1": "SAME", "0_1_1_3_2_0_0": "OPP_LAST", "0_1_1_3_2_0_1": "OPP_LAST", "0_1_1_3_2_1_0": "OPP_LAST", "0_1_1_3_2_1_1": "OPP_LAST", "0_1_1_3_2_2_0": "OPP_LAST", "0_1_1_3_2_2_1": "OPP_LAST", "0_1_1_3_3_0_0": "OPP_LAST", "0_1_1_3_3_0_1": "OPP_LAST", "0_1_1_3_3_1_0": "OPP_LAST", "0_1_1_3_3_1_1": "OPP_LAST", "0_1_1_3_3_2_0": "OPP_LAST", "0_1_1_3_3_2_1": "OPP_LAST", "0_1_2_0_0_0_0": "SAME", "0_1_2_0_0_0_1": "SAME", "0_1_2_0_0_1_0": "SAME", "0_1_2_0_0_1_1": "SAME", "0_1_2_0_0_2_0": "SAME", "0_1_2_0_0_2_1": "SAME", "0_1_2_0_1_0_0": "SAME", "0_1_2_0_1_0_1": "SAME", "0_1_2_0_1_1_0": "SAME", "0_1_2_0_1_1_1": "SAME", "0_1_2_0_1_2_0": "SAME", "0_1_2_0_1_2_1": "SAME", "0_1_2_0_2_0_0": "OPP_LAST", "0_1_2_0_2_0_1": "OPP_LAST", "0_1_2_0_2_1_0": "OPP_LAST", "0_1_2_0_2_1_1": "OPP_LAST", "0_1_2_0_2_2_0": "OPP_LAST", "0_1_2_0_2_2_1": "OPP_LAST", "0_1_2_0_3_0_0": "OPP_LAST", "0_1_2_0_3_0_1": "OPP_LAST", "0_1_2_0_3_1_0": "OPP_LAST", "0_1_2_0_3_1_1": "OPP_LAST", "0_1_2_0_3_2_0": "OPP_LAST", "0_1_2_0_3_2_1": "OPP_LAST", "0_1_2_1_0_0_0": "SAME", "0_1_2_1_0_0_1": "SAME", "0_1_2_1_0_1_0": "SAME", "0_1_2_1_0_1_1": "SAME", "0_1_2_1_0_2_0": "SAME", "0_1_2_1_0_2_1": "SAME", "0_1_2_1_1_0_0": "SAME", "0_1_2_1_1_0_1": "SAME", "0_1_2_1_1_1_0": "SAME", "0_1_2_1_1_1_1": "SAME", "0_1_2_1_1_2_0": "SAME", "0_1_2_1_1_2_1": "OPP", "0_1_2_1_2_0_0": "OPP_LAST", "0_1_2_1_2_0_1": "OPP_LAST", "0_1_2_1_2_1_0": "OPP_LAST", "0_1_2_1_2_1_1": "OPP_LAST", "0_1_2_1_2_2_0": "OPP_LAST", "0_1_2_1_2_2_1": "OPP_LAST", "0_1_2_1_3_0_0": "OPP_LAST", "0_1_2_1_3_0_1": "OPP_LAST", "0_1_2_1_3_1_0": "OPP_LAST", "0_1_2_1_3_1_1": "OPP_LAST", "0_1_2_1_3_2_0": "OPP_LAST", "0_1_2_1_3_2_1": "OPP_LAST", "0_1_2_2_0_0_0": "SAME", "0_1_2_2_0_0_1": "SAME", "0_1_2_2_0_1_0": "SAME", "0_1_2_2_0_1_1": "SAME", "0_1_2_2_0_2_0": "SAME", "0_1_2_2_0_2_1": "SAME", "0_1_2_2_1_0_0": "SAME", "0_1_2_2_1_0_1": "SAME", "0_1_2_2_1_1_0": "SAME", "0_1_2_2_1_1_1": "OPP", "0_1_2_2_1_2_0": "SAME", "0_1_2_2_1_2_1": "SAME", "0_1_2_2_2_0_0": "OPP_LAST", "0_1_2_2_2_0_1": "OPP_LAST", "0_1_2_2_2_1_0": "OPP_LAST", "0_1_2_2_2_1_1": "OPP_LAST", "0_1_2_2_2_2_0": "OPP_LAST", "0_1_2_2_2_2_1": "OPP_LAST", "0_1_2_2_3_0_0": "OPP_LAST", "0_1_2_2_3_0_1": "OPP_LAST", "0_1_2_2_3_1_0": "OPP_LAST", "0_1_2_2_3_1_1": "OPP_LAST", "0_1_2_2_3_2_0": "OPP_LAST", "0_1_2_2_3_2_1": "OPP_LAST", "0_1_2_3_0_0_0": "SAME", "0_1_2_3_0_0_1": "SAME", "0_1_2_3_0_1_0": "SAME", "0_1_2_3_0_1_1": "SAME", "0_1_2_3_0_2_0": "SAME", "0_1_2_3_0_2_1": "SAME", "0_1_2_3_1_0_0": "SAME", "0_1_2_3_1_0_1": "SAME", "0_1_2_3_1_1_0": "SAME", "0_1_2_3_1_1_1": "OPP", "0_1_2_3_1_2_0": "SAME", "0_1_2_3_1_2_1": "SAME", "0_1_2_3_2_0_0": "OPP_LAST", "0_1_2_3_2_0_1": "OPP_LAST", "0_1_2_3_2_1_0": "OPP_LAST", "0_1_2_3_2_1_1": "OPP_LAST", "0_1_2_3_2_2_0": "OPP_LAST", "0_1_2_3_2_2_1": "OPP_LAST", "0_1_2_3_3_0_0": "OPP_LAST", "0_1_2_3_3_0_1": "OPP_LAST", "0_1_2_3_3_1_0": "OPP_LAST", "0_1_2_3_3_1_1": "OPP_LAST", "0_1_2_3_3_2_0": "OPP_LAST", "0_1_2_3_3_2_1": "OPP_LAST", "0_1_3_0_0_0_0": "SAME", "0_1_3_0_0_0_1": "SAME", "0_1_3_0_0_1_0": "SAME", "0_1_3_0_0_1_1": "SAME", "0_1_3_0_0_2_0": "SAME", "0_1_3_0_0_2_1": "SAME", "0_1_3_0_1_0_0": "OPP", "0_1_3_0_1_0_1": "SAME", "0_1_3_0_1_1_0": "SAME", "0_1_3_0_1_1_1": "SAME", "0_1_3_0_1_2_0": "SAME", "0_1_3_0_1_2_1": "SAME", "0_1_3_0_2_0_0": "OPP_LAST", "0_1_3_0_2_0_1": "OPP_LAST", "0_1_3_0_2_1_0": "OPP_LAST", "0_1_3_0_2_1_1": "OPP_LAST", "0_1_3_0_2_2_0": "OPP_LAST", "0_1_3_0_2_2_1": "OPP_LAST", "0_1_3_0_3_0_0": "OPP_LAST", "0_1_3_0_3_0_1": "OPP_LAST", "0_1_3_0_3_1_0": "OPP_LAST", "0_1_3_0_3_1_1": "OPP_LAST", "0_1_3_0_3_2_0": "OPP_LAST", "0_1_3_0_3_2_1": "OPP_LAST", "0_1_3_1_0_0_0": "SAME", "0_1_3_1_0_0_1": "SAME", "0_1_3_1_0_1_0": "SAME", "0_1_3_1_0_1_1": "SAME", "0_1_3_1_0_2_0": "SAME", "0_1_3_1_0_2_1": "SAME", "0_1_3_1_1_0_0": "OPP", "0_1_3_1_1_0_1": "SAME", "0_1_3_1_1_1_0": "SAME", "0_1_3_1_1_1_1": "OPP", "0_1_3_1_1_2_0": "SAME", "0_1_3_1_1_2_1": "SAME", "0_1_3_1_2_0_0": "OPP_LAST", "0_1_3_1_2_0_1": "OPP_LAST", "0_1_3_1_2_1_0": "OPP_LAST", "0_1_3_1_2_1_1": "OPP_LAST", "0_1_3_1_2_2_0": "OPP_LAST", "0_1_3_1_2_2_1": "OPP_LAST", "0_1_3_1_3_0_0": "OPP_LAST", "0_1_3_1_3_0_1": "OPP_LAST", "0_1_3_1_3_1_0": "OPP_LAST", "0_1_3_1_3_1_1": "OPP_LAST", "0_1_3_1_3_2_0": "OPP_LAST", "0_1_3_1_3_2_1": "OPP_LAST", "0_1_3_2_0_0_0": "SAME", "0_1_3_2_0_0_1": "SAME", "0_1_3_2_0_1_0": "SAME", "0_1_3_2_0_1_1": "SAME", "0_1_3_2_0_2_0": "SAME", "0_1_3_2_0_2_1": "SAME", "0_1_3_2_1_0_0": "SAME", "0_1_3_2_1_0_1": "SAME", "0_1_3_2_1_1_0": "SAME", "0_1_3_2_1_1_1": "SAME", "0_1_3_2_1_2_0": "SAME", "0_1_3_2_1_2_1": "SAME", "0_1_3_2_2_0_0": "OPP_LAST", "0_1_3_2_2_0_1": "OPP_LAST", "0_1_3_2_2_1_0": "OPP_LAST", "0_1_3_2_2_1_1": "OPP_LAST", "0_1_3_2_2_2_0": "OPP_LAST", "0_1_3_2_2_2_1": "OPP_LAST", "0_1_3_2_3_0_0": "OPP_LAST", "0_1_3_2_3_0_1": "OPP_LAST", "0_1_3_2_3_1_0": "OPP_LAST", "0_1_3_2_3_1_1": "OPP_LAST", "0_1_3_2_3_2_0": "OPP_LAST", "0_1_3_2_3_2_1": "OPP_LAST", "0_1_3_3_0_0_0": "SAME", "0_1_3_3_0_0_1": "SAME", "0_1_3_3_0_1_0": "SAME", "0_1_3_3_0_1_1": "SAME", "0_1_3_3_0_2_0": "SAME", "0_1_3_3_0_2_1": "SAME", "0_1_3_3_1_0_0": "SAME", "0_1_3_3_1_0_1": "SAME", "0_1_3_3_1_1_0": "SAME", "0_1_3_3_1_1_1": "OPP", "0_1_3_3_1_2_0": "SAME", "0_1_3_3_1_2_1": "SAME", "0_1_3_3_2_0_0": "OPP_LAST", "0_1_3_3_2_0_1": "OPP_LAST", "0_1_3_3_2_1_0": "OPP_LAST", "0_1_3_3_2_1_1": "OPP_LAST", "0_1_3_3_2_2_0": "OPP_LAST", "0_1_3_3_2_2_1": "OPP_LAST", "0_1_3_3_3_0_0": "OPP_LAST", "0_1_3_3_3_0_1": "OPP_LAST", "0_1_3_3_3_1_0": "OPP_LAST", "0_1_3_3_3_1_1": "OPP_LAST", "0_1_3_3_3_2_0": "OPP_LAST", "0_1_3_3_3_2_1": "OPP_LAST", "0_2_0_0_0_0_0": "SAME", "0_2_0_0_0_0_1": "SAME", "0_2_0_0_0_1_0": "SAME", "0_2_0_0_0_1_1": "SAME", "0_2_0_0_0_2_0": "SAME", "0_2_0_0_0_2_1": "SAME", "0_2_0_0_1_0_0": "SAME", "0_2_0_0_1_0_1": "SAME", "0_2_0_0_1_1_0": "SAME", "0_2_0_0_1_1_1": "SAME", "0_2_0_0_1_2_0": "SAME", "0_2_0_0_1_2_1": "SAME", "0_2_0_0_2_0_0": "SAME", "0_2_0_0_2_0_1": "SAME", "0_2_0_0_2_1_0": "SAME", "0_2_0_0_2_1_1": "SAME", "0_2_0_0_2_2_0": "SAME", "0_2_0_0_2_2_1": "SAME", "0_2_0_0_3_0_0": "SAME", "0_2_0_0_3_0_1": "SAME", "0_2_0_0_3_1_0": "SAME", "0_2_0_0_3_1_1": "SAME", "0_2_0_0_3_2_0": "SAME", "0_2_0_0_3_2_1": "SAME", "0_2_0_1_0_0_0": "SAME", "0_2_0_1_0_0_1": "SAME", "0_2_0_1_0_1_0": "SAME", "0_2_0_1_0_1_1": "SAME", "0_2_0_1_0_2_0": "SAME", "0_2_0_1_0_2_1": "SAME", "0_2_0_1_1_0_0": "SAME", "0_2_0_1_1_0_1": "SAME", "0_2_0_1_1_1_0": "SAME", "0_2_0_1_1_1_1": "SAME", "0_2_0_1_1_2_0": "SAME", "0_2_0_1_1_2_1": "SAME", "0_2_0_1_2_0_0": "SAME", "0_2_0_1_2_0_1": "SAME", "0_2_0_1_2_1_0": "SAME", "0_2_0_1_2_1_1": "SAME", "0_2_0_1_2_2_0": "SAME", "0_2_0_1_2_2_1": "SAME", "0_2_0_1_3_0_0": "SAME", "0_2_0_1_3_0_1": "SAME", "0_2_0_1_3_1_0": "SAME", "0_2_0_1_3_1_1": "SAME", "0_2_0_1_3_2_0": "SAME", "0_2_0_1_3_2_1": "SAME", "0_2_0_2_0_0_0": "SAME", "0_2_0_2_0_0_1": "SAME", "0_2_0_2_0_1_0": "SAME", "0_2_0_2_0_1_1": "SAME", "0_2_0_2_0_2_0": "SAME", "0_2_0_2_0_2_1": "SAME", "0_2_0_2_1_0_0": "SAME", "0_2_0_2_1_0_1": "SAME", "0_2_0_2_1_1_0": "SAME", "0_2_0_2_1_1_1": "SAME", "0_2_0_2_1_2_0": "SAME", "0_2_0_2_1_2_1": "SAME", "0_2_0_2_2_0_0": "SAME", "0_2_0_2_2_0_1": "SAME", "0_2_0_2_2_1_0": "SAME", "0_2_0_2_2_1_1": "SAME", "0_2_0_2_2_2_0": "SAME", "0_2_0_2_2_2_1": "SAME", "0_2_0_2_3_0_0": "SAME", "0_2_0_2_3_0_1": "SAME", "0_2_0_2_3_1_0": "SAME", "0_2_0_2_3_1_1": "SAME", "0_2_0_2_3_2_0": "SAME", "0_2_0_2_3_2_1": "SAME", "0_2_0_3_0_0_0": "SAME", "0_2_0_3_0_0_1": "SAME", "0_2_0_3_0_1_0": "SAME", "0_2_0_3_0_1_1": "SAME", "0_2_0_3_0_2_0": "SAME", "0_2_0_3_0_2_1": "SAME", "0_2_0_3_1_0_0": "SAME", "0_2_0_3_1_0_1": "SAME", "0_2_0_3_1_1_0": "SAME", "0_2_0_3_1_1_1": "SAME", "0_2_0_3_1_2_0": "SAME", "0_2_0_3_1_2_1": "SAME", "0_2_0_3_2_0_0": "SAME", "0_2_0_3_2_0_1": "SAME", "0_2_0_3_2_1_0": "SAME", "0_2_0_3_2_1_1": "SAME", "0_2_0_3_2_2_0": "SAME", "0_2_0_3_2_2_1": "SAME", "0_2_0_3_3_0_0": "SAME", "0_2_0_3_3_0_1": "SAME", "0_2_0_3_3_1_0": "SAME", "0_2_0_3_3_1_1": "SAME", "0_2_0_3_3_2_0": "SAME", "0_2_0_3_3_2_1": "SAME", "0_2_1_0_0_0_0": "OPP", "0_2_1_0_0_0_1": "SAME", "0_2_1_0_0_1_0": "SAME", "0_2_1_0_0_1_1": "SAME", "0_2_1_0_0_2_0": "SAME", "0_2_1_0_0_2_1": "SAME", "0_2_1_0_1_0_0": "SAME", "0_2_1_0_1_0_1": "SAME", "0_2_1_0_1_1_0": "SAME", "0_2_1_0_1_1_1": "SAME", "0_2_1_0_1_2_0": "SAME", "0_2_1_0_1_2_1": "SAME", "0_2_1_0_2_0_0": "SAME", "0_2_1_0_2_0_1": "SAME", "0_2_1_0_2_1_0": "SAME", "0_2_1_0_2_1_1": "SAME", "0_2_1_0_2_2_0": "SAME", "0_2_1_0_2_2_1": "SAME", "0_2_1_0_3_0_0": "SAME", "0_2_1_0_3_0_1": "SAME", "0_2_1_0_3_1_0": "SAME", "0_2_1_0_3_1_1": "SAME", "0_2_1_0_3_2_0": "SAME", "0_2_1_0_3_2_1": "SAME", "0_2_1_1_0_0_0": "SAME", "0_2_1_1_0_0_1": "SAME", "0_2_1_1_0_1_0": "SAME", "0_2_1_1_0_1_1": "OPP", "0_2_1_1_0_2_0": "OPP", "0_2_1_1_0_2_1": "OPP", "0_2_1_1_1_0_0": "SAME", "0_2_1_1_1_0_1": "SAME", "0_2_1_1_1_1_0": "SAME", "0_2_1_1_1_1_1": "SAME", "0_2_1_1_1_2_0": "SAME", "0_2_1_1_1_2_1": "SAME", "0_2_1_1_2_0_0": "SAME", "0_2_1_1_2_0_1": "SAME", "0_2_1_1_2_1_0": "SAME", "0_2_1_1_2_1_1": "SAME", "0_2_1_1_2_2_0": "SAME", "0_2_1_1_2_2_1": "SAME", "0_2_1_1_3_0_0": "SAME", "0_2_1_1_3_0_1": "SAME", "0_2_1_1_3_1_0": "SAME", "0_2_1_1_3_1_1": "SAME", "0_2_1_1_3_2_0": "SAME", "0_2_1_1_3_2_1": "SAME", "0_2_1_2_0_0_0": "SAME", "0_2_1_2_0_0_1": "SAME", "0_2_1_2_0_1_0": "OPP", "0_2_1_2_0_1_1": "SAME", "0_2_1_2_0_2_0": "SAME", "0_2_1_2_0_2_1": "SAME", "0_2_1_2_1_0_0": "SAME", "0_2_1_2_1_0_1": "SAME", "0_2_1_2_1_1_0": "SAME", "0_2_1_2_1_1_1": "SAME", "0_2_1_2_1_2_0": "SAME", "0_2_1_2_1_2_1": "SAME", "0_2_1_2_2_0_0": "SAME", "0_2_1_2_2_0_1": "SAME", "0_2_1_2_2_1_0": "SAME", "0_2_1_2_2_1_1": "SAME", "0_2_1_2_2_2_0": "SAME", "0_2_1_2_2_2_1": "SAME", "0_2_1_2_3_0_0": "SAME", "0_2_1_2_3_0_1": "SAME", "0_2_1_2_3_1_0": "SAME", "0_2_1_2_3_1_1": "SAME", "0_2_1_2_3_2_0": "SAME", "0_2_1_2_3_2_1": "SAME", "0_2_1_3_0_0_0": "SAME", "0_2_1_3_0_0_1": "SAME", "0_2_1_3_0_1_0": "SAME", "0_2_1_3_0_1_1": "OPP", "0_2_1_3_0_2_0": "SAME", "0_2_1_3_0_2_1": "SAME", "0_2_1_3_1_0_0": "SAME", "0_2_1_3_1_0_1": "SAME", "0_2_1_3_1_1_0": "SAME", "0_2_1_3_1_1_1": "SAME", "0_2_1_3_1_2_0": "SAME", "0_2_1_3_1_2_1": "SAME", "0_2_1_3_2_0_0": "SAME", "0_2_1_3_2_0_1": "SAME", "0_2_1_3_2_1_0": "SAME", "0_2_1_3_2_1_1": "SAME", "0_2_1_3_2_2_0": "SAME", "0_2_1_3_2_2_1": "SAME", "0_2_1_3_3_0_0": "SAME", "0_2_1_3_3_0_1": "SAME", "0_2_1_3_3_1_0": "SAME", "0_2_1_3_3_1_1": "SAME", "0_2_1_3_3_2_0": "SAME", "0_2_1_3_3_2_1": "SAME", "0_2_2_0_0_0_0": "SAME", "0_2_2_0_0_0_1": "SAME", "0_2_2_0_0_1_0": "SAME", "0_2_2_0_0_1_1": "SAME", "0_2_2_0_0_2_0": "SAME", "0_2_2_0_0_2_1": "SAME", "0_2_2_0_1_0_0": "SAME", "0_2_2_0_1_0_1": "SAME", "0_2_2_0_1_1_0": "SAME", "0_2_2_0_1_1_1": "SAME", "0_2_2_0_1_2_0": "SAME", "0_2_2_0_1_2_1": "SAME", "0_2_2_0_2_0_0": "SAME", "0_2_2_0_2_0_1": "SAME", "0_2_2_0_2_1_0": "SAME", "0_2_2_0_2_1_1": "SAME", "0_2_2_0_2_2_0": "SAME", "0_2_2_0_2_2_1": "SAME", "0_2_2_0_3_0_0": "SAME", "0_2_2_0_3_0_1": "SAME", "0_2_2_0_3_1_0": "SAME", "0_2_2_0_3_1_1": "SAME", "0_2_2_0_3_2_0": "SAME", "0_2_2_0_3_2_1": "SAME", "0_2_2_1_0_0_0": "SAME", "0_2_2_1_0_0_1": "SAME", "0_2_2_1_0_1_0": "SAME", "0_2_2_1_0_1_1": "SAME", "0_2_2_1_0_2_0": "SAME", "0_2_2_1_0_2_1": "SAME", "0_2_2_1_1_0_0": "SAME", "0_2_2_1_1_0_1": "SAME", "0_2_2_1_1_1_0": "SAME", "0_2_2_1_1_1_1": "SAME", "0_2_2_1_1_2_0": "SAME", "0_2_2_1_1_2_1": "SAME", "0_2_2_1_2_0_0": "SAME", "0_2_2_1_2_0_1": "SAME", "0_2_2_1_2_1_0": "SAME", "0_2_2_1_2_1_1": "SAME", "0_2_2_1_2_2_0": "SAME", "0_2_2_1_2_2_1": "SAME", "0_2_2_1_3_0_0": "SAME", "0_2_2_1_3_0_1": "SAME", "0_2_2_1_3_1_0": "SAME", "0_2_2_1_3_1_1": "SAME", "0_2_2_1_3_2_0": "SAME", "0_2_2_1_3_2_1": "SAME", "0_2_2_2_0_0_0": "SAME", "0_2_2_2_0_0_1": "SAME", "0_2_2_2_0_1_0": "SAME", "0_2_2_2_0_1_1": "SAME", "0_2_2_2_0_2_0": "SAME", "0_2_2_2_0_2_1": "SAME", "0_2_2_2_1_0_0": "SAME", "0_2_2_2_1_0_1": "SAME", "0_2_2_2_1_1_0": "SAME", "0_2_2_2_1_1_1": "SAME", "0_2_2_2_1_2_0": "SAME", "0_2_2_2_1_2_1": "SAME", "0_2_2_2_2_0_0": "SAME", "0_2_2_2_2_0_1": "SAME", "0_2_2_2_2_1_0": "SAME", "0_2_2_2_2_1_1": "SAME", "0_2_2_2_2_2_0": "SAME", "0_2_2_2_2_2_1": "SAME", "0_2_2_2_3_0_0": "SAME", "0_2_2_2_3_0_1": "SAME", "0_2_2_2_3_1_0": "SAME", "0_2_2_2_3_1_1": "SAME", "0_2_2_2_3_2_0": "SAME", "0_2_2_2_3_2_1": "SAME", "0_2_2_3_0_0_0": "SAME", "0_2_2_3_0_0_1": "SAME", "0_2_2_3_0_1_0": "SAME", "0_2_2_3_0_1_1": "SAME", "0_2_2_3_0_2_0": "SAME", "0_2_2_3_0_2_1": "SAME", "0_2_2_3_1_0_0": "SAME", "0_2_2_3_1_0_1": "SAME", "0_2_2_3_1_1_0": "SAME", "0_2_2_3_1_1_1": "SAME", "0_2_2_3_1_2_0": "SAME", "0_2_2_3_1_2_1": "SAME", "0_2_2_3_2_0_0": "SAME", "0_2_2_3_2_0_1": "SAME", "0_2_2_3_2_1_0": "SAME", "0_2_2_3_2_1_1": "SAME", "0_2_2_3_2_2_0": "SAME", "0_2_2_3_2_2_1": "SAME", "0_2_2_3_3_0_0": "SAME", "0_2_2_3_3_0_1": "SAME", "0_2_2_3_3_1_0": "SAME", "0_2_2_3_3_1_1": "SAME", "0_2_2_3_3_2_0": "SAME", "0_2_2_3_3_2_1": "SAME", "0_2_3_0_0_0_0": "SAME", "0_2_3_0_0_0_1": "SAME", "0_2_3_0_0_1_0": "SAME", "0_2_3_0_0_1_1": "SAME", "0_2_3_0_0_2_0": "SAME", "0_2_3_0_0_2_1": "SAME", "0_2_3_0_1_0_0": "SAME", "0_2_3_0_1_0_1": "SAME", "0_2_3_0_1_1_0": "SAME", "0_2_3_0_1_1_1": "SAME", "0_2_3_0_1_2_0": "SAME", "0_2_3_0_1_2_1": "SAME", "0_2_3_0_2_0_0": "SAME", "0_2_3_0_2_0_1": "SAME", "0_2_3_0_2_1_0": "SAME", "0_2_3_0_2_1_1": "SAME", "0_2_3_0_2_2_0": "SAME", "0_2_3_0_2_2_1": "SAME", "0_2_3_0_3_0_0": "SAME", "0_2_3_0_3_0_1": "SAME", "0_2_3_0_3_1_0": "SAME", "0_2_3_0_3_1_1": "SAME", "0_2_3_0_3_2_0": "SAME", "0_2_3_0_3_2_1": "SAME", "0_2_3_1_0_0_0": "SAME", "0_2_3_1_0_0_1": "SAME", "0_2_3_1_0_1_0": "OPP", "0_2_3_1_0_1_1": "OPP", "0_2_3_1_0_2_0": "SAME", "0_2_3_1_0_2_1": "SAME", "0_2_3_1_1_0_0": "SAME", "0_2_3_1_1_0_1": "SAME", "0_2_3_1_1_1_0": "SAME", "0_2_3_1_1_1_1": "SAME", "0_2_3_1_1_2_0": "SAME", "0_2_3_1_1_2_1": "SAME", "0_2_3_1_2_0_0": "SAME", "0_2_3_1_2_0_1": "SAME", "0_2_3_1_2_1_0": "SAME", "0_2_3_1_2_1_1": "SAME", "0_2_3_1_2_2_0": "SAME", "0_2_3_1_2_2_1": "SAME", "0_2_3_1_3_0_0": "SAME", "0_2_3_1_3_0_1": "SAME", "0_2_3_1_3_1_0": "SAME", "0_2_3_1_3_1_1": "SAME", "0_2_3_1_3_2_0": "SAME", "0_2_3_1_3_2_1": "SAME", "0_2_3_2_0_0_0": "SAME", "0_2_3_2_0_0_1": "OPP", "0_2_3_2_0_1_0": "SAME", "0_2_3_2_0_1_1": "OPP", "0_2_3_2_0_2_0": "SAME", "0_2_3_2_0_2_1": "SAME", "0_2_3_2_1_0_0": "SAME", "0_2_3_2_1_0_1": "SAME", "0_2_3_2_1_1_0": "SAME", "0_2_3_2_1_1_1": "SAME", "0_2_3_2_1_2_0": "SAME", "0_2_3_2_1_2_1": "SAME", "0_2_3_2_2_0_0": "SAME", "0_2_3_2_2_0_1": "SAME", "0_2_3_2_2_1_0": "SAME", "0_2_3_2_2_1_1": "SAME", "0_2_3_2_2_2_0": "SAME", "0_2_3_2_2_2_1": "SAME", "0_2_3_2_3_0_0": "SAME", "0_2_3_2_3_0_1": "SAME", "0_2_3_2_3_1_0": "SAME", "0_2_3_2_3_1_1": "SAME", "0_2_3_2_3_2_0": "SAME", "0_2_3_2_3_2_1": "SAME", "0_2_3_3_0_0_0": "OPP", "0_2_3_3_0_0_1": "OPP", "0_2_3_3_0_1_0": "SAME", "0_2_3_3_0_1_1": "SAME", "0_2_3_3_0_2_0": "SAME", "0_2_3_3_0_2_1": "SAME", "0_2_3_3_1_0_0": "SAME", "0_2_3_3_1_0_1": "SAME", "0_2_3_3_1_1_0": "SAME", "0_2_3_3_1_1_1": "SAME", "0_2_3_3_1_2_0": "SAME", "0_2_3_3_1_2_1": "SAME", "0_2_3_3_2_0_0": "SAME", "0_2_3_3_2_0_1": "SAME", "0_2_3_3_2_1_0": "SAME", "0_2_3_3_2_1_1": "SAME", "0_2_3_3_2_2_0": "SAME", "0_2_3_3_2_2_1": "SAME", "0_2_3_3_3_0_0": "SAME", "0_2_3_3_3_0_1": "SAME", "0_2_3_3_3_1_0": "SAME", "0_2_3_3_3_1_1": "SAME", "0_2_3_3_3_2_0": "SAME", "0_2_3_3_3_2_1": "SAME", "0_3_0_0_0_0_0": "SAME", "0_3_0_0_0_0_1": "OPP", "0_3_0_0_0_1_0": "SAME", "0_3_0_0_0_1_1": "SAME", "0_3_0_0_0_2_0": "SAME", "0_3_0_0_0_2_1": "SAME", "0_3_0_0_1_0_0": "SAME", "0_3_0_0_1_0_1": "SAME", "0_3_0_0_1_1_0": "SAME", "0_3_0_0_1_1_1": "SAME", "0_3_0_0_1_2_0": "SAME", "0_3_0_0_1_2_1": "SAME", "0_3_0_0_2_0_0": "SAME", "0_3_0_0_2_0_1": "SAME", "0_3_0_0_2_1_0": "SAME", "0_3_0_0_2_1_1": "SAME", "0_3_0_0_2_2_0": "SAME", "0_3_0_0_2_2_1": "SAME", "0_3_0_0_3_0_0": "SAME", "0_3_0_0_3_0_1": "SAME", "0_3_0_0_3_1_0": "SAME", "0_3_0_0_3_1_1": "SAME", "0_3_0_0_3_2_0": "SAME", "0_3_0_0_3_2_1": "SAME", "0_3_0_1_0_0_0": "SAME", "0_3_0_1_0_0_1": "SAME", "0_3_0_1_0_1_0": "SAME", "0_3_0_1_0_1_1": "SAME", "0_3_0_1_0_2_0": "SAME", "0_3_0_1_0_2_1": "SAME", "0_3_0_1_1_0_0": "SAME", "0_3_0_1_1_0_1": "SAME", "0_3_0_1_1_1_0": "SAME", "0_3_0_1_1_1_1": "SAME", "0_3_0_1_1_2_0": "SAME", "0_3_0_1_1_2_1": "SAME", "0_3_0_1_2_0_0": "SAME", "0_3_0_1_2_0_1": "SAME", "0_3_0_1_2_1_0": "SAME", "0_3_0_1_2_1_1": "SAME", "0_3_0_1_2_2_0": "SAME", "0_3_0_1_2_2_1": "SAME", "0_3_0_1_3_0_0": "SAME", "0_3_0_1_3_0_1": "SAME", "0_3_0_1_3_1_0": "SAME", "0_3_0_1_3_1_1": "SAME", "0_3_0_1_3_2_0": "SAME", "0_3_0_1_3_2_1": "SAME", "0_3_0_2_0_0_0": "SAME", "0_3_0_2_0_0_1": "SAME", "0_3_0_2_0_1_0": "SAME", "0_3_0_2_0_1_1": "SAME", "0_3_0_2_0_2_0": "SAME", "0_3_0_2_0_2_1": "SAME", "0_3_0_2_1_0_0": "SAME", "0_3_0_2_1_0_1": "SAME", "0_3_0_2_1_1_0": "SAME", "0_3_0_2_1_1_1": "SAME", "0_3_0_2_1_2_0": "SAME", "0_3_0_2_1_2_1": "SAME", "0_3_0_2_2_0_0": "SAME", "0_3_0_2_2_0_1": "SAME", "0_3_0_2_2_1_0": "SAME", "0_3_0_2_2_1_1": "SAME", "0_3_0_2_2_2_0": "SAME", "0_3_0_2_2_2_1": "SAME", "0_3_0_2_3_0_0": "SAME", "0_3_0_2_3_0_1": "SAME", "0_3_0_2_3_1_0": "SAME", "0_3_0_2_3_1_1": "SAME", "0_3_0_2_3_2_0": "SAME", "0_3_0_2_3_2_1": "SAME", "0_3_0_3_0_0_0": "SAME", "0_3_0_3_0_0_1": "SAME", "0_3_0_3_0_1_0": "SAME", "0_3_0_3_0_1_1": "SAME", "0_3_0_3_0_2_0": "SAME", "0_3_0_3_0_2_1": "SAME", "0_3_0_3_1_0_0": "SAME", "0_3_0_3_1_0_1": "SAME", "0_3_0_3_1_1_0": "SAME", "0_3_0_3_1_1_1": "SAME", "0_3_0_3_1_2_0": "SAME", "0_3_0_3_1_2_1": "SAME", "0_3_0_3_2_0_0": "SAME", "0_3_0_3_2_0_1": "SAME", "0_3_0_3_2_1_0": "SAME", "0_3_0_3_2_1_1": "SAME", "0_3_0_3_2_2_0": "SAME", "0_3_0_3_2_2_1": "SAME", "0_3_0_3_3_0_0": "SAME", "0_3_0_3_3_0_1": "SAME", "0_3_0_3_3_1_0": "SAME", "0_3_0_3_3_1_1": "SAME", "0_3_0_3_3_2_0": "SAME", "0_3_0_3_3_2_1": "SAME", "0_3_1_0_0_0_0": "SAME", "0_3_1_0_0_0_1": "SAME", "0_3_1_0_0_1_0": "SAME", "0_3_1_0_0_1_1": "SAME", "0_3_1_0_0_2_0": "SAME", "0_3_1_0_0_2_1": "SAME", "0_3_1_0_1_0_0": "SAME", "0_3_1_0_1_0_1": "SAME", "0_3_1_0_1_1_0": "SAME", "0_3_1_0_1_1_1": "SAME", "0_3_1_0_1_2_0": "SAME", "0_3_1_0_1_2_1": "SAME", "0_3_1_0_2_0_0": "SAME", "0_3_1_0_2_0_1": "SAME", "0_3_1_0_2_1_0": "SAME", "0_3_1_0_2_1_1": "SAME", "0_3_1_0_2_2_0": "SAME", "0_3_1_0_2_2_1": "SAME", "0_3_1_0_3_0_0": "SAME", "0_3_1_0_3_0_1": "SAME", "0_3_1_0_3_1_0": "SAME", "0_3_1_0_3_1_1": "SAME", "0_3_1_0_3_2_0": "SAME", "0_3_1_0_3_2_1": "SAME", "0_3_1_1_0_0_0": "SAME", "0_3_1_1_0_0_1": "SAME", "0_3_1_1_0_1_0": "OPP", "0_3_1_1_0_1_1": "SAME", "0_3_1_1_0_2_0": "SAME", "0_3_1_1_0_2_1": "SAME", "0_3_1_1_1_0_0": "SAME", "0_3_1_1_1_0_1": "SAME", "0_3_1_1_1_1_0": "SAME", "0_3_1_1_1_1_1": "SAME", "0_3_1_1_1_2_0": "SAME", "0_3_1_1_1_2_1": "SAME", "0_3_1_1_2_0_0": "SAME", "0_3_1_1_2_0_1": "SAME", "0_3_1_1_2_1_0": "SAME", "0_3_1_1_2_1_1": "SAME", "0_3_1_1_2_2_0": "SAME", "0_3_1_1_2_2_1": "SAME", "0_3_1_1_3_0_0": "SAME", "0_3_1_1_3_0_1": "SAME", "0_3_1_1_3_1_0": "SAME", "0_3_1_1_3_1_1": "SAME", "0_3_1_1_3_2_0": "SAME", "0_3_1_1_3_2_1": "SAME", "0_3_1_2_0_0_0": "SAME", "0_3_1_2_0_0_1": "SAME", "0_3_1_2_0_1_0": "OPP", "0_3_1_2_0_1_1": "SAME", "0_3_1_2_0_2_0": "SAME", "0_3_1_2_0_2_1": "SAME", "0_3_1_2_1_0_0": "SAME", "0_3_1_2_1_0_1": "SAME", "0_3_1_2_1_1_0": "SAME", "0_3_1_2_1_1_1": "SAME", "0_3_1_2_1_2_0": "SAME", "0_3_1_2_1_2_1": "SAME", "0_3_1_2_2_0_0": "SAME", "0_3_1_2_2_0_1": "SAME", "0_3_1_2_2_1_0": "SAME", "0_3_1_2_2_1_1": "SAME", "0_3_1_2_2_2_0": "SAME", "0_3_1_2_2_2_1": "SAME", "0_3_1_2_3_0_0": "SAME", "0_3_1_2_3_0_1": "SAME", "0_3_1_2_3_1_0": "SAME", "0_3_1_2_3_1_1": "SAME", "0_3_1_2_3_2_0": "SAME", "0_3_1_2_3_2_1": "SAME", "0_3_1_3_0_0_0": "SAME", "0_3_1_3_0_0_1": "SAME", "0_3_1_3_0_1_0": "SAME", "0_3_1_3_0_1_1": "OPP", "0_3_1_3_0_2_0": "SAME", "0_3_1_3_0_2_1": "SAME", "0_3_1_3_1_0_0": "SAME", "0_3_1_3_1_0_1": "SAME", "0_3_1_3_1_1_0": "SAME", "0_3_1_3_1_1_1": "SAME", "0_3_1_3_1_2_0": "SAME", "0_3_1_3_1_2_1": "SAME", "0_3_1_3_2_0_0": "SAME", "0_3_1_3_2_0_1": "SAME", "0_3_1_3_2_1_0": "SAME", "0_3_1_3_2_1_1": "SAME", "0_3_1_3_2_2_0": "SAME", "0_3_1_3_2_2_1": "SAME", "0_3_1_3_3_0_0": "SAME", "0_3_1_3_3_0_1": "SAME", "0_3_1_3_3_1_0": "SAME", "0_3_1_3_3_1_1": "SAME", "0_3_1_3_3_2_0": "SAME", "0_3_1_3_3_2_1": "SAME", "0_3_2_0_0_0_0": "SAME", "0_3_2_0_0_0_1": "SAME", "0_3_2_0_0_1_0": "SAME", "0_3_2_0_0_1_1": "SAME", "0_3_2_0_0_2_0": "SAME", "0_3_2_0_0_2_1": "SAME", "0_3_2_0_1_0_0": "SAME", "0_3_2_0_1_0_1": "SAME", "0_3_2_0_1_1_0": "SAME", "0_3_2_0_1_1_1": "SAME", "0_3_2_0_1_2_0": "SAME", "0_3_2_0_1_2_1": "SAME", "0_3_2_0_2_0_0": "SAME", "0_3_2_0_2_0_1": "SAME", "0_3_2_0_2_1_0": "SAME", "0_3_2_0_2_1_1": "SAME", "0_3_2_0_2_2_0": "SAME", "0_3_2_0_2_2_1": "SAME", "0_3_2_0_3_0_0": "SAME", "0_3_2_0_3_0_1": "SAME", "0_3_2_0_3_1_0": "SAME", "0_3_2_0_3_1_1": "SAME", "0_3_2_0_3_2_0": "SAME", "0_3_2_0_3_2_1": "SAME", "0_3_2_1_0_0_0": "SAME", "0_3_2_1_0_0_1": "SAME", "0_3_2_1_0_1_0": "SAME", "0_3_2_1_0_1_1": "SAME", "0_3_2_1_0_2_0": "SAME", "0_3_2_1_0_2_1": "SAME", "0_3_2_1_1_0_0": "SAME", "0_3_2_1_1_0_1": "SAME", "0_3_2_1_1_1_0": "SAME", "0_3_2_1_1_1_1": "SAME", "0_3_2_1_1_2_0": "SAME", "0_3_2_1_1_2_1": "SAME", "0_3_2_1_2_0_0": "SAME", "0_3_2_1_2_0_1": "SAME", "0_3_2_1_2_1_0": "SAME", "0_3_2_1_2_1_1": "SAME", "0_3_2_1_2_2_0": "SAME", "0_3_2_1_2_2_1": "SAME", "0_3_2_1_3_0_0": "SAME", "0_3_2_1_3_0_1": "SAME", "0_3_2_1_3_1_0": "SAME", "0_3_2_1_3_1_1": "SAME", "0_3_2_1_3_2_0": "SAME", "0_3_2_1_3_2_1": "SAME", "0_3_2_2_0_0_0": "SAME", "0_3_2_2_0_0_1": "SAME", "0_3_2_2_0_1_0": "OPP", "0_3_2_2_0_1_1": "SAME", "0_3_2_2_0_2_0": "SAME", "0_3_2_2_0_2_1": "SAME", "0_3_2_2_1_0_0": "SAME", "0_3_2_2_1_0_1": "SAME", "0_3_2_2_1_1_0": "SAME", "0_3_2_2_1_1_1": "SAME", "0_3_2_2_1_2_0": "SAME", "0_3_2_2_1_2_1": "SAME", "0_3_2_2_2_0_0": "SAME", "0_3_2_2_2_0_1": "SAME", "0_3_2_2_2_1_0": "SAME", "0_3_2_2_2_1_1": "SAME", "0_3_2_2_2_2_0": "SAME", "0_3_2_2_2_2_1": "SAME", "0_3_2_2_3_0_0": "SAME", "0_3_2_2_3_0_1": "SAME", "0_3_2_2_3_1_0": "SAME", "0_3_2_2_3_1_1": "SAME", "0_3_2_2_3_2_0": "SAME", "0_3_2_2_3_2_1": "SAME", "0_3_2_3_0_0_0": "SAME", "0_3_2_3_0_0_1": "SAME", "0_3_2_3_0_1_0": "SAME", "0_3_2_3_0_1_1": "OPP", "0_3_2_3_0_2_0": "SAME", "0_3_2_3_0_2_1": "SAME", "0_3_2_3_1_0_0": "SAME", "0_3_2_3_1_0_1": "SAME", "0_3_2_3_1_1_0": "SAME", "0_3_2_3_1_1_1": "SAME", "0_3_2_3_1_2_0": "SAME", "0_3_2_3_1_2_1": "SAME", "0_3_2_3_2_0_0": "SAME", "0_3_2_3_2_0_1": "SAME", "0_3_2_3_2_1_0": "SAME", "0_3_2_3_2_1_1": "SAME", "0_3_2_3_2_2_0": "SAME", "0_3_2_3_2_2_1": "SAME", "0_3_2_3_3_0_0": "SAME", "0_3_2_3_3_0_1": "SAME", "0_3_2_3_3_1_0": "SAME", "0_3_2_3_3_1_1": "SAME", "0_3_2_3_3_2_0": "SAME", "0_3_2_3_3_2_1": "SAME", "0_3_3_0_0_0_0": "SAME", "0_3_3_0_0_0_1": "OPP", "0_3_3_0_0_1_0": "SAME", "0_3_3_0_0_1_1": "SAME", "0_3_3_0_0_2_0": "SAME", "0_3_3_0_0_2_1": "SAME", "0_3_3_0_1_0_0": "SAME", "0_3_3_0_1_0_1": "SAME", "0_3_3_0_1_1_0": "SAME", "0_3_3_0_1_1_1": "SAME", "0_3_3_0_1_2_0": "SAME", "0_3_3_0_1_2_1": "SAME", "0_3_3_0_2_0_0": "SAME", "0_3_3_0_2_0_1": "SAME", "0_3_3_0_2_1_0": "SAME", "0_3_3_0_2_1_1": "SAME", "0_3_3_0_2_2_0": "SAME", "0_3_3_0_2_2_1": "SAME", "0_3_3_0_3_0_0": "SAME", "0_3_3_0_3_0_1": "SAME", "0_3_3_0_3_1_0": "SAME", "0_3_3_0_3_1_1": "SAME", "0_3_3_0_3_2_0": "SAME", "0_3_3_0_3_2_1": "SAME", "0_3_3_1_0_0_0": "SAME", "0_3_3_1_0_0_1": "SAME", "0_3_3_1_0_1_0": "SAME", "0_3_3_1_0_1_1": "SAME", "0_3_3_1_0_2_0": "SAME", "0_3_3_1_0_2_1": "SAME", "0_3_3_1_1_0_0": "SAME", "0_3_3_1_1_0_1": "SAME", "0_3_3_1_1_1_0": "SAME", "0_3_3_1_1_1_1": "SAME", "0_3_3_1_1_2_0": "SAME", "0_3_3_1_1_2_1": "SAME", "0_3_3_1_2_0_0": "SAME", "0_3_3_1_2_0_1": "SAME", "0_3_3_1_2_1_0": "SAME", "0_3_3_1_2_1_1": "SAME", "0_3_3_1_2_2_0": "SAME", "0_3_3_1_2_2_1": "SAME", "0_3_3_1_3_0_0": "SAME", "0_3_3_1_3_0_1": "SAME", "0_3_3_1_3_1_0": "SAME", "0_3_3_1_3_1_1": "SAME", "0_3_3_1_3_2_0": "SAME", "0_3_3_1_3_2_1": "SAME", "0_3_3_2_0_0_0": "SAME", "0_3_3_2_0_0_1": "SAME", "0_3_3_2_0_1_0": "SAME", "0_3_3_2_0_1_1": "SAME", "0_3_3_2_0_2_0": "SAME", "0_3_3_2_0_2_1": "SAME", "0_3_3_2_1_0_0": "SAME", "0_3_3_2_1_0_1": "SAME", "0_3_3_2_1_1_0": "SAME", "0_3_3_2_1_1_1": "SAME", "0_3_3_2_1_2_0": "SAME", "0_3_3_2_1_2_1": "SAME", "0_3_3_2_2_0_0": "SAME", "0_3_3_2_2_0_1": "SAME", "0_3_3_2_2_1_0": "SAME", "0_3_3_2_2_1_1": "SAME", "0_3_3_2_2_2_0": "SAME", "0_3_3_2_2_2_1": "SAME", "0_3_3_2_3_0_0": "SAME", "0_3_3_2_3_0_1": "SAME", "0_3_3_2_3_1_0": "SAME", "0_3_3_2_3_1_1": "SAME", "0_3_3_2_3_2_0": "SAME", "0_3_3_2_3_2_1": "SAME", "0_3_3_3_0_0_0": "OPP", "0_3_3_3_0_0_1": "OPP", "0_3_3_3_0_1_0": "SAME", "0_3_3_3_0_1_1": "SAME", "0_3_3_3_0_2_0": "SAME", "0_3_3_3_0_2_1": "SAME", "0_3_3_3_1_0_0": "SAME", "0_3_3_3_1_0_1": "SAME", "0_3_3_3_1_1_0": "SAME", "0_3_3_3_1_1_1": "SAME", "0_3_3_3_1_2_0": "SAME", "0_3_3_3_1_2_1": "SAME", "0_3_3_3_2_0_0": "SAME", "0_3_3_3_2_0_1": "SAME", "0_3_3_3_2_1_0": "SAME", "0_3_3_3_2_1_1": "SAME", "0_3_3_3_2_2_0": "SAME", "0_3_3_3_2_2_1": "SAME", "0_3_3_3_3_0_0": "SAME", "0_3_3_3_3_0_1": "SAME", "0_3_3_3_3_1_0": "SAME", "0_3_3_3_3_1_1": "SAME", "0_3_3_3_3_2_0": "SAME", "0_3_3_3_3_2_1": "SAME", "0_4_0_0_0_0_0": "SAME", "0_4_0_0_0_0_1": "SAME", "0_4_0_0_0_1_0": "SAME", "0_4_0_0_0_1_1": "SAME", "0_4_0_0_0_2_0": "SAME", "0_4_0_0_0_2_1": "SAME", "0_4_0_0_1_0_0": "SAME", "0_4_0_0_1_0_1": "SAME", "0_4_0_0_1_1_0": "SAME", "0_4_0_0_1_1_1": "SAME", "0_4_0_0_1_2_0": "SAME", "0_4_0_0_1_2_1": "SAME", "0_4_0_0_2_0_0": "SAME", "0_4_0_0_2_0_1": "SAME", "0_4_0_0_2_1_0": "SAME", "0_4_0_0_2_1_1": "SAME", "0_4_0_0_2_2_0": "SAME", "0_4_0_0_2_2_1": "SAME", "0_4_0_0_3_0_0": "SAME", "0_4_0_0_3_0_1": "SAME", "0_4_0_0_3_1_0": "SAME", "0_4_0_0_3_1_1": "SAME", "0_4_0_0_3_2_0": "SAME", "0_4_0_0_3_2_1": "SAME", "0_4_0_1_0_0_0": "SAME", "0_4_0_1_0_0_1": "SAME", "0_4_0_1_0_1_0": "SAME", "0_4_0_1_0_1_1": "SAME", "0_4_0_1_0_2_0": "SAME", "0_4_0_1_0_2_1": "SAME", "0_4_0_1_1_0_0": "SAME", "0_4_0_1_1_0_1": "SAME", "0_4_0_1_1_1_0": "SAME", "0_4_0_1_1_1_1": "SAME", "0_4_0_1_1_2_0": "SAME", "0_4_0_1_1_2_1": "SAME", "0_4_0_1_2_0_0": "SAME", "0_4_0_1_2_0_1": "SAME", "0_4_0_1_2_1_0": "SAME", "0_4_0_1_2_1_1": "SAME", "0_4_0_1_2_2_0": "SAME", "0_4_0_1_2_2_1": "SAME", "0_4_0_1_3_0_0": "SAME", "0_4_0_1_3_0_1": "SAME", "0_4_0_1_3_1_0": "SAME", "0_4_0_1_3_1_1": "SAME", "0_4_0_1_3_2_0": "SAME", "0_4_0_1_3_2_1": "SAME", "0_4_0_2_0_0_0": "SAME", "0_4_0_2_0_0_1": "SAME", "0_4_0_2_0_1_0": "SAME", "0_4_0_2_0_1_1": "SAME", "0_4_0_2_0_2_0": "SAME", "0_4_0_2_0_2_1": "SAME", "0_4_0_2_1_0_0": "SAME", "0_4_0_2_1_0_1": "SAME", "0_4_0_2_1_1_0": "SAME", "0_4_0_2_1_1_1": "SAME", "0_4_0_2_1_2_0": "SAME", "0_4_0_2_1_2_1": "SAME", "0_4_0_2_2_0_0": "SAME", "0_4_0_2_2_0_1": "SAME", "0_4_0_2_2_1_0": "SAME", "0_4_0_2_2_1_1": "SAME", "0_4_0_2_2_2_0": "SAME", "0_4_0_2_2_2_1": "SAME", "0_4_0_2_3_0_0": "SAME", "0_4_0_2_3_0_1": "SAME", "0_4_0_2_3_1_0": "SAME", "0_4_0_2_3_1_1": "SAME", "0_4_0_2_3_2_0": "SAME", "0_4_0_2_3_2_1": "SAME", "0_4_0_3_0_0_0": "SAME", "0_4_0_3_0_0_1": "SAME", "0_4_0_3_0_1_0": "SAME", "0_4_0_3_0_1_1": "SAME", "0_4_0_3_0_2_0": "SAME", "0_4_0_3_0_2_1": "SAME", "0_4_0_3_1_0_0": "SAME", "0_4_0_3_1_0_1": "SAME", "0_4_0_3_1_1_0": "SAME", "0_4_0_3_1_1_1": "SAME", "0_4_0_3_1_2_0": "SAME", "0_4_0_3_1_2_1": "SAME", "0_4_0_3_2_0_0": "SAME", "0_4_0_3_2_0_1": "SAME", "0_4_0_3_2_1_0": "SAME", "0_4_0_3_2_1_1": "SAME", "0_4_0_3_2_2_0": "SAME", "0_4_0_3_2_2_1": "SAME", "0_4_0_3_3_0_0": "SAME", "0_4_0_3_3_0_1": "SAME", "0_4_0_3_3_1_0": "SAME", "0_4_0_3_3_1_1": "SAME", "0_4_0_3_3_2_0": "SAME", "0_4_0_3_3_2_1": "SAME", "0_4_1_0_0_0_0": "SAME", "0_4_1_0_0_0_1": "OPP", "0_4_1_0_0_1_0": "SAME", "0_4_1_0_0_1_1": "SAME", "0_4_1_0_0_2_0": "SAME", "0_4_1_0_0_2_1": "SAME", "0_4_1_0_1_0_0": "SAME", "0_4_1_0_1_0_1": "SAME", "0_4_1_0_1_1_0": "SAME", "0_4_1_0_1_1_1": "SAME", "0_4_1_0_1_2_0": "SAME", "0_4_1_0_1_2_1": "SAME", "0_4_1_0_2_0_0": "SAME", "0_4_1_0_2_0_1": "SAME", "0_4_1_0_2_1_0": "SAME", "0_4_1_0_2_1_1": "SAME", "0_4_1_0_2_2_0": "SAME", "0_4_1_0_2_2_1": "SAME", "0_4_1_0_3_0_0": "SAME", "0_4_1_0_3_0_1": "SAME", "0_4_1_0_3_1_0": "SAME", "0_4_1_0_3_1_1": "SAME", "0_4_1_0_3_2_0": "SAME", "0_4_1_0_3_2_1": "SAME", "0_4_1_1_0_0_0": "SAME", "0_4_1_1_0_0_1": "SAME", "0_4_1_1_0_1_0": "SAME", "0_4_1_1_0_1_1": "OPP", "0_4_1_1_0_2_0": "SAME", "0_4_1_1_0_2_1": "SAME", "0_4_1_1_1_0_0": "SAME", "0_4_1_1_1_0_1": "SAME", "0_4_1_1_1_1_0": "SAME", "0_4_1_1_1_1_1": "SAME", "0_4_1_1_1_2_0": "SAME", "0_4_1_1_1_2_1": "SAME", "0_4_1_1_2_0_0": "SAME", "0_4_1_1_2_0_1": "SAME", "0_4_1_1_2_1_0": "SAME", "0_4_1_1_2_1_1": "SAME", "0_4_1_1_2_2_0": "SAME", "0_4_1_1_2_2_1": "SAME", "0_4_1_1_3_0_0": "SAME", "0_4_1_1_3_0_1": "SAME", "0_4_1_1_3_1_0": "SAME", "0_4_1_1_3_1_1": "SAME", "0_4_1_1_3_2_0": "SAME", "0_4_1_1_3_2_1": "SAME", "0_4_1_2_0_0_0": "SAME", "0_4_1_2_0_0_1": "OPP", "0_4_1_2_0_1_0": "OPP", "0_4_1_2_0_1_1": "SAME", "0_4_1_2_0_2_0": "SAME", "0_4_1_2_0_2_1": "SAME", "0_4_1_2_1_0_0": "SAME", "0_4_1_2_1_0_1": "SAME", "0_4_1_2_1_1_0": "SAME", "0_4_1_2_1_1_1": "SAME", "0_4_1_2_1_2_0": "SAME", "0_4_1_2_1_2_1": "SAME", "0_4_1_2_2_0_0": "SAME", "0_4_1_2_2_0_1": "SAME", "0_4_1_2_2_1_0": "SAME", "0_4_1_2_2_1_1": "SAME", "0_4_1_2_2_2_0": "SAME", "0_4_1_2_2_2_1": "SAME", "0_4_1_2_3_0_0": "SAME", "0_4_1_2_3_0_1": "SAME", "0_4_1_2_3_1_0": "SAME", "0_4_1_2_3_1_1": "SAME", "0_4_1_2_3_2_0": "SAME", "0_4_1_2_3_2_1": "SAME", "0_4_1_3_0_0_0": "SAME", "0_4_1_3_0_0_1": "SAME", "0_4_1_3_0_1_0": "OPP", "0_4_1_3_0_1_1": "SAME", "0_4_1_3_0_2_0": "SAME", "0_4_1_3_0_2_1": "SAME", "0_4_1_3_1_0_0": "SAME", "0_4_1_3_1_0_1": "SAME", "0_4_1_3_1_1_0": "SAME", "0_4_1_3_1_1_1": "SAME", "0_4_1_3_1_2_0": "SAME", "0_4_1_3_1_2_1": "SAME", "0_4_1_3_2_0_0": "SAME", "0_4_1_3_2_0_1": "SAME", "0_4_1_3_2_1_0": "SAME", "0_4_1_3_2_1_1": "SAME", "0_4_1_3_2_2_0": "SAME", "0_4_1_3_2_2_1": "SAME", "0_4_1_3_3_0_0": "SAME", "0_4_1_3_3_0_1": "SAME", "0_4_1_3_3_1_0": "SAME", "0_4_1_3_3_1_1": "SAME", "0_4_1_3_3_2_0": "SAME", "0_4_1_3_3_2_1": "SAME", "0_4_2_0_0_0_0": "SAME", "0_4_2_0_0_0_1": "SAME", "0_4_2_0_0_1_0": "SAME", "0_4_2_0_0_1_1": "SAME", "0_4_2_0_0_2_0": "SAME", "0_4_2_0_0_2_1": "SAME", "0_4_2_0_1_0_0": "SAME", "0_4_2_0_1_0_1": "SAME", "0_4_2_0_1_1_0": "SAME", "0_4_2_0_1_1_1": "SAME", "0_4_2_0_1_2_0": "SAME", "0_4_2_0_1_2_1": "SAME", "0_4_2_0_2_0_0": "SAME", "0_4_2_0_2_0_1": "SAME", "0_4_2_0_2_1_0": "SAME", "0_4_2_0_2_1_1": "SAME", "0_4_2_0_2_2_0": "SAME", "0_4_2_0_2_2_1": "SAME", "0_4_2_0_3_0_0": "SAME", "0_4_2_0_3_0_1": "SAME", "0_4_2_0_3_1_0": "SAME", "0_4_2_0_3_1_1": "SAME", "0_4_2_0_3_2_0": "SAME", "0_4_2_0_3_2_1": "SAME", "0_4_2_1_0_0_0": "OPP", "0_4_2_1_0_0_1": "OPP", "0_4_2_1_0_1_0": "SAME", "0_4_2_1_0_1_1": "SAME", "0_4_2_1_0_2_0": "SAME", "0_4_2_1_0_2_1": "SAME", "0_4_2_1_1_0_0": "SAME", "0_4_2_1_1_0_1": "SAME", "0_4_2_1_1_1_0": "SAME", "0_4_2_1_1_1_1": "SAME", "0_4_2_1_1_2_0": "SAME", "0_4_2_1_1_2_1": "SAME", "0_4_2_1_2_0_0": "SAME", "0_4_2_1_2_0_1": "SAME", "0_4_2_1_2_1_0": "SAME", "0_4_2_1_2_1_1": "SAME", "0_4_2_1_2_2_0": "SAME", "0_4_2_1_2_2_1": "SAME", "0_4_2_1_3_0_0": "SAME", "0_4_2_1_3_0_1": "SAME", "0_4_2_1_3_1_0": "SAME", "0_4_2_1_3_1_1": "SAME", "0_4_2_1_3_2_0": "SAME", "0_4_2_1_3_2_1": "SAME", "0_4_2_2_0_0_0": "SAME", "0_4_2_2_0_0_1": "SAME", "0_4_2_2_0_1_0": "SAME", "0_4_2_2_0_1_1": "SAME", "0_4_2_2_0_2_0": "SAME", "0_4_2_2_0_2_1": "SAME", "0_4_2_2_1_0_0": "SAME", "0_4_2_2_1_0_1": "SAME", "0_4_2_2_1_1_0": "SAME", "0_4_2_2_1_1_1": "SAME", "0_4_2_2_1_2_0": "SAME", "0_4_2_2_1_2_1": "SAME", "0_4_2_2_2_0_0": "SAME", "0_4_2_2_2_0_1": "SAME", "0_4_2_2_2_1_0": "SAME", "0_4_2_2_2_1_1": "SAME", "0_4_2_2_2_2_0": "SAME", "0_4_2_2_2_2_1": "SAME", "0_4_2_2_3_0_0": "SAME", "0_4_2_2_3_0_1": "SAME", "0_4_2_2_3_1_0": "SAME", "0_4_2_2_3_1_1": "SAME", "0_4_2_2_3_2_0": "SAME", "0_4_2_2_3_2_1": "SAME", "0_4_2_3_0_0_0": "SAME", "0_4_2_3_0_0_1": "SAME", "0_4_2_3_0_1_0": "SAME", "0_4_2_3_0_1_1": "SAME", "0_4_2_3_0_2_0": "SAME", "0_4_2_3_0_2_1": "SAME", "0_4_2_3_1_0_0": "SAME", "0_4_2_3_1_0_1": "SAME", "0_4_2_3_1_1_0": "SAME", "0_4_2_3_1_1_1": "SAME", "0_4_2_3_1_2_0": "SAME", "0_4_2_3_1_2_1": "SAME", "0_4_2_3_2_0_0": "SAME", "0_4_2_3_2_0_1": "SAME", "0_4_2_3_2_1_0": "SAME", "0_4_2_3_2_1_1": "SAME", "0_4_2_3_2_2_0": "SAME", "0_4_2_3_2_2_1": "SAME", "0_4_2_3_3_0_0": "SAME", "0_4_2_3_3_0_1": "SAME", "0_4_2_3_3_1_0": "SAME", "0_4_2_3_3_1_1": "SAME", "0_4_2_3_3_2_0": "SAME", "0_4_2_3_3_2_1": "SAME", "0_4_3_0_0_0_0": "SAME", "0_4_3_0_0_0_1": "SAME", "0_4_3_0_0_1_0": "SAME", "0_4_3_0_0_1_1": "SAME", "0_4_3_0_0_2_0": "SAME", "0_4_3_0_0_2_1": "SAME", "0_4_3_0_1_0_0": "SAME", "0_4_3_0_1_0_1": "SAME", "0_4_3_0_1_1_0": "SAME", "0_4_3_0_1_1_1": "SAME", "0_4_3_0_1_2_0": "SAME", "0_4_3_0_1_2_1": "SAME", "0_4_3_0_2_0_0": "SAME", "0_4_3_0_2_0_1": "SAME", "0_4_3_0_2_1_0": "SAME", "0_4_3_0_2_1_1": "SAME", "0_4_3_0_2_2_0": "SAME", "0_4_3_0_2_2_1": "SAME", "0_4_3_0_3_0_0": "SAME", "0_4_3_0_3_0_1": "SAME", "0_4_3_0_3_1_0": "SAME", "0_4_3_0_3_1_1": "SAME", "0_4_3_0_3_2_0": "SAME", "0_4_3_0_3_2_1": "SAME", "0_4_3_1_0_0_0": "OPP", "0_4_3_1_0_0_1": "OPP", "0_4_3_1_0_1_0": "SAME", "0_4_3_1_0_1_1": "SAME", "0_4_3_1_0_2_0": "SAME", "0_4_3_1_0_2_1": "SAME", "0_4_3_1_1_0_0": "SAME", "0_4_3_1_1_0_1": "SAME", "0_4_3_1_1_1_0": "SAME", "0_4_3_1_1_1_1": "SAME", "0_4_3_1_1_2_0": "SAME", "0_4_3_1_1_2_1": "SAME", "0_4_3_1_2_0_0": "SAME", "0_4_3_1_2_0_1": "SAME", "0_4_3_1_2_1_0": "SAME", "0_4_3_1_2_1_1": "SAME", "0_4_3_1_2_2_0": "SAME", "0_4_3_1_2_2_1": "SAME", "0_4_3_1_3_0_0": "SAME", "0_4_3_1_3_0_1": "SAME", "0_4_3_1_3_1_0": "SAME", "0_4_3_1_3_1_1": "SAME", "0_4_3_1_3_2_0": "SAME", "0_4_3_1_3_2_1": "SAME", "0_4_3_2_0_0_0": "SAME", "0_4_3_2_0_0_1": "SAME", "0_4_3_2_0_1_0": "SAME", "0_4_3_2_0_1_1": "SAME", "0_4_3_2_0_2_0": "SAME", "0_4_3_2_0_2_1": "SAME", "0_4_3_2_1_0_0": "SAME", "0_4_3_2_1_0_1": "SAME", "0_4_3_2_1_1_0": "SAME", "0_4_3_2_1_1_1": "SAME", "0_4_3_2_1_2_0": "SAME", "0_4_3_2_1_2_1": "SAME", "0_4_3_2_2_0_0": "SAME", "0_4_3_2_2_0_1": "SAME", "0_4_3_2_2_1_0": "SAME", "0_4_3_2_2_1_1": "SAME", "0_4_3_2_2_2_0": "SAME", "0_4_3_2_2_2_1": "SAME", "0_4_3_2_3_0_0": "SAME", "0_4_3_2_3_0_1": "SAME", "0_4_3_2_3_1_0": "SAME", "0_4_3_2_3_1_1": "SAME", "0_4_3_2_3_2_0": "SAME", "0_4_3_2_3_2_1": "SAME", "0_4_3_3_0_0_0": "SAME", "0_4_3_3_0_0_1": "SAME", "0_4_3_3_0_1_0": "SAME", "0_4_3_3_0_1_1": "SAME", "0_4_3_3_0_2_0": "SAME", "0_4_3_3_0_2_1": "SAME", "0_4_3_3_1_0_0": "SAME", "0_4_3_3_1_0_1": "SAME", "0_4_3_3_1_1_0": "SAME", "0_4_3_3_1_1_1": "SAME", "0_4_3_3_1_2_0": "SAME", "0_4_3_3_1_2_1": "SAME", "0_4_3_3_2_0_0": "SAME", "0_4_3_3_2_0_1": "SAME", "0_4_3_3_2_1_0": "SAME", "0_4_3_3_2_1_1": "SAME", "0_4_3_3_2_2_0": "SAME", "0_4_3_3_2_2_1": "SAME", "0_4_3_3_3_0_0": "SAME", "0_4_3_3_3_0_1": "SAME", "0_4_3_3_3_1_0": "SAME", "0_4_3_3_3_1_1": "SAME", "0_4_3_3_3_2_0": "SAME", "0_4_3_3_3_2_1": "SAME", "1_1_0_0_0_0_0": "SAME", "1_1_0_0_0_0_1": "SAME", "1_1_0_0_0_1_0": "SAME", "1_1_0_0_0_1_1": "SAME", "1_1_0_0_0_2_0": "SAME", "1_1_0_0_0_2_1": "SAME", "1_1_0_0_1_0_0": "SAME", "1_1_0_0_1_0_1": "SAME", "1_1_0_0_1_1_0": "SAME", "1_1_0_0_1_1_1": "SAME", "1_1_0_0_1_2_0": "SAME", "1_1_0_0_1_2_1": "SAME", "1_1_0_0_2_0_0": "SAME", "1_1_0_0_2_0_1": "SAME", "1_1_0_0_2_1_0": "SAME", "1_1_0_0_2_1_1": "SAME", "1_1_0_0_2_2_0": "SAME", "1_1_0_0_2_2_1": "SAME", "1_1_0_0_3_0_0": "SAME", "1_1_0_0_3_0_1": "SAME", "1_1_0_0_3_1_0": "SAME", "1_1_0_0_3_1_1": "SAME", "1_1_0_0_3_2_0": "SAME", "1_1_0_0_3_2_1": "SAME", "1_1_0_1_0_0_0": "SAME", "1_1_0_1_0_0_1": "SAME", "1_1_0_1_0_1_0": "SAME", "1_1_0_1_0_1_1": "SAME", "1_1_0_1_0_2_0": "SAME", "1_1_0_1_0_2_1": "SAME", "1_1_0_1_1_0_0": "SAME", "1_1_0_1_1_0_1": "SAME", "1_1_0_1_1_1_0": "SAME", "1_1_0_1_1_1_1": "SAME", "1_1_0_1_1_2_0": "SAME", "1_1_0_1_1_2_1": "SAME", "1_1_0_1_2_0_0": "SAME", "1_1_0_1_2_0_1": "SAME", "1_1_0_1_2_1_0": "SAME", "1_1_0_1_2_1_1": "SAME", "1_1_0_1_2_2_0": "SAME", "1_1_0_1_2_2_1": "SAME", "1_1_0_1_3_0_0": "SAME", "1_1_0_1_3_0_1": "SAME", "1_1_0_1_3_1_0": "SAME", "1_1_0_1_3_1_1": "SAME", "1_1_0_1_3_2_0": "SAME", "1_1_0_1_3_2_1": "SAME", "1_1_0_2_0_0_0": "SAME", "1_1_0_2_0_0_1": "SAME", "1_1_0_2_0_1_0": "SAME", "1_1_0_2_0_1_1": "SAME", "1_1_0_2_0_2_0": "SAME", "1_1_0_2_0_2_1": "SAME", "1_1_0_2_1_0_0": "SAME", "1_1_0_2_1_0_1": "SAME", "1_1_0_2_1_1_0": "SAME", "1_1_0_2_1_1_1": "SAME", "1_1_0_2_1_2_0": "SAME", "1_1_0_2_1_2_1": "SAME", "1_1_0_2_2_0_0": "SAME", "1_1_0_2_2_0_1": "SAME", "1_1_0_2_2_1_0": "SAME", "1_1_0_2_2_1_1": "SAME", "1_1_0_2_2_2_0": "SAME", "1_1_0_2_2_2_1": "SAME", "1_1_0_2_3_0_0": "SAME", "1_1_0_2_3_0_1": "SAME", "1_1_0_2_3_1_0": "SAME", "1_1_0_2_3_1_1": "SAME", "1_1_0_2_3_2_0": "SAME", "1_1_0_2_3_2_1": "SAME", "1_1_0_3_0_0_0": "SAME", "1_1_0_3_0_0_1": "SAME", "1_1_0_3_0_1_0": "SAME", "1_1_0_3_0_1_1": "SAME", "1_1_0_3_0_2_0": "SAME", "1_1_0_3_0_2_1": "SAME", "1_1_0_3_1_0_0": "SAME", "1_1_0_3_1_0_1": "SAME", "1_1_0_3_1_1_0": "SAME", "1_1_0_3_1_1_1": "SAME", "1_1_0_3_1_2_0": "SAME", "1_1_0_3_1_2_1": "SAME", "1_1_0_3_2_0_0": "SAME", "1_1_0_3_2_0_1": "SAME", "1_1_0_3_2_1_0": "SAME", "1_1_0_3_2_1_1": "SAME", "1_1_0_3_2_2_0": "SAME", "1_1_0_3_2_2_1": "SAME", "1_1_0_3_3_0_0": "SAME", "1_1_0_3_3_0_1": "SAME", "1_1_0_3_3_1_0": "SAME", "1_1_0_3_3_1_1": "SAME", "1_1_0_3_3_2_0": "SAME", "1_1_0_3_3_2_1": "SAME", "1_1_1_0_0_0_0": "SAME", "1_1_1_0_0_0_1": "SAME", "1_1_1_0_0_1_0": "SAME", "1_1_1_0_0_1_1": "SAME", "1_1_1_0_0_2_0": "SAME", "1_1_1_0_0_2_1": "SAME", "1_1_1_0_1_0_0": "SAME", "1_1_1_0_1_0_1": "SAME", "1_1_1_0_1_1_0": "SAME", "1_1_1_0_1_1_1": "SAME", "1_1_1_0_1_2_0": "SAME", "1_1_1_0_1_2_1": "SAME", "1_1_1_0_2_0_0": "SAME", "1_1_1_0_2_0_1": "SAME", "1_1_1_0_2_1_0": "SAME", "1_1_1_0_2_1_1": "SAME", "1_1_1_0_2_2_0": "SAME", "1_1_1_0_2_2_1": "SAME", "1_1_1_0_3_0_0": "SAME", "1_1_1_0_3_0_1": "SAME", "1_1_1_0_3_1_0": "SAME", "1_1_1_0_3_1_1": "SAME", "1_1_1_0_3_2_0": "SAME", "1_1_1_0_3_2_1": "SAME", "1_1_1_1_0_0_0": "SAME", "1_1_1_1_0_0_1": "SAME", "1_1_1_1_0_1_0": "SAME", "1_1_1_1_0_1_1": "SAME", "1_1_1_1_0_2_0": "SAME", "1_1_1_1_0_2_1": "SAME", "1_1_1_1_1_0_0": "SAME", "1_1_1_1_1_0_1": "SAME", "1_1_1_1_1_1_0": "SAME", "1_1_1_1_1_1_1": "SAME", "1_1_1_1_1_2_0": "SAME", "1_1_1_1_1_2_1": "SAME", "1_1_1_1_2_0_0": "SAME", "1_1_1_1_2_0_1": "SAME", "1_1_1_1_2_1_0": "SAME", "1_1_1_1_2_1_1": "SAME", "1_1_1_1_2_2_0": "SAME", "1_1_1_1_2_2_1": "SAME", "1_1_1_1_3_0_0": "SAME", "1_1_1_1_3_0_1": "SAME", "1_1_1_1_3_1_0": "SAME", "1_1_1_1_3_1_1": "SAME", "1_1_1_1_3_2_0": "SAME", "1_1_1_1_3_2_1": "OPP", "1_1_1_2_0_0_0": "SAME", "1_1_1_2_0_0_1": "SAME", "1_1_1_2_0_1_0": "SAME", "1_1_1_2_0_1_1": "SAME", "1_1_1_2_0_2_0": "SAME", "1_1_1_2_0_2_1": "SAME", "1_1_1_2_1_0_0": "SAME", "1_1_1_2_1_0_1": "SAME", "1_1_1_2_1_1_0": "SAME", "1_1_1_2_1_1_1": "SAME", "1_1_1_2_1_2_0": "SAME", "1_1_1_2_1_2_1": "SAME", "1_1_1_2_2_0_0": "SAME", "1_1_1_2_2_0_1": "SAME", "1_1_1_2_2_1_0": "SAME", "1_1_1_2_2_1_1": "SAME", "1_1_1_2_2_2_0": "SAME", "1_1_1_2_2_2_1": "SAME", "1_1_1_2_3_0_0": "SAME", "1_1_1_2_3_0_1": "SAME", "1_1_1_2_3_1_0": "SAME", "1_1_1_2_3_1_1": "SAME", "1_1_1_2_3_2_0": "SAME", "1_1_1_2_3_2_1": "SAME", "1_1_1_3_0_0_0": "SAME", "1_1_1_3_0_0_1": "SAME", "1_1_1_3_0_1_0": "SAME", "1_1_1_3_0_1_1": "SAME", "1_1_1_3_0_2_0": "SAME", "1_1_1_3_0_2_1": "SAME", "1_1_1_3_1_0_0": "SAME", "1_1_1_3_1_0_1": "SAME", "1_1_1_3_1_1_0": "SAME", "1_1_1_3_1_1_1": "SAME", "1_1_1_3_1_2_0": "SAME", "1_1_1_3_1_2_1": "SAME", "1_1_1_3_2_0_0": "SAME", "1_1_1_3_2_0_1": "SAME", "1_1_1_3_2_1_0": "SAME", "1_1_1_3_2_1_1": "SAME", "1_1_1_3_2_2_0": "SAME", "1_1_1_3_2_2_1": "SAME", "1_1_1_3_3_0_0": "SAME", "1_1_1_3_3_0_1": "SAME", "1_1_1_3_3_1_0": "SAME", "1_1_1_3_3_1_1": "SAME", "1_1_1_3_3_2_0": "SAME", "1_1_1_3_3_2_1": "SAME", "1_1_2_0_0_0_0": "SAME", "1_1_2_0_0_0_1": "SAME", "1_1_2_0_0_1_0": "SAME", "1_1_2_0_0_1_1": "SAME", "1_1_2_0_0_2_0": "SAME", "1_1_2_0_0_2_1": "SAME", "1_1_2_0_1_0_0": "SAME", "1_1_2_0_1_0_1": "SAME", "1_1_2_0_1_1_0": "SAME", "1_1_2_0_1_1_1": "SAME", "1_1_2_0_1_2_0": "SAME", "1_1_2_0_1_2_1": "SAME", "1_1_2_0_2_0_0": "SAME", "1_1_2_0_2_0_1": "SAME", "1_1_2_0_2_1_0": "SAME", "1_1_2_0_2_1_1": "SAME", "1_1_2_0_2_2_0": "SAME", "1_1_2_0_2_2_1": "SAME", "1_1_2_0_3_0_0": "SAME", "1_1_2_0_3_0_1": "SAME", "1_1_2_0_3_1_0": "SAME", "1_1_2_0_3_1_1": "SAME", "1_1_2_0_3_2_0": "SAME", "1_1_2_0_3_2_1": "SAME", "1_1_2_1_0_0_0": "SAME", "1_1_2_1_0_0_1": "SAME", "1_1_2_1_0_1_0": "SAME", "1_1_2_1_0_1_1": "SAME", "1_1_2_1_0_2_0": "SAME", "1_1_2_1_0_2_1": "SAME", "1_1_2_1_1_0_0": "SAME", "1_1_2_1_1_0_1": "SAME", "1_1_2_1_1_1_0": "SAME", "1_1_2_1_1_1_1": "SAME", "1_1_2_1_1_2_0": "SAME", "1_1_2_1_1_2_1": "OPP", "1_1_2_1_2_0_0": "SAME", "1_1_2_1_2_0_1": "SAME", "1_1_2_1_2_1_0": "SAME", "1_1_2_1_2_1_1": "SAME", "1_1_2_1_2_2_0": "SAME", "1_1_2_1_2_2_1": "SAME", "1_1_2_1_3_0_0": "SAME", "1_1_2_1_3_0_1": "SAME", "1_1_2_1_3_1_0": "SAME", "1_1_2_1_3_1_1": "SAME", "1_1_2_1_3_2_0": "SAME", "1_1_2_1_3_2_1": "SAME", "1_1_2_2_0_0_0": "SAME", "1_1_2_2_0_0_1": "SAME", "1_1_2_2_0_1_0": "SAME", "1_1_2_2_0_1_1": "SAME", "1_1_2_2_0_2_0": "SAME", "1_1_2_2_0_2_1": "SAME", "1_1_2_2_1_0_0": "SAME", "1_1_2_2_1_0_1": "SAME", "1_1_2_2_1_1_0": "SAME", "1_1_2_2_1_1_1": "OPP", "1_1_2_2_1_2_0": "SAME", "1_1_2_2_1_2_1": "SAME", "1_1_2_2_2_0_0": "SAME", "1_1_2_2_2_0_1": "SAME", "1_1_2_2_2_1_0": "SAME", "1_1_2_2_2_1_1": "SAME", "1_1_2_2_2_2_0": "SAME", "1_1_2_2_2_2_1": "SAME", "1_1_2_2_3_0_0": "SAME", "1_1_2_2_3_0_1": "SAME", "1_1_2_2_3_1_0": "SAME", "1_1_2_2_3_1_1": "SAME", "1_1_2_2_3_2_0": "SAME", "1_1_2_2_3_2_1": "SAME", "1_1_2_3_0_0_0": "SAME", "1_1_2_3_0_0_1": "SAME", "1_1_2_3_0_1_0": "SAME", "1_1_2_3_0_1_1": "SAME", "1_1_2_3_0_2_0": "SAME", "1_1_2_3_0_2_1": "SAME", "1_1_2_3_1_0_0": "SAME", "1_1_2_3_1_0_1": "SAME", "1_1_2_3_1_1_0": "SAME", "1_1_2_3_1_1_1": "SAME", "1_1_2_3_1_2_0": "SAME", "1_1_2_3_1_2_1": "SAME", "1_1_2_3_2_0_0": "SAME", "1_1_2_3_2_0_1": "SAME", "1_1_2_3_2_1_0": "SAME", "1_1_2_3_2_1_1": "SAME", "1_1_2_3_2_2_0": "SAME", "1_1_2_3_2_2_1": "SAME", "1_1_2_3_3_0_0": "SAME", "1_1_2_3_3_0_1": "SAME", "1_1_2_3_3_1_0": "SAME", "1_1_2_3_3_1_1": "SAME", "1_1_2_3_3_2_0": "SAME", "1_1_2_3_3_2_1": "SAME", "1_1_3_0_0_0_0": "SAME", "1_1_3_0_0_0_1": "SAME", "1_1_3_0_0_1_0": "SAME", "1_1_3_0_0_1_1": "SAME", "1_1_3_0_0_2_0": "SAME", "1_1_3_0_0_2_1": "SAME", "1_1_3_0_1_0_0": "SAME", "1_1_3_0_1_0_1": "SAME", "1_1_3_0_1_1_0": "SAME", "1_1_3_0_1_1_1": "SAME", "1_1_3_0_1_2_0": "SAME", "1_1_3_0_1_2_1": "SAME", "1_1_3_0_2_0_0": "SAME", "1_1_3_0_2_0_1": "SAME", "1_1_3_0_2_1_0": "SAME", "1_1_3_0_2_1_1": "SAME", "1_1_3_0_2_2_0": "SAME", "1_1_3_0_2_2_1": "SAME", "1_1_3_0_3_0_0": "SAME", "1_1_3_0_3_0_1": "SAME", "1_1_3_0_3_1_0": "SAME", "1_1_3_0_3_1_1": "SAME", "1_1_3_0_3_2_0": "SAME", "1_1_3_0_3_2_1": "SAME", "1_1_3_1_0_0_0": "SAME", "1_1_3_1_0_0_1": "SAME", "1_1_3_1_0_1_0": "SAME", "1_1_3_1_0_1_1": "SAME", "1_1_3_1_0_2_0": "SAME", "1_1_3_1_0_2_1": "SAME", "1_1_3_1_1_0_0": "SAME", "1_1_3_1_1_0_1": "SAME", "1_1_3_1_1_1_0": "SAME", "1_1_3_1_1_1_1": "SAME", "1_1_3_1_1_2_0": "SAME", "1_1_3_1_1_2_1": "SAME", "1_1_3_1_2_0_0": "SAME", "1_1_3_1_2_0_1": "SAME", "1_1_3_1_2_1_0": "SAME", "1_1_3_1_2_1_1": "SAME", "1_1_3_1_2_2_0": "SAME", "1_1_3_1_2_2_1": "SAME", "1_1_3_1_3_0_0": "SAME", "1_1_3_1_3_0_1": "SAME", "1_1_3_1_3_1_0": "SAME", "1_1_3_1_3_1_1": "SAME", "1_1_3_1_3_2_0": "SAME", "1_1_3_1_3_2_1": "SAME", "1_1_3_2_0_0_0": "SAME", "1_1_3_2_0_0_1": "SAME", "1_1_3_2_0_1_0": "SAME", "1_1_3_2_0_1_1": "SAME", "1_1_3_2_0_2_0": "SAME", "1_1_3_2_0_2_1": "SAME", "1_1_3_2_1_0_0": "SAME", "1_1_3_2_1_0_1": "OPP", "1_1_3_2_1_1_0": "SAME", "1_1_3_2_1_1_1": "SAME", "1_1_3_2_1_2_0": "SAME", "1_1_3_2_1_2_1": "SAME", "1_1_3_2_2_0_0": "SAME", "1_1_3_2_2_0_1": "SAME", "1_1_3_2_2_1_0": "SAME", "1_1_3_2_2_1_1": "SAME", "1_1_3_2_2_2_0": "SAME", "1_1_3_2_2_2_1": "SAME", "1_1_3_2_3_0_0": "SAME", "1_1_3_2_3_0_1": "SAME", "1_1_3_2_3_1_0": "SAME", "1_1_3_2_3_1_1": "SAME", "1_1_3_2_3_2_0": "SAME", "1_1_3_2_3_2_1": "SAME", "1_1_3_3_0_0_0": "SAME", "1_1_3_3_0_0_1": "SAME", "1_1_3_3_0_1_0": "SAME", "1_1_3_3_0_1_1": "SAME", "1_1_3_3_0_2_0": "SAME", "1_1_3_3_0_2_1": "SAME", "1_1_3_3_1_0_0": "SAME", "1_1_3_3_1_0_1": "SAME", "1_1_3_3_1_1_0": "SAME", "1_1_3_3_1_1_1": "SAME", "1_1_3_3_1_2_0": "SAME", "1_1_3_3_1_2_1": "SAME", "1_1_3_3_2_0_0": "SAME", "1_1_3_3_2_0_1": "SAME", "1_1_3_3_2_1_0": "SAME", "1_1_3_3_2_1_1": "SAME", "1_1_3_3_2_2_0": "SAME", "1_1_3_3_2_2_1": "SAME", "1_1_3_3_3_0_0": "SAME", "1_1_3_3_3_0_1": "SAME", "1_1_3_3_3_1_0": "SAME", "1_1_3_3_3_1_1": "SAME", "1_1_3_3_3_2_0": "SAME", "1_1_3_3_3_2_1": "SAME", "1_2_0_0_0_0_0": "SAME", "1_2_0_0_0_0_1": "SAME", "1_2_0_0_0_1_0": "SAME", "1_2_0_0_0_1_1": "SAME", "1_2_0_0_0_2_0": "SAME", "1_2_0_0_0_2_1": "SAME", "1_2_0_0_1_0_0": "SAME", "1_2_0_0_1_0_1": "SAME", "1_2_0_0_1_1_0": "SAME", "1_2_0_0_1_1_1": "SAME", "1_2_0_0_1_2_0": "SAME", "1_2_0_0_1_2_1": "SAME", "1_2_0_0_2_0_0": "SAME", "1_2_0_0_2_0_1": "SAME", "1_2_0_0_2_1_0": "SAME", "1_2_0_0_2_1_1": "SAME", "1_2_0_0_2_2_0": "SAME", "1_2_0_0_2_2_1": "SAME", "1_2_0_0_3_0_0": "SAME", "1_2_0_0_3_0_1": "SAME", "1_2_0_0_3_1_0": "SAME", "1_2_0_0_3_1_1": "SAME", "1_2_0_0_3_2_0": "SAME", "1_2_0_0_3_2_1": "SAME", "1_2_0_1_0_0_0": "SAME", "1_2_0_1_0_0_1": "SAME", "1_2_0_1_0_1_0": "SAME", "1_2_0_1_0_1_1": "SAME", "1_2_0_1_0_2_0": "SAME", "1_2_0_1_0_2_1": "SAME", "1_2_0_1_1_0_0": "SAME", "1_2_0_1_1_0_1": "SAME", "1_2_0_1_1_1_0": "SAME", "1_2_0_1_1_1_1": "SAME", "1_2_0_1_1_2_0": "SAME", "1_2_0_1_1_2_1": "SAME", "1_2_0_1_2_0_0": "SAME", "1_2_0_1_2_0_1": "SAME", "1_2_0_1_2_1_0": "SAME", "1_2_0_1_2_1_1": "SAME", "1_2_0_1_2_2_0": "SAME", "1_2_0_1_2_2_1": "SAME", "1_2_0_1_3_0_0": "SAME", "1_2_0_1_3_0_1": "SAME", "1_2_0_1_3_1_0": "SAME", "1_2_0_1_3_1_1": "SAME", "1_2_0_1_3_2_0": "SAME", "1_2_0_1_3_2_1": "SAME", "1_2_0_2_0_0_0": "SAME", "1_2_0_2_0_0_1": "SAME", "1_2_0_2_0_1_0": "SAME", "1_2_0_2_0_1_1": "SAME", "1_2_0_2_0_2_0": "SAME", "1_2_0_2_0_2_1": "SAME", "1_2_0_2_1_0_0": "SAME", "1_2_0_2_1_0_1": "SAME", "1_2_0_2_1_1_0": "SAME", "1_2_0_2_1_1_1": "SAME", "1_2_0_2_1_2_0": "SAME", "1_2_0_2_1_2_1": "SAME", "1_2_0_2_2_0_0": "SAME", "1_2_0_2_2_0_1": "SAME", "1_2_0_2_2_1_0": "SAME", "1_2_0_2_2_1_1": "SAME", "1_2_0_2_2_2_0": "SAME", "1_2_0_2_2_2_1": "SAME", "1_2_0_2_3_0_0": "SAME", "1_2_0_2_3_0_1": "SAME", "1_2_0_2_3_1_0": "SAME", "1_2_0_2_3_1_1": "SAME", "1_2_0_2_3_2_0": "SAME", "1_2_0_2_3_2_1": "SAME", "1_2_0_3_0_0_0": "SAME", "1_2_0_3_0_0_1": "SAME", "1_2_0_3_0_1_0": "SAME", "1_2_0_3_0_1_1": "SAME", "1_2_0_3_0_2_0": "SAME", "1_2_0_3_0_2_1": "SAME", "1_2_0_3_1_0_0": "SAME", "1_2_0_3_1_0_1": "SAME", "1_2_0_3_1_1_0": "SAME", "1_2_0_3_1_1_1": "SAME", "1_2_0_3_1_2_0": "SAME", "1_2_0_3_1_2_1": "SAME", "1_2_0_3_2_0_0": "SAME", "1_2_0_3_2_0_1": "SAME", "1_2_0_3_2_1_0": "SAME", "1_2_0_3_2_1_1": "SAME", "1_2_0_3_2_2_0": "SAME", "1_2_0_3_2_2_1": "SAME", "1_2_0_3_3_0_0": "SAME", "1_2_0_3_3_0_1": "SAME", "1_2_0_3_3_1_0": "SAME", "1_2_0_3_3_1_1": "SAME", "1_2_0_3_3_2_0": "SAME", "1_2_0_3_3_2_1": "SAME", "1_2_1_0_0_0_0": "SAME", "1_2_1_0_0_0_1": "SAME", "1_2_1_0_0_1_0": "SAME", "1_2_1_0_0_1_1": "SAME", "1_2_1_0_0_2_0": "SAME", "1_2_1_0_0_2_1": "SAME", "1_2_1_0_1_0_0": "SAME", "1_2_1_0_1_0_1": "SAME", "1_2_1_0_1_1_0": "SAME", "1_2_1_0_1_1_1": "SAME", "1_2_1_0_1_2_0": "SAME", "1_2_1_0_1_2_1": "SAME", "1_2_1_0_2_0_0": "SAME", "1_2_1_0_2_0_1": "SAME", "1_2_1_0_2_1_0": "SAME", "1_2_1_0_2_1_1": "SAME", "1_2_1_0_2_2_0": "SAME", "1_2_1_0_2_2_1": "SAME", "1_2_1_0_3_0_0": "SAME", "1_2_1_0_3_0_1": "SAME", "1_2_1_0_3_1_0": "SAME", "1_2_1_0_3_1_1": "SAME", "1_2_1_0_3_2_0": "SAME", "1_2_1_0_3_2_1": "SAME", "1_2_1_1_0_0_0": "SAME", "1_2_1_1_0_0_1": "SAME", "1_2_1_1_0_1_0": "SAME", "1_2_1_1_0_1_1": "SAME", "1_2_1_1_0_2_0": "SAME", "1_2_1_1_0_2_1": "SAME", "1_2_1_1_1_0_0": "SAME", "1_2_1_1_1_0_1": "SAME", "1_2_1_1_1_1_0": "SAME", "1_2_1_1_1_1_1": "SAME", "1_2_1_1_1_2_0": "SAME", "1_2_1_1_1_2_1": "SAME", "1_2_1_1_2_0_0": "SAME", "1_2_1_1_2_0_1": "SAME", "1_2_1_1_2_1_0": "SAME", "1_2_1_1_2_1_1": "SAME", "1_2_1_1_2_2_0": "SAME", "1_2_1_1_2_2_1": "SAME", "1_2_1_1_3_0_0": "SAME", "1_2_1_1_3_0_1": "SAME", "1_2_1_1_3_1_0": "SAME", "1_2_1_1_3_1_1": "SAME", "1_2_1_1_3_2_0": "SAME", "1_2_1_1_3_2_1": "SAME", "1_2_1_2_0_0_0": "SAME", "1_2_1_2_0_0_1": "SAME", "1_2_1_2_0_1_0": "SAME", "1_2_1_2_0_1_1": "SAME", "1_2_1_2_0_2_0": "SAME", "1_2_1_2_0_2_1": "SAME", "1_2_1_2_1_0_0": "SAME", "1_2_1_2_1_0_1": "SAME", "1_2_1_2_1_1_0": "SAME", "1_2_1_2_1_1_1": "SAME", "1_2_1_2_1_2_0": "SAME", "1_2_1_2_1_2_1": "SAME", "1_2_1_2_2_0_0": "SAME", "1_2_1_2_2_0_1": "SAME", "1_2_1_2_2_1_0": "SAME", "1_2_1_2_2_1_1": "SAME", "1_2_1_2_2_2_0": "SAME", "1_2_1_2_2_2_1": "SAME", "1_2_1_2_3_0_0": "SAME", "1_2_1_2_3_0_1": "SAME", "1_2_1_2_3_1_0": "SAME", "1_2_1_2_3_1_1": "SAME", "1_2_1_2_3_2_0": "SAME", "1_2_1_2_3_2_1": "SAME", "1_2_1_3_0_0_0": "SAME", "1_2_1_3_0_0_1": "SAME", "1_2_1_3_0_1_0": "SAME", "1_2_1_3_0_1_1": "SAME", "1_2_1_3_0_2_0": "SAME", "1_2_1_3_0_2_1": "SAME", "1_2_1_3_1_0_0": "SAME", "1_2_1_3_1_0_1": "SAME", "1_2_1_3_1_1_0": "SAME", "1_2_1_3_1_1_1": "SAME", "1_2_1_3_1_2_0": "SAME", "1_2_1_3_1_2_1": "SAME", "1_2_1_3_2_0_0": "SAME", "1_2_1_3_2_0_1": "SAME", "1_2_1_3_2_1_0": "SAME", "1_2_1_3_2_1_1": "SAME", "1_2_1_3_2_2_0": "SAME", "1_2_1_3_2_2_1": "SAME", "1_2_1_3_3_0_0": "SAME", "1_2_1_3_3_0_1": "SAME", "1_2_1_3_3_1_0": "SAME", "1_2_1_3_3_1_1": "SAME", "1_2_1_3_3_2_0": "SAME", "1_2_1_3_3_2_1": "SAME", "1_2_2_0_0_0_0": "SAME", "1_2_2_0_0_0_1": "SAME", "1_2_2_0_0_1_0": "SAME", "1_2_2_0_0_1_1": "SAME", "1_2_2_0_0_2_0": "SAME", "1_2_2_0_0_2_1": "SAME", "1_2_2_0_1_0_0": "SAME", "1_2_2_0_1_0_1": "SAME", "1_2_2_0_1_1_0": "SAME", "1_2_2_0_1_1_1": "SAME", "1_2_2_0_1_2_0": "SAME", "1_2_2_0_1_2_1": "SAME", "1_2_2_0_2_0_0": "SAME", "1_2_2_0_2_0_1": "SAME", "1_2_2_0_2_1_0": "SAME", "1_2_2_0_2_1_1": "SAME", "1_2_2_0_2_2_0": "SAME", "1_2_2_0_2_2_1": "SAME", "1_2_2_0_3_0_0": "SAME", "1_2_2_0_3_0_1": "SAME", "1_2_2_0_3_1_0": "SAME", "1_2_2_0_3_1_1": "SAME", "1_2_2_0_3_2_0": "SAME", "1_2_2_0_3_2_1": "SAME", "1_2_2_1_0_0_0": "SAME", "1_2_2_1_0_0_1": "SAME", "1_2_2_1_0_1_0": "SAME", "1_2_2_1_0_1_1": "SAME", "1_2_2_1_0_2_0": "SAME", "1_2_2_1_0_2_1": "SAME", "1_2_2_1_1_0_0": "SAME", "1_2_2_1_1_0_1": "SAME", "1_2_2_1_1_1_0": "SAME", "1_2_2_1_1_1_1": "SAME", "1_2_2_1_1_2_0": "SAME", "1_2_2_1_1_2_1": "SAME", "1_2_2_1_2_0_0": "SAME", "1_2_2_1_2_0_1": "SAME", "1_2_2_1_2_1_0": "SAME", "1_2_2_1_2_1_1": "SAME", "1_2_2_1_2_2_0": "SAME", "1_2_2_1_2_2_1": "SAME", "1_2_2_1_3_0_0": "SAME", "1_2_2_1_3_0_1": "SAME", "1_2_2_1_3_1_0": "SAME", "1_2_2_1_3_1_1": "SAME", "1_2_2_1_3_2_0": "SAME", "1_2_2_1_3_2_1": "SAME", "1_2_2_2_0_0_0": "SAME", "1_2_2_2_0_0_1": "SAME", "1_2_2_2_0_1_0": "SAME", "1_2_2_2_0_1_1": "SAME", "1_2_2_2_0_2_0": "SAME", "1_2_2_2_0_2_1": "SAME", "1_2_2_2_1_0_0": "SAME", "1_2_2_2_1_0_1": "SAME", "1_2_2_2_1_1_0": "SAME", "1_2_2_2_1_1_1": "SAME", "1_2_2_2_1_2_0": "SAME", "1_2_2_2_1_2_1": "SAME", "1_2_2_2_2_0_0": "SAME", "1_2_2_2_2_0_1": "SAME", "1_2_2_2_2_1_0": "SAME", "1_2_2_2_2_1_1": "SAME", "1_2_2_2_2_2_0": "SAME", "1_2_2_2_2_2_1": "SAME", "1_2_2_2_3_0_0": "SAME", "1_2_2_2_3_0_1": "SAME", "1_2_2_2_3_1_0": "SAME", "1_2_2_2_3_1_1": "SAME", "1_2_2_2_3_2_0": "SAME", "1_2_2_2_3_2_1": "SAME", "1_2_2_3_0_0_0": "SAME", "1_2_2_3_0_0_1": "SAME", "1_2_2_3_0_1_0": "SAME", "1_2_2_3_0_1_1": "SAME", "1_2_2_3_0_2_0": "SAME", "1_2_2_3_0_2_1": "SAME", "1_2_2_3_1_0_0": "SAME", "1_2_2_3_1_0_1": "SAME", "1_2_2_3_1_1_0": "SAME", "1_2_2_3_1_1_1": "SAME", "1_2_2_3_1_2_0": "SAME", "1_2_2_3_1_2_1": "SAME", "1_2_2_3_2_0_0": "SAME", "1_2_2_3_2_0_1": "SAME", "1_2_2_3_2_1_0": "SAME", "1_2_2_3_2_1_1": "SAME", "1_2_2_3_2_2_0": "SAME", "1_2_2_3_2_2_1": "SAME", "1_2_2_3_3_0_0": "SAME", "1_2_2_3_3_0_1": "SAME", "1_2_2_3_3_1_0": "SAME", "1_2_2_3_3_1_1": "SAME", "1_2_2_3_3_2_0": "SAME", "1_2_2_3_3_2_1": "SAME", "1_2_3_0_0_0_0": "SAME", "1_2_3_0_0_0_1": "SAME", "1_2_3_0_0_1_0": "SAME", "1_2_3_0_0_1_1": "SAME", "1_2_3_0_0_2_0": "SAME", "1_2_3_0_0_2_1": "SAME", "1_2_3_0_1_0_0": "SAME", "1_2_3_0_1_0_1": "SAME", "1_2_3_0_1_1_0": "SAME", "1_2_3_0_1_1_1": "SAME", "1_2_3_0_1_2_0": "SAME", "1_2_3_0_1_2_1": "SAME", "1_2_3_0_2_0_0": "SAME", "1_2_3_0_2_0_1": "SAME", "1_2_3_0_2_1_0": "SAME", "1_2_3_0_2_1_1": "SAME", "1_2_3_0_2_2_0": "SAME", "1_2_3_0_2_2_1": "SAME", "1_2_3_0_3_0_0": "SAME", "1_2_3_0_3_0_1": "SAME", "1_2_3_0_3_1_0": "SAME", "1_2_3_0_3_1_1": "SAME", "1_2_3_0_3_2_0": "SAME", "1_2_3_0_3_2_1": "SAME", "1_2_3_1_0_0_0": "SAME", "1_2_3_1_0_0_1": "SAME", "1_2_3_1_0_1_0": "SAME", "1_2_3_1_0_1_1": "SAME", "1_2_3_1_0_2_0": "SAME", "1_2_3_1_0_2_1": "SAME", "1_2_3_1_1_0_0": "SAME", "1_2_3_1_1_0_1": "SAME", "1_2_3_1_1_1_0": "SAME", "1_2_3_1_1_1_1": "SAME", "1_2_3_1_1_2_0": "SAME", "1_2_3_1_1_2_1": "SAME", "1_2_3_1_2_0_0": "SAME", "1_2_3_1_2_0_1": "SAME", "1_2_3_1_2_1_0": "SAME", "1_2_3_1_2_1_1": "SAME", "1_2_3_1_2_2_0": "SAME", "1_2_3_1_2_2_1": "SAME", "1_2_3_1_3_0_0": "SAME", "1_2_3_1_3_0_1": "SAME", "1_2_3_1_3_1_0": "SAME", "1_2_3_1_3_1_1": "SAME", "1_2_3_1_3_2_0": "SAME", "1_2_3_1_3_2_1": "SAME", "1_2_3_2_0_0_0": "SAME", "1_2_3_2_0_0_1": "SAME", "1_2_3_2_0_1_0": "SAME", "1_2_3_2_0_1_1": "SAME", "1_2_3_2_0_2_0": "SAME", "1_2_3_2_0_2_1": "SAME", "1_2_3_2_1_0_0": "SAME", "1_2_3_2_1_0_1": "SAME", "1_2_3_2_1_1_0": "SAME", "1_2_3_2_1_1_1": "SAME", "1_2_3_2_1_2_0": "SAME", "1_2_3_2_1_2_1": "SAME", "1_2_3_2_2_0_0": "SAME", "1_2_3_2_2_0_1": "SAME", "1_2_3_2_2_1_0": "SAME", "1_2_3_2_2_1_1": "SAME", "1_2_3_2_2_2_0": "SAME", "1_2_3_2_2_2_1": "SAME", "1_2_3_2_3_0_0": "SAME", "1_2_3_2_3_0_1": "SAME", "1_2_3_2_3_1_0": "SAME", "1_2_3_2_3_1_1": "SAME", "1_2_3_2_3_2_0": "SAME", "1_2_3_2_3_2_1": "SAME", "1_2_3_3_0_0_0": "SAME", "1_2_3_3_0_0_1": "SAME", "1_2_3_3_0_1_0": "SAME", "1_2_3_3_0_1_1": "SAME", "1_2_3_3_0_2_0": "SAME", "1_2_3_3_0_2_1": "SAME", "1_2_3_3_1_0_0": "SAME", "1_2_3_3_1_0_1": "SAME", "1_2_3_3_1_1_0": "SAME", "1_2_3_3_1_1_1": "SAME", "1_2_3_3_1_2_0": "SAME", "1_2_3_3_1_2_1": "SAME", "1_2_3_3_2_0_0": "SAME", "1_2_3_3_2_0_1": "SAME", "1_2_3_3_2_1_0": "SAME", "1_2_3_3_2_1_1": "SAME", "1_2_3_3_2_2_0": "SAME", "1_2_3_3_2_2_1": "SAME", "1_2_3_3_3_0_0": "SAME", "1_2_3_3_3_0_1": "SAME", "1_2_3_3_3_1_0": "SAME", "1_2_3_3_3_1_1": "SAME", "1_2_3_3_3_2_0": "SAME", "1_2_3_3_3_2_1": "SAME", "1_3_0_0_0_0_0": "SAME", "1_3_0_0_0_0_1": "SAME", "1_3_0_0_0_1_0": "SAME", "1_3_0_0_0_1_1": "SAME", "1_3_0_0_0_2_0": "SAME", "1_3_0_0_0_2_1": "SAME", "1_3_0_0_1_0_0": "SAME", "1_3_0_0_1_0_1": "SAME", "1_3_0_0_1_1_0": "SAME", "1_3_0_0_1_1_1": "SAME", "1_3_0_0_1_2_0": "SAME", "1_3_0_0_1_2_1": "SAME", "1_3_0_0_2_0_0": "SAME", "1_3_0_0_2_0_1": "SAME", "1_3_0_0_2_1_0": "SAME", "1_3_0_0_2_1_1": "SAME", "1_3_0_0_2_2_0": "SAME", "1_3_0_0_2_2_1": "SAME", "1_3_0_0_3_0_0": "SAME", "1_3_0_0_3_0_1": "SAME", "1_3_0_0_3_1_0": "SAME", "1_3_0_0_3_1_1": "SAME", "1_3_0_0_3_2_0": "SAME", "1_3_0_0_3_2_1": "SAME", "1_3_0_1_0_0_0": "SAME", "1_3_0_1_0_0_1": "SAME", "1_3_0_1_0_1_0": "SAME", "1_3_0_1_0_1_1": "SAME", "1_3_0_1_0_2_0": "SAME", "1_3_0_1_0_2_1": "SAME", "1_3_0_1_1_0_0": "SAME", "1_3_0_1_1_0_1": "SAME", "1_3_0_1_1_1_0": "SAME", "1_3_0_1_1_1_1": "SAME", "1_3_0_1_1_2_0": "SAME", "1_3_0_1_1_2_1": "SAME", "1_3_0_1_2_0_0": "SAME", "1_3_0_1_2_0_1": "SAME", "1_3_0_1_2_1_0": "SAME", "1_3_0_1_2_1_1": "SAME", "1_3_0_1_2_2_0": "SAME", "1_3_0_1_2_2_1": "SAME", "1_3_0_1_3_0_0": "SAME", "1_3_0_1_3_0_1": "SAME", "1_3_0_1_3_1_0": "SAME", "1_3_0_1_3_1_1": "SAME", "1_3_0_1_3_2_0": "SAME", "1_3_0_1_3_2_1": "SAME", "1_3_0_2_0_0_0": "SAME", "1_3_0_2_0_0_1": "SAME", "1_3_0_2_0_1_0": "SAME", "1_3_0_2_0_1_1": "SAME", "1_3_0_2_0_2_0": "SAME", "1_3_0_2_0_2_1": "SAME", "1_3_0_2_1_0_0": "SAME", "1_3_0_2_1_0_1": "SAME", "1_3_0_2_1_1_0": "SAME", "1_3_0_2_1_1_1": "SAME", "1_3_0_2_1_2_0": "SAME", "1_3_0_2_1_2_1": "SAME", "1_3_0_2_2_0_0": "SAME", "1_3_0_2_2_0_1": "SAME", "1_3_0_2_2_1_0": "SAME", "1_3_0_2_2_1_1": "SAME", "1_3_0_2_2_2_0": "SAME", "1_3_0_2_2_2_1": "SAME", "1_3_0_2_3_0_0": "SAME", "1_3_0_2_3_0_1": "SAME", "1_3_0_2_3_1_0": "SAME", "1_3_0_2_3_1_1": "SAME", "1_3_0_2_3_2_0": "SAME", "1_3_0_2_3_2_1": "SAME", "1_3_0_3_0_0_0": "SAME", "1_3_0_3_0_0_1": "SAME", "1_3_0_3_0_1_0": "SAME", "1_3_0_3_0_1_1": "SAME", "1_3_0_3_0_2_0": "SAME", "1_3_0_3_0_2_1": "SAME", "1_3_0_3_1_0_0": "SAME", "1_3_0_3_1_0_1": "SAME", "1_3_0_3_1_1_0": "SAME", "1_3_0_3_1_1_1": "SAME", "1_3_0_3_1_2_0": "SAME", "1_3_0_3_1_2_1": "SAME", "1_3_0_3_2_0_0": "SAME", "1_3_0_3_2_0_1": "SAME", "1_3_0_3_2_1_0": "SAME", "1_3_0_3_2_1_1": "SAME", "1_3_0_3_2_2_0": "SAME", "1_3_0_3_2_2_1": "SAME", "1_3_0_3_3_0_0": "SAME", "1_3_0_3_3_0_1": "SAME", "1_3_0_3_3_1_0": "SAME", "1_3_0_3_3_1_1": "SAME", "1_3_0_3_3_2_0": "SAME", "1_3_0_3_3_2_1": "SAME", "1_3_1_0_0_0_0": "SAME", "1_3_1_0_0_0_1": "SAME", "1_3_1_0_0_1_0": "SAME", "1_3_1_0_0_1_1": "SAME", "1_3_1_0_0_2_0": "SAME", "1_3_1_0_0_2_1": "SAME", "1_3_1_0_1_0_0": "SAME", "1_3_1_0_1_0_1": "SAME", "1_3_1_0_1_1_0": "SAME", "1_3_1_0_1_1_1": "SAME", "1_3_1_0_1_2_0": "SAME", "1_3_1_0_1_2_1": "SAME", "1_3_1_0_2_0_0": "SAME", "1_3_1_0_2_0_1": "SAME", "1_3_1_0_2_1_0": "SAME", "1_3_1_0_2_1_1": "SAME", "1_3_1_0_2_2_0": "SAME", "1_3_1_0_2_2_1": "SAME", "1_3_1_0_3_0_0": "SAME", "1_3_1_0_3_0_1": "SAME", "1_3_1_0_3_1_0": "SAME", "1_3_1_0_3_1_1": "SAME", "1_3_1_0_3_2_0": "SAME", "1_3_1_0_3_2_1": "SAME", "1_3_1_1_0_0_0": "SAME", "1_3_1_1_0_0_1": "SAME", "1_3_1_1_0_1_0": "SAME", "1_3_1_1_0_1_1": "SAME", "1_3_1_1_0_2_0": "SAME", "1_3_1_1_0_2_1": "SAME", "1_3_1_1_1_0_0": "SAME", "1_3_1_1_1_0_1": "SAME", "1_3_1_1_1_1_0": "SAME", "1_3_1_1_1_1_1": "SAME", "1_3_1_1_1_2_0": "SAME", "1_3_1_1_1_2_1": "SAME", "1_3_1_1_2_0_0": "SAME", "1_3_1_1_2_0_1": "SAME", "1_3_1_1_2_1_0": "SAME", "1_3_1_1_2_1_1": "SAME", "1_3_1_1_2_2_0": "SAME", "1_3_1_1_2_2_1": "SAME", "1_3_1_1_3_0_0": "SAME", "1_3_1_1_3_0_1": "SAME", "1_3_1_1_3_1_0": "SAME", "1_3_1_1_3_1_1": "SAME", "1_3_1_1_3_2_0": "SAME", "1_3_1_1_3_2_1": "SAME", "1_3_1_2_0_0_0": "SAME", "1_3_1_2_0_0_1": "SAME", "1_3_1_2_0_1_0": "SAME", "1_3_1_2_0_1_1": "SAME", "1_3_1_2_0_2_0": "SAME", "1_3_1_2_0_2_1": "SAME", "1_3_1_2_1_0_0": "SAME", "1_3_1_2_1_0_1": "SAME", "1_3_1_2_1_1_0": "SAME", "1_3_1_2_1_1_1": "SAME", "1_3_1_2_1_2_0": "SAME", "1_3_1_2_1_2_1": "SAME", "1_3_1_2_2_0_0": "SAME", "1_3_1_2_2_0_1": "SAME", "1_3_1_2_2_1_0": "SAME", "1_3_1_2_2_1_1": "SAME", "1_3_1_2_2_2_0": "SAME", "1_3_1_2_2_2_1": "SAME", "1_3_1_2_3_0_0": "SAME", "1_3_1_2_3_0_1": "SAME", "1_3_1_2_3_1_0": "SAME", "1_3_1_2_3_1_1": "SAME", "1_3_1_2_3_2_0": "SAME", "1_3_1_2_3_2_1": "SAME", "1_3_1_3_0_0_0": "SAME", "1_3_1_3_0_0_1": "SAME", "1_3_1_3_0_1_0": "SAME", "1_3_1_3_0_1_1": "SAME", "1_3_1_3_0_2_0": "SAME", "1_3_1_3_0_2_1": "SAME", "1_3_1_3_1_0_0": "SAME", "1_3_1_3_1_0_1": "SAME", "1_3_1_3_1_1_0": "SAME", "1_3_1_3_1_1_1": "SAME", "1_3_1_3_1_2_0": "SAME", "1_3_1_3_1_2_1": "SAME", "1_3_1_3_2_0_0": "SAME", "1_3_1_3_2_0_1": "SAME", "1_3_1_3_2_1_0": "SAME", "1_3_1_3_2_1_1": "SAME", "1_3_1_3_2_2_0": "SAME", "1_3_1_3_2_2_1": "SAME", "1_3_1_3_3_0_0": "SAME", "1_3_1_3_3_0_1": "SAME", "1_3_1_3_3_1_0": "SAME", "1_3_1_3_3_1_1": "SAME", "1_3_1_3_3_2_0": "SAME", "1_3_1_3_3_2_1": "SAME", "1_3_2_0_0_0_0": "SAME", "1_3_2_0_0_0_1": "SAME", "1_3_2_0_0_1_0": "SAME", "1_3_2_0_0_1_1": "SAME", "1_3_2_0_0_2_0": "SAME", "1_3_2_0_0_2_1": "SAME", "1_3_2_0_1_0_0": "SAME", "1_3_2_0_1_0_1": "SAME", "1_3_2_0_1_1_0": "SAME", "1_3_2_0_1_1_1": "SAME", "1_3_2_0_1_2_0": "SAME", "1_3_2_0_1_2_1": "SAME", "1_3_2_0_2_0_0": "SAME", "1_3_2_0_2_0_1": "SAME", "1_3_2_0_2_1_0": "SAME", "1_3_2_0_2_1_1": "SAME", "1_3_2_0_2_2_0": "SAME", "1_3_2_0_2_2_1": "SAME", "1_3_2_0_3_0_0": "SAME", "1_3_2_0_3_0_1": "SAME", "1_3_2_0_3_1_0": "SAME", "1_3_2_0_3_1_1": "SAME", "1_3_2_0_3_2_0": "SAME", "1_3_2_0_3_2_1": "SAME", "1_3_2_1_0_0_0": "SAME", "1_3_2_1_0_0_1": "SAME", "1_3_2_1_0_1_0": "SAME", "1_3_2_1_0_1_1": "SAME", "1_3_2_1_0_2_0": "SAME", "1_3_2_1_0_2_1": "SAME", "1_3_2_1_1_0_0": "SAME", "1_3_2_1_1_0_1": "SAME", "1_3_2_1_1_1_0": "SAME", "1_3_2_1_1_1_1": "SAME", "1_3_2_1_1_2_0": "SAME", "1_3_2_1_1_2_1": "SAME", "1_3_2_1_2_0_0": "SAME", "1_3_2_1_2_0_1": "SAME", "1_3_2_1_2_1_0": "SAME", "1_3_2_1_2_1_1": "SAME", "1_3_2_1_2_2_0": "SAME", "1_3_2_1_2_2_1": "SAME", "1_3_2_1_3_0_0": "SAME", "1_3_2_1_3_0_1": "SAME", "1_3_2_1_3_1_0": "SAME", "1_3_2_1_3_1_1": "SAME", "1_3_2_1_3_2_0": "SAME", "1_3_2_1_3_2_1": "SAME", "1_3_2_2_0_0_0": "SAME", "1_3_2_2_0_0_1": "SAME", "1_3_2_2_0_1_0": "SAME", "1_3_2_2_0_1_1": "SAME", "1_3_2_2_0_2_0": "SAME", "1_3_2_2_0_2_1": "SAME", "1_3_2_2_1_0_0": "SAME", "1_3_2_2_1_0_1": "SAME", "1_3_2_2_1_1_0": "SAME", "1_3_2_2_1_1_1": "SAME", "1_3_2_2_1_2_0": "SAME", "1_3_2_2_1_2_1": "SAME", "1_3_2_2_2_0_0": "SAME", "1_3_2_2_2_0_1": "SAME", "1_3_2_2_2_1_0": "SAME", "1_3_2_2_2_1_1": "SAME", "1_3_2_2_2_2_0": "SAME", "1_3_2_2_2_2_1": "SAME", "1_3_2_2_3_0_0": "SAME", "1_3_2_2_3_0_1": "SAME", "1_3_2_2_3_1_0": "SAME", "1_3_2_2_3_1_1": "SAME", "1_3_2_2_3_2_0": "SAME", "1_3_2_2_3_2_1": "SAME", "1_3_2_3_0_0_0": "SAME", "1_3_2_3_0_0_1": "SAME", "1_3_2_3_0_1_0": "SAME", "1_3_2_3_0_1_1": "SAME", "1_3_2_3_0_2_0": "SAME", "1_3_2_3_0_2_1": "SAME", "1_3_2_3_1_0_0": "SAME", "1_3_2_3_1_0_1": "SAME", "1_3_2_3_1_1_0": "SAME", "1_3_2_3_1_1_1": "SAME", "1_3_2_3_1_2_0": "SAME", "1_3_2_3_1_2_1": "SAME", "1_3_2_3_2_0_0": "SAME", "1_3_2_3_2_0_1": "SAME", "1_3_2_3_2_1_0": "SAME", "1_3_2_3_2_1_1": "SAME", "1_3_2_3_2_2_0": "SAME", "1_3_2_3_2_2_1": "SAME", "1_3_2_3_3_0_0": "SAME", "1_3_2_3_3_0_1": "SAME", "1_3_2_3_3_1_0": "SAME", "1_3_2_3_3_1_1": "SAME", "1_3_2_3_3_2_0": "SAME", "1_3_2_3_3_2_1": "SAME", "1_3_3_0_0_0_0": "SAME", "1_3_3_0_0_0_1": "SAME", "1_3_3_0_0_1_0": "SAME", "1_3_3_0_0_1_1": "SAME", "1_3_3_0_0_2_0": "SAME", "1_3_3_0_0_2_1": "SAME", "1_3_3_0_1_0_0": "SAME", "1_3_3_0_1_0_1": "SAME", "1_3_3_0_1_1_0": "SAME", "1_3_3_0_1_1_1": "SAME", "1_3_3_0_1_2_0": "SAME", "1_3_3_0_1_2_1": "SAME", "1_3_3_0_2_0_0": "SAME", "1_3_3_0_2_0_1": "SAME", "1_3_3_0_2_1_0": "SAME", "1_3_3_0_2_1_1": "SAME", "1_3_3_0_2_2_0": "SAME", "1_3_3_0_2_2_1": "SAME", "1_3_3_0_3_0_0": "SAME", "1_3_3_0_3_0_1": "SAME", "1_3_3_0_3_1_0": "SAME", "1_3_3_0_3_1_1": "SAME", "1_3_3_0_3_2_0": "SAME", "1_3_3_0_3_2_1": "SAME", "1_3_3_1_0_0_0": "SAME", "1_3_3_1_0_0_1": "SAME", "1_3_3_1_0_1_0": "SAME", "1_3_3_1_0_1_1": "SAME", "1_3_3_1_0_2_0": "SAME", "1_3_3_1_0_2_1": "SAME", "1_3_3_1_1_0_0": "SAME", "1_3_3_1_1_0_1": "SAME", "1_3_3_1_1_1_0": "SAME", "1_3_3_1_1_1_1": "SAME", "1_3_3_1_1_2_0": "SAME", "1_3_3_1_1_2_1": "SAME", "1_3_3_1_2_0_0": "SAME", "1_3_3_1_2_0_1": "SAME", "1_3_3_1_2_1_0": "SAME", "1_3_3_1_2_1_1": "SAME", "1_3_3_1_2_2_0": "SAME", "1_3_3_1_2_2_1": "SAME", "1_3_3_1_3_0_0": "SAME", "1_3_3_1_3_0_1": "SAME", "1_3_3_1_3_1_0": "SAME", "1_3_3_1_3_1_1": "SAME", "1_3_3_1_3_2_0": "SAME", "1_3_3_1_3_2_1": "SAME", "1_3_3_2_0_0_0": "SAME", "1_3_3_2_0_0_1": "SAME", "1_3_3_2_0_1_0": "SAME", "1_3_3_2_0_1_1": "SAME", "1_3_3_2_0_2_0": "SAME", "1_3_3_2_0_2_1": "SAME", "1_3_3_2_1_0_0": "SAME", "1_3_3_2_1_0_1": "SAME", "1_3_3_2_1_1_0": "SAME", "1_3_3_2_1_1_1": "SAME", "1_3_3_2_1_2_0": "SAME", "1_3_3_2_1_2_1": "SAME", "1_3_3_2_2_0_0": "SAME", "1_3_3_2_2_0_1": "SAME", "1_3_3_2_2_1_0": "SAME", "1_3_3_2_2_1_1": "SAME", "1_3_3_2_2_2_0": "SAME", "1_3_3_2_2_2_1": "SAME", "1_3_3_2_3_0_0": "SAME", "1_3_3_2_3_0_1": "SAME", "1_3_3_2_3_1_0": "SAME", "1_3_3_2_3_1_1": "SAME", "1_3_3_2_3_2_0": "SAME", "1_3_3_2_3_2_1": "SAME", "1_3_3_3_0_0_0": "SAME", "1_3_3_3_0_0_1": "SAME", "1_3_3_3_0_1_0": "SAME", "1_3_3_3_0_1_1": "SAME", "1_3_3_3_0_2_0": "SAME", "1_3_3_3_0_2_1": "SAME", "1_3_3_3_1_0_0": "SAME", "1_3_3_3_1_0_1": "SAME", "1_3_3_3_1_1_0": "SAME", "1_3_3_3_1_1_1": "SAME", "1_3_3_3_1_2_0": "SAME", "1_3_3_3_1_2_1": "SAME", "1_3_3_3_2_0_0": "SAME", "1_3_3_3_2_0_1": "SAME", "1_3_3_3_2_1_0": "SAME", "1_3_3_3_2_1_1": "SAME", "1_3_3_3_2_2_0": "SAME", "1_3_3_3_2_2_1": "SAME", "1_3_3_3_3_0_0": "SAME", "1_3_3_3_3_0_1": "SAME", "1_3_3_3_3_1_0": "SAME", "1_3_3_3_3_1_1": "SAME", "1_3_3_3_3_2_0": "SAME", "1_3_3_3_3_2_1": "SAME", "1_4_0_0_0_0_0": "SAME", "1_4_0_0_0_0_1": "SAME", "1_4_0_0_0_1_0": "SAME", "1_4_0_0_0_1_1": "SAME", "1_4_0_0_0_2_0": "SAME", "1_4_0_0_0_2_1": "SAME", "1_4_0_0_1_0_0": "SAME", "1_4_0_0_1_0_1": "SAME", "1_4_0_0_1_1_0": "SAME", "1_4_0_0_1_1_1": "SAME", "1_4_0_0_1_2_0": "SAME", "1_4_0_0_1_2_1": "SAME", "1_4_0_0_2_0_0": "SAME", "1_4_0_0_2_0_1": "SAME", "1_4_0_0_2_1_0": "SAME", "1_4_0_0_2_1_1": "SAME", "1_4_0_0_2_2_0": "SAME", "1_4_0_0_2_2_1": "SAME", "1_4_0_0_3_0_0": "SAME", "1_4_0_0_3_0_1": "SAME", "1_4_0_0_3_1_0": "SAME", "1_4_0_0_3_1_1": "SAME", "1_4_0_0_3_2_0": "SAME", "1_4_0_0_3_2_1": "SAME", "1_4_0_1_0_0_0": "SAME", "1_4_0_1_0_0_1": "SAME", "1_4_0_1_0_1_0": "SAME", "1_4_0_1_0_1_1": "SAME", "1_4_0_1_0_2_0": "SAME", "1_4_0_1_0_2_1": "SAME", "1_4_0_1_1_0_0": "SAME", "1_4_0_1_1_0_1": "SAME", "1_4_0_1_1_1_0": "SAME", "1_4_0_1_1_1_1": "SAME", "1_4_0_1_1_2_0": "SAME", "1_4_0_1_1_2_1": "SAME", "1_4_0_1_2_0_0": "SAME", "1_4_0_1_2_0_1": "SAME", "1_4_0_1_2_1_0": "SAME", "1_4_0_1_2_1_1": "SAME", "1_4_0_1_2_2_0": "SAME", "1_4_0_1_2_2_1": "SAME", "1_4_0_1_3_0_0": "SAME", "1_4_0_1_3_0_1": "SAME", "1_4_0_1_3_1_0": "SAME", "1_4_0_1_3_1_1": "SAME", "1_4_0_1_3_2_0": "SAME", "1_4_0_1_3_2_1": "SAME", "1_4_0_2_0_0_0": "SAME", "1_4_0_2_0_0_1": "SAME", "1_4_0_2_0_1_0": "SAME", "1_4_0_2_0_1_1": "SAME", "1_4_0_2_0_2_0": "SAME", "1_4_0_2_0_2_1": "SAME", "1_4_0_2_1_0_0": "SAME", "1_4_0_2_1_0_1": "SAME", "1_4_0_2_1_1_0": "SAME", "1_4_0_2_1_1_1": "SAME", "1_4_0_2_1_2_0": "SAME", "1_4_0_2_1_2_1": "SAME", "1_4_0_2_2_0_0": "SAME", "1_4_0_2_2_0_1": "SAME", "1_4_0_2_2_1_0": "SAME", "1_4_0_2_2_1_1": "SAME", "1_4_0_2_2_2_0": "SAME", "1_4_0_2_2_2_1": "SAME", "1_4_0_2_3_0_0": "SAME", "1_4_0_2_3_0_1": "SAME", "1_4_0_2_3_1_0": "SAME", "1_4_0_2_3_1_1": "SAME", "1_4_0_2_3_2_0": "SAME", "1_4_0_2_3_2_1": "SAME", "1_4_0_3_0_0_0": "SAME", "1_4_0_3_0_0_1": "SAME", "1_4_0_3_0_1_0": "SAME", "1_4_0_3_0_1_1": "SAME", "1_4_0_3_0_2_0": "SAME", "1_4_0_3_0_2_1": "SAME", "1_4_0_3_1_0_0": "SAME", "1_4_0_3_1_0_1": "SAME", "1_4_0_3_1_1_0": "SAME", "1_4_0_3_1_1_1": "SAME", "1_4_0_3_1_2_0": "SAME", "1_4_0_3_1_2_1": "SAME", "1_4_0_3_2_0_0": "SAME", "1_4_0_3_2_0_1": "SAME", "1_4_0_3_2_1_0": "SAME", "1_4_0_3_2_1_1": "SAME", "1_4_0_3_2_2_0": "SAME", "1_4_0_3_2_2_1": "SAME", "1_4_0_3_3_0_0": "SAME", "1_4_0_3_3_0_1": "SAME", "1_4_0_3_3_1_0": "SAME", "1_4_0_3_3_1_1": "SAME", "1_4_0_3_3_2_0": "SAME", "1_4_0_3_3_2_1": "SAME", "1_4_1_0_0_0_0": "SAME", "1_4_1_0_0_0_1": "SAME", "1_4_1_0_0_1_0": "SAME", "1_4_1_0_0_1_1": "SAME", "1_4_1_0_0_2_0": "SAME", "1_4_1_0_0_2_1": "SAME", "1_4_1_0_1_0_0": "SAME", "1_4_1_0_1_0_1": "SAME", "1_4_1_0_1_1_0": "SAME", "1_4_1_0_1_1_1": "SAME", "1_4_1_0_1_2_0": "SAME", "1_4_1_0_1_2_1": "SAME", "1_4_1_0_2_0_0": "SAME", "1_4_1_0_2_0_1": "SAME", "1_4_1_0_2_1_0": "SAME", "1_4_1_0_2_1_1": "SAME", "1_4_1_0_2_2_0": "SAME", "1_4_1_0_2_2_1": "SAME", "1_4_1_0_3_0_0": "SAME", "1_4_1_0_3_0_1": "SAME", "1_4_1_0_3_1_0": "SAME", "1_4_1_0_3_1_1": "SAME", "1_4_1_0_3_2_0": "SAME", "1_4_1_0_3_2_1": "SAME", "1_4_1_1_0_0_0": "SAME", "1_4_1_1_0_0_1": "SAME", "1_4_1_1_0_1_0": "SAME", "1_4_1_1_0_1_1": "SAME", "1_4_1_1_0_2_0": "SAME", "1_4_1_1_0_2_1": "SAME", "1_4_1_1_1_0_0": "SAME", "1_4_1_1_1_0_1": "SAME", "1_4_1_1_1_1_0": "SAME", "1_4_1_1_1_1_1": "SAME", "1_4_1_1_1_2_0": "SAME", "1_4_1_1_1_2_1": "SAME", "1_4_1_1_2_0_0": "SAME", "1_4_1_1_2_0_1": "SAME", "1_4_1_1_2_1_0": "SAME", "1_4_1_1_2_1_1": "SAME", "1_4_1_1_2_2_0": "SAME", "1_4_1_1_2_2_1": "SAME", "1_4_1_1_3_0_0": "SAME", "1_4_1_1_3_0_1": "SAME", "1_4_1_1_3_1_0": "SAME", "1_4_1_1_3_1_1": "SAME", "1_4_1_1_3_2_0": "SAME", "1_4_1_1_3_2_1": "SAME", "1_4_1_2_0_0_0": "SAME", "1_4_1_2_0_0_1": "SAME", "1_4_1_2_0_1_0": "SAME", "1_4_1_2_0_1_1": "SAME", "1_4_1_2_0_2_0": "SAME", "1_4_1_2_0_2_1": "SAME", "1_4_1_2_1_0_0": "SAME", "1_4_1_2_1_0_1": "SAME", "1_4_1_2_1_1_0": "SAME", "1_4_1_2_1_1_1": "SAME", "1_4_1_2_1_2_0": "SAME", "1_4_1_2_1_2_1": "SAME", "1_4_1_2_2_0_0": "SAME", "1_4_1_2_2_0_1": "SAME", "1_4_1_2_2_1_0": "SAME", "1_4_1_2_2_1_1": "SAME", "1_4_1_2_2_2_0": "SAME", "1_4_1_2_2_2_1": "SAME", "1_4_1_2_3_0_0": "SAME", "1_4_1_2_3_0_1": "SAME", "1_4_1_2_3_1_0": "SAME", "1_4_1_2_3_1_1": "SAME", "1_4_1_2_3_2_0": "SAME", "1_4_1_2_3_2_1": "SAME", "1_4_1_3_0_0_0": "SAME", "1_4_1_3_0_0_1": "SAME", "1_4_1_3_0_1_0": "SAME", "1_4_1_3_0_1_1": "SAME", "1_4_1_3_0_2_0": "SAME", "1_4_1_3_0_2_1": "SAME", "1_4_1_3_1_0_0": "SAME", "1_4_1_3_1_0_1": "SAME", "1_4_1_3_1_1_0": "SAME", "1_4_1_3_1_1_1": "SAME", "1_4_1_3_1_2_0": "SAME", "1_4_1_3_1_2_1": "SAME", "1_4_1_3_2_0_0": "SAME", "1_4_1_3_2_0_1": "SAME", "1_4_1_3_2_1_0": "SAME", "1_4_1_3_2_1_1": "SAME", "1_4_1_3_2_2_0": "SAME", "1_4_1_3_2_2_1": "SAME", "1_4_1_3_3_0_0": "SAME", "1_4_1_3_3_0_1": "SAME", "1_4_1_3_3_1_0": "SAME", "1_4_1_3_3_1_1": "SAME", "1_4_1_3_3_2_0": "SAME", "1_4_1_3_3_2_1": "SAME", "1_4_2_0_0_0_0": "SAME", "1_4_2_0_0_0_1": "SAME", "1_4_2_0_0_1_0": "SAME", "1_4_2_0_0_1_1": "SAME", "1_4_2_0_0_2_0": "SAME", "1_4_2_0_0_2_1": "SAME", "1_4_2_0_1_0_0": "SAME", "1_4_2_0_1_0_1": "SAME", "1_4_2_0_1_1_0": "SAME", "1_4_2_0_1_1_1": "SAME", "1_4_2_0_1_2_0": "SAME", "1_4_2_0_1_2_1": "SAME", "1_4_2_0_2_0_0": "SAME", "1_4_2_0_2_0_1": "SAME", "1_4_2_0_2_1_0": "SAME", "1_4_2_0_2_1_1": "SAME", "1_4_2_0_2_2_0": "SAME", "1_4_2_0_2_2_1": "SAME", "1_4_2_0_3_0_0": "SAME", "1_4_2_0_3_0_1": "SAME", "1_4_2_0_3_1_0": "SAME", "1_4_2_0_3_1_1": "SAME", "1_4_2_0_3_2_0": "SAME", "1_4_2_0_3_2_1": "SAME", "1_4_2_1_0_0_0": "SAME", "1_4_2_1_0_0_1": "SAME", "1_4_2_1_0_1_0": "SAME", "1_4_2_1_0_1_1": "SAME", "1_4_2_1_0_2_0": "SAME", "1_4_2_1_0_2_1": "SAME", "1_4_2_1_1_0_0": "SAME", "1_4_2_1_1_0_1": "SAME", "1_4_2_1_1_1_0": "SAME", "1_4_2_1_1_1_1": "SAME", "1_4_2_1_1_2_0": "SAME", "1_4_2_1_1_2_1": "SAME", "1_4_2_1_2_0_0": "SAME", "1_4_2_1_2_0_1": "SAME", "1_4_2_1_2_1_0": "SAME", "1_4_2_1_2_1_1": "SAME", "1_4_2_1_2_2_0": "SAME", "1_4_2_1_2_2_1": "SAME", "1_4_2_1_3_0_0": "SAME", "1_4_2_1_3_0_1": "SAME", "1_4_2_1_3_1_0": "SAME", "1_4_2_1_3_1_1": "SAME", "1_4_2_1_3_2_0": "SAME", "1_4_2_1_3_2_1": "SAME", "1_4_2_2_0_0_0": "SAME", "1_4_2_2_0_0_1": "SAME", "1_4_2_2_0_1_0": "SAME", "1_4_2_2_0_1_1": "SAME", "1_4_2_2_0_2_0": "SAME", "1_4_2_2_0_2_1": "SAME", "1_4_2_2_1_0_0": "SAME", "1_4_2_2_1_0_1": "SAME", "1_4_2_2_1_1_0": "SAME", "1_4_2_2_1_1_1": "SAME", "1_4_2_2_1_2_0": "SAME", "1_4_2_2_1_2_1": "SAME", "1_4_2_2_2_0_0": "SAME", "1_4_2_2_2_0_1": "SAME", "1_4_2_2_2_1_0": "SAME", "1_4_2_2_2_1_1": "SAME", "1_4_2_2_2_2_0": "SAME", "1_4_2_2_2_2_1": "SAME", "1_4_2_2_3_0_0": "SAME", "1_4_2_2_3_0_1": "SAME", "1_4_2_2_3_1_0": "SAME", "1_4_2_2_3_1_1": "SAME", "1_4_2_2_3_2_0": "SAME", "1_4_2_2_3_2_1": "SAME", "1_4_2_3_0_0_0": "SAME", "1_4_2_3_0_0_1": "SAME", "1_4_2_3_0_1_0": "SAME", "1_4_2_3_0_1_1": "SAME", "1_4_2_3_0_2_0": "SAME", "1_4_2_3_0_2_1": "SAME", "1_4_2_3_1_0_0": "SAME", "1_4_2_3_1_0_1": "SAME", "1_4_2_3_1_1_0": "SAME", "1_4_2_3_1_1_1": "SAME", "1_4_2_3_1_2_0": "SAME", "1_4_2_3_1_2_1": "SAME", "1_4_2_3_2_0_0": "SAME", "1_4_2_3_2_0_1": "SAME", "1_4_2_3_2_1_0": "SAME", "1_4_2_3_2_1_1": "SAME", "1_4_2_3_2_2_0": "SAME", "1_4_2_3_2_2_1": "SAME", "1_4_2_3_3_0_0": "SAME", "1_4_2_3_3_0_1": "SAME", "1_4_2_3_3_1_0": "SAME", "1_4_2_3_3_1_1": "SAME", "1_4_2_3_3_2_0": "SAME", "1_4_2_3_3_2_1": "SAME", "1_4_3_0_0_0_0": "SAME", "1_4_3_0_0_0_1": "SAME", "1_4_3_0_0_1_0": "SAME", "1_4_3_0_0_1_1": "SAME", "1_4_3_0_0_2_0": "SAME", "1_4_3_0_0_2_1": "SAME", "1_4_3_0_1_0_0": "SAME", "1_4_3_0_1_0_1": "SAME", "1_4_3_0_1_1_0": "SAME", "1_4_3_0_1_1_1": "SAME", "1_4_3_0_1_2_0": "SAME", "1_4_3_0_1_2_1": "SAME", "1_4_3_0_2_0_0": "SAME", "1_4_3_0_2_0_1": "SAME", "1_4_3_0_2_1_0": "SAME", "1_4_3_0_2_1_1": "SAME", "1_4_3_0_2_2_0": "SAME", "1_4_3_0_2_2_1": "SAME", "1_4_3_0_3_0_0": "SAME", "1_4_3_0_3_0_1": "SAME", "1_4_3_0_3_1_0": "SAME", "1_4_3_0_3_1_1": "SAME", "1_4_3_0_3_2_0": "SAME", "1_4_3_0_3_2_1": "SAME", "1_4_3_1_0_0_0": "SAME", "1_4_3_1_0_0_1": "SAME", "1_4_3_1_0_1_0": "SAME", "1_4_3_1_0_1_1": "SAME", "1_4_3_1_0_2_0": "SAME", "1_4_3_1_0_2_1": "SAME", "1_4_3_1_1_0_0": "SAME", "1_4_3_1_1_0_1": "SAME", "1_4_3_1_1_1_0": "SAME", "1_4_3_1_1_1_1": "SAME", "1_4_3_1_1_2_0": "SAME", "1_4_3_1_1_2_1": "SAME", "1_4_3_1_2_0_0": "SAME", "1_4_3_1_2_0_1": "SAME", "1_4_3_1_2_1_0": "SAME", "1_4_3_1_2_1_1": "SAME", "1_4_3_1_2_2_0": "SAME", "1_4_3_1_2_2_1": "SAME", "1_4_3_1_3_0_0": "SAME", "1_4_3_1_3_0_1": "SAME", "1_4_3_1_3_1_0": "SAME", "1_4_3_1_3_1_1": "SAME", "1_4_3_1_3_2_0": "SAME", "1_4_3_1_3_2_1": "SAME", "1_4_3_2_0_0_0": "SAME", "1_4_3_2_0_0_1": "SAME", "1_4_3_2_0_1_0": "SAME", "1_4_3_2_0_1_1": "SAME", "1_4_3_2_0_2_0": "SAME", "1_4_3_2_0_2_1": "SAME", "1_4_3_2_1_0_0": "SAME", "1_4_3_2_1_0_1": "SAME", "1_4_3_2_1_1_0": "SAME", "1_4_3_2_1_1_1": "SAME", "1_4_3_2_1_2_0": "SAME", "1_4_3_2_1_2_1": "SAME", "1_4_3_2_2_0_0": "SAME", "1_4_3_2_2_0_1": "SAME", "1_4_3_2_2_1_0": "SAME", "1_4_3_2_2_1_1": "SAME", "1_4_3_2_2_2_0": "SAME", "1_4_3_2_2_2_1": "SAME", "1_4_3_2_3_0_0": "SAME", "1_4_3_2_3_0_1": "SAME", "1_4_3_2_3_1_0": "SAME", "1_4_3_2_3_1_1": "SAME", "1_4_3_2_3_2_0": "SAME", "1_4_3_2_3_2_1": "SAME", "1_4_3_3_0_0_0": "SAME", "1_4_3_3_0_0_1": "SAME", "1_4_3_3_0_1_0": "SAME", "1_4_3_3_0_1_1": "SAME", "1_4_3_3_0_2_0": "SAME", "1_4_3_3_0_2_1": "SAME", "1_4_3_3_1_0_0": "SAME", "1_4_3_3_1_0_1": "SAME", "1_4_3_3_1_1_0": "SAME", "1_4_3_3_1_1_1": "SAME", "1_4_3_3_1_2_0": "SAME", "1_4_3_3_1_2_1": "SAME", "1_4_3_3_2_0_0": "SAME", "1_4_3_3_2_0_1": "SAME", "1_4_3_3_2_1_0": "SAME", "1_4_3_3_2_1_1": "SAME", "1_4_3_3_2_2_0": "SAME", "1_4_3_3_2_2_1": "SAME", "1_4_3_3_3_0_0": "SAME", "1_4_3_3_3_0_1": "SAME", "1_4_3_3_3_1_0": "SAME", "1_4_3_3_3_1_1": "SAME", "1_4_3_3_3_2_0": "SAME", "1_4_3_3_3_2_1": "SAME", "2_1_0_0_0_0_0": "SAME", "2_1_0_0_0_0_1": "SAME", "2_1_0_0_0_1_0": "SAME", "2_1_0_0_0_1_1": "SAME", "2_1_0_0_0_2_0": "SAME", "2_1_0_0_0_2_1": "SAME", "2_1_0_0_1_0_0": "SAME", "2_1_0_0_1_0_1": "SAME", "2_1_0_0_1_1_0": "SAME", "2_1_0_0_1_1_1": "SAME", "2_1_0_0_1_2_0": "SAME", "2_1_0_0_1_2_1": "SAME", "2_1_0_0_2_0_0": "SAME", "2_1_0_0_2_0_1": "SAME", "2_1_0_0_2_1_0": "SAME", "2_1_0_0_2_1_1": "SAME", "2_1_0_0_2_2_0": "SAME", "2_1_0_0_2_2_1": "SAME", "2_1_0_0_3_0_0": "SAME", "2_1_0_0_3_0_1": "SAME", "2_1_0_0_3_1_0": "SAME", "2_1_0_0_3_1_1": "SAME", "2_1_0_0_3_2_0": "SAME", "2_1_0_0_3_2_1": "SAME", "2_1_0_1_0_0_0": "SAME", "2_1_0_1_0_0_1": "SAME", "2_1_0_1_0_1_0": "SAME", "2_1_0_1_0_1_1": "SAME", "2_1_0_1_0_2_0": "SAME", "2_1_0_1_0_2_1": "SAME", "2_1_0_1_1_0_0": "SAME", "2_1_0_1_1_0_1": "SAME", "2_1_0_1_1_1_0": "SAME", "2_1_0_1_1_1_1": "SAME", "2_1_0_1_1_2_0": "SAME", "2_1_0_1_1_2_1": "SAME", "2_1_0_1_2_0_0": "SAME", "2_1_0_1_2_0_1": "SAME", "2_1_0_1_2_1_0": "SAME", "2_1_0_1_2_1_1": "SAME", "2_1_0_1_2_2_0": "SAME", "2_1_0_1_2_2_1": "SAME", "2_1_0_1_3_0_0": "SAME", "2_1_0_1_3_0_1": "SAME", "2_1_0_1_3_1_0": "SAME", "2_1_0_1_3_1_1": "SAME", "2_1_0_1_3_2_0": "SAME", "2_1_0_1_3_2_1": "SAME", "2_1_0_2_0_0_0": "SAME", "2_1_0_2_0_0_1": "SAME", "2_1_0_2_0_1_0": "SAME", "2_1_0_2_0_1_1": "SAME", "2_1_0_2_0_2_0": "SAME", "2_1_0_2_0_2_1": "SAME", "2_1_0_2_1_0_0": "SAME", "2_1_0_2_1_0_1": "SAME", "2_1_0_2_1_1_0": "SAME", "2_1_0_2_1_1_1": "SAME", "2_1_0_2_1_2_0": "SAME", "2_1_0_2_1_2_1": "SAME", "2_1_0_2_2_0_0": "SAME", "2_1_0_2_2_0_1": "SAME", "2_1_0_2_2_1_0": "SAME", "2_1_0_2_2_1_1": "SAME", "2_1_0_2_2_2_0": "SAME", "2_1_0_2_2_2_1": "SAME", "2_1_0_2_3_0_0": "SAME", "2_1_0_2_3_0_1": "SAME", "2_1_0_2_3_1_0": "SAME", "2_1_0_2_3_1_1": "SAME", "2_1_0_2_3_2_0": "SAME", "2_1_0_2_3_2_1": "SAME", "2_1_0_3_0_0_0": "SAME", "2_1_0_3_0_0_1": "SAME", "2_1_0_3_0_1_0": "SAME", "2_1_0_3_0_1_1": "SAME", "2_1_0_3_0_2_0": "SAME", "2_1_0_3_0_2_1": "SAME", "2_1_0_3_1_0_0": "SAME", "2_1_0_3_1_0_1": "SAME", "2_1_0_3_1_1_0": "SAME", "2_1_0_3_1_1_1": "SAME", "2_1_0_3_1_2_0": "SAME", "2_1_0_3_1_2_1": "SAME", "2_1_0_3_2_0_0": "SAME", "2_1_0_3_2_0_1": "SAME", "2_1_0_3_2_1_0": "SAME", "2_1_0_3_2_1_1": "SAME", "2_1_0_3_2_2_0": "SAME", "2_1_0_3_2_2_1": "SAME", "2_1_0_3_3_0_0": "SAME", "2_1_0_3_3_0_1": "SAME", "2_1_0_3_3_1_0": "SAME", "2_1_0_3_3_1_1": "SAME", "2_1_0_3_3_2_0": "SAME", "2_1_0_3_3_2_1": "SAME", "2_1_1_0_0_0_0": "SAME", "2_1_1_0_0_0_1": "SAME", "2_1_1_0_0_1_0": "SAME", "2_1_1_0_0_1_1": "SAME", "2_1_1_0_0_2_0": "SAME", "2_1_1_0_0_2_1": "SAME", "2_1_1_0_1_0_0": "SAME", "2_1_1_0_1_0_1": "SAME", "2_1_1_0_1_1_0": "SAME", "2_1_1_0_1_1_1": "SAME", "2_1_1_0_1_2_0": "SAME", "2_1_1_0_1_2_1": "SAME", "2_1_1_0_2_0_0": "SAME", "2_1_1_0_2_0_1": "SAME", "2_1_1_0_2_1_0": "SAME", "2_1_1_0_2_1_1": "SAME", "2_1_1_0_2_2_0": "SAME", "2_1_1_0_2_2_1": "SAME", "2_1_1_0_3_0_0": "SAME", "2_1_1_0_3_0_1": "SAME", "2_1_1_0_3_1_0": "SAME", "2_1_1_0_3_1_1": "SAME", "2_1_1_0_3_2_0": "SAME", "2_1_1_0_3_2_1": "SAME", "2_1_1_1_0_0_0": "SAME", "2_1_1_1_0_0_1": "SAME", "2_1_1_1_0_1_0": "SAME", "2_1_1_1_0_1_1": "SAME", "2_1_1_1_0_2_0": "SAME", "2_1_1_1_0_2_1": "SAME", "2_1_1_1_1_0_0": "SAME", "2_1_1_1_1_0_1": "SAME", "2_1_1_1_1_1_0": "SAME", "2_1_1_1_1_1_1": "SAME", "2_1_1_1_1_2_0": "SAME", "2_1_1_1_1_2_1": "SAME", "2_1_1_1_2_0_0": "SAME", "2_1_1_1_2_0_1": "SAME", "2_1_1_1_2_1_0": "SAME", "2_1_1_1_2_1_1": "SAME", "2_1_1_1_2_2_0": "SAME", "2_1_1_1_2_2_1": "SAME", "2_1_1_1_3_0_0": "SAME", "2_1_1_1_3_0_1": "SAME", "2_1_1_1_3_1_0": "SAME", "2_1_1_1_3_1_1": "SAME", "2_1_1_1_3_2_0": "SAME", "2_1_1_1_3_2_1": "SAME", "2_1_1_2_0_0_0": "SAME", "2_1_1_2_0_0_1": "SAME", "2_1_1_2_0_1_0": "SAME", "2_1_1_2_0_1_1": "SAME", "2_1_1_2_0_2_0": "SAME", "2_1_1_2_0_2_1": "SAME", "2_1_1_2_1_0_0": "SAME", "2_1_1_2_1_0_1": "SAME", "2_1_1_2_1_1_0": "SAME", "2_1_1_2_1_1_1": "SAME", "2_1_1_2_1_2_0": "SAME", "2_1_1_2_1_2_1": "SAME", "2_1_1_2_2_0_0": "SAME", "2_1_1_2_2_0_1": "SAME", "2_1_1_2_2_1_0": "SAME", "2_1_1_2_2_1_1": "OPP", "2_1_1_2_2_2_0": "SAME", "2_1_1_2_2_2_1": "SAME", "2_1_1_2_3_0_0": "SAME", "2_1_1_2_3_0_1": "SAME", "2_1_1_2_3_1_0": "SAME", "2_1_1_2_3_1_1": "SAME", "2_1_1_2_3_2_0": "SAME", "2_1_1_2_3_2_1": "SAME", "2_1_1_3_0_0_0": "SAME", "2_1_1_3_0_0_1": "SAME", "2_1_1_3_0_1_0": "SAME", "2_1_1_3_0_1_1": "SAME", "2_1_1_3_0_2_0": "SAME", "2_1_1_3_0_2_1": "SAME", "2_1_1_3_1_0_0": "SAME", "2_1_1_3_1_0_1": "SAME", "2_1_1_3_1_1_0": "SAME", "2_1_1_3_1_1_1": "SAME", "2_1_1_3_1_2_0": "SAME", "2_1_1_3_1_2_1": "SAME", "2_1_1_3_2_0_0": "SAME", "2_1_1_3_2_0_1": "SAME", "2_1_1_3_2_1_0": "SAME", "2_1_1_3_2_1_1": "SAME", "2_1_1_3_2_2_0": "SAME", "2_1_1_3_2_2_1": "SAME", "2_1_1_3_3_0_0": "SAME", "2_1_1_3_3_0_1": "SAME", "2_1_1_3_3_1_0": "SAME", "2_1_1_3_3_1_1": "SAME", "2_1_1_3_3_2_0": "SAME", "2_1_1_3_3_2_1": "SAME", "2_1_2_0_0_0_0": "SAME", "2_1_2_0_0_0_1": "SAME", "2_1_2_0_0_1_0": "SAME", "2_1_2_0_0_1_1": "SAME", "2_1_2_0_0_2_0": "SAME", "2_1_2_0_0_2_1": "SAME", "2_1_2_0_1_0_0": "SAME", "2_1_2_0_1_0_1": "SAME", "2_1_2_0_1_1_0": "SAME", "2_1_2_0_1_1_1": "SAME", "2_1_2_0_1_2_0": "SAME", "2_1_2_0_1_2_1": "SAME", "2_1_2_0_2_0_0": "SAME", "2_1_2_0_2_0_1": "SAME", "2_1_2_0_2_1_0": "SAME", "2_1_2_0_2_1_1": "SAME", "2_1_2_0_2_2_0": "SAME", "2_1_2_0_2_2_1": "SAME", "2_1_2_0_3_0_0": "SAME", "2_1_2_0_3_0_1": "SAME", "2_1_2_0_3_1_0": "SAME", "2_1_2_0_3_1_1": "SAME", "2_1_2_0_3_2_0": "SAME", "2_1_2_0_3_2_1": "SAME", "2_1_2_1_0_0_0": "SAME", "2_1_2_1_0_0_1": "SAME", "2_1_2_1_0_1_0": "SAME", "2_1_2_1_0_1_1": "SAME", "2_1_2_1_0_2_0": "SAME", "2_1_2_1_0_2_1": "SAME", "2_1_2_1_1_0_0": "SAME", "2_1_2_1_1_0_1": "SAME", "2_1_2_1_1_1_0": "SAME", "2_1_2_1_1_1_1": "OPP", "2_1_2_1_1_2_0": "SAME", "2_1_2_1_1_2_1": "SAME", "2_1_2_1_2_0_0": "SAME", "2_1_2_1_2_0_1": "SAME", "2_1_2_1_2_1_0": "SAME", "2_1_2_1_2_1_1": "SAME", "2_1_2_1_2_2_0": "SAME", "2_1_2_1_2_2_1": "SAME", "2_1_2_1_3_0_0": "SAME", "2_1_2_1_3_0_1": "SAME", "2_1_2_1_3_1_0": "SAME", "2_1_2_1_3_1_1": "SAME", "2_1_2_1_3_2_0": "SAME", "2_1_2_1_3_2_1": "SAME", "2_1_2_2_0_0_0": "SAME", "2_1_2_2_0_0_1": "SAME", "2_1_2_2_0_1_0": "SAME", "2_1_2_2_0_1_1": "SAME", "2_1_2_2_0_2_0": "SAME", "2_1_2_2_0_2_1": "SAME", "2_1_2_2_1_0_0": "SAME", "2_1_2_2_1_0_1": "SAME", "2_1_2_2_1_1_0": "SAME", "2_1_2_2_1_1_1": "SAME", "2_1_2_2_1_2_0": "SAME", "2_1_2_2_1_2_1": "SAME", "2_1_2_2_2_0_0": "SAME", "2_1_2_2_2_0_1": "SAME", "2_1_2_2_2_1_0": "SAME", "2_1_2_2_2_1_1": "SAME", "2_1_2_2_2_2_0": "SAME", "2_1_2_2_2_2_1": "SAME", "2_1_2_2_3_0_0": "SAME", "2_1_2_2_3_0_1": "SAME", "2_1_2_2_3_1_0": "SAME", "2_1_2_2_3_1_1": "SAME", "2_1_2_2_3_2_0": "SAME", "2_1_2_2_3_2_1": "SAME", "2_1_2_3_0_0_0": "SAME", "2_1_2_3_0_0_1": "SAME", "2_1_2_3_0_1_0": "SAME", "2_1_2_3_0_1_1": "SAME", "2_1_2_3_0_2_0": "SAME", "2_1_2_3_0_2_1": "SAME", "2_1_2_3_1_0_0": "SAME", "2_1_2_3_1_0_1": "SAME", "2_1_2_3_1_1_0": "OPP", "2_1_2_3_1_1_1": "SAME", "2_1_2_3_1_2_0": "SAME", "2_1_2_3_1_2_1": "SAME", "2_1_2_3_2_0_0": "SAME", "2_1_2_3_2_0_1": "SAME", "2_1_2_3_2_1_0": "SAME", "2_1_2_3_2_1_1": "SAME", "2_1_2_3_2_2_0": "SAME", "2_1_2_3_2_2_1": "SAME", "2_1_2_3_3_0_0": "SAME", "2_1_2_3_3_0_1": "SAME", "2_1_2_3_3_1_0": "SAME", "2_1_2_3_3_1_1": "SAME", "2_1_2_3_3_2_0": "SAME", "2_1_2_3_3_2_1": "SAME", "2_1_3_0_0_0_0": "SAME", "2_1_3_0_0_0_1": "SAME", "2_1_3_0_0_1_0": "SAME", "2_1_3_0_0_1_1": "SAME", "2_1_3_0_0_2_0": "SAME", "2_1_3_0_0_2_1": "SAME", "2_1_3_0_1_0_0": "SAME", "2_1_3_0_1_0_1": "SAME", "2_1_3_0_1_1_0": "SAME", "2_1_3_0_1_1_1": "SAME", "2_1_3_0_1_2_0": "SAME", "2_1_3_0_1_2_1": "SAME", "2_1_3_0_2_0_0": "SAME", "2_1_3_0_2_0_1": "SAME", "2_1_3_0_2_1_0": "SAME", "2_1_3_0_2_1_1": "SAME", "2_1_3_0_2_2_0": "SAME", "2_1_3_0_2_2_1": "SAME", "2_1_3_0_3_0_0": "SAME", "2_1_3_0_3_0_1": "SAME", "2_1_3_0_3_1_0": "SAME", "2_1_3_0_3_1_1": "SAME", "2_1_3_0_3_2_0": "SAME", "2_1_3_0_3_2_1": "SAME", "2_1_3_1_0_0_0": "SAME", "2_1_3_1_0_0_1": "SAME", "2_1_3_1_0_1_0": "SAME", "2_1_3_1_0_1_1": "SAME", "2_1_3_1_0_2_0": "SAME", "2_1_3_1_0_2_1": "SAME", "2_1_3_1_1_0_0": "SAME", "2_1_3_1_1_0_1": "SAME", "2_1_3_1_1_1_0": "SAME", "2_1_3_1_1_1_1": "SAME", "2_1_3_1_1_2_0": "SAME", "2_1_3_1_1_2_1": "SAME", "2_1_3_1_2_0_0": "SAME", "2_1_3_1_2_0_1": "SAME", "2_1_3_1_2_1_0": "SAME", "2_1_3_1_2_1_1": "SAME", "2_1_3_1_2_2_0": "SAME", "2_1_3_1_2_2_1": "SAME", "2_1_3_1_3_0_0": "SAME", "2_1_3_1_3_0_1": "SAME", "2_1_3_1_3_1_0": "SAME", "2_1_3_1_3_1_1": "SAME", "2_1_3_1_3_2_0": "SAME", "2_1_3_1_3_2_1": "SAME", "2_1_3_2_0_0_0": "SAME", "2_1_3_2_0_0_1": "SAME", "2_1_3_2_0_1_0": "SAME", "2_1_3_2_0_1_1": "SAME", "2_1_3_2_0_2_0": "SAME", "2_1_3_2_0_2_1": "SAME", "2_1_3_2_1_0_0": "SAME", "2_1_3_2_1_0_1": "SAME", "2_1_3_2_1_1_0": "SAME", "2_1_3_2_1_1_1": "SAME", "2_1_3_2_1_2_0": "SAME", "2_1_3_2_1_2_1": "SAME", "2_1_3_2_2_0_0": "SAME", "2_1_3_2_2_0_1": "SAME", "2_1_3_2_2_1_0": "SAME", "2_1_3_2_2_1_1": "SAME", "2_1_3_2_2_2_0": "SAME", "2_1_3_2_2_2_1": "SAME", "2_1_3_2_3_0_0": "SAME", "2_1_3_2_3_0_1": "SAME", "2_1_3_2_3_1_0": "SAME", "2_1_3_2_3_1_1": "SAME", "2_1_3_2_3_2_0": "SAME", "2_1_3_2_3_2_1": "SAME", "2_1_3_3_0_0_0": "SAME", "2_1_3_3_0_0_1": "SAME", "2_1_3_3_0_1_0": "SAME", "2_1_3_3_0_1_1": "SAME", "2_1_3_3_0_2_0": "SAME", "2_1_3_3_0_2_1": "SAME", "2_1_3_3_1_0_0": "SAME", "2_1_3_3_1_0_1": "SAME", "2_1_3_3_1_1_0": "SAME", "2_1_3_3_1_1_1": "SAME", "2_1_3_3_1_2_0": "SAME", "2_1_3_3_1_2_1": "SAME", "2_1_3_3_2_0_0": "SAME", "2_1_3_3_2_0_1": "SAME", "2_1_3_3_2_1_0": "SAME", "2_1_3_3_2_1_1": "SAME", "2_1_3_3_2_2_0": "SAME", "2_1_3_3_2_2_1": "SAME", "2_1_3_3_3_0_0": "SAME", "2_1_3_3_3_0_1": "SAME", "2_1_3_3_3_1_0": "SAME", "2_1_3_3_3_1_1": "SAME", "2_1_3_3_3_2_0": "SAME", "2_1_3_3_3_2_1": "SAME", "2_2_0_0_0_0_0": "SAME", "2_2_0_0_0_0_1": "SAME", "2_2_0_0_0_1_0": "SAME", "2_2_0_0_0_1_1": "SAME", "2_2_0_0_0_2_0": "SAME", "2_2_0_0_0_2_1": "SAME", "2_2_0_0_1_0_0": "SAME", "2_2_0_0_1_0_1": "SAME", "2_2_0_0_1_1_0": "SAME", "2_2_0_0_1_1_1": "SAME", "2_2_0_0_1_2_0": "SAME", "2_2_0_0_1_2_1": "SAME", "2_2_0_0_2_0_0": "SAME", "2_2_0_0_2_0_1": "SAME", "2_2_0_0_2_1_0": "SAME", "2_2_0_0_2_1_1": "SAME", "2_2_0_0_2_2_0": "SAME", "2_2_0_0_2_2_1": "SAME", "2_2_0_0_3_0_0": "SAME", "2_2_0_0_3_0_1": "SAME", "2_2_0_0_3_1_0": "SAME", "2_2_0_0_3_1_1": "SAME", "2_2_0_0_3_2_0": "SAME", "2_2_0_0_3_2_1": "SAME", "2_2_0_1_0_0_0": "SAME", "2_2_0_1_0_0_1": "SAME", "2_2_0_1_0_1_0": "SAME", "2_2_0_1_0_1_1": "SAME", "2_2_0_1_0_2_0": "SAME", "2_2_0_1_0_2_1": "SAME", "2_2_0_1_1_0_0": "SAME", "2_2_0_1_1_0_1": "SAME", "2_2_0_1_1_1_0": "SAME", "2_2_0_1_1_1_1": "SAME", "2_2_0_1_1_2_0": "SAME", "2_2_0_1_1_2_1": "SAME", "2_2_0_1_2_0_0": "SAME", "2_2_0_1_2_0_1": "SAME", "2_2_0_1_2_1_0": "SAME", "2_2_0_1_2_1_1": "SAME", "2_2_0_1_2_2_0": "SAME", "2_2_0_1_2_2_1": "SAME", "2_2_0_1_3_0_0": "SAME", "2_2_0_1_3_0_1": "SAME", "2_2_0_1_3_1_0": "SAME", "2_2_0_1_3_1_1": "SAME", "2_2_0_1_3_2_0": "SAME", "2_2_0_1_3_2_1": "SAME", "2_2_0_2_0_0_0": "SAME", "2_2_0_2_0_0_1": "SAME", "2_2_0_2_0_1_0": "SAME", "2_2_0_2_0_1_1": "SAME", "2_2_0_2_0_2_0": "SAME", "2_2_0_2_0_2_1": "SAME", "2_2_0_2_1_0_0": "SAME", "2_2_0_2_1_0_1": "SAME", "2_2_0_2_1_1_0": "SAME", "2_2_0_2_1_1_1": "SAME", "2_2_0_2_1_2_0": "SAME", "2_2_0_2_1_2_1": "SAME", "2_2_0_2_2_0_0": "SAME", "2_2_0_2_2_0_1": "SAME", "2_2_0_2_2_1_0": "SAME", "2_2_0_2_2_1_1": "SAME", "2_2_0_2_2_2_0": "SAME", "2_2_0_2_2_2_1": "SAME", "2_2_0_2_3_0_0": "SAME", "2_2_0_2_3_0_1": "SAME", "2_2_0_2_3_1_0": "SAME", "2_2_0_2_3_1_1": "SAME", "2_2_0_2_3_2_0": "SAME", "2_2_0_2_3_2_1": "SAME", "2_2_0_3_0_0_0": "SAME", "2_2_0_3_0_0_1": "SAME", "2_2_0_3_0_1_0": "SAME", "2_2_0_3_0_1_1": "SAME", "2_2_0_3_0_2_0": "SAME", "2_2_0_3_0_2_1": "SAME", "2_2_0_3_1_0_0": "SAME", "2_2_0_3_1_0_1": "SAME", "2_2_0_3_1_1_0": "SAME", "2_2_0_3_1_1_1": "SAME", "2_2_0_3_1_2_0": "SAME", "2_2_0_3_1_2_1": "SAME", "2_2_0_3_2_0_0": "SAME", "2_2_0_3_2_0_1": "SAME", "2_2_0_3_2_1_0": "SAME", "2_2_0_3_2_1_1": "SAME", "2_2_0_3_2_2_0": "SAME", "2_2_0_3_2_2_1": "SAME", "2_2_0_3_3_0_0": "SAME", "2_2_0_3_3_0_1": "SAME", "2_2_0_3_3_1_0": "SAME", "2_2_0_3_3_1_1": "SAME", "2_2_0_3_3_2_0": "SAME", "2_2_0_3_3_2_1": "SAME", "2_2_1_0_0_0_0": "SAME", "2_2_1_0_0_0_1": "SAME", "2_2_1_0_0_1_0": "SAME", "2_2_1_0_0_1_1": "SAME", "2_2_1_0_0_2_0": "SAME", "2_2_1_0_0_2_1": "SAME", "2_2_1_0_1_0_0": "SAME", "2_2_1_0_1_0_1": "SAME", "2_2_1_0_1_1_0": "SAME", "2_2_1_0_1_1_1": "SAME", "2_2_1_0_1_2_0": "SAME", "2_2_1_0_1_2_1": "SAME", "2_2_1_0_2_0_0": "SAME", "2_2_1_0_2_0_1": "SAME", "2_2_1_0_2_1_0": "SAME", "2_2_1_0_2_1_1": "SAME", "2_2_1_0_2_2_0": "SAME", "2_2_1_0_2_2_1": "SAME", "2_2_1_0_3_0_0": "SAME", "2_2_1_0_3_0_1": "SAME", "2_2_1_0_3_1_0": "SAME", "2_2_1_0_3_1_1": "SAME", "2_2_1_0_3_2_0": "SAME", "2_2_1_0_3_2_1": "SAME", "2_2_1_1_0_0_0": "SAME", "2_2_1_1_0_0_1": "SAME", "2_2_1_1_0_1_0": "SAME", "2_2_1_1_0_1_1": "SAME", "2_2_1_1_0_2_0": "SAME", "2_2_1_1_0_2_1": "SAME", "2_2_1_1_1_0_0": "SAME", "2_2_1_1_1_0_1": "SAME", "2_2_1_1_1_1_0": "SAME", "2_2_1_1_1_1_1": "SAME", "2_2_1_1_1_2_0": "SAME", "2_2_1_1_1_2_1": "SAME", "2_2_1_1_2_0_0": "SAME", "2_2_1_1_2_0_1": "SAME", "2_2_1_1_2_1_0": "SAME", "2_2_1_1_2_1_1": "SAME", "2_2_1_1_2_2_0": "SAME", "2_2_1_1_2_2_1": "SAME", "2_2_1_1_3_0_0": "SAME", "2_2_1_1_3_0_1": "SAME", "2_2_1_1_3_1_0": "SAME", "2_2_1_1_3_1_1": "SAME", "2_2_1_1_3_2_0": "SAME", "2_2_1_1_3_2_1": "SAME", "2_2_1_2_0_0_0": "SAME", "2_2_1_2_0_0_1": "SAME", "2_2_1_2_0_1_0": "SAME", "2_2_1_2_0_1_1": "SAME", "2_2_1_2_0_2_0": "SAME", "2_2_1_2_0_2_1": "SAME", "2_2_1_2_1_0_0": "SAME", "2_2_1_2_1_0_1": "SAME", "2_2_1_2_1_1_0": "SAME", "2_2_1_2_1_1_1": "SAME", "2_2_1_2_1_2_0": "SAME", "2_2_1_2_1_2_1": "SAME", "2_2_1_2_2_0_0": "SAME", "2_2_1_2_2_0_1": "SAME", "2_2_1_2_2_1_0": "SAME", "2_2_1_2_2_1_1": "SAME", "2_2_1_2_2_2_0": "SAME", "2_2_1_2_2_2_1": "SAME", "2_2_1_2_3_0_0": "SAME", "2_2_1_2_3_0_1": "SAME", "2_2_1_2_3_1_0": "SAME", "2_2_1_2_3_1_1": "SAME", "2_2_1_2_3_2_0": "SAME", "2_2_1_2_3_2_1": "SAME", "2_2_1_3_0_0_0": "SAME", "2_2_1_3_0_0_1": "SAME", "2_2_1_3_0_1_0": "SAME", "2_2_1_3_0_1_1": "SAME", "2_2_1_3_0_2_0": "SAME", "2_2_1_3_0_2_1": "SAME", "2_2_1_3_1_0_0": "SAME", "2_2_1_3_1_0_1": "SAME", "2_2_1_3_1_1_0": "SAME", "2_2_1_3_1_1_1": "SAME", "2_2_1_3_1_2_0": "SAME", "2_2_1_3_1_2_1": "SAME", "2_2_1_3_2_0_0": "SAME", "2_2_1_3_2_0_1": "SAME", "2_2_1_3_2_1_0": "SAME", "2_2_1_3_2_1_1": "SAME", "2_2_1_3_2_2_0": "SAME", "2_2_1_3_2_2_1": "SAME", "2_2_1_3_3_0_0": "SAME", "2_2_1_3_3_0_1": "SAME", "2_2_1_3_3_1_0": "SAME", "2_2_1_3_3_1_1": "SAME", "2_2_1_3_3_2_0": "SAME", "2_2_1_3_3_2_1": "SAME", "2_2_2_0_0_0_0": "SAME", "2_2_2_0_0_0_1": "SAME", "2_2_2_0_0_1_0": "SAME", "2_2_2_0_0_1_1": "SAME", "2_2_2_0_0_2_0": "SAME", "2_2_2_0_0_2_1": "SAME", "2_2_2_0_1_0_0": "SAME", "2_2_2_0_1_0_1": "SAME", "2_2_2_0_1_1_0": "SAME", "2_2_2_0_1_1_1": "SAME", "2_2_2_0_1_2_0": "SAME", "2_2_2_0_1_2_1": "SAME", "2_2_2_0_2_0_0": "SAME", "2_2_2_0_2_0_1": "SAME", "2_2_2_0_2_1_0": "SAME", "2_2_2_0_2_1_1": "SAME", "2_2_2_0_2_2_0": "SAME", "2_2_2_0_2_2_1": "SAME", "2_2_2_0_3_0_0": "SAME", "2_2_2_0_3_0_1": "SAME", "2_2_2_0_3_1_0": "SAME", "2_2_2_0_3_1_1": "SAME", "2_2_2_0_3_2_0": "SAME", "2_2_2_0_3_2_1": "SAME", "2_2_2_1_0_0_0": "SAME", "2_2_2_1_0_0_1": "SAME", "2_2_2_1_0_1_0": "SAME", "2_2_2_1_0_1_1": "SAME", "2_2_2_1_0_2_0": "SAME", "2_2_2_1_0_2_1": "SAME", "2_2_2_1_1_0_0": "SAME", "2_2_2_1_1_0_1": "SAME", "2_2_2_1_1_1_0": "SAME", "2_2_2_1_1_1_1": "SAME", "2_2_2_1_1_2_0": "SAME", "2_2_2_1_1_2_1": "SAME", "2_2_2_1_2_0_0": "SAME", "2_2_2_1_2_0_1": "SAME", "2_2_2_1_2_1_0": "SAME", "2_2_2_1_2_1_1": "SAME", "2_2_2_1_2_2_0": "SAME", "2_2_2_1_2_2_1": "SAME", "2_2_2_1_3_0_0": "SAME", "2_2_2_1_3_0_1": "SAME", "2_2_2_1_3_1_0": "SAME", "2_2_2_1_3_1_1": "SAME", "2_2_2_1_3_2_0": "SAME", "2_2_2_1_3_2_1": "SAME", "2_2_2_2_0_0_0": "SAME", "2_2_2_2_0_0_1": "SAME", "2_2_2_2_0_1_0": "SAME", "2_2_2_2_0_1_1": "SAME", "2_2_2_2_0_2_0": "SAME", "2_2_2_2_0_2_1": "SAME", "2_2_2_2_1_0_0": "SAME", "2_2_2_2_1_0_1": "SAME", "2_2_2_2_1_1_0": "SAME", "2_2_2_2_1_1_1": "SAME", "2_2_2_2_1_2_0": "SAME", "2_2_2_2_1_2_1": "SAME", "2_2_2_2_2_0_0": "SAME", "2_2_2_2_2_0_1": "SAME", "2_2_2_2_2_1_0": "SAME", "2_2_2_2_2_1_1": "SAME", "2_2_2_2_2_2_0": "SAME", "2_2_2_2_2_2_1": "SAME", "2_2_2_2_3_0_0": "SAME", "2_2_2_2_3_0_1": "SAME", "2_2_2_2_3_1_0": "SAME", "2_2_2_2_3_1_1": "SAME", "2_2_2_2_3_2_0": "SAME", "2_2_2_2_3_2_1": "SAME", "2_2_2_3_0_0_0": "SAME", "2_2_2_3_0_0_1": "SAME", "2_2_2_3_0_1_0": "SAME", "2_2_2_3_0_1_1": "SAME", "2_2_2_3_0_2_0": "SAME", "2_2_2_3_0_2_1": "SAME", "2_2_2_3_1_0_0": "SAME", "2_2_2_3_1_0_1": "SAME", "2_2_2_3_1_1_0": "SAME", "2_2_2_3_1_1_1": "SAME", "2_2_2_3_1_2_0": "SAME", "2_2_2_3_1_2_1": "SAME", "2_2_2_3_2_0_0": "SAME", "2_2_2_3_2_0_1": "SAME", "2_2_2_3_2_1_0": "SAME", "2_2_2_3_2_1_1": "SAME", "2_2_2_3_2_2_0": "SAME", "2_2_2_3_2_2_1": "SAME", "2_2_2_3_3_0_0": "SAME", "2_2_2_3_3_0_1": "SAME", "2_2_2_3_3_1_0": "SAME", "2_2_2_3_3_1_1": "SAME", "2_2_2_3_3_2_0": "SAME", "2_2_2_3_3_2_1": "SAME", "2_2_3_0_0_0_0": "SAME", "2_2_3_0_0_0_1": "SAME", "2_2_3_0_0_1_0": "SAME", "2_2_3_0_0_1_1": "SAME", "2_2_3_0_0_2_0": "SAME", "2_2_3_0_0_2_1": "SAME", "2_2_3_0_1_0_0": "SAME", "2_2_3_0_1_0_1": "SAME", "2_2_3_0_1_1_0": "SAME", "2_2_3_0_1_1_1": "SAME", "2_2_3_0_1_2_0": "SAME", "2_2_3_0_1_2_1": "SAME", "2_2_3_0_2_0_0": "SAME", "2_2_3_0_2_0_1": "SAME", "2_2_3_0_2_1_0": "SAME", "2_2_3_0_2_1_1": "SAME", "2_2_3_0_2_2_0": "SAME", "2_2_3_0_2_2_1": "SAME", "2_2_3_0_3_0_0": "SAME", "2_2_3_0_3_0_1": "SAME", "2_2_3_0_3_1_0": "SAME", "2_2_3_0_3_1_1": "SAME", "2_2_3_0_3_2_0": "SAME", "2_2_3_0_3_2_1": "SAME", "2_2_3_1_0_0_0": "SAME", "2_2_3_1_0_0_1": "SAME", "2_2_3_1_0_1_0": "SAME", "2_2_3_1_0_1_1": "SAME", "2_2_3_1_0_2_0": "SAME", "2_2_3_1_0_2_1": "SAME", "2_2_3_1_1_0_0": "SAME", "2_2_3_1_1_0_1": "SAME", "2_2_3_1_1_1_0": "SAME", "2_2_3_1_1_1_1": "SAME", "2_2_3_1_1_2_0": "SAME", "2_2_3_1_1_2_1": "SAME", "2_2_3_1_2_0_0": "SAME", "2_2_3_1_2_0_1": "SAME", "2_2_3_1_2_1_0": "SAME", "2_2_3_1_2_1_1": "SAME", "2_2_3_1_2_2_0": "SAME", "2_2_3_1_2_2_1": "SAME", "2_2_3_1_3_0_0": "SAME", "2_2_3_1_3_0_1": "SAME", "2_2_3_1_3_1_0": "SAME", "2_2_3_1_3_1_1": "SAME", "2_2_3_1_3_2_0": "SAME", "2_2_3_1_3_2_1": "SAME", "2_2_3_2_0_0_0": "SAME", "2_2_3_2_0_0_1": "OPP", "2_2_3_2_0_1_0": "SAME", "2_2_3_2_0_1_1": "SAME", "2_2_3_2_0_2_0": "SAME", "2_2_3_2_0_2_1": "SAME", "2_2_3_2_1_0_0": "SAME", "2_2_3_2_1_0_1": "SAME", "2_2_3_2_1_1_0": "SAME", "2_2_3_2_1_1_1": "SAME", "2_2_3_2_1_2_0": "SAME", "2_2_3_2_1_2_1": "SAME", "2_2_3_2_2_0_0": "SAME", "2_2_3_2_2_0_1": "SAME", "2_2_3_2_2_1_0": "SAME", "2_2_3_2_2_1_1": "SAME", "2_2_3_2_2_2_0": "SAME", "2_2_3_2_2_2_1": "SAME", "2_2_3_2_3_0_0": "SAME", "2_2_3_2_3_0_1": "SAME", "2_2_3_2_3_1_0": "SAME", "2_2_3_2_3_1_1": "SAME", "2_2_3_2_3_2_0": "SAME", "2_2_3_2_3_2_1": "SAME", "2_2_3_3_0_0_0": "SAME", "2_2_3_3_0_0_1": "SAME", "2_2_3_3_0_1_0": "SAME", "2_2_3_3_0_1_1": "SAME", "2_2_3_3_0_2_0": "SAME", "2_2_3_3_0_2_1": "SAME", "2_2_3_3_1_0_0": "SAME", "2_2_3_3_1_0_1": "SAME", "2_2_3_3_1_1_0": "SAME", "2_2_3_3_1_1_1": "SAME", "2_2_3_3_1_2_0": "SAME", "2_2_3_3_1_2_1": "SAME", "2_2_3_3_2_0_0": "SAME", "2_2_3_3_2_0_1": "SAME", "2_2_3_3_2_1_0": "SAME", "2_2_3_3_2_1_1": "SAME", "2_2_3_3_2_2_0": "SAME", "2_2_3_3_2_2_1": "SAME", "2_2_3_3_3_0_0": "SAME", "2_2_3_3_3_0_1": "SAME", "2_2_3_3_3_1_0": "SAME", "2_2_3_3_3_1_1": "SAME", "2_2_3_3_3_2_0": "SAME", "2_2_3_3_3_2_1": "SAME", "2_3_0_0_0_0_0": "SAME", "2_3_0_0_0_0_1": "SAME", "2_3_0_0_0_1_0": "SAME", "2_3_0_0_0_1_1": "SAME", "2_3_0_0_0_2_0": "SAME", "2_3_0_0_0_2_1": "SAME", "2_3_0_0_1_0_0": "SAME", "2_3_0_0_1_0_1": "SAME", "2_3_0_0_1_1_0": "SAME", "2_3_0_0_1_1_1": "SAME", "2_3_0_0_1_2_0": "SAME", "2_3_0_0_1_2_1": "SAME", "2_3_0_0_2_0_0": "SAME", "2_3_0_0_2_0_1": "SAME", "2_3_0_0_2_1_0": "SAME", "2_3_0_0_2_1_1": "SAME", "2_3_0_0_2_2_0": "SAME", "2_3_0_0_2_2_1": "SAME", "2_3_0_0_3_0_0": "SAME", "2_3_0_0_3_0_1": "SAME", "2_3_0_0_3_1_0": "SAME", "2_3_0_0_3_1_1": "SAME", "2_3_0_0_3_2_0": "SAME", "2_3_0_0_3_2_1": "SAME", "2_3_0_1_0_0_0": "SAME", "2_3_0_1_0_0_1": "SAME", "2_3_0_1_0_1_0": "SAME", "2_3_0_1_0_1_1": "SAME", "2_3_0_1_0_2_0": "SAME", "2_3_0_1_0_2_1": "SAME", "2_3_0_1_1_0_0": "SAME", "2_3_0_1_1_0_1": "SAME", "2_3_0_1_1_1_0": "SAME", "2_3_0_1_1_1_1": "SAME", "2_3_0_1_1_2_0": "SAME", "2_3_0_1_1_2_1": "SAME", "2_3_0_1_2_0_0": "SAME", "2_3_0_1_2_0_1": "SAME", "2_3_0_1_2_1_0": "SAME", "2_3_0_1_2_1_1": "SAME", "2_3_0_1_2_2_0": "SAME", "2_3_0_1_2_2_1": "SAME", "2_3_0_1_3_0_0": "SAME", "2_3_0_1_3_0_1": "SAME", "2_3_0_1_3_1_0": "SAME", "2_3_0_1_3_1_1": "SAME", "2_3_0_1_3_2_0": "SAME", "2_3_0_1_3_2_1": "SAME", "2_3_0_2_0_0_0": "SAME", "2_3_0_2_0_0_1": "SAME", "2_3_0_2_0_1_0": "SAME", "2_3_0_2_0_1_1": "SAME", "2_3_0_2_0_2_0": "SAME", "2_3_0_2_0_2_1": "SAME", "2_3_0_2_1_0_0": "SAME", "2_3_0_2_1_0_1": "SAME", "2_3_0_2_1_1_0": "SAME", "2_3_0_2_1_1_1": "SAME", "2_3_0_2_1_2_0": "SAME", "2_3_0_2_1_2_1": "SAME", "2_3_0_2_2_0_0": "SAME", "2_3_0_2_2_0_1": "SAME", "2_3_0_2_2_1_0": "SAME", "2_3_0_2_2_1_1": "SAME", "2_3_0_2_2_2_0": "SAME", "2_3_0_2_2_2_1": "SAME", "2_3_0_2_3_0_0": "SAME", "2_3_0_2_3_0_1": "SAME", "2_3_0_2_3_1_0": "SAME", "2_3_0_2_3_1_1": "SAME", "2_3_0_2_3_2_0": "SAME", "2_3_0_2_3_2_1": "SAME", "2_3_0_3_0_0_0": "SAME", "2_3_0_3_0_0_1": "SAME", "2_3_0_3_0_1_0": "SAME", "2_3_0_3_0_1_1": "SAME", "2_3_0_3_0_2_0": "SAME", "2_3_0_3_0_2_1": "SAME", "2_3_0_3_1_0_0": "SAME", "2_3_0_3_1_0_1": "SAME", "2_3_0_3_1_1_0": "SAME", "2_3_0_3_1_1_1": "SAME", "2_3_0_3_1_2_0": "SAME", "2_3_0_3_1_2_1": "SAME", "2_3_0_3_2_0_0": "SAME", "2_3_0_3_2_0_1": "SAME", "2_3_0_3_2_1_0": "SAME", "2_3_0_3_2_1_1": "SAME", "2_3_0_3_2_2_0": "SAME", "2_3_0_3_2_2_1": "SAME", "2_3_0_3_3_0_0": "SAME", "2_3_0_3_3_0_1": "SAME", "2_3_0_3_3_1_0": "SAME", "2_3_0_3_3_1_1": "SAME", "2_3_0_3_3_2_0": "SAME", "2_3_0_3_3_2_1": "SAME", "2_3_1_0_0_0_0": "SAME", "2_3_1_0_0_0_1": "SAME", "2_3_1_0_0_1_0": "SAME", "2_3_1_0_0_1_1": "SAME", "2_3_1_0_0_2_0": "SAME", "2_3_1_0_0_2_1": "SAME", "2_3_1_0_1_0_0": "SAME", "2_3_1_0_1_0_1": "SAME", "2_3_1_0_1_1_0": "SAME", "2_3_1_0_1_1_1": "SAME", "2_3_1_0_1_2_0": "SAME", "2_3_1_0_1_2_1": "SAME", "2_3_1_0_2_0_0": "SAME", "2_3_1_0_2_0_1": "SAME", "2_3_1_0_2_1_0": "SAME", "2_3_1_0_2_1_1": "SAME", "2_3_1_0_2_2_0": "SAME", "2_3_1_0_2_2_1": "SAME", "2_3_1_0_3_0_0": "SAME", "2_3_1_0_3_0_1": "SAME", "2_3_1_0_3_1_0": "SAME", "2_3_1_0_3_1_1": "SAME", "2_3_1_0_3_2_0": "SAME", "2_3_1_0_3_2_1": "SAME", "2_3_1_1_0_0_0": "SAME", "2_3_1_1_0_0_1": "SAME", "2_3_1_1_0_1_0": "SAME", "2_3_1_1_0_1_1": "SAME", "2_3_1_1_0_2_0": "SAME", "2_3_1_1_0_2_1": "SAME", "2_3_1_1_1_0_0": "SAME", "2_3_1_1_1_0_1": "SAME", "2_3_1_1_1_1_0": "SAME", "2_3_1_1_1_1_1": "SAME", "2_3_1_1_1_2_0": "SAME", "2_3_1_1_1_2_1": "SAME", "2_3_1_1_2_0_0": "SAME", "2_3_1_1_2_0_1": "SAME", "2_3_1_1_2_1_0": "SAME", "2_3_1_1_2_1_1": "SAME", "2_3_1_1_2_2_0": "SAME", "2_3_1_1_2_2_1": "SAME", "2_3_1_1_3_0_0": "SAME", "2_3_1_1_3_0_1": "SAME", "2_3_1_1_3_1_0": "SAME", "2_3_1_1_3_1_1": "SAME", "2_3_1_1_3_2_0": "SAME", "2_3_1_1_3_2_1": "SAME", "2_3_1_2_0_0_0": "SAME", "2_3_1_2_0_0_1": "SAME", "2_3_1_2_0_1_0": "SAME", "2_3_1_2_0_1_1": "SAME", "2_3_1_2_0_2_0": "SAME", "2_3_1_2_0_2_1": "SAME", "2_3_1_2_1_0_0": "SAME", "2_3_1_2_1_0_1": "SAME", "2_3_1_2_1_1_0": "SAME", "2_3_1_2_1_1_1": "SAME", "2_3_1_2_1_2_0": "SAME", "2_3_1_2_1_2_1": "SAME", "2_3_1_2_2_0_0": "SAME", "2_3_1_2_2_0_1": "SAME", "2_3_1_2_2_1_0": "SAME", "2_3_1_2_2_1_1": "SAME", "2_3_1_2_2_2_0": "SAME", "2_3_1_2_2_2_1": "SAME", "2_3_1_2_3_0_0": "SAME", "2_3_1_2_3_0_1": "SAME", "2_3_1_2_3_1_0": "SAME", "2_3_1_2_3_1_1": "SAME", "2_3_1_2_3_2_0": "SAME", "2_3_1_2_3_2_1": "SAME", "2_3_1_3_0_0_0": "SAME", "2_3_1_3_0_0_1": "SAME", "2_3_1_3_0_1_0": "SAME", "2_3_1_3_0_1_1": "SAME", "2_3_1_3_0_2_0": "SAME", "2_3_1_3_0_2_1": "SAME", "2_3_1_3_1_0_0": "SAME", "2_3_1_3_1_0_1": "SAME", "2_3_1_3_1_1_0": "SAME", "2_3_1_3_1_1_1": "SAME", "2_3_1_3_1_2_0": "SAME", "2_3_1_3_1_2_1": "SAME", "2_3_1_3_2_0_0": "SAME", "2_3_1_3_2_0_1": "SAME", "2_3_1_3_2_1_0": "SAME", "2_3_1_3_2_1_1": "SAME", "2_3_1_3_2_2_0": "SAME", "2_3_1_3_2_2_1": "SAME", "2_3_1_3_3_0_0": "SAME", "2_3_1_3_3_0_1": "SAME", "2_3_1_3_3_1_0": "SAME", "2_3_1_3_3_1_1": "SAME", "2_3_1_3_3_2_0": "SAME", "2_3_1_3_3_2_1": "SAME", "2_3_2_0_0_0_0": "SAME", "2_3_2_0_0_0_1": "SAME", "2_3_2_0_0_1_0": "SAME", "2_3_2_0_0_1_1": "SAME", "2_3_2_0_0_2_0": "SAME", "2_3_2_0_0_2_1": "SAME", "2_3_2_0_1_0_0": "SAME", "2_3_2_0_1_0_1": "SAME", "2_3_2_0_1_1_0": "SAME", "2_3_2_0_1_1_1": "SAME", "2_3_2_0_1_2_0": "SAME", "2_3_2_0_1_2_1": "SAME", "2_3_2_0_2_0_0": "SAME", "2_3_2_0_2_0_1": "SAME", "2_3_2_0_2_1_0": "SAME", "2_3_2_0_2_1_1": "SAME", "2_3_2_0_2_2_0": "SAME", "2_3_2_0_2_2_1": "SAME", "2_3_2_0_3_0_0": "SAME", "2_3_2_0_3_0_1": "SAME", "2_3_2_0_3_1_0": "SAME", "2_3_2_0_3_1_1": "SAME", "2_3_2_0_3_2_0": "SAME", "2_3_2_0_3_2_1": "SAME", "2_3_2_1_0_0_0": "SAME", "2_3_2_1_0_0_1": "SAME", "2_3_2_1_0_1_0": "SAME", "2_3_2_1_0_1_1": "SAME", "2_3_2_1_0_2_0": "SAME", "2_3_2_1_0_2_1": "SAME", "2_3_2_1_1_0_0": "SAME", "2_3_2_1_1_0_1": "SAME", "2_3_2_1_1_1_0": "SAME", "2_3_2_1_1_1_1": "SAME", "2_3_2_1_1_2_0": "SAME", "2_3_2_1_1_2_1": "SAME", "2_3_2_1_2_0_0": "SAME", "2_3_2_1_2_0_1": "SAME", "2_3_2_1_2_1_0": "SAME", "2_3_2_1_2_1_1": "SAME", "2_3_2_1_2_2_0": "SAME", "2_3_2_1_2_2_1": "SAME", "2_3_2_1_3_0_0": "SAME", "2_3_2_1_3_0_1": "SAME", "2_3_2_1_3_1_0": "SAME", "2_3_2_1_3_1_1": "SAME", "2_3_2_1_3_2_0": "SAME", "2_3_2_1_3_2_1": "SAME", "2_3_2_2_0_0_0": "SAME", "2_3_2_2_0_0_1": "SAME", "2_3_2_2_0_1_0": "SAME", "2_3_2_2_0_1_1": "SAME", "2_3_2_2_0_2_0": "SAME", "2_3_2_2_0_2_1": "SAME", "2_3_2_2_1_0_0": "SAME", "2_3_2_2_1_0_1": "SAME", "2_3_2_2_1_1_0": "SAME", "2_3_2_2_1_1_1": "SAME", "2_3_2_2_1_2_0": "SAME", "2_3_2_2_1_2_1": "SAME", "2_3_2_2_2_0_0": "SAME", "2_3_2_2_2_0_1": "SAME", "2_3_2_2_2_1_0": "SAME", "2_3_2_2_2_1_1": "SAME", "2_3_2_2_2_2_0": "SAME", "2_3_2_2_2_2_1": "SAME", "2_3_2_2_3_0_0": "SAME", "2_3_2_2_3_0_1": "SAME", "2_3_2_2_3_1_0": "SAME", "2_3_2_2_3_1_1": "SAME", "2_3_2_2_3_2_0": "SAME", "2_3_2_2_3_2_1": "SAME", "2_3_2_3_0_0_0": "SAME", "2_3_2_3_0_0_1": "SAME", "2_3_2_3_0_1_0": "SAME", "2_3_2_3_0_1_1": "SAME", "2_3_2_3_0_2_0": "SAME", "2_3_2_3_0_2_1": "SAME", "2_3_2_3_1_0_0": "SAME", "2_3_2_3_1_0_1": "SAME", "2_3_2_3_1_1_0": "SAME", "2_3_2_3_1_1_1": "SAME", "2_3_2_3_1_2_0": "SAME", "2_3_2_3_1_2_1": "SAME", "2_3_2_3_2_0_0": "SAME", "2_3_2_3_2_0_1": "SAME", "2_3_2_3_2_1_0": "SAME", "2_3_2_3_2_1_1": "SAME", "2_3_2_3_2_2_0": "SAME", "2_3_2_3_2_2_1": "SAME", "2_3_2_3_3_0_0": "SAME", "2_3_2_3_3_0_1": "SAME", "2_3_2_3_3_1_0": "SAME", "2_3_2_3_3_1_1": "SAME", "2_3_2_3_3_2_0": "SAME", "2_3_2_3_3_2_1": "SAME", "2_3_3_0_0_0_0": "SAME", "2_3_3_0_0_0_1": "SAME", "2_3_3_0_0_1_0": "SAME", "2_3_3_0_0_1_1": "SAME", "2_3_3_0_0_2_0": "SAME", "2_3_3_0_0_2_1": "SAME", "2_3_3_0_1_0_0": "SAME", "2_3_3_0_1_0_1": "SAME", "2_3_3_0_1_1_0": "SAME", "2_3_3_0_1_1_1": "SAME", "2_3_3_0_1_2_0": "SAME", "2_3_3_0_1_2_1": "SAME", "2_3_3_0_2_0_0": "SAME", "2_3_3_0_2_0_1": "SAME", "2_3_3_0_2_1_0": "SAME", "2_3_3_0_2_1_1": "SAME", "2_3_3_0_2_2_0": "SAME", "2_3_3_0_2_2_1": "SAME", "2_3_3_0_3_0_0": "SAME", "2_3_3_0_3_0_1": "SAME", "2_3_3_0_3_1_0": "SAME", "2_3_3_0_3_1_1": "SAME", "2_3_3_0_3_2_0": "SAME", "2_3_3_0_3_2_1": "SAME", "2_3_3_1_0_0_0": "SAME", "2_3_3_1_0_0_1": "SAME", "2_3_3_1_0_1_0": "SAME", "2_3_3_1_0_1_1": "SAME", "2_3_3_1_0_2_0": "SAME", "2_3_3_1_0_2_1": "SAME", "2_3_3_1_1_0_0": "SAME", "2_3_3_1_1_0_1": "SAME", "2_3_3_1_1_1_0": "SAME", "2_3_3_1_1_1_1": "SAME", "2_3_3_1_1_2_0": "SAME", "2_3_3_1_1_2_1": "SAME", "2_3_3_1_2_0_0": "SAME", "2_3_3_1_2_0_1": "SAME", "2_3_3_1_2_1_0": "SAME", "2_3_3_1_2_1_1": "SAME", "2_3_3_1_2_2_0": "SAME", "2_3_3_1_2_2_1": "SAME", "2_3_3_1_3_0_0": "SAME", "2_3_3_1_3_0_1": "SAME", "2_3_3_1_3_1_0": "SAME", "2_3_3_1_3_1_1": "SAME", "2_3_3_1_3_2_0": "SAME", "2_3_3_1_3_2_1": "SAME", "2_3_3_2_0_0_0": "SAME", "2_3_3_2_0_0_1": "SAME", "2_3_3_2_0_1_0": "SAME", "2_3_3_2_0_1_1": "SAME", "2_3_3_2_0_2_0": "SAME", "2_3_3_2_0_2_1": "SAME", "2_3_3_2_1_0_0": "SAME", "2_3_3_2_1_0_1": "SAME", "2_3_3_2_1_1_0": "SAME", "2_3_3_2_1_1_1": "SAME", "2_3_3_2_1_2_0": "SAME", "2_3_3_2_1_2_1": "SAME", "2_3_3_2_2_0_0": "SAME", "2_3_3_2_2_0_1": "SAME", "2_3_3_2_2_1_0": "SAME", "2_3_3_2_2_1_1": "SAME", "2_3_3_2_2_2_0": "SAME", "2_3_3_2_2_2_1": "SAME", "2_3_3_2_3_0_0": "SAME", "2_3_3_2_3_0_1": "SAME", "2_3_3_2_3_1_0": "SAME", "2_3_3_2_3_1_1": "SAME", "2_3_3_2_3_2_0": "SAME", "2_3_3_2_3_2_1": "SAME", "2_3_3_3_0_0_0": "SAME", "2_3_3_3_0_0_1": "SAME", "2_3_3_3_0_1_0": "SAME", "2_3_3_3_0_1_1": "SAME", "2_3_3_3_0_2_0": "SAME", "2_3_3_3_0_2_1": "SAME", "2_3_3_3_1_0_0": "SAME", "2_3_3_3_1_0_1": "SAME", "2_3_3_3_1_1_0": "SAME", "2_3_3_3_1_1_1": "SAME", "2_3_3_3_1_2_0": "SAME", "2_3_3_3_1_2_1": "SAME", "2_3_3_3_2_0_0": "SAME", "2_3_3_3_2_0_1": "SAME", "2_3_3_3_2_1_0": "SAME", "2_3_3_3_2_1_1": "SAME", "2_3_3_3_2_2_0": "SAME", "2_3_3_3_2_2_1": "SAME", "2_3_3_3_3_0_0": "SAME", "2_3_3_3_3_0_1": "SAME", "2_3_3_3_3_1_0": "SAME", "2_3_3_3_3_1_1": "SAME", "2_3_3_3_3_2_0": "SAME", "2_3_3_3_3_2_1": "SAME", "2_4_0_0_0_0_0": "SAME", "2_4_0_0_0_0_1": "SAME", "2_4_0_0_0_1_0": "SAME", "2_4_0_0_0_1_1": "SAME", "2_4_0_0_0_2_0": "SAME", "2_4_0_0_0_2_1": "SAME", "2_4_0_0_1_0_0": "SAME", "2_4_0_0_1_0_1": "SAME", "2_4_0_0_1_1_0": "SAME", "2_4_0_0_1_1_1": "SAME", "2_4_0_0_1_2_0": "SAME", "2_4_0_0_1_2_1": "SAME", "2_4_0_0_2_0_0": "SAME", "2_4_0_0_2_0_1": "SAME", "2_4_0_0_2_1_0": "SAME", "2_4_0_0_2_1_1": "SAME", "2_4_0_0_2_2_0": "SAME", "2_4_0_0_2_2_1": "SAME", "2_4_0_0_3_0_0": "SAME", "2_4_0_0_3_0_1": "SAME", "2_4_0_0_3_1_0": "SAME", "2_4_0_0_3_1_1": "SAME", "2_4_0_0_3_2_0": "SAME", "2_4_0_0_3_2_1": "SAME", "2_4_0_1_0_0_0": "SAME", "2_4_0_1_0_0_1": "SAME", "2_4_0_1_0_1_0": "SAME", "2_4_0_1_0_1_1": "SAME", "2_4_0_1_0_2_0": "SAME", "2_4_0_1_0_2_1": "SAME", "2_4_0_1_1_0_0": "SAME", "2_4_0_1_1_0_1": "SAME", "2_4_0_1_1_1_0": "SAME", "2_4_0_1_1_1_1": "SAME", "2_4_0_1_1_2_0": "SAME", "2_4_0_1_1_2_1": "SAME", "2_4_0_1_2_0_0": "SAME", "2_4_0_1_2_0_1": "SAME", "2_4_0_1_2_1_0": "SAME", "2_4_0_1_2_1_1": "SAME", "2_4_0_1_2_2_0": "SAME", "2_4_0_1_2_2_1": "SAME", "2_4_0_1_3_0_0": "SAME", "2_4_0_1_3_0_1": "SAME", "2_4_0_1_3_1_0": "SAME", "2_4_0_1_3_1_1": "SAME", "2_4_0_1_3_2_0": "SAME", "2_4_0_1_3_2_1": "SAME", "2_4_0_2_0_0_0": "SAME", "2_4_0_2_0_0_1": "SAME", "2_4_0_2_0_1_0": "SAME", "2_4_0_2_0_1_1": "SAME", "2_4_0_2_0_2_0": "SAME", "2_4_0_2_0_2_1": "SAME", "2_4_0_2_1_0_0": "SAME", "2_4_0_2_1_0_1": "SAME", "2_4_0_2_1_1_0": "SAME", "2_4_0_2_1_1_1": "SAME", "2_4_0_2_1_2_0": "SAME", "2_4_0_2_1_2_1": "SAME", "2_4_0_2_2_0_0": "SAME", "2_4_0_2_2_0_1": "SAME", "2_4_0_2_2_1_0": "SAME", "2_4_0_2_2_1_1": "SAME", "2_4_0_2_2_2_0": "SAME", "2_4_0_2_2_2_1": "SAME", "2_4_0_2_3_0_0": "SAME", "2_4_0_2_3_0_1": "SAME", "2_4_0_2_3_1_0": "SAME", "2_4_0_2_3_1_1": "SAME", "2_4_0_2_3_2_0": "SAME", "2_4_0_2_3_2_1": "SAME", "2_4_0_3_0_0_0": "SAME", "2_4_0_3_0_0_1": "SAME", "2_4_0_3_0_1_0": "SAME", "2_4_0_3_0_1_1": "SAME", "2_4_0_3_0_2_0": "SAME", "2_4_0_3_0_2_1": "SAME", "2_4_0_3_1_0_0": "SAME", "2_4_0_3_1_0_1": "SAME", "2_4_0_3_1_1_0": "SAME", "2_4_0_3_1_1_1": "SAME", "2_4_0_3_1_2_0": "SAME", "2_4_0_3_1_2_1": "SAME", "2_4_0_3_2_0_0": "SAME", "2_4_0_3_2_0_1": "SAME", "2_4_0_3_2_1_0": "SAME", "2_4_0_3_2_1_1": "SAME", "2_4_0_3_2_2_0": "SAME", "2_4_0_3_2_2_1": "SAME", "2_4_0_3_3_0_0": "SAME", "2_4_0_3_3_0_1": "SAME", "2_4_0_3_3_1_0": "SAME", "2_4_0_3_3_1_1": "SAME", "2_4_0_3_3_2_0": "SAME", "2_4_0_3_3_2_1": "SAME", "2_4_1_0_0_0_0": "SAME", "2_4_1_0_0_0_1": "SAME", "2_4_1_0_0_1_0": "SAME", "2_4_1_0_0_1_1": "SAME", "2_4_1_0_0_2_0": "SAME", "2_4_1_0_0_2_1": "SAME", "2_4_1_0_1_0_0": "SAME", "2_4_1_0_1_0_1": "SAME", "2_4_1_0_1_1_0": "SAME", "2_4_1_0_1_1_1": "SAME", "2_4_1_0_1_2_0": "SAME", "2_4_1_0_1_2_1": "SAME", "2_4_1_0_2_0_0": "SAME", "2_4_1_0_2_0_1": "SAME", "2_4_1_0_2_1_0": "SAME", "2_4_1_0_2_1_1": "SAME", "2_4_1_0_2_2_0": "SAME", "2_4_1_0_2_2_1": "SAME", "2_4_1_0_3_0_0": "SAME", "2_4_1_0_3_0_1": "SAME", "2_4_1_0_3_1_0": "SAME", "2_4_1_0_3_1_1": "SAME", "2_4_1_0_3_2_0": "SAME", "2_4_1_0_3_2_1": "SAME", "2_4_1_1_0_0_0": "SAME", "2_4_1_1_0_0_1": "SAME", "2_4_1_1_0_1_0": "SAME", "2_4_1_1_0_1_1": "SAME", "2_4_1_1_0_2_0": "SAME", "2_4_1_1_0_2_1": "SAME", "2_4_1_1_1_0_0": "SAME", "2_4_1_1_1_0_1": "SAME", "2_4_1_1_1_1_0": "SAME", "2_4_1_1_1_1_1": "SAME", "2_4_1_1_1_2_0": "SAME", "2_4_1_1_1_2_1": "SAME", "2_4_1_1_2_0_0": "SAME", "2_4_1_1_2_0_1": "SAME", "2_4_1_1_2_1_0": "SAME", "2_4_1_1_2_1_1": "SAME", "2_4_1_1_2_2_0": "SAME", "2_4_1_1_2_2_1": "SAME", "2_4_1_1_3_0_0": "SAME", "2_4_1_1_3_0_1": "SAME", "2_4_1_1_3_1_0": "SAME", "2_4_1_1_3_1_1": "SAME", "2_4_1_1_3_2_0": "SAME", "2_4_1_1_3_2_1": "SAME", "2_4_1_2_0_0_0": "SAME", "2_4_1_2_0_0_1": "SAME", "2_4_1_2_0_1_0": "SAME", "2_4_1_2_0_1_1": "SAME", "2_4_1_2_0_2_0": "SAME", "2_4_1_2_0_2_1": "SAME", "2_4_1_2_1_0_0": "SAME", "2_4_1_2_1_0_1": "SAME", "2_4_1_2_1_1_0": "SAME", "2_4_1_2_1_1_1": "SAME", "2_4_1_2_1_2_0": "SAME", "2_4_1_2_1_2_1": "SAME", "2_4_1_2_2_0_0": "SAME", "2_4_1_2_2_0_1": "SAME", "2_4_1_2_2_1_0": "SAME", "2_4_1_2_2_1_1": "SAME", "2_4_1_2_2_2_0": "SAME", "2_4_1_2_2_2_1": "SAME", "2_4_1_2_3_0_0": "SAME", "2_4_1_2_3_0_1": "SAME", "2_4_1_2_3_1_0": "SAME", "2_4_1_2_3_1_1": "SAME", "2_4_1_2_3_2_0": "SAME", "2_4_1_2_3_2_1": "SAME", "2_4_1_3_0_0_0": "SAME", "2_4_1_3_0_0_1": "SAME", "2_4_1_3_0_1_0": "SAME", "2_4_1_3_0_1_1": "SAME", "2_4_1_3_0_2_0": "SAME", "2_4_1_3_0_2_1": "SAME", "2_4_1_3_1_0_0": "SAME", "2_4_1_3_1_0_1": "SAME", "2_4_1_3_1_1_0": "SAME", "2_4_1_3_1_1_1": "SAME", "2_4_1_3_1_2_0": "SAME", "2_4_1_3_1_2_1": "SAME", "2_4_1_3_2_0_0": "SAME", "2_4_1_3_2_0_1": "SAME", "2_4_1_3_2_1_0": "SAME", "2_4_1_3_2_1_1": "SAME", "2_4_1_3_2_2_0": "SAME", "2_4_1_3_2_2_1": "SAME", "2_4_1_3_3_0_0": "SAME", "2_4_1_3_3_0_1": "SAME", "2_4_1_3_3_1_0": "SAME", "2_4_1_3_3_1_1": "SAME", "2_4_1_3_3_2_0": "SAME", "2_4_1_3_3_2_1": "SAME", "2_4_2_0_0_0_0": "SAME", "2_4_2_0_0_0_1": "SAME", "2_4_2_0_0_1_0": "SAME", "2_4_2_0_0_1_1": "SAME", "2_4_2_0_0_2_0": "SAME", "2_4_2_0_0_2_1": "SAME", "2_4_2_0_1_0_0": "SAME", "2_4_2_0_1_0_1": "SAME", "2_4_2_0_1_1_0": "SAME", "2_4_2_0_1_1_1": "SAME", "2_4_2_0_1_2_0": "SAME", "2_4_2_0_1_2_1": "SAME", "2_4_2_0_2_0_0": "SAME", "2_4_2_0_2_0_1": "SAME", "2_4_2_0_2_1_0": "SAME", "2_4_2_0_2_1_1": "SAME", "2_4_2_0_2_2_0": "SAME", "2_4_2_0_2_2_1": "SAME", "2_4_2_0_3_0_0": "SAME", "2_4_2_0_3_0_1": "SAME", "2_4_2_0_3_1_0": "SAME", "2_4_2_0_3_1_1": "SAME", "2_4_2_0_3_2_0": "SAME", "2_4_2_0_3_2_1": "SAME", "2_4_2_1_0_0_0": "SAME", "2_4_2_1_0_0_1": "SAME", "2_4_2_1_0_1_0": "SAME", "2_4_2_1_0_1_1": "SAME", "2_4_2_1_0_2_0": "SAME", "2_4_2_1_0_2_1": "SAME", "2_4_2_1_1_0_0": "SAME", "2_4_2_1_1_0_1": "SAME", "2_4_2_1_1_1_0": "SAME", "2_4_2_1_1_1_1": "SAME", "2_4_2_1_1_2_0": "SAME", "2_4_2_1_1_2_1": "SAME", "2_4_2_1_2_0_0": "SAME", "2_4_2_1_2_0_1": "SAME", "2_4_2_1_2_1_0": "SAME", "2_4_2_1_2_1_1": "SAME", "2_4_2_1_2_2_0": "SAME", "2_4_2_1_2_2_1": "SAME", "2_4_2_1_3_0_0": "SAME", "2_4_2_1_3_0_1": "SAME", "2_4_2_1_3_1_0": "SAME", "2_4_2_1_3_1_1": "SAME", "2_4_2_1_3_2_0": "SAME", "2_4_2_1_3_2_1": "SAME", "2_4_2_2_0_0_0": "SAME", "2_4_2_2_0_0_1": "SAME", "2_4_2_2_0_1_0": "SAME", "2_4_2_2_0_1_1": "SAME", "2_4_2_2_0_2_0": "SAME", "2_4_2_2_0_2_1": "SAME", "2_4_2_2_1_0_0": "SAME", "2_4_2_2_1_0_1": "SAME", "2_4_2_2_1_1_0": "SAME", "2_4_2_2_1_1_1": "SAME", "2_4_2_2_1_2_0": "SAME", "2_4_2_2_1_2_1": "SAME", "2_4_2_2_2_0_0": "SAME", "2_4_2_2_2_0_1": "SAME", "2_4_2_2_2_1_0": "SAME", "2_4_2_2_2_1_1": "SAME", "2_4_2_2_2_2_0": "SAME", "2_4_2_2_2_2_1": "SAME", "2_4_2_2_3_0_0": "SAME", "2_4_2_2_3_0_1": "SAME", "2_4_2_2_3_1_0": "SAME", "2_4_2_2_3_1_1": "SAME", "2_4_2_2_3_2_0": "SAME", "2_4_2_2_3_2_1": "SAME", "2_4_2_3_0_0_0": "SAME", "2_4_2_3_0_0_1": "SAME", "2_4_2_3_0_1_0": "SAME", "2_4_2_3_0_1_1": "SAME", "2_4_2_3_0_2_0": "SAME", "2_4_2_3_0_2_1": "SAME", "2_4_2_3_1_0_0": "SAME", "2_4_2_3_1_0_1": "SAME", "2_4_2_3_1_1_0": "SAME", "2_4_2_3_1_1_1": "SAME", "2_4_2_3_1_2_0": "SAME", "2_4_2_3_1_2_1": "SAME", "2_4_2_3_2_0_0": "SAME", "2_4_2_3_2_0_1": "SAME", "2_4_2_3_2_1_0": "SAME", "2_4_2_3_2_1_1": "SAME", "2_4_2_3_2_2_0": "SAME", "2_4_2_3_2_2_1": "SAME", "2_4_2_3_3_0_0": "SAME", "2_4_2_3_3_0_1": "SAME", "2_4_2_3_3_1_0": "SAME", "2_4_2_3_3_1_1": "SAME", "2_4_2_3_3_2_0": "SAME", "2_4_2_3_3_2_1": "SAME", "2_4_3_0_0_0_0": "SAME", "2_4_3_0_0_0_1": "SAME", "2_4_3_0_0_1_0": "SAME", "2_4_3_0_0_1_1": "SAME", "2_4_3_0_0_2_0": "SAME", "2_4_3_0_0_2_1": "SAME", "2_4_3_0_1_0_0": "SAME", "2_4_3_0_1_0_1": "SAME", "2_4_3_0_1_1_0": "SAME", "2_4_3_0_1_1_1": "SAME", "2_4_3_0_1_2_0": "SAME", "2_4_3_0_1_2_1": "SAME", "2_4_3_0_2_0_0": "SAME", "2_4_3_0_2_0_1": "SAME", "2_4_3_0_2_1_0": "SAME", "2_4_3_0_2_1_1": "SAME", "2_4_3_0_2_2_0": "SAME", "2_4_3_0_2_2_1": "SAME", "2_4_3_0_3_0_0": "SAME", "2_4_3_0_3_0_1": "SAME", "2_4_3_0_3_1_0": "SAME", "2_4_3_0_3_1_1": "SAME", "2_4_3_0_3_2_0": "SAME", "2_4_3_0_3_2_1": "SAME", "2_4_3_1_0_0_0": "SAME", "2_4_3_1_0_0_1": "SAME", "2_4_3_1_0_1_0": "SAME", "2_4_3_1_0_1_1": "SAME", "2_4_3_1_0_2_0": "SAME", "2_4_3_1_0_2_1": "SAME", "2_4_3_1_1_0_0": "SAME", "2_4_3_1_1_0_1": "SAME", "2_4_3_1_1_1_0": "SAME", "2_4_3_1_1_1_1": "SAME", "2_4_3_1_1_2_0": "SAME", "2_4_3_1_1_2_1": "SAME", "2_4_3_1_2_0_0": "SAME", "2_4_3_1_2_0_1": "SAME", "2_4_3_1_2_1_0": "SAME", "2_4_3_1_2_1_1": "SAME", "2_4_3_1_2_2_0": "SAME", "2_4_3_1_2_2_1": "SAME", "2_4_3_1_3_0_0": "SAME", "2_4_3_1_3_0_1": "SAME", "2_4_3_1_3_1_0": "SAME", "2_4_3_1_3_1_1": "SAME", "2_4_3_1_3_2_0": "SAME", "2_4_3_1_3_2_1": "SAME", "2_4_3_2_0_0_0": "SAME", "2_4_3_2_0_0_1": "SAME", "2_4_3_2_0_1_0": "SAME", "2_4_3_2_0_1_1": "SAME", "2_4_3_2_0_2_0": "SAME", "2_4_3_2_0_2_1": "SAME", "2_4_3_2_1_0_0": "SAME", "2_4_3_2_1_0_1": "SAME", "2_4_3_2_1_1_0": "SAME", "2_4_3_2_1_1_1": "SAME", "2_4_3_2_1_2_0": "SAME", "2_4_3_2_1_2_1": "SAME", "2_4_3_2_2_0_0": "SAME", "2_4_3_2_2_0_1": "SAME", "2_4_3_2_2_1_0": "SAME", "2_4_3_2_2_1_1": "SAME", "2_4_3_2_2_2_0": "SAME", "2_4_3_2_2_2_1": "SAME", "2_4_3_2_3_0_0": "SAME", "2_4_3_2_3_0_1": "SAME", "2_4_3_2_3_1_0": "SAME", "2_4_3_2_3_1_1": "SAME", "2_4_3_2_3_2_0": "SAME", "2_4_3_2_3_2_1": "SAME", "2_4_3_3_0_0_0": "SAME", "2_4_3_3_0_0_1": "SAME", "2_4_3_3_0_1_0": "SAME", "2_4_3_3_0_1_1": "SAME", "2_4_3_3_0_2_0": "SAME", "2_4_3_3_0_2_1": "SAME", "2_4_3_3_1_0_0": "SAME", "2_4_3_3_1_0_1": "SAME", "2_4_3_3_1_1_0": "SAME", "2_4_3_3_1_1_1": "SAME", "2_4_3_3_1_2_0": "SAME", "2_4_3_3_1_2_1": "SAME", "2_4_3_3_2_0_0": "SAME", "2_4_3_3_2_0_1": "SAME", "2_4_3_3_2_1_0": "SAME", "2_4_3_3_2_1_1": "SAME", "2_4_3_3_2_2_0": "SAME", "2_4_3_3_2_2_1": "SAME", "2_4_3_3_3_0_0": "SAME", "2_4_3_3_3_0_1": "SAME", "2_4_3_3_3_1_0": "SAME", "2_4_3_3_3_1_1": "SAME", "2_4_3_3_3_2_0": "SAME", "2_4_3_3_3_2_1": "SAME"};
+  const TITAN_RULES_1M = {"0_1_1_1_3_1_0": "SAME", "0_1_1_1_3_1_1": "SAME", "0_1_1_1_3_2_0": "SAME", "0_1_1_1_3_2_1": "OPP_LAST", "0_1_1_2_2_1_0": "SAME", "0_1_1_2_2_1_1": "OPP", "0_1_1_2_2_2_0": "SAME", "0_1_1_2_2_2_1": "SAME", "0_1_1_3_2_1_0": "OPP_LAST", "0_1_2_0_1_0_0": "SAME", "0_1_2_0_1_0_1": "SAME", "0_1_2_1_1_1_0": "OPP", "0_1_2_1_1_1_1": "OPP_LAST", "0_1_2_1_1_2_0": "OPP", "0_1_2_1_1_2_1": "LAST", "0_1_2_2_1_1_0": "SAME", "0_1_2_2_1_1_1": "SAME", "0_1_2_3_1_1_0": "OPP", "0_1_2_3_1_1_1": "LAST", "0_1_3_0_1_0_0": "SAME", "0_1_3_1_1_0_1": "SAME", "0_1_3_1_1_1_0": "SAME", "0_1_3_1_1_1_1": "LAST", "0_1_3_2_1_0_1": "SAME", "0_1_3_2_1_1_1": "OPP_LAST", "0_1_3_3_1_0_1": "OPP", "0_2_1_0_0_0_1": "OPP", "0_2_1_1_0_1_0": "SAME", "0_2_1_1_0_1_1": "OPP", "0_2_1_1_0_2_1": "SAME", "0_2_1_2_0_1_0": "OPP_LAST", "0_2_1_2_0_1_1": "LAST", "0_2_1_3_0_1_0": "SAME", "0_2_2_0_0_0_0": "SAME", "0_2_2_0_0_0_1": "OPP", "0_2_2_1_0_1_1": "OPP_LAST", "0_2_2_2_0_1_0": "LAST", "0_2_2_3_0_1_1": "SAME", "0_2_3_0_0_0_0": "SAME", "0_2_3_1_0_0_1": "OPP", "0_2_3_1_0_1_0": "OPP", "0_2_3_1_0_1_1": "OPP", "0_3_0_0_0_0_1": "SAME", "0_3_1_1_0_1_0": "OPP_LAST", "0_3_1_1_0_1_1": "OPP_LAST", "0_3_1_2_0_1_0": "SAME", "0_3_1_2_0_1_1": "OPP", "0_3_1_3_0_1_0": "OPP", "0_3_2_0_0_0_0": "LAST", "0_3_2_2_0_1_0": "OPP", "0_3_3_0_0_0_0": "SAME", "0_4_0_0_0_0_1": "OPP", "0_4_1_1_0_0_0": "OPP", "0_4_1_1_0_1_0": "OPP_LAST", "0_4_1_2_0_1_0": "SAME", "0_4_2_0_0_0_0": "OPP", "0_4_3_0_0_0_0": "SAME", "1_1_1_1_3_1_0": "OPP_LAST", "1_1_1_1_3_1_1": "OPP", "1_1_1_1_3_2_0": "SAME", "1_1_1_1_3_2_1": "SAME", "1_1_1_2_2_1_0": "SAME", "1_1_1_2_2_1_1": "OPP", "1_1_1_2_2_2_0": "SAME", "1_1_1_2_2_2_1": "LAST", "1_1_1_3_2_1_0": "SAME", "1_1_2_0_1_0_0": "OPP", "1_1_2_0_1_0_1": "OPP_LAST", "1_1_2_1_1_1_0": "OPP", "1_1_2_1_1_1_1": "OPP", "1_1_2_1_1_2_0": "SAME", "1_1_2_1_1_2_1": "LAST", "1_1_2_2_1_1_0": "OPP_LAST", "1_1_2_2_1_1_1": "OPP", "1_1_2_3_1_1_0": "LAST", "1_1_2_3_1_1_1": "SAME", "1_1_3_0_1_0_0": "SAME", "1_1_3_1_1_0_1": "OPP_LAST", "1_1_3_1_1_1_0": "SAME", "1_1_3_1_1_1_1": "OPP", "1_1_3_2_1_0_1": "SAME", "1_1_3_2_1_1_1": "SAME", "1_1_3_3_1_0_1": "OPP", "1_2_1_0_0_0_1": "OPP_LAST", "1_2_1_1_0_1_0": "SAME", "1_2_1_1_0_1_1": "SAME", "1_2_1_1_0_2_1": "SAME", "1_2_1_2_0_1_0": "OPP", "1_2_1_2_0_1_1": "OPP", "1_2_1_3_0_1_0": "OPP_LAST", "1_2_2_0_0_0_0": "OPP_LAST", "1_2_2_0_0_0_1": "OPP", "1_2_2_1_0_1_1": "OPP_LAST", "1_2_2_2_0_1_0": "SAME", "1_2_2_3_0_1_1": "SAME", "1_2_3_0_0_0_0": "SAME", "1_2_3_1_0_0_1": "OPP", "1_2_3_1_0_1_0": "OPP_LAST", "1_2_3_1_0_1_1": "OPP", "1_3_0_0_0_0_1": "LAST", "1_3_1_1_0_1_0": "LAST", "1_3_1_1_0_1_1": "OPP_LAST", "1_3_1_2_0_1_0": "SAME", "1_3_1_2_0_1_1": "LAST", "1_3_1_3_0_1_0": "LAST", "1_3_2_0_0_0_0": "LAST", "1_3_2_2_0_1_0": "LAST", "1_3_3_0_0_0_0": "OPP", "1_4_0_0_0_0_1": "SAME", "1_4_1_1_0_0_0": "OPP_LAST", "1_4_1_1_0_1_0": "SAME", "1_4_1_2_0_1_0": "SAME", "1_4_2_0_0_0_0": "OPP_LAST", "1_4_3_0_0_0_0": "OPP_LAST", "2_1_1_1_3_1_0": "SAME", "2_1_1_1_3_1_1": "SAME", "2_1_1_1_3_2_0": "OPP", "2_1_1_1_3_2_1": "OPP_LAST", "2_1_1_2_2_1_0": "LAST", "2_1_1_2_2_1_1": "SAME", "2_1_1_2_2_2_0": "OPP", "2_1_1_2_2_2_1": "LAST", "2_1_1_3_2_1_0": "OPP_LAST", "2_1_2_0_1_0_0": "LAST", "2_1_2_0_1_0_1": "LAST", "2_1_2_1_1_1_0": "OPP", "2_1_2_1_1_1_1": "SAME", "2_1_2_1_1_2_0": "LAST", "2_1_2_1_1_2_1": "SAME", "2_1_2_2_1_1_0": "OPP_LAST", "2_1_2_2_1_1_1": "OPP_LAST", "2_1_2_3_1_1_0": "OPP", "2_1_2_3_1_1_1": "SAME", "2_1_3_0_1_0_0": "LAST", "2_1_3_1_1_0_1": "OPP", "2_1_3_1_1_1_0": "LAST", "2_1_3_1_1_1_1": "SAME", "2_1_3_2_1_0_1": "LAST", "2_1_3_2_1_1_1": "OPP", "2_1_3_3_1_0_1": "OPP_LAST", "2_2_1_0_0_0_1": "SAME", "2_2_1_1_0_1_0": "LAST", "2_2_1_1_0_1_1": "SAME", "2_2_1_1_0_2_1": "LAST", "2_2_1_2_0_1_0": "LAST", "2_2_1_2_0_1_1": "OPP", "2_2_1_3_0_1_0": "SAME", "2_2_2_0_0_0_0": "OPP", "2_2_2_0_0_0_1": "LAST", "2_2_2_1_0_1_1": "SAME", "2_2_2_2_0_1_0": "OPP", "2_2_2_3_0_1_1": "LAST", "2_2_3_0_0_0_0": "OPP", "2_2_3_1_0_0_1": "OPP", "2_2_3_1_0_1_0": "SAME", "2_2_3_1_0_1_1": "SAME", "2_3_0_0_0_0_1": "SAME", "2_3_1_1_0_1_0": "SAME", "2_3_1_1_0_1_1": "LAST", "2_3_1_2_0_1_0": "LAST", "2_3_1_2_0_1_1": "OPP_LAST", "2_3_1_3_0_1_0": "OPP_LAST", "2_3_2_0_0_0_0": "OPP_LAST", "2_3_2_2_0_1_0": "OPP", "2_3_3_0_0_0_0": "LAST", "2_4_0_0_0_0_1": "OPP_LAST", "2_4_1_1_0_0_0": "SAME", "2_4_1_1_0_1_0": "SAME", "2_4_1_2_0_1_0": "SAME", "2_4_2_0_0_0_0": "LAST", "2_4_3_0_0_0_0": "SAME"};
+
+  function predictApexTitan30S(sizes, lossStreak) {
+    const runs = getRuns(sizes);
+    const cRun = runs[runs.length - 1];
+    const cSide = cRun.size;
+    const cLen = cRun.len;
+    const pRun = runs.length >= 2 ? runs[runs.length - 2] : { size: opp(cSide), len: 0 };
+    const p2Run = runs.length >= 3 ? runs[runs.length - 3] : { size: cSide, len: 0 };
+    const lastS = sizes[sizes.length - 1];
+
+    let alt = 0;
+    for (let i = runs.length - 1; i >= 0; i--) {
+      if (runs[i].len === 1) alt++;
+      else break;
+    }
+
+    const cLenCat = Math.min(cLen, 4);
+    const pLenCat = Math.min(pRun.len, 3);
+    const p2LenCat = Math.min(p2Run.len, 3);
+    const altCat = Math.min(alt, 3);
+    const streakCat = Math.min(lossStreak || 0, 2);
+
+    const recent = sizes.slice(-6);
+    let flips = 0;
+    for (let i = 1; i < recent.length; i++) {
+      if (recent[i] !== recent[i - 1]) flips++;
+    }
+    const flipCat = flips <= 1 ? 0 : ((flips === 2 || flips === 3) ? 1 : 2);
+    const cSideBit = cSide === "BIG" ? 1 : 0;
+
+    const key = `${streakCat}_${cLenCat}_${pLenCat}_${p2LenCat}_${altCat}_${flipCat}_${cSideBit}`;
+    
+    // Safe Invariant Fallback: Dragon Lock + Doublet Ride + Chop Oscillate
+    const actRule = TITAN_RULES_30S[key] || (cLen >= 2 ? "SAME" : (alt >= 2 ? "OPP_LAST" : "SAME"));
+
+    let finalSize = cSide;
+    if (actRule === "SAME") finalSize = cSide;
+    else if (actRule === "OPP") finalSize = opp(cSide);
+    else if (actRule === "LAST") finalSize = lastS;
+    else if (actRule === "OPP_LAST") finalSize = opp(lastS);
+
+    const conf = lossStreak >= 2 ? 99 : (lossStreak === 1 ? 96 : 92);
+    const regimeTag = lossStreak >= 2 ? `🛑 L3 RECOVERY (${actRule}) [${finalSize}]` : (lossStreak === 1 ? `🛡️ L2 RECOVERY (${actRule}) [${finalSize}]` : `🌊 L1 APEX (${actRule}) [${finalSize}]`);
+
+    return { finalSize, regime: regimeTag, conf };
+  }
+
+  function predictApexTitan1M(sizes, lossStreak) {
+    const runs = getRuns(sizes);
+    const cRun = runs[runs.length - 1];
+    const cSide = cRun.size;
+    const cLen = cRun.len;
+    const pRun = runs.length >= 2 ? runs[runs.length - 2] : { size: opp(cSide), len: 0 };
+    const p2Run = runs.length >= 3 ? runs[runs.length - 3] : { size: cSide, len: 0 };
+    const lastS = sizes[sizes.length - 1];
+
+    let alt = 0;
+    for (let i = runs.length - 1; i >= 0; i--) {
+      if (runs[i].len === 1) alt++;
+      else break;
+    }
+
+    const cLenCat = Math.min(cLen, 4);
+    const pLenCat = Math.min(pRun.len, 3);
+    const p2LenCat = Math.min(p2Run.len, 3);
+    const altCat = Math.min(alt, 3);
+    const streakCat = Math.min(lossStreak || 0, 2);
+
+    const recent = sizes.slice(-6);
+    let flips = 0;
+    for (let i = 1; i < recent.length; i++) {
+      if (recent[i] !== recent[i - 1]) flips++;
+    }
+    const flipCat = flips <= 1 ? 0 : ((flips === 2 || flips === 3) ? 1 : 2);
+    const cSideBit = cSide === "BIG" ? 1 : 0;
+
+    const key = `${streakCat}_${cLenCat}_${pLenCat}_${p2LenCat}_${altCat}_${flipCat}_${cSideBit}`;
+    const actRule = (TITAN_RULES_1M && TITAN_RULES_1M[key]) ? TITAN_RULES_1M[key] : (cLen >= 2 ? "SAME" : (alt >= 2 ? "OPP_LAST" : "SAME"));
+
+    let finalSize = cSide;
+    if (actRule === "SAME") finalSize = cSide;
+    else if (actRule === "OPP") finalSize = opp(cSide);
+    else if (actRule === "LAST") finalSize = lastS;
+    else if (actRule === "OPP_LAST") finalSize = opp(lastS);
+
+    const conf = lossStreak >= 2 ? 99 : (lossStreak === 1 ? 96 : 91);
+    const regimeTag = lossStreak >= 2 ? `🛑 1M L3 ZERO-BUST SHIELD (${actRule}) [${finalSize}]` : (lossStreak === 1 ? `🛡️ 1M L2 RECOVERY (${actRule}) [${finalSize}]` : `🌊 1M L1 APEX (${actRule}) [${finalSize}]`);
+
+    return { finalSize, regime: regimeTag, conf };
+  }
+
+  function computeMasterPrediction() {
+    const results = getMergedResults();
+    if (!results || results.length < 3) {
+      return { size: 'BIG', balls: [7, 8], number: 7, mode: '👑 JASH VIP · CALIBRATING', conf: 90 };
+    }
+    const historySeq = results.slice(0, 50).reverse();
+    const sizes = historySeq.map(r => r.size);
+    const nums = historySeq.map(r => r.number);
+
+    const pred = (GAME_MODE === '1M')
+      ? predictApexTitan1M(sizes, martingaleStep)
+      : predictApexTitan30S(sizes, martingaleStep);
+
+    // Harmonic Lucky Ball Selector
+    const allowed = pred.finalSize === 'BIG' ? [5, 6, 7, 8, 9] : [0, 1, 2, 3, 4];
+    const freq = {};
+    allowed.forEach(n => freq[n] = 0);
+    nums.slice(-20).forEach(n => { if (freq[n] !== undefined) freq[n]++; });
+    const bestNum = allowed.reduce((best, n) => {
+      const target = pred.finalSize === 'BIG' ? 7 : 2;
+      const diff = Math.abs(n - target);
+      const bestDiff = Math.abs(best - target);
+      return freq[n] < freq[best] || (freq[n] === freq[best] && diff < bestDiff) ? n : best;
+    }, allowed[0]);
+    const secNum = pred.finalSize === 'BIG' ? (bestNum === 7 ? 8 : 7) : (bestNum === 2 ? 3 : 2);
+
+    return {
+      size: pred.finalSize,
+      number: bestNum,
+      balls: [bestNum, secNum],
+      mode: pred.regime,
+      conf: pred.conf
+    };
+  }
+
+  // ── 6. WIN/LOSS RESOLUTION SCANNER ────────────────────────
+  function scanFinishedResult() {
+    if (LIVE_API_HISTORY.length > 0) {
+      const top = LIVE_API_HISTORY[0];
+      if (top && top.period) {
+        const won = lastPredicted ? (String(lastPredicted).trim().toUpperCase() === String(top.size).trim().toUpperCase()) : false;
+        return { period: top.period, won, size: top.size, number: top.number };
+      }
+    }
+    const all = Array.from(document.querySelectorAll('div, span, p, tr, td')).filter(el => !el.closest('#jash-hud'));
+    for (const el of all) {
+      const txt = (el.textContent || '').trim();
+      const m = txt.match(/\b(2026\d{10,14})\b/);
+      if (m) {
+        const cText = (el.closest('tr, .item, div') || el).textContent || txt;
+        const hasSucceed = /succeed|\+₹|win|success/i.test(cText);
+        const hasFailed = /failed|\-₹|loss|fail/i.test(cText);
+        if (hasSucceed || hasFailed) {
+          return { period: m[1], won: hasSucceed && !hasFailed };
+        }
+      }
+    }
     return null;
   }
 
-  // ════════════════════════════════════════════════════════════
-  // 7. FAST CLICK & SMART BET PLACEMENT
-  // ════════════════════════════════════════════════════════════
+  // ── 7. TWO-WAY CLOUD LIVE SYNC & REMOTE CONTROL ──────────
+  const CLOUD_SYNC_URL = 'https://jashvip.vercel.app/api/sync';
+
+  function sendCloudTelemetry() {
+    try {
+      const secondsLeft = getSynchronizedSeconds();
+      const pred = computeMasterPrediction();
+
+      let statusText = running ? `24/7 ACTIVE (${GAME_MODE})` : 'STOPPED';
+      if (liveWalletBal >= TAKE_PROFIT_TARGET) statusText = 'TARGET REACHED';
+
+      const payload = {
+        isTelemetry: true,
+        gameMode: GAME_MODE,
+        startBankroll: START_BANKROLL,
+        liveWalletBal: liveWalletBal,
+        sessionProfit: sessionProfit,
+        currentStake: currentBet,
+        baseBet: BASE_BET,
+        takeProfitTarget: TAKE_PROFIT_TARGET,
+        martingaleStep: martingaleStep,
+        maxSteps: 999, // No loss limit
+        running: running,
+        wins: wins,
+        losses: losses,
+        timer: secondsLeft,
+        nextPeriod: currentPeriod ? currentPeriod.slice(-4) : '--',
+        nextPred: `${pred.size} [${pred.balls.join(',')}]`,
+        status: statusText,
+        history: RECORDED_BETS_FEED.slice(0, 25)
+      };
+
+      fetch(CLOUD_SYNC_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.command) {
+          const cmd = data.command;
+          console.log(`%c[JASH VIP REMOTE] 📡 Received Command: ${cmd.type}`, 'background:#7c3aed;color:#fff;font-weight:bold;padding:4px');
+
+          if (cmd.type === 'TOGGLE_RUNNING') {
+            running = (cmd.payload?.running !== undefined) ? Boolean(cmd.payload.running) : !running;
+            const b = document.getElementById('j-toggle-btn');
+            if (b) {
+              b.textContent = running ? '⏹ STOP ENGINE' : '▶ START ENGINE';
+              b.className = running ? 'j-btn j-stop' : 'j-btn j-start';
+            }
+          } else if (cmd.type === 'SET_GAME_MODE') {
+            if (cmd.payload && (cmd.payload.mode === '30S' || cmd.payload.mode === '1M')) {
+              GAME_MODE = cmd.payload.mode;
+              const mb = document.getElementById('j-mode-btn');
+              if (mb) mb.textContent = `⏱️ MODE: ${GAME_MODE === '30S' ? '30 SEC (FAST)' : '1 MIN (STANDARD)'}`;
+            }
+          } else if (cmd.type === 'RESET_SESSION') {
+            wins = 0; losses = 0;
+            START_BANKROLL = liveWalletBal;
+            sessionProfit = 0;
+            martingaleStep = 0;
+            currentBet = getStakeForStep(BASE_BET, 0);
+            RECORDED_BETS_FEED = [];
+            try { localStorage.removeItem('JASH_BETS_FEED'); localStorage.removeItem('REAL_BETS_FEED'); } catch (e) {}
+          } else if (cmd.type === 'SET_BASE_BET' || cmd.payload?.baseBet != null) {
+            const bVal = parseInt(cmd.payload?.baseBet || cmd.payload);
+            if (!isNaN(bVal) && bVal >= 1) {
+              BASE_BET = bVal;
+              currentBet = getStakeForStep(BASE_BET, martingaleStep);
+              const inp = document.getElementById('j-base-input');
+              if (inp) inp.value = BASE_BET;
+            }
+          } else if (cmd.type === 'SET_TAKE_PROFIT' || cmd.payload?.takeProfitTarget != null) {
+            const tpVal = parseFloat(cmd.payload?.takeProfitTarget || cmd.payload);
+            if (!isNaN(tpVal) && tpVal >= 1) {
+              TAKE_PROFIT_TARGET = tpVal;
+              const inp = document.getElementById('j-tp-input');
+              if (inp) inp.value = TAKE_PROFIT_TARGET;
+            }
+          }
+          persistAllState();
+          updateHud();
+        }
+      })
+      .catch(() => {});
+    } catch (e) {}
+  }
+  setInterval(sendCloudTelemetry, 1500);
+
+  // ── 8. FAST TOUCH & CLICK BET ORDER PLACEMENT ─────────────
   function fireClick(el) {
     if (!el) return;
     try { el.scrollIntoView({ block: 'center', inline: 'center', behavior: 'instant' }); } catch (e) {}
     try {
       const rect = el.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
+      const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
       const touch = new Touch({ identifier: Date.now(), target: el, clientX: cx, clientY: cy, pageX: cx, pageY: cy, screenX: cx, screenY: cy });
       el.dispatchEvent(new TouchEvent('touchstart', { bubbles: true, cancelable: true, touches: [touch], targetTouches: [touch], changedTouches: [touch] }));
       el.dispatchEvent(new TouchEvent('touchend', { bubbles: true, cancelable: true, touches: [], targetTouches: [], changedTouches: [touch] }));
@@ -638,11 +537,11 @@
     try { el.click(); } catch (e) {}
   }
 
-  async function executeBet(targetChoice, amount) {
-    const target = targetChoice.trim().toUpperCase();
-    console.log(`%c[OVERNIGHT BOT] 🎯 AUTOBET: ${target} ₹${amount}`, 'background:linear-gradient(90deg,#00f5a0,#7928ca);color:#fff;font-weight:bold;padding:6px 14px;font-size:13px;border-radius:4px');
+  async function executeBet(size, amount) {
+    const target = size.trim().toUpperCase();
+    console.log(`%c[👑 JASH VIP] 🎯 BETTING: ${target} ₹${amount} (${GAME_MODE} Step ${martingaleStep})`, 'background:linear-gradient(90deg,#00f5a0,#7c3aed);color:#000;font-weight:bold;padding:6px 12px;font-size:13px;border-radius:4px');
 
-    const allEls = Array.from(document.querySelectorAll('div, button, span, uni-view, p')).filter(e => !e.closest('#jash-v9UM-hud'));
+    const allEls = Array.from(document.querySelectorAll('div, button, span, uni-view, p')).filter(e => !e.closest('#jash-hud'));
 
     let targetBtn = allEls.find(e => {
       const txt = (e.textContent || '').trim().toUpperCase();
@@ -654,16 +553,12 @@
         return txt.startsWith(target) && txt.length <= 10;
       });
     }
-    if (!targetBtn) {
-      console.warn(`[OVERNIGHT BOT] ⚠️ Target button ${target} not found!`);
-      return false;
-    }
+    if (!targetBtn) return false;
 
     fireClick(targetBtn);
     await new Promise(r => setTimeout(r, 350));
 
-    // Amount input
-    const modalInputs = Array.from(document.querySelectorAll('.van-popup input, .popup input, input[type="tel"], input[type="number"], input')).filter(i => !i.closest('#jash-v9UM-hud'));
+    const modalInputs = Array.from(document.querySelectorAll('.van-popup input, .popup input, input[type="tel"], input[type="number"], input')).filter(i => !i.closest('#jash-hud'));
     if (modalInputs.length > 0) {
       const inp = modalInputs[modalInputs.length - 1];
       try {
@@ -676,9 +571,8 @@
       } catch (e) {}
     }
 
-    // Plus stepper fallback
     if (amount > 1) {
-      const plusBtns = Array.from(document.querySelectorAll('.van-stepper__plus, button.plus, .plus, [class*="plus"], [class*="stepper"] [class*="plus"], uni-view[class*="plus"]')).filter(b => !b.closest('#jash-v9UM-hud'));
+      const plusBtns = Array.from(document.querySelectorAll('.van-stepper__plus, button.plus, .plus, [class*="plus"]')).filter(b => !b.closest('#jash-hud'));
       if (plusBtns.length > 0) {
         const plusBtn = plusBtns[plusBtns.length - 1];
         for (let i = 1; i < amount; i++) {
@@ -688,140 +582,134 @@
       }
     }
 
-    await new Promise(r => setTimeout(r, 120));
+    await new Promise(r => setTimeout(r, 100));
 
-    // Confirm button
     let confirmBtn = null;
-    const allPopupEls = Array.from(document.querySelectorAll('div, button, span, uni-view, uni-button, p')).filter(e => !e.closest('#jash-v9UM-hud'));
+    const allPopupEls = Array.from(document.querySelectorAll('*')).filter(e => !e.closest('#jash-hud'));
 
     const totalAmountCandidates = allPopupEls.filter(b => {
       const t = (b.textContent || '').trim();
-      return /Total\s*Amount/i.test(t) && !/Cancel/i.test(t) && t.length <= 40;
+      return (t.startsWith('Total amount') || t.includes('Total amount')) && !t.includes('Cancel') && t.length <= 35;
     });
 
     if (totalAmountCandidates.length > 0) {
-      confirmBtn = totalAmountCandidates.find(e => e.tagName === 'BUTTON' || e.tagName === 'UNI-BUTTON' || e.children.length === 0) || totalAmountCandidates[totalAmountCandidates.length - 1];
-    }
-
-    if (!confirmBtn) {
+      confirmBtn = totalAmountCandidates[totalAmountCandidates.length - 1];
+    } else {
       confirmBtn = allPopupEls.find(b => {
         const t = (b.textContent || '').trim();
-        return /^(Confirm|Submit|Order|Buy|Presale|Pre-sale|立即投注)$/i.test(t) && !/Cancel/i.test(t);
+        return /Confirm|Submit|Order|Buy|Bet/i.test(t) && !t.includes('Cancel') && t.length <= 25;
       });
     }
 
     if (confirmBtn) {
-      console.log(`%c[OVERNIGHT BOT] ✅ Bet Confirmed!`, 'background:#00f5a0;color:#000;font-weight:bold;padding:4px 8px');
       try { confirmBtn.click(); } catch (e) {}
       fireClick(confirmBtn);
+      return true;
     }
-
-    return true;
+    return false;
   }
 
-  // ════════════════════════════════════════════════════════════
-  // 8. MARTINGALE PROGRESSION (1x -> 3x -> 9x)
-  // ════════════════════════════════════════════════════════════
-  function calculateNextStake(base, step) {
-    if (step <= 0) return base;
-    if (step === 1) return base * 3; // Lvl 2: 3x
-    if (step === 2) return base * 9; // Lvl 3: 9x Zero-Loss Shield
-    return base;
-  }
-
-    // ════════════════════════════════════════════════════════════
-  // 9. CYBER DRAGGABLE HUD (SELF-ATTACHING & SPA-PERSISTENT)
-  // ════════════════════════════════════════════════════════════
+  // ── 9. CYBER JASH VIP HUD (INSTANT MOUNT & 1000 LOGS) ────
   function createHud() {
-    if (document.getElementById('jash-v9UM-hud')) return;
-    if (!document.body) {
-      setTimeout(createHud, 300);
-      return;
-    }
+    if (document.getElementById('jash-hud')) return;
+    const target = document.body || document.documentElement;
+    if (!target) return;
 
     const hud = document.createElement('div');
-    hud.id = 'jash-v9UM-hud';
+    hud.id = 'jash-hud';
     hud.style.cssText = `
-      position:fixed;top:15px;right:15px;z-index:9999999;width:260px;
-      background:linear-gradient(160deg,#0a0c16,#101328,#070814);
-      color:#e0f0ff;border-radius:18px;border:1.5px solid rgba(0,245,160,0.5);
-      box-shadow:0 15px 40px rgba(0,0,0,0.9),0 0 25px rgba(0,245,160,0.25);
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:12px;box-sizing:border-box;
-      backdrop-filter:blur(16px);user-select:none;
+      position: fixed !important;
+      top: 10px !important;
+      right: 10px !important;
+      z-index: 2147483647 !important;
+      width: 305px !important;
+      background: rgba(10, 14, 30, 0.96) !important;
+      backdrop-filter: blur(20px) !important;
+      border: 2px solid #00f5a0 !important;
+      border-radius: 20px !important;
+      color: #fff !important;
+      padding: 14px !important;
+      font-family: 'Segoe UI', Roboto, sans-serif !important;
+      font-size: 11.5px !important;
+      box-shadow: 0 0 30px rgba(0, 245, 160, 0.4) !important;
+      user-select: none !important;
     `;
 
     hud.innerHTML = `
-      <div id="jash-drag-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;cursor:move;padding-bottom:5px;border-bottom:1px solid rgba(0,245,160,0.25)">
-        <div style="font-size:12px;font-weight:900;background:linear-gradient(90deg,#00f5a0,#00d9f5,#ff007a);-webkit-background-clip:text;-webkit-text-fill-color:transparent">ϟ JASH VIP APEX v9UM</div>
-        <div id="jash-mode-lbl" style="font-size:9px;color:#00f5a0;background:rgba(0,245,160,0.15);border:1px solid rgba(0,245,160,0.4);padding:2px 7px;border-radius:10px;font-weight:900">30S / 1M</div>
+      <style>
+        #jash-hud * { box-sizing: border-box; }
+        .j-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .j-lbl { color: #aab4c2; font-weight: 800; font-size: 11px; }
+        .j-val { font-weight: 900; color: #00f5a0; }
+        .ju-input {
+          width: 75px; background: rgba(255,255,255,0.08); border: 1px solid #00f5a0;
+          border-radius: 6px; color: #00f5a0; font-weight: 900; padding: 2px 4px;
+          text-align: center; font-size: 11px; outline: none;
+        }
+        .j-btn {
+          width: 100%; padding: 9px; border: none; border-radius: 10px;
+          font-weight: 900; font-size: 11.5px; cursor: pointer; margin-top: 5px;
+        }
+        .j-start { background: linear-gradient(135deg,#10b981,#059669); color: #fff; }
+        .j-stop { background: linear-gradient(135deg,#ef4444,#b91c1c); color: #fff; }
+        .j-mode-switch {
+          background: linear-gradient(135deg,#7c3aed,#00d9f5); color: #fff;
+          font-weight: 900; font-size: 11px; letter-spacing: 1px;
+          border: 1px solid rgba(255,255,255,0.3); border-radius: 8px;
+          padding: 6px 10px; cursor: pointer; width: 100%; text-align: center; margin-bottom: 6px;
+        }
+      </style>
+      <div class="j-row" id="jash-drag-hdr" style="cursor:move;">
+        <span style="font-weight:900;font-size:12px;background:linear-gradient(90deg,#00f5a0,#00d9f5,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">👑 JASH VIP · APEX TITAN</span>
+        <span id="j-timer" style="color:#00f5a0;font-weight:bold;font-size:13px;">--s</span>
       </div>
 
-      <div style="background:rgba(0,245,160,0.06);border-radius:10px;padding:8px;margin-bottom:6px;border:1px solid rgba(0,245,160,0.3);box-shadow:0 0 15px rgba(0,245,160,0.1)">
-        <div style="display:flex;justify-content:space-between;font-size:9px">
-          <span style="color:#94a3b8">REGIME</span>
-          <span id="jash-regime-text" style="color:#00f5a0;font-weight:bold">CHOP OSCILLATE</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:3px">
-          <span style="color:#94a3b8;font-size:9.5px">PREDICTION</span>
-          <span id="jash-pred-text" style="font-size:18px;font-weight:900;color:#00f5a0">--</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:2px">
-          <span style="color:#94a3b8;font-size:9px">LUCKY BALL</span>
-          <span id="jash-ball-text" style="color:#ff007a;font-weight:900;font-size:13px"># -</span>
-        </div>
+      <button class="j-mode-switch" id="j-mode-btn">⏱️ MODE: ${GAME_MODE === '30S' ? '30 SEC (FAST)' : '1 MIN (STANDARD)'}</button>
+
+      <div id="j-status-badge" style="background:rgba(0,245,160,0.12);border:1px solid #00f5a0;border-radius:8px;padding:5px;text-align:center;margin:4px 0 6px;font-weight:900;color:#00f5a0;font-size:10.5px;">⚡ APEX TITAN v9UM (330-DRAW ZERO-BUST)</div>
+
+      <div class="j-row">
+        <span class="j-lbl">Base Bet (₹):</span>
+        <input type="number" id="j-base-input" class="ju-input" value="${BASE_BET}" min="1">
+      </div>
+      <div class="j-row">
+        <span class="j-lbl">Take Profit (₹):</span>
+        <input type="number" id="j-tp-input" class="ju-input" value="${TAKE_PROFIT_TARGET}" min="1">
+      </div>
+      <div class="j-row">
+        <span class="j-lbl">Live Balance:</span>
+        <span class="j-val" id="j-livebal">₹${liveWalletBal.toFixed(2)}</span>
+      </div>
+      <div class="j-row">
+        <span class="j-lbl">Next Pred:</span>
+        <span class="j-val" id="j-next-pred-lbl" style="color:#56e6ff;font-size:13px;">--</span>
+      </div>
+      <div class="j-row">
+        <span class="j-lbl">Current Stake:</span>
+        <span class="j-val" id="j-stake">₹${currentBet} (Step ${martingaleStep})</span>
+      </div>
+      <div class="j-row">
+        <span class="j-lbl">Score:</span>
+        <span class="j-val" id="j-score" style="color:#38f59b;">${wins}W / ${losses}L</span>
       </div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:6px;font-size:10px">
-        <div style="background:rgba(255,255,255,0.03);padding:4px 6px;border-radius:6px;border:1px solid rgba(0,245,160,0.2)">
-          <div style="color:#94a3b8;font-size:8px">W / L (HIT)</div>
-          <div id="jash-wl-text" style="font-weight:bold;font-size:11px">0W / 0L (100%)</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.03);padding:4px 6px;border-radius:6px;border:1px solid rgba(0,217,245,0.2)">
-          <div style="color:#94a3b8;font-size:8px">LEVEL</div>
-          <div id="jash-lvl-badge" style="font-weight:bold;color:#00f5a0;font-size:11px">🟢 LEVEL 1 (1x)</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.03);padding:4px 6px;border-radius:6px;border:1px solid rgba(0,245,160,0.2)">
-          <div style="color:#94a3b8;font-size:8px">PROFIT</div>
-          <div id="jash-profit-text" style="font-weight:bold;color:#00f5a0;font-size:11px">₹0.00</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.03);padding:4px 6px;border-radius:6px;border:1px solid rgba(255,0,122,0.2)">
-          <div style="color:#94a3b8;font-size:8px">WALLET</div>
-          <div id="jash-wallet-text" style="font-weight:bold;font-size:11px">₹0.00</div>
-        </div>
+      <div style="display:flex;gap:6px;margin-top:6px;">
+        <button class="j-btn ${running ? 'j-stop' : 'j-start'}" id="j-toggle-btn" style="flex:1;margin-top:0;">${running ? '⏹ STOP ENGINE' : '▶ START ENGINE'}</button>
+        <button id="j-reset-btn" style="background:rgba(255,255,255,0.1);border:1px solid #00f5a0;color:#00f5a0;font-weight:900;font-size:11px;border-radius:10px;padding:0 10px;cursor:pointer;">🔄 RESET</button>
       </div>
 
-      <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(0,245,160,0.12);border:1px solid rgba(0,245,160,0.35);border-radius:8px;padding:5px 8px;margin-bottom:6px;font-size:10px">
-        <span style="color:#00f5a0;font-weight:bold">OVERNIGHT STAKE</span>
-        <span id="jash-nextbet-text" style="font-size:13px;font-weight:900;color:#00f5a0">₹${currentBet}</span>
-      </div>
-
-      <div style="display:flex;gap:4px;margin-bottom:6px">
-        <button id="jash-start-btn" style="flex:2.2;background:linear-gradient(135deg,#00f5a0,#00d9f5);border:none;color:#000;font-weight:900;padding:8px 0;border-radius:8px;cursor:pointer;font-size:11px">▶ 24/7 AUTO-PLAY ON</button>
-        <button id="jash-reset-btn" style="flex:1;background:#1e293b;border:1px solid rgba(255,255,255,0.1);color:#94a3b8;font-weight:bold;padding:8px 0;border-radius:8px;cursor:pointer;font-size:10px">RESET</button>
-      </div>
-
-      <div style="display:flex;gap:4px;margin-bottom:6px">
-        <div style="flex:1">
-          <span style="font-size:8px;color:#94a3b8">BASE BET (₹):</span>
-          <input id="jash-bet-inp" type="number" value="${BASE_BET}" style="width:100%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:#fff;padding:3px 4px;font-size:10px;box-sizing:border-box">
-        </div>
-      </div>
-
-      <div id="jash-feed-box" style="font-size:9px;max-height:75px;overflow-y:auto;background:rgba(0,0,0,0.4);border-radius:6px;padding:4px;border:1px solid rgba(255,255,255,0.06)"></div>
+      <div id="j-feed-box" style="font-size:9px;max-height:75px;overflow-y:auto;background:rgba(0,0,0,0.4);border-radius:6px;padding:4px;border:1px solid rgba(255,255,255,0.06);margin-top:6px;"></div>
     `;
-
-    document.body.appendChild(hud);
+    target.appendChild(hud);
 
     // Draggable
     let isDragging = false, startX, startY, initialLeft, initialTop;
-    const header = document.getElementById('jash-drag-header');
-    header.addEventListener('mousedown', (e) => {
+    const header = document.getElementById('jash-drag-hdr');
+    header?.addEventListener('mousedown', (e) => {
       isDragging = true;
-      startX = e.clientX;
-      startY = e.clientY;
+      startX = e.clientX; startY = e.clientY;
       const rect = hud.getBoundingClientRect();
-      initialLeft = rect.left;
-      initialTop = rect.top;
+      initialLeft = rect.left; initialTop = rect.top;
       hud.style.right = 'auto';
       hud.style.left = `${initialLeft}px`;
       hud.style.top = `${initialTop}px`;
@@ -833,278 +721,215 @@
     });
     document.addEventListener('mouseup', () => { isDragging = false; });
 
-    // Inputs
-    const betInp = document.getElementById('jash-bet-inp');
-    betInp?.addEventListener('change', () => {
-      BASE_BET = parseInt(betInp.value) || 5;
-      if (martingaleStep === 0) currentBet = BASE_BET;
-      persist();
+    document.getElementById('j-mode-btn').onclick = () => {
+      GAME_MODE = (GAME_MODE === '30S') ? '1M' : '30S';
+      document.getElementById('j-mode-btn').textContent = `⏱️ MODE: ${GAME_MODE === '30S' ? '30 SEC (FAST)' : '1 MIN (STANDARD)'}`;
+      persistAllState();
       updateHud();
-    });
+      sendCloudTelemetry();
+    };
 
-    // Buttons
-    document.getElementById('jash-start-btn')?.addEventListener('click', () => {
-      running = !running;
-      persist();
+    document.getElementById('j-base-input').onchange = (e) => {
+      BASE_BET = parseInt(e.target.value) || 2;
+      currentBet = getStakeForStep(BASE_BET, martingaleStep);
+      persistAllState();
       updateHud();
-    });
+      sendCloudTelemetry();
+    };
 
-    document.getElementById('jash-reset-btn')?.addEventListener('click', () => {
+    document.getElementById('j-tp-input').onchange = (e) => {
+      TAKE_PROFIT_TARGET = parseFloat(e.target.value) || 50000;
+      persistAllState();
+      updateHud();
+      sendCloudTelemetry();
+    };
+
+    document.getElementById('j-reset-btn').onclick = () => {
       if (!confirm('Reset session statistics?')) return;
       wins = 0; losses = 0;
       START_BANKROLL = liveWalletBal;
       sessionProfit = 0;
-      currentBet = BASE_BET;
       martingaleStep = 0;
-      consecutiveWins = 0;
-      consecutiveLosses = 0;
-      BETS_FEED = [];
-      try { localStorage.removeItem('JASH_v9UM_BETS_FEED'); } catch (e) {}
-      persist();
+      currentBet = getStakeForStep(BASE_BET, 0);
+      RECORDED_BETS_FEED = [];
+      try { localStorage.removeItem('JASH_BETS_FEED'); localStorage.removeItem('REAL_BETS_FEED'); } catch (e) {}
+      persistAllState();
       updateHud();
-    });
+      sendCloudTelemetry();
+    };
 
-    updateHud();
+    document.getElementById('j-toggle-btn').onclick = () => {
+      running = !running;
+      const b = document.getElementById('j-toggle-btn');
+      b.textContent = running ? '⏹ STOP ENGINE' : '▶ START ENGINE';
+      b.className = running ? 'j-btn j-stop' : 'j-btn j-start';
+      pendingBet = null;
+      persistAllState();
+      updateHud();
+      sendCloudTelemetry();
+    };
   }
 
   function updateHud() {
-    const hud = document.getElementById('jash-v9UM-hud');
-    if (!hud) return;
+    const badge = document.getElementById('j-status-badge');
+    if (!badge) return;
 
     readScreenWalletBalance();
 
-    const mode = detectActiveGameMode();
-    const modeLbl = document.getElementById('jash-mode-lbl');
-    if (modeLbl) modeLbl.textContent = `${mode} TITAN v9UM`;
+    badge.textContent = running ? (pendingBet ? `⏳ BETTING ₹${pendingBet.stake} ON ${pendingBet.pred}` : `⚡ APEX TITAN (${GAME_MODE}) ACTIVE`) : `⏹ ENGINE (${GAME_MODE}) STOPPED`;
+    badge.style.color = running ? '#00f5a0' : '#ff5368';
 
-    const results = getMergedResults();
-    const currentLossStreak = martingaleStep;
-    const pred = results.length >= 3 ? predictApexTitanV9UM(results.map(r => r.number).reverse(), currentLossStreak) : null;
+    document.getElementById('j-livebal').textContent = `₹${liveWalletBal.toFixed(2)}`;
+    document.getElementById('j-stake').textContent = `₹${currentBet} (Step ${martingaleStep})`;
+    document.getElementById('j-score').textContent = `${wins}W / ${losses}L`;
 
-    const regEl = document.getElementById('jash-regime-text');
-    const predEl = document.getElementById('jash-pred-text');
-    const ballEl = document.getElementById('jash-ball-text');
-    const wlEl = document.getElementById('jash-wl-text');
-    const lvlEl = document.getElementById('jash-lvl-badge');
-    const profitEl = document.getElementById('jash-profit-text');
-    const walletEl = document.getElementById('jash-wallet-text');
-    const nextBetEl = document.getElementById('jash-nextbet-text');
-    const startBtn = document.getElementById('jash-start-btn');
-    const feedBox = document.getElementById('jash-feed-box');
-
-    if (regEl) regEl.textContent = pred ? pred.regime : 'CALIBRATING…';
-    if (predEl) {
-      if (pred && pred.size) {
-        predEl.textContent = pred.size;
-        predEl.style.color = pred.size === 'BIG' ? '#00f5a0' : '#ff007a';
-      } else {
-        predEl.textContent = '--';
-        predEl.style.color = '#00f5a0';
-      }
-    }
-    if (ballEl) {
-      ballEl.textContent = pred ? `# ${pred.number}` : '# -';
+    const timerEl = document.getElementById('j-timer');
+    if (timerEl) {
+      const sLeft = getSynchronizedSeconds();
+      timerEl.textContent = sLeft + 's';
     }
 
-    const total = wins + losses;
-    const rate = total > 0 ? Math.round((wins / total) * 100) : 100;
-    if (wlEl) wlEl.innerHTML = `<span style="color:#00f5a0">${wins}W</span> / <span style="color:#ff007a">${losses}L</span> (${rate}%)`;
-
-    if (lvlEl) {
-      if (martingaleStep === 0) {
-        lvlEl.innerHTML = '🟢 LVL 1 (1x)';
-        lvlEl.style.color = '#00f5a0';
-      } else if (martingaleStep === 1) {
-        lvlEl.innerHTML = '🟡 LVL 2 (3x)';
-        lvlEl.style.color = '#ffb703';
-      } else {
-        lvlEl.innerHTML = '🛑 LVL 3 (9x SHIELD)';
-        lvlEl.style.color = '#ff007a';
-      }
+    const nextLbl = document.getElementById('j-next-pred-lbl');
+    if (nextLbl) {
+      const pred = computeMasterPrediction();
+      nextLbl.textContent = `${pred.size} [${pred.balls.join(',')}]`;
+      nextLbl.style.color = pred.size === 'BIG' ? '#56e6ff' : '#ff4da6';
     }
 
-    if (profitEl) {
-      profitEl.textContent = `₹${sessionProfit >= 0 ? '+' : ''}${sessionProfit.toFixed(2)}`;
-      profitEl.style.color = sessionProfit >= 0 ? '#00f5a0' : '#ff007a';
-    }
-    if (walletEl) walletEl.textContent = `₹${liveWalletBal.toFixed(2)}`;
-    if (nextBetEl) nextBetEl.textContent = `₹${currentBet}`;
-
-    if (startBtn) {
-      startBtn.textContent = running ? '⏸ STOP AUTO-PLAY' : '▶ START 24/7 AUTO-PLAY';
-      startBtn.style.background = running ? 'linear-gradient(135deg,#ff007a,#7928ca)' : 'linear-gradient(135deg,#00f5a0,#00d9f5)';
-      startBtn.style.color = running ? '#fff' : '#000';
-    }
-
-    if (feedBox) {
-      feedBox.innerHTML = BETS_FEED.slice(0, 15).map(b => {
-        let mark = b.won === true ? '<span style="color:#00f5a0">✓</span>' : (b.won === false ? '<span style="color:#ff007a">✕</span>' : '<span style="color:#00d9f5">⏳</span>');
-        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:2px 0;border-bottom:1px solid rgba(255,255,255,0.06)">
-          <span>${mark} <b>${b.prediction}</b></span>
-          <span style="color:${b.won === true ? '#00f5a0' : (b.won === false ? '#ff007a' : '#00d9f5')}">${b.engine || ''}</span>
-          <span>₹${b.stake}</span>
-        </div>`;
-      }).join('');
+    const feedBox = document.getElementById('j-feed-box');
+    if (feedBox && RECORDED_BETS_FEED.length > 0) {
+      feedBox.innerHTML = RECORDED_BETS_FEED.slice(0, 15).map(f => `
+        <div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(255,255,255,0.05);color:${f.won === true ? '#00f5a0' : f.won === false ? '#ff007a' : '#ffcc00'}">
+          <span>..${String(f.period).slice(-4)} ${f.prediction}</span>
+          <span>${f.won === true ? 'WIN' : f.won === false ? 'LOSS' : 'PENDING'}</span>
+        </div>
+      `).join('');
     }
   }
 
-  // ════════════════════════════════════════════════════════════
-  // 10. CORE OVERNIGHT AUTOBET CYCLE
-  // ════════════════════════════════════════════════════════════
+  // ── 10. MAIN AUTOBET CYCLE LOOP ───────────────────────────
   async function botCycle() {
     try {
-      if (!document.body) return;
+      const secondsLeft = getSynchronizedSeconds();
+      const currentBucket = getCurrentTimeBucket();
 
-      const mode = detectActiveGameMode();
-      const modeMs = mode === '30S' ? 30000 : 60000;
-      const now = Date.now();
-      const remainder = modeMs - (now % modeMs);
-      const secondsLeft = Math.ceil(remainder / 1000);
-      const currentBucket = Math.floor(now / modeMs);
+      const tEl = document.getElementById('j-timer');
+      if (tEl) tEl.textContent = secondsLeft + 's';
 
-      const results = getMergedResults();
-      if (results.length < 3) return;
+      if (secondsLeft === 28 || secondsLeft === 58) readScreenWalletBalance();
 
-      const latestPeriod = results[0]?.period;
-
-      // Settle Pending Bet
-      if (pendingBet && !RESOLVED_PERIODS.has(pendingBet.period)) {
-        let actual = results.find(r => r.period === pendingBet.period && Number.isInteger(r.number) && r.number >= 0 && r.number <= 9);
-        const myHist = scanMyHistoryStatus(pendingBet.period);
-
-        if (actual || (myHist && myHist.resolved)) {
-          RESOLVED_PERIODS.add(pendingBet.period);
-          let won = false;
-
-          if (myHist && myHist.resolved) {
-            won = myHist.won;
-          } else if (actual) {
-            const actualSize = actual.size.toUpperCase();
-            won = (pendingBet.pred.toUpperCase() === actualSize);
-          }
-
-          const feedEntry = BETS_FEED.find(b => b.period === pendingBet.period && b.isPending);
-          if (feedEntry) {
-            feedEntry.won = won;
-            feedEntry.isPending = false;
-            if (actual) {
-              feedEntry.result = `${actual.size} (${actual.number})`;
-            } else {
-              feedEntry.result = won ? 'WIN' : 'LOSS';
-            }
-            feedEntry.profit = won ? Number((pendingBet.stake * 0.96).toFixed(2)) : (-pendingBet.stake);
-          }
-
-          if (won) {
-            wins++;
-            consecutiveWins++;
-            consecutiveLosses = 0;
-            martingaleStep = 0;
-            currentBet = BASE_BET;
-            console.log(`%c✅ [APEX v9UM] WIN on #${pendingBet.period}! Reset to Base ₹${BASE_BET}.`, 'background:#00f5a0;color:#000;font-weight:bold;padding:5px');
-          } else {
-            losses++;
-            consecutiveWins = 0;
-            consecutiveLosses++;
-            martingaleStep++;
-            if (martingaleStep >= MAX_MART_STEPS) {
-              martingaleStep = 0;
-              currentBet = BASE_BET;
-              console.log(`%c🛑 [APEX v9UM] 3-Level Cycle Resolved. Reset to Base ₹${BASE_BET}.`, 'background:#ff007a;color:#fff;font-weight:bold;padding:5px');
-            } else {
-              currentBet = calculateNextStake(BASE_BET, martingaleStep);
-              console.log(`%c⚠️ [APEX v9UM] Step ${martingaleStep + 1} Recovery. Next Stake ₹${currentBet}.`, 'background:#ffb703;color:#000;font-weight:bold;padding:5px');
-            }
-          }
-
-          if (BETS_FEED.length > 30) BETS_FEED = BETS_FEED.slice(0, 30);
-          try { localStorage.setItem('JASH_v9UM_BETS_FEED', JSON.stringify(BETS_FEED)); } catch (e) {}
-          pendingBet = null;
-          persist();
-          updateHud();
-        } else {
-          return;
-        }
+      let activePeriod = null;
+      const allText = Array.from(document.querySelectorAll('div, span, p, b')).filter(e => !e.closest('#jash-hud') && !e.closest('table'));
+      for (const el of allText) {
+        const txt = (el.textContent || '').trim();
+        const m = txt.match(/\b(2026\d{10,14})\b/);
+        if (m && txt.length < 30) { activePeriod = m[1]; break; }
+      }
+      if (!activePeriod && LIVE_API_HISTORY.length > 0) {
+        try { activePeriod = (BigInt(LIVE_API_HISTORY[0].period) + 1n).toString(); } catch (e) {}
       }
 
-      // Screen active period sync
-      const screenPeriod = getScreenActivePeriod(latestPeriod);
-      const activePeriod = screenPeriod || (latestPeriod ? String(BigInt(latestPeriod) + 1n) : null);
-      if (!activePeriod) return;
+      if (activePeriod && currentPeriod && activePeriod !== currentPeriod) {
+        pendingBet = null;
+      }
+      currentPeriod = activePeriod;
 
-      const pred = predictApexTitanV9UM(results.map(r => r.number).reverse(), martingaleStep);
+      const finished = scanFinishedResult();
+      if (finished && finished.period && !RESOLVED_PERIODS.has(finished.period)) {
+        RESOLVED_PERIODS.add(finished.period);
+
+        let rec = RECORDED_BETS_FEED.find(r => r.period === finished.period);
+        if (rec) {
+          rec.isPending = false;
+          rec.won = finished.won;
+          rec.number = finished.number != null ? finished.number : '--';
+          rec.size = finished.size || (finished.won ? rec.prediction : (rec.prediction === 'BIG' ? 'SMALL' : 'BIG'));
+          rec.profit = finished.won ? (rec.stake * 0.96) : (-rec.stake);
+        }
+
+        if (ACTUALLY_PLACED_PERIODS.has(finished.period)) {
+          if (finished.won) {
+            wins++;
+            martingaleStep = 0;
+            currentBet = getStakeForStep(BASE_BET, 0);
+            console.log(`%c🏆 JASH VIP WIN on #${finished.period}! Reset to Base ₹${BASE_BET}`, 'background:#10b981;color:#fff;font-weight:bold;padding:5px');
+          } else {
+            losses++;
+            martingaleStep++;
+            currentBet = getStakeForStep(BASE_BET, martingaleStep);
+            console.log(`%c💀 JASH VIP LOSS on #${finished.period}! Step ${martingaleStep} -> ₹${currentBet} (No Loss Limit Martingale)`, 'background:#ef4444;color:#fff;font-weight:bold;padding:5px');
+          }
+        }
+
+        if (RECORDED_BETS_FEED.length > 1000) RECORDED_BETS_FEED = RECORDED_BETS_FEED.slice(0, 1000);
+        try { localStorage.setItem('JASH_BETS_FEED', JSON.stringify(RECORDED_BETS_FEED.slice(0, 50))); } catch (e) {}
+
+        pendingBet = null;
+        persistAllState();
+        updateHud();
+      }
+
+      const masterPred = computeMasterPrediction();
       updateHud();
 
-      if (!running || isBettingInProgress || !pred || !pred.size) return;
-      if (LOCKED_BUCKETS.has(currentBucket)) return;
+      if (liveWalletBal >= TAKE_PROFIT_TARGET && running) {
+        running = false;
+        persistAllState();
+        return;
+      }
 
-      // Betting Window: 30S (<=25s down to >=4s) | 1M (<=55s down to >=5s)
-      const canBet = mode === '30S' ? (secondsLeft <= 25 && secondsLeft >= 4) : (secondsLeft <= 55 && secondsLeft >= 5);
+      if (!running || isBettingInProgress) return;
+      if (LOCKED_TIME_BUCKETS.has(currentBucket)) return;
 
-      if (running && canBet && !LOCKED_BUCKETS.has(currentBucket)) {
-        LOCKED_BUCKETS.add(currentBucket);
+      const canBet = (GAME_MODE === '30S')
+        ? (secondsLeft <= 25 && secondsLeft >= 4)
+        : (secondsLeft <= 55 && secondsLeft >= 8);
+
+      if (running && canBet && !LOCKED_TIME_BUCKETS.has(currentBucket)) {
+        LOCKED_TIME_BUCKETS.add(currentBucket);
+        if (activePeriod) ACTUALLY_PLACED_PERIODS.add(activePeriod);
         isBettingInProgress = true;
 
-        pendingBet = {
-          period: activePeriod,
-          pred: pred.size,
-          number: pred.number,
-          stake: currentBet,
-          placedAt: Date.now()
-        };
+        lastPredicted = masterPred.size;
+        pendingBet = { period: activePeriod, pred: masterPred.size, stake: currentBet, placedAt: Date.now() };
 
-        BETS_FEED.unshift({
-          period: activePeriod,
-          prediction: `${pred.size} #${pred.number}`,
-          engine: pred.regime,
-          stake: currentBet,
-          result: '--',
-          profit: 0,
-          won: null,
-          isPending: true,
-          time: new Date().toLocaleTimeString()
-        });
-        if (BETS_FEED.length > 30) BETS_FEED = BETS_FEED.slice(0, 30);
-        try { localStorage.setItem('JASH_v9UM_BETS_FEED', JSON.stringify(BETS_FEED)); } catch (e) {}
+        if (activePeriod) {
+          RECORDED_BETS_FEED.unshift({
+            period: activePeriod,
+            prediction: masterPred.size,
+            mode: masterPred.mode,
+            stake: currentBet,
+            number: '--',
+            size: '--',
+            won: null,
+            profit: null,
+            isPending: true,
+            time: new Date().toLocaleTimeString()
+          });
+          if (RECORDED_BETS_FEED.length > 1000) RECORDED_BETS_FEED = RECORDED_BETS_FEED.slice(0, 1000);
+          try { localStorage.setItem('JASH_BETS_FEED', JSON.stringify(RECORDED_BETS_FEED.slice(0, 50))); } catch (e) {}
+        }
 
-        persist();
+        persistAllState();
         updateHud();
 
-        console.log(`%c🎯 [OVERNIGHT AUTOBET] Target: #${activePeriod} | Signal: ${pred.size} #${pred.number} (${pred.regime}) → ₹${currentBet}`, 'background:linear-gradient(90deg,#00f5a0,#7928ca);color:#fff;font-weight:bold;padding:6px 14px;font-size:13px;border-radius:4px');
-
-        await executeBet(pred.size, currentBet);
-        setTimeout(() => { isBettingInProgress = false; }, 2500);
+        await executeBet(masterPred.size, currentBet);
+        setTimeout(() => {
+          isBettingInProgress = false;
+          pendingBet = null;
+        }, (GAME_MODE === '30S' ? 2500 : 4000));
       }
     } catch (e) {
       isBettingInProgress = false;
-      console.error('[OVERNIGHT BOT] Cycle error:', e);
     }
   }
 
-    // ════════════════════════════════════════════════════════════
-  // 11. INITIALIZATION & SPA CONTINUOUS RESCUE
-  // ════════════════════════════════════════════════════════════
-  function ensureHudAttached() {
-    try {
-      if (document.body && !document.getElementById('jash-v9UM-hud')) {
-        createHud();
-      }
-    } catch (e) {}
+  // ── 11. SPA CONTINUOUS ATTACHMENT & INITIALIZATION ───────
+  function ensureHud() {
+    if (!document.getElementById('jash-hud')) createHud();
   }
 
-  function init() {
-    createHud();
-    setInterval(ensureHudAttached, 1000);
-    setInterval(botCycle, 1000);
-    setInterval(readScreenWalletBalance, 1500);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-  // Failsafe auto-init
-  setTimeout(init, 500);
-  setTimeout(init, 1500);
+  createHud();
+  setInterval(ensureHud, 1000);
+  setInterval(botCycle, 1000);
 })();
