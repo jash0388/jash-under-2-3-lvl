@@ -1,31 +1,10 @@
 // ==UserScript==
-// @name         signal_top1_follower — Apex Titan v9UM (Auto-Updating Zero-Bust Master)
+// @name         signal_top1_follower — Apex Titan v9UM (Standard Edition)
 // @namespace    http://tampermonkey.net/
-// @version      70.6
-// @description  Universal 24/7 Overnight WinGo Auto-Betting Bot powered by Apex Titan v9UM Neural Quantum Supreme Engine with Cloud OTA Real-Time Auto-Update.
-// @match        *://*.dmfirst*.com/*
-// @match        *://*.dmfirst17.com/*
-// @match        *://*.dmfirst9.com/*
-// @match        *://*.in999*.com/*
-// @match        *://*.in999vv.com/*
-// @match        *://*.muskan*.com/*
-// @match        *://*.muskan2.com/*
-// @match        *://*.muskan22.com/*
-// @match        *://*.shreewin*.com/*
-// @match        *://*.shreewin.net/*
-// @match        *://*.dhanuwin*.com/*
-// @match        *://*.daman*.com/*
-// @match        *://*.tiranga*.com/*
-// @match        *://*.bigdaddy*.com/*
+// @version      70.7
+// @description  Universal 24/7 Overnight WinGo Auto-Betting Bot powered by Apex Titan v9UM Neural Quantum Supreme Engine
 // @match        *://*/*
-// @grant        GM_xmlhttpRequest
-// @grant        GM_getValue
-// @grant        GM_setValue
-// @connect      draw.ar-lottery01.com
-// @connect      jashvip.vercel.app
-// @connect      raw.githubusercontent.com
-// @updateURL    https://jashvip.vercel.app/signal_top1_follower.user.js
-// @downloadURL  https://jashvip.vercel.app/signal_top1_follower.user.js
+// @grant        none
 // @run-at       document-start
 // ==/UserScript==
 
@@ -172,60 +151,49 @@
   }
 
   // ════════════════════════════════════════════════════════════
-  // 3. REAL-TIME LIVE CLOUD OTA AUTO-SYNC & SELF-UPDATE ENGINE
+  // 3. REAL-TIME LIVE CLOUD OTA AUTO-SYNC ENGINE
   // ════════════════════════════════════════════════════════════
-  let LIVE_RULES_VERSION = '70.4';
+  let LIVE_RULES_VERSION = '70.7';
   let LAST_OTA_SYNC = Date.now();
-  let OTA_SYNC_ACTIVE = true;
 
   function fetchLiveCloudRules() {
     try {
-      if (typeof GM_xmlhttpRequest !== 'function') return;
-      GM_xmlhttpRequest({
-        method: 'GET',
-        url: `https://jashvip.vercel.app/api/rules?t=${Date.now()}`,
-        timeout: 6000,
-        headers: { 'Cache-Control': 'no-cache' },
-        onload: function (res) {
-          try {
-            if (res.status === 200) {
-              const data = JSON.parse(res.responseText);
-              if (data && data.success && data.rules_30s) {
-                Object.assign(TITAN_RULES_30S, data.rules_30s);
-                if (data.rules_1m) Object.assign(TITAN_RULES_1M, data.rules_1m);
-                LIVE_RULES_VERSION = data.version || LIVE_RULES_VERSION;
-                LAST_OTA_SYNC = Date.now();
-                try {
-                  GM_setValue('CACHED_TITAN_RULES_30S', JSON.stringify(TITAN_RULES_30S));
-                  GM_setValue('CACHED_TITAN_RULES_1M', JSON.stringify(TITAN_RULES_1M));
-                  GM_setValue('CACHED_RULES_VERSION', LIVE_RULES_VERSION);
-                } catch (e) {}
-                console.log(`%c✨ [JASH VIP] Cloud OTA Auto-Sync Successful! Active rules version: ${LIVE_RULES_VERSION} (${Object.keys(TITAN_RULES_30S).length} rules)`, 'background:#00f5a0;color:#000;font-weight:900;padding:4px 8px;border-radius:4px;');
-                const badge = document.getElementById('jash-ota-badge');
-                if (badge) {
-                  badge.textContent = `⚡ OTA: v${LIVE_RULES_VERSION} LIVE`;
-                  badge.style.color = '#00f5a0';
-                }
-              }
+      if (typeof window.fetch !== 'function') return;
+      window.fetch(`https://jashvip.vercel.app/api/rules?t=${Date.now()}`, { cache: 'no-store' })
+        .then(r => r.json())
+        .then(data => {
+          if (data && data.success && data.rules_30s) {
+            Object.assign(TITAN_RULES_30S, data.rules_30s);
+            if (data.rules_1m) Object.assign(TITAN_RULES_1M, data.rules_1m);
+            LIVE_RULES_VERSION = data.version || LIVE_RULES_VERSION;
+            LAST_OTA_SYNC = Date.now();
+            try {
+              localStorage.setItem('CACHED_TITAN_RULES_30S', JSON.stringify(TITAN_RULES_30S));
+              localStorage.setItem('CACHED_TITAN_RULES_1M', JSON.stringify(TITAN_RULES_1M));
+              localStorage.setItem('CACHED_RULES_VERSION', LIVE_RULES_VERSION);
+            } catch (e) {}
+            console.log(`%c✨ [JASH VIP] Rules Engine Active: v${LIVE_RULES_VERSION} (${Object.keys(TITAN_RULES_30S).length} rules)`, 'background:#00f5a0;color:#000;font-weight:900;padding:4px 8px;border-radius:4px;');
+            const badge = document.getElementById('jash-ota-badge');
+            if (badge) {
+              badge.textContent = `⚡ TITAN: v${LIVE_RULES_VERSION} READY`;
+              badge.style.color = '#00f5a0';
             }
-          } catch (e) {}
-        }
-      });
+          }
+        }).catch(() => {});
     } catch (e) {}
   }
 
   // Restore cached rules on cold start
   try {
-    const cached30s = GM_getValue('CACHED_TITAN_RULES_30S');
-    const cached1m = GM_getValue('CACHED_TITAN_RULES_1M');
+    const cached30s = localStorage.getItem('CACHED_TITAN_RULES_30S');
+    const cached1m = localStorage.getItem('CACHED_TITAN_RULES_1M');
     if (cached30s) Object.assign(TITAN_RULES_30S, JSON.parse(cached30s));
     if (cached1m) Object.assign(TITAN_RULES_1M, JSON.parse(cached1m));
-    const cachedVer = GM_getValue('CACHED_RULES_VERSION');
+    const cachedVer = localStorage.getItem('CACHED_RULES_VERSION');
     if (cachedVer) LIVE_RULES_VERSION = cachedVer;
   } catch (e) {}
 
-  // Periodic OTA cloud background sync every 15 seconds
-  setInterval(fetchLiveCloudRules, 15000);
+  setInterval(fetchLiveCloudRules, 20000);
   setTimeout(fetchLiveCloudRules, 1000);
 
   // ════════════════════════════════════════════════════════════
@@ -557,35 +525,12 @@
     const mode = detectActiveGameMode();
     const url = getApiUrlForMode(mode);
 
-    if (typeof GM_xmlhttpRequest !== 'undefined') {
-      GM_xmlhttpRequest({
-        method: 'GET',
-        url: `${url}?_t=${Date.now()}`,
-        timeout: 4000,
-        onload: function (res) {
-          fetchInFlight = false;
-          try {
-            const data = JSON.parse(res.responseText);
-            const list = data?.data?.list || data?.data?.gameslist || [];
-            if (Array.isArray(list) && list.length > 0) {
-              SIGNAL_API_RESULTS = list.map(row => ({
-                period: String(row.issueNumber || row.period || '').trim(),
-                number: Number(row.number),
-                size: sizeFor(row.number)
-              })).filter(x => /^\d+$/.test(x.period) && Number.isInteger(x.number));
-              updateHud();
-            }
-          } catch (e) {}
-        },
-        onerror: function () { fetchInFlight = false; },
-        ontimeout: function () { fetchInFlight = false; }
-      });
-    } else {
+    try {
       fetch(`${url}?_t=${Date.now()}`)
         .then(r => r.json())
         .then(data => {
           fetchInFlight = false;
-          const list = data?.data?.list || [];
+          const list = data?.data?.list || data?.data?.gameslist || [];
           if (Array.isArray(list) && list.length > 0) {
             SIGNAL_API_RESULTS = list.map(row => ({
               period: String(row.issueNumber || row.period || '').trim(),
@@ -596,6 +541,8 @@
           }
         })
         .catch(() => { fetchInFlight = false; });
+    } catch (e) {
+      fetchInFlight = false;
     }
   }
   setInterval(fetchSignalAPI, 1000);
@@ -734,20 +681,21 @@
   // ════════════════════════════════════════════════════════════
   function createHud() {
     if (document.getElementById('jash-v9UM-hud')) return;
-    if (!document.body) {
-      setTimeout(createHud, 300);
+    const target = document.body || document.documentElement;
+    if (!target) {
+      setTimeout(createHud, 100);
       return;
     }
 
     const hud = document.createElement('div');
     hud.id = 'jash-v9UM-hud';
     hud.style.cssText = `
-      position:fixed;top:15px;right:15px;z-index:9999999;width:260px;
-      background:linear-gradient(160deg,#0a0c16,#101328,#070814);
-      color:#e0f0ff;border-radius:18px;border:1.5px solid rgba(0,245,160,0.5);
-      box-shadow:0 15px 40px rgba(0,0,0,0.9),0 0 25px rgba(0,245,160,0.25);
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:12px;box-sizing:border-box;
-      backdrop-filter:blur(16px);user-select:none;
+      position:fixed !important;top:15px !important;right:15px !important;z-index:2147483647 !important;width:260px !important;
+      background:linear-gradient(160deg,#0a0c16,#101328,#070814) !important;
+      color:#e0f0ff !important;border-radius:18px !important;border:1.5px solid rgba(0,245,160,0.5) !important;
+      box-shadow:0 15px 40px rgba(0,0,0,0.9),0 0 25px rgba(0,245,160,0.25) !important;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif !important;padding:12px !important;box-sizing:border-box !important;
+      backdrop-filter:blur(16px) !important;user-select:none !important;display:block !important;
     `;
 
     hud.innerHTML = `
@@ -810,7 +758,7 @@
       <div id="jash-feed-box" style="font-size:9px;max-height:75px;overflow-y:auto;background:rgba(0,0,0,0.4);border-radius:6px;padding:4px;border:1px solid rgba(255,255,255,0.06)"></div>
     `;
 
-    document.body.appendChild(hud);
+    target.appendChild(hud);
 
     // Draggable
     let isDragging = false, startX, startY, initialLeft, initialTop;
