@@ -1,0 +1,850 @@
+[
+  {
+    "period": "51028",
+    "number": 7,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 7",
+    "status": "WINL1 wth man? see the losses bitch"
+  },
+  {
+    "period": "51029",
+    "number": 9,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 9",
+    "status": "WINL1"
+  },
+  {
+    "period": "51030",
+    "number": 1,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 1",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51031",
+    "number": 3,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 3",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "51032",
+    "number": 1,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 1",
+    "status": "WINL3"
+  },
+  {
+    "period": "51033",
+    "number": 5,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 5",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51034",
+    "number": 4,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 4",
+    "status": "WINL2"
+  },
+  {
+    "period": "51035",
+    "number": 1,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 1",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51036",
+    "number": 6,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 6",
+    "status": "WINL2"
+  },
+  {
+    "period": "51037",
+    "number": 5,
+    "size": "BIG",
+    "signal": "BIG 8",
+    "result": "BIG 5",
+    "status": "WINL1"
+  },
+  {
+    "period": "51038",
+    "number": 4,
+    "size": "SMALL",
+    "signal": "BIG 8",
+    "result": "SMALL 4",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51039",
+    "number": 4,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 4",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "51040",
+    "number": 0,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 0",
+    "status": "WINL3"
+  },
+  {
+    "period": "51041",
+    "number": 2,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 2",
+    "status": "WINL1"
+  },
+  {
+    "period": "51042",
+    "number": 7,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 7",
+    "status": "WINL1"
+  },
+  {
+    "period": "51117",
+    "number": 9,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 9",
+    "status": "WINL1"
+  },
+  {
+    "period": "51118",
+    "number": 5,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 5",
+    "status": "WINL1"
+  },
+  {
+    "period": "51119",
+    "number": 4,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 4",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51120",
+    "number": 6,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 6",
+    "status": "WINL2"
+  },
+  {
+    "period": "51121",
+    "number": 9,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 9",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51122",
+    "number": 5,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 5",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "51123",
+    "number": 9,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 9",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "51124",
+    "number": 2,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 2",
+    "status": "WINL3"
+  },
+  {
+    "period": "51125",
+    "number": 2,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 2",
+    "status": "WINL1"
+  },
+  {
+    "period": "51126",
+    "number": 1,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 1",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51127",
+    "number": 0,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 0",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "51128",
+    "number": 3,
+    "size": "SMALL",
+    "signal": "SMALL 3",
+    "result": "SMALL 3",
+    "status": "WINL3"
+  },
+  {
+    "period": "51129",
+    "number": 3,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 3",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51130",
+    "number": 6,
+    "size": "BIG",
+    "signal": "SMALL 4",
+    "result": "BIG 6",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "51131",
+    "number": 0,
+    "size": "SMALL",
+    "signal": "SMALL 4",
+    "result": "SMALL 0",
+    "status": "WINL3"
+  },
+  {
+    "period": "51132",
+    "number": 0,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 0",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51133",
+    "number": 8,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 8",
+    "status": "WINL2"
+  },
+  {
+    "period": "51134",
+    "number": 7,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 7",
+    "status": "WINL1"
+  },
+  {
+    "period": "51135",
+    "number": 4,
+    "size": "SMALL",
+    "signal": "BIG 5",
+    "result": "SMALL 4",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51136",
+    "number": 6,
+    "size": "BIG",
+    "signal": "BIG 5",
+    "result": "BIG 6",
+    "status": "WINL2"
+  },
+  {
+    "period": "51137",
+    "number": 9,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 9",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51138",
+    "number": 2,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 2",
+    "status": "WINL2"
+  },
+  {
+    "period": "51139",
+    "number": 5,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 5",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51140",
+    "number": 7,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 7",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "51141",
+    "number": 3,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 3",
+    "status": "WINL3"
+  },
+  {
+    "period": "51142",
+    "number": 1,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 1",
+    "status": "WINL1"
+  },
+  {
+    "period": "51143",
+    "number": 5,
+    "size": "BIG",
+    "signal": "SMALL 0",
+    "result": "BIG 5",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51144",
+    "number": 6,
+    "size": "BIG",
+    "signal": "SMALL 0",
+    "result": "BIG 6",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "51145",
+    "number": 7,
+    "size": "BIG",
+    "signal": "BIG 8",
+    "result": "BIG 7",
+    "status": "WINL3"
+  },
+  {
+    "period": "51146",
+    "number": 9,
+    "size": "BIG",
+    "signal": "BIG 8",
+    "result": "BIG 9",
+    "status": "WINL1"
+  },
+  {
+    "period": "51147",
+    "number": 6,
+    "size": "BIG",
+    "signal": "SMALL 0",
+    "result": "BIG 6",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51148",
+    "number": 5,
+    "size": "BIG",
+    "signal": "SMALL 0",
+    "result": "BIG 5",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "51149",
+    "number": 3,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 3",
+    "status": "WINL3"
+  },
+  {
+    "period": "51982",
+    "number": 0,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 0",
+    "status": "WINL3"
+  },
+  {
+    "period": "51983",
+    "number": 5,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 5",
+    "status": "WINL1"
+  },
+  {
+    "period": "51984",
+    "number": 8,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 8",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51985",
+    "number": 6,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 6",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "51986",
+    "number": 7,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 7",
+    "status": "WINL3"
+  },
+  {
+    "period": "51987",
+    "number": 3,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 3",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51988",
+    "number": 8,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 8",
+    "status": "WINL2"
+  },
+  {
+    "period": "51989",
+    "number": 6,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 6",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51990",
+    "number": 9,
+    "size": "BIG",
+    "signal": "BIG 9",
+    "result": "BIG 9",
+    "status": "WINL2"
+  },
+  {
+    "period": "51991",
+    "number": 9,
+    "size": "BIG",
+    "signal": "BIG 5",
+    "result": "BIG 9",
+    "status": "WINL1"
+  },
+  {
+    "period": "51992",
+    "number": 9,
+    "size": "BIG",
+    "signal": "BIG 5",
+    "result": "BIG 9",
+    "status": "WINL1"
+  },
+  {
+    "period": "51993",
+    "number": 7,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 7",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "51994",
+    "number": 1,
+    "size": "SMALL",
+    "signal": "BIG 5",
+    "result": "SMALL 1",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "52008",
+    "number": 5,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 5",
+    "status": "WINL3"
+  },
+  {
+    "period": "52009",
+    "number": 3,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 3",
+    "status": "WINL1"
+  },
+  {
+    "period": "52010",
+    "number": 3,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 3",
+    "status": "WINL1"
+  },
+  {
+    "period": "52011",
+    "number": 4,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 4",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "52012",
+    "number": 5,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 5",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "52013",
+    "number": 1,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 1",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "52014",
+    "number": 7,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 7",
+    "status": "WINL3"
+  },
+  {
+    "period": "52015",
+    "number": 4,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 4",
+    "status": "WINL1"
+  },
+  {
+    "period": "52016",
+    "number": 9,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 9",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "52017",
+    "number": 8,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 8",
+    "status": "WINL2"
+  },
+  {
+    "period": "52018",
+    "number": 3,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 3",
+    "status": "WINL1"
+  },
+  {
+    "period": "52019",
+    "number": 8,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 8",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "52020",
+    "number": 4,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 4",
+    "status": "WINL2"
+  },
+  {
+    "period": "52021",
+    "number": 1,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 1",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "52022",
+    "number": 4,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 4",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "52023",
+    "number": 4,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 4",
+    "status": "WINL3"
+  },
+  {
+    "period": "52024",
+    "number": 9,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 9",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "52025",
+    "number": 5,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 5",
+    "status": "WINL2"
+  },
+  {
+    "period": "52026",
+    "number": 7,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 7",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "52027",
+    "number": 6,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 6",
+    "status": "WINL2"
+  },
+  {
+    "period": "52028",
+    "number": 5,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 5",
+    "status": "WINL1"
+  },
+  {
+    "period": "52029",
+    "number": 1,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 1",
+    "status": "WINL1"
+  },
+  {
+    "period": "52030",
+    "number": 7,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 7",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "52031",
+    "number": 2,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 2",
+    "status": "WINL2"
+  },
+  {
+    "period": "52032",
+    "number": 5,
+    "size": "BIG",
+    "signal": "SMALL 3",
+    "result": "BIG 5",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "52033",
+    "number": 5,
+    "size": "BIG",
+    "signal": "BIG 8",
+    "result": "BIG 5",
+    "status": "WINL2"
+  },
+  {
+    "period": "52034",
+    "number": 2,
+    "size": "SMALL",
+    "signal": "SMALL 3",
+    "result": "SMALL 2",
+    "status": "WINL1"
+  },
+  {
+    "period": "52035",
+    "number": 4,
+    "size": "SMALL",
+    "signal": "BIG 8",
+    "result": "SMALL 4",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "52036",
+    "number": 0,
+    "size": "SMALL",
+    "signal": "SMALL 3",
+    "result": "SMALL 0",
+    "status": "WINL2"
+  },
+  {
+    "period": "52037",
+    "number": 9,
+    "size": "BIG",
+    "signal": "BIG 8",
+    "result": "BIG 9",
+    "status": "WINL1"
+  },
+  {
+    "period": "52038",
+    "number": 3,
+    "size": "SMALL",
+    "signal": "SMALL 3",
+    "result": "SMALL 3",
+    "status": "WINL1"
+  },
+  {
+    "period": "52039",
+    "number": 4,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 4",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "52040",
+    "number": 3,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 3",
+    "status": "WINL2"
+  },
+  {
+    "period": "52041",
+    "number": 0,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 0",
+    "status": "WINL1"
+  },
+  {
+    "period": "52042",
+    "number": 1,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 1",
+    "status": "WINL1"
+  },
+  {
+    "period": "52043",
+    "number": 8,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 8",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "52044",
+    "number": 3,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 3",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "52045",
+    "number": 0,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 0",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "52046",
+    "number": 9,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 9",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "52047",
+    "number": 5,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 5",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "52048",
+    "number": 0,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 0",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "52049",
+    "number": 7,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 7",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "52050",
+    "number": 6,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 6",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "52051",
+    "number": 8,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 8",
+    "status": "WINL3"
+  },
+  {
+    "period": "52052",
+    "number": 8,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 8",
+    "status": "WINL1"
+  }
+]
