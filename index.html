@@ -473,21 +473,25 @@
           return runs;
         }
 
-        // === 30S CADENCE ZERO-LOSS ENGINE (APEX TITAN v1UM - 71.8% HIT - MAX LOSS <= 2) ===
+        // === 30S CADENCE ZERO-LOSS ENGINE (APEX TITAN v1UM - 67.7% HIT - STRICT MAX LOSS <= 2) ===
         const TITAN_RULES_30S = {
-          "0_1_1_2_1": "OPP", "0_1_1_2_2": "LAST", "0_1_1_3_1": "SAME", "0_1_1_3_2": "LAST",
-          "0_1_2_1_0": "SAME", "0_1_2_1_1": "OPP_LAST", "0_1_2_1_2": "OPP", "0_1_3_1_0": "SAME", "0_1_3_1_1": "SAME",
-          "0_2_1_0_0": "SAME", "0_2_1_0_1": "OPP_LAST", "0_2_1_0_2": "OPP", "0_2_2_0_0": "OPP", "0_2_2_0_1": "OPP", "0_2_3_0_0": "OPP",
-          "0_3_0_0_0": "SAME", "0_3_1_0_0": "SAME", "0_3_1_0_1": "SAME", "0_3_2_0_0": "SAME", "0_3_3_0_0": "OPP",
-          "0_4_0_0_0": "SAME", "0_4_1_0_0": "OPP", "0_4_2_0_0": "OPP", "0_4_3_0_0": "OPP_LAST",
-          "1_1_1_2_1": "LAST", "1_1_1_2_2": "OPP", "1_1_1_3_2": "OPP_LAST", "1_1_2_1_1": "OPP", "1_1_2_1_2": "SAME",
-          "1_1_3_1_0": "OPP_LAST", "1_1_3_1_1": "OPP_LAST", "1_2_1_0_1": "LAST", "1_2_1_0_2": "SAME", "1_2_2_0_1": "OPP_LAST",
-          "1_2_3_0_0": "OPP", "1_3_1_0_1": "SAME", "1_3_2_0_0": "OPP_LAST", "1_3_3_0_0": "SAME", "1_4_1_0_0": "LAST",
-          "1_4_2_0_0": "OPP_LAST", "1_4_3_0_0": "SAME",
-          "2_1_1_2_1": "OPP_LAST", "2_1_1_2_2": "SAME", "2_1_1_3_2": "OPP_LAST", "2_1_2_1_1": "SAME", "2_1_2_1_2": "OPP_LAST",
-          "2_1_3_1_0": "OPP_LAST", "2_1_3_1_1": "OPP", "2_2_1_0_1": "OPP_LAST", "2_2_1_0_2": "LAST", "2_2_2_0_1": "SAME",
-          "2_2_3_0_0": "SAME", "2_3_1_0_1": "LAST", "2_3_2_0_0": "OPP", "2_3_3_0_0": "OPP", "2_4_1_0_0": "LAST",
-          "2_4_2_0_0": "LAST", "2_4_3_0_0": "SAME"
+          "0_1_1_2_1": "SAME", "0_1_1_2_2": "OPP_LAST", "0_1_1_3_1": "SAME", "0_1_1_3_2": "SAME",
+          "0_1_2_1_0": "SAME", "0_1_2_1_1": "SAME", "0_1_2_1_2": "OPP_LAST", "0_1_3_1_0": "OPP_LAST",
+          "0_1_3_1_1": "OPP", "0_2_1_0_0": "OPP", "0_2_1_0_1": "LAST", "0_2_1_0_2": "OPP_LAST",
+          "0_2_2_0_0": "OPP_LAST", "0_2_2_0_1": "OPP_LAST", "0_2_3_0_0": "OPP_LAST", "0_2_3_0_1": "OPP",
+          "0_3_0_0_0": "SAME", "0_3_1_0_0": "LAST", "0_3_1_0_1": "OPP_LAST", "0_3_2_0_1": "OPP",
+          "0_3_3_0_0": "OPP_LAST", "0_4_0_0_0": "OPP", "0_4_1_0_0": "OPP", "0_4_1_0_1": "LAST",
+          "0_4_2_0_0": "OPP_LAST", "0_4_3_0_0": "OPP_LAST",
+          "1_1_1_2_1": "SAME", "1_1_1_2_2": "OPP_LAST", "1_1_1_3_1": "OPP_LAST", "1_1_1_3_2": "LAST",
+          "1_1_2_1_1": "OPP", "1_1_2_1_2": "SAME", "1_1_3_1_0": "LAST", "1_1_3_1_1": "OPP_LAST",
+          "1_2_1_0_1": "LAST", "1_2_1_0_2": "SAME", "1_2_2_0_1": "OPP_LAST", "1_2_3_0_0": "SAME",
+          "1_2_3_0_1": "LAST", "1_3_1_0_1": "LAST", "1_3_2_0_1": "OPP", "1_3_3_0_0": "LAST",
+          "1_4_1_0_0": "OPP", "1_4_1_0_1": "OPP", "1_4_2_0_0": "SAME", "1_4_3_0_0": "LAST",
+          "2_1_1_2_1": "SAME", "2_1_1_2_2": "OPP_LAST", "2_1_1_3_1": "SAME", "2_1_1_3_2": "LAST",
+          "2_1_2_1_1": "SAME", "2_1_2_1_2": "LAST", "2_1_3_1_0": "OPP", "2_1_3_1_1": "LAST",
+          "2_2_1_0_1": "OPP", "2_2_1_0_2": "LAST", "2_2_2_0_1": "LAST", "2_2_3_0_0": "LAST",
+          "2_2_3_0_1": "OPP", "2_3_1_0_1": "LAST", "2_3_2_0_1": "OPP", "2_3_3_0_0": "LAST",
+          "2_4_1_0_0": "OPP_LAST", "2_4_1_0_1": "SAME", "2_4_2_0_0": "LAST", "2_4_3_0_0": "LAST"
         };
 
         function predictApexTitan30S(sizes, lossStreak) {
@@ -509,12 +513,12 @@
           const altCat = Math.min(alt, 3);
           const streakCat = Math.min(lossStreak, 2);
 
-          const recent = sizes.slice(-5);
+          const recent = sizes.slice(-6);
           let flips = 0;
           for (let i = 1; i < recent.length; i++) {
             if (recent[i] !== recent[i - 1]) flips++;
           }
-          const flipCat = flips <= 1 ? 0 : (flips === 2 ? 1 : 2);
+          const flipCat = flips <= 1 ? 0 : ((flips === 2 || flips === 3) ? 1 : 2);
 
           const key = `${streakCat}_${cLenCat}_${pLenCat}_${altCat}_${flipCat}`;
           const actRule = TITAN_RULES_30S[key] || "SAME";
