@@ -13,9 +13,9 @@ rules_1m_json = json.dumps(rules_1m)
 print(f"Loaded {len(rules_30s)} 30S rules and {len(rules_1m)} 1M rules.")
 
 script_template = '''// ==UserScript==
-// @name         JASH VIP v26.0 STANDALONE (100% Offline Local Prediction Brain)
+// @name         JASH VIP v27.0 (Strict 2-Level Loss Shield & Zero-Bust)
 // @namespace    http://tampermonkey.net/
-// @version      26.0
+// @version      27.0
 // @description  👑 JASH VIP · WinGo 30S/1M | 100% STANDALONE LOCAL BRAIN · NO ONLINE API · NO SERVER BRIDGE · ZERO DESYNC · 595-DRAW ZERO-BUST RULES
 // @match        *://*.in999vv.com/*
 // @match        *://*.in999*.com/*
@@ -33,7 +33,7 @@ script_template = '''// ==UserScript==
   if (window.__JASH_VIP_STANDALONE_LOCK__) return;
   window.__JASH_VIP_STANDALONE_LOCK__ = true;
 
-  console.log("%c👑 JASH VIP v26.0 STANDALONE · 100% LOCAL ZERO-BUST BRAIN ACTIVE", "background:linear-gradient(135deg,#00f5a0,#00d9f5,#7c3aed);color:#000;font-size:15px;font-weight:900;padding:8px 16px;border-radius:8px;box-shadow:0 0 25px rgba(0,245,160,0.6);");
+  console.log("%c👑 JASH VIP v27.0 STANDALONE · 100% LOCAL ZERO-BUST BRAIN ACTIVE", "background:linear-gradient(135deg,#00f5a0,#00d9f5,#7c3aed);color:#000;font-size:15px;font-weight:900;padding:8px 16px;border-radius:8px;box-shadow:0 0 25px rgba(0,245,160,0.6);");
 
   // ── 1. WAKE LOCK & PREVENT SLEEP ──────────────────────────
   let wakeLockObj = null;
@@ -70,6 +70,7 @@ script_template = '''// ==UserScript==
 
   // STRICT SINGLE LOSS STREAK
   let LOSS_STREAK     = parseInt(localStorage.getItem('J26_LOSS_STREAK')) || 0;
+  let MAX_LOSS_LEVEL  = parseInt(localStorage.getItem('J26_MAX_LVL')) || 2; // Strict 2-Level Max
 
   let currentPeriod   = null;
   let lastPredicted   = localStorage.getItem('J26_LAST_PRED') || null;
@@ -295,18 +296,18 @@ script_template = '''// ==UserScript==
 
       if (won) {
         wins++;
-        bet.profit = bet.stake * 0.96;
+        bet.profit = bet.isVirtual ? 0 : (bet.stake * 0.96);
         LOSS_STREAK = 0;
         martingaleStep = 0;
         currentBet = getStakeForStep(BASE_BET, 0);
-        console.log(`%c🏆 JASH VIP WIN on #${latestDraw.period}! Reset to Level 1 (₹${BASE_BET})`, 'background:#10b981;color:#fff;font-weight:900;padding:6px;border-radius:4px');
+        console.log(`%c🏆 JASH VIP WIN on #${latestDraw.period}! ${bet.isVirtual ? 'Recovery Confirmed Virtually! ' : ''}Reset to Level 1 (₹${BASE_BET})`, 'background:#10b981;color:#fff;font-weight:900;padding:6px;border-radius:4px');
       } else {
         losses++;
-        bet.profit = -bet.stake;
+        bet.profit = bet.isVirtual ? 0 : (-bet.stake);
         LOSS_STREAK++;
         martingaleStep++;
         currentBet = getStakeForStep(BASE_BET, martingaleStep);
-        console.log(`%c💀 JASH VIP LOSS on #${latestDraw.period}! Streak=${LOSS_STREAK} -> Next Stake ₹${currentBet} (Step ${martingaleStep})`, 'background:#ef4444;color:#fff;font-weight:900;padding:6px;border-radius:4px');
+        console.log(`%c💀 JASH VIP LOSS on #${latestDraw.period}! Streak=${LOSS_STREAK} ${bet.isVirtual ? '(🛑 SHIELD ACTIVE - ₹0 REAL MONEY LOST)' : ''}`, 'background:#ef4444;color:#fff;font-weight:900;padding:6px;border-radius:4px');
       }
 
       pendingBet = null;
@@ -459,13 +460,16 @@ script_template = '''// ==UserScript==
 
     hud.innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:6px;">
-        <span style="font-weight:900;font-size:13px;background:linear-gradient(135deg,#00f5a0,#56e6ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">👑 JASH VIP v26.0</span>
+        <span style="font-weight:900;font-size:13px;background:linear-gradient(135deg,#00f5a0,#56e6ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">👑 JASH VIP v27.0</span>
         <span id="j-timer" style="font-weight:900;color:#00f5a0;font-size:14px;">--s</span>
       </div>
 
-      <div style="margin-bottom:8px;">
-        <button id="j-mode-btn" style="width:100%;padding:4px 0;background:rgba(124,58,237,0.3);border:1px solid #7c3aed;border-radius:6px;color:#c4b5fd;font-weight:bold;font-size:11px;cursor:pointer;">
-          🎯 MODE: ${GAME_MODE === '30S' ? '30 SEC (FAST)' : '1 MIN'}
+      <div style="display:flex;gap:4px;margin-bottom:8px;">
+        <button id="j-mode-btn" style="flex:1;padding:4px 0;background:rgba(124,58,237,0.3);border:1px solid #7c3aed;border-radius:6px;color:#c4b5fd;font-weight:bold;font-size:10px;cursor:pointer;">
+          🎯 ${GAME_MODE === '30S' ? '30S' : '1M'}
+        </button>
+        <button id="j-shield-btn" style="flex:1;padding:4px 0;background:rgba(255,0,85,0.2);border:1px solid #ff0055;border-radius:6px;color:#ff6699;font-weight:bold;font-size:10px;cursor:pointer;">
+          🛡️ MAX LVL: ${MAX_LOSS_LEVEL}
         </button>
       </div>
 
@@ -540,6 +544,13 @@ script_template = '''// ==UserScript==
       }
     };
 
+        document.getElementById('j-shield-btn').onclick = () => {
+      MAX_LOSS_LEVEL = (MAX_LOSS_LEVEL === 2) ? 3 : (MAX_LOSS_LEVEL === 3 ? 99 : 2);
+      document.getElementById('j-shield-btn').textContent = `🛡️ MAX LVL: ${MAX_LOSS_LEVEL > 5 ? 'OFF' : MAX_LOSS_LEVEL}`;
+      persistAll();
+      updateHud();
+    };
+
     document.getElementById('j-mode-btn').onclick = () => {
       GAME_MODE = (GAME_MODE === '30S') ? '1M' : '30S';
       document.getElementById('j-mode-btn').textContent = `🎯 MODE: ${GAME_MODE === '30S' ? '30 SEC (FAST)' : '1 MIN'}`;
@@ -554,9 +565,18 @@ script_template = '''// ==UserScript==
     const badge = document.getElementById('j-status-badge');
     if (!badge) return;
 
+    const isShieldActive = (martingaleStep >= MAX_LOSS_LEVEL);
     badge.textContent = running
-      ? (pendingBet ? `⏳ BETTING ₹${pendingBet.stake} ON ${pendingBet.pred}` : `⚡ LOCAL BRAIN ACTIVE (${GAME_MODE})`)
+      ? (isShieldActive ? `🛑 2-LVL SHIELD: PAPER BET (REAL ₹0)` : (pendingBet ? `⏳ BETTING ₹${pendingBet.stake} ON ${pendingBet.pred}` : `⚡ LOCAL BRAIN ACTIVE (${GAME_MODE})`))
       : `⏹ ENGINE (${GAME_MODE}) STOPPED`;
+    if (isShieldActive && running) {
+      badge.style.background = 'rgba(255,0,85,0.2)';
+      badge.style.borderColor = '#ff0055';
+      badge.style.color = '#ff6699';
+    } else {
+      badge.style.background = 'rgba(0,245,160,0.1)';
+      badge.style.borderColor = 'rgba(0,245,160,0.3)';
+    }
     badge.style.color = running ? '#00f5a0' : '#ff5368';
 
     document.getElementById('j-livebal').textContent = `₹${liveWalletBal.toFixed(2)}`;
@@ -580,7 +600,7 @@ script_template = '''// ==UserScript==
       feedBox.innerHTML = RECORDED_BETS.slice(0, 10).map(b => `
         <div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(255,255,255,0.05);color:${b.won === true ? '#00f5a0' : b.won === false ? '#ff007a' : '#ffcc00'}">
           <span>..${String(b.period).slice(-4)} ${b.prediction}</span>
-          <span>${b.won === true ? 'WIN' : b.won === false ? 'LOSS' : 'PENDING'}</span>
+          <span>${b.isVirtual ? '🛡️ V-' : ''}${b.won === true ? 'WIN' : b.won === false ? 'LOSS' : 'PENDING'}</span>
         </div>
       `).join('');
     }
@@ -634,12 +654,16 @@ script_template = '''// ==UserScript==
         lastBetPeriod = activePeriod;
         pendingBet = { period: activePeriod, pred: pred.size, stake: currentBet, placedAt: Date.now() };
 
+        const isVirtual = (martingaleStep >= MAX_LOSS_LEVEL);
+        const actualStakeToBet = isVirtual ? 0 : currentBet;
+
         if (activePeriod) {
           RECORDED_BETS.unshift({
             period: activePeriod,
             prediction: pred.size,
             mode: pred.mode,
             stake: currentBet,
+            isVirtual: isVirtual,
             won: null,
             profit: null,
             isPending: true,
@@ -651,7 +675,11 @@ script_template = '''// ==UserScript==
         persistAll();
         updateHud();
 
-        await executeBet(pred.size, currentBet);
+        if (isVirtual) {
+          console.log(`%c[🛑 2-LVL SHIELD ACTIVE] Skipping real bet on #${activePeriod}! Virtual paper bet on ${pred.size}. Your bankroll is 100% protected!`, 'background:#ff0055;color:#fff;font-weight:900;padding:6px 14px;border-radius:4px');
+        } else {
+          await executeBet(pred.size, actualStakeToBet);
+        }
 
         setTimeout(() => {
           isBettingInProgress = false;
@@ -700,4 +728,4 @@ for p in output_paths:
         f.write(final_script)
     print(f"✅ Generated: {p}")
 
-print("\n🚀 STANDALONE v26.0 USERSCRIPT GENERATION COMPLETE!")
+print("\n🚀 STANDALONE v27.0 USERSCRIPT GENERATION COMPLETE!")
