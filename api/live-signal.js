@@ -189,10 +189,15 @@ module.exports = async (req, res) => {
   // If signal is older than 25s or empty, compute server-side with sequential stream replay
   if (!cur.period || (Date.now() - (cur.updatedAt || 0) > 25000)) {
     try {
-      const url = (mode === '30S')
-        ? 'https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json'
-        : 'https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json';
-      const apiRes = await fetch(`${url}?_t=${Date.now()}`);
+      const url = (mode === '1M')
+        ? 'https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json'
+        : 'https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json';
+      const apiRes = await fetch(`${url}?_t=${Date.now()}`, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'application/json, text/plain, */*'
+        }
+      });
       if (apiRes.ok) {
         const payload = await apiRes.json();
         const list = payload?.data?.list || [];
