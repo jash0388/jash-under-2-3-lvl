@@ -3333,5 +3333,55 @@
     "period": "52276",
     "number": 7,
     "size": "BIG"
+  },
+  {
+    "period": "52285",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "52286",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "52287",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "52288",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "52289",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "52290",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "52291",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "52292",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "52293",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "52294",
+    "number": 0,
+    "size": "SMALL"
   }
 ]
