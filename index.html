@@ -428,7 +428,7 @@
     <script>
       (() => {
         const MODE_KEY = "jashvip_selected_mode_v4um";
-        const MAX_HISTORY = 100;
+        const MAX_HISTORY = 1000;
 
         // Supported Game Modes
         const GAME_MODES = {
@@ -1084,7 +1084,7 @@
             <!-- HISTORY (GAPLESS LAST 20) -->
             <div class="history-card">
               <div class="history-header">
-                <span class="history-title">LAST ${savedHistory.length} PREDICTIONS (${GAME_MODES[currentMode].name})</span>
+                <span class="history-title">SESSION LOG · ${savedHistory.length}/1000 STORED (${GAME_MODES[currentMode].name})</span>
                 <div class="history-controls">
                   ${["ALL","WIN","LOSS"].map(f => `<button class="filter-button ${state.filter===f?'is-active':''}" data-action="filter" data-filter="${f}">${f}</button>`).join("")}
                 </div>
@@ -1147,8 +1147,12 @@
           });
         }
 
-        // === LOAD DATA ===
-        async function loadHistory({ silent = false } = {}) {
+        // === LOAD DATA & ULTRA-FAST HYPER-BURST SYNC ENGINE ===
+        let isHyperBurstActive = false;
+        let hyperBurstTimer = null;
+        let lastKnownPeriod = "";
+
+        async function loadHistory({ silent = false, fast = false } = {}) {
           if (!isAuthenticated || requestInFlight) return;
           const reqMode = currentMode;
           requestInFlight = true;
@@ -1162,8 +1166,14 @@
             }
             activeAbortController = new AbortController();
             const controller = activeAbortController;
-            const timeout = setTimeout(() => controller.abort(), 8000);
-            const response = await fetch(cfg.url, { method: "GET", cache: "no-store", headers: { Accept: "application/json" }, signal: controller.signal });
+            const timeoutMs = fast ? 2000 : 5000;
+            const timeout = setTimeout(() => controller.abort(), timeoutMs);
+            const response = await fetch(`${cfg.url}?_t=${Date.now()}`, {
+              method: "GET",
+              cache: "no-store",
+              headers: { Accept: "application/json", "Cache-Control": "no-cache" },
+              signal: controller.signal
+            });
             clearTimeout(timeout);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const payload = await response.json();
@@ -1173,8 +1183,12 @@
 
             const rows = normalise(payload);
             if (!rows.length) throw new Error("No results returned");
-            const signature = rows.slice(0,10).map(r=>`${r.period}:${r.number}`).join("|");
+            const signature = rows.slice(0, 10).map(r => `${r.period}:${r.number}`).join("|");
             changed = signature !== state.dataSignature;
+            
+            const isNewPeriod = lastKnownPeriod && rows[0].period !== lastKnownPeriod;
+            lastKnownPeriod = rows[0].period;
+
             state.results = rows;
             state.dataSignature = signature;
             state.targetPeriod = nextDecimal(rows[0].period);
@@ -1183,17 +1197,24 @@
             state.synced = true;
             state.updatedAt = new Date(Date.now() + state.serverOffset).toLocaleTimeString([], { hour:"2-digit", minute:"2-digit", second:"2-digit" });
 
-            // Reconcile and backfill history STRICTLY for reqMode
+            // Reconcile and backfill history STRICTLY for reqMode up to 1000 items!
             reconcileHistory(rows, reqMode);
 
             // Snapshot the NEW prediction for the upcoming period
             snapshotPendingPrediction(nextDecimal(rows[0].period), rows, reqMode);
 
+            // If a new period was just delivered, throttle down hyper-burst
+            if (isNewPeriod && isHyperBurstActive && state.seconds > 4 && state.seconds < cfg.cycleSeconds - 4) {
+              stopHyperBurst();
+            }
+
             updateCountdown();
           } catch (error) {
             if (reqMode !== currentMode || !isAuthenticated) return;
-            state.synced = false;
-            state.error = error.name === "AbortError" ? "Live feed timed out." : `Feed error: ${error.message}`;
+            if (error.name !== "AbortError") {
+              state.synced = false;
+              state.error = `Feed error: ${error.message}`;
+            }
           } finally {
             if (reqMode === currentMode && isAuthenticated) {
               requestInFlight = false;
@@ -1203,34 +1224,66 @@
           }
         }
 
+        function startHyperBurst() {
+          if (isHyperBurstActive) return;
+          isHyperBurstActive = true;
+          if (hyperBurstTimer) clearInterval(hyperBurstTimer);
+          // Hyper-speed 300ms polling burst at draw boundary
+          hyperBurstTimer = setInterval(() => {
+            if (!isAuthenticated) { stopHyperBurst(); return; }
+            loadHistory({ silent: true, fast: true });
+          }, 300);
+          loadHistory({ silent: true, fast: true });
+        }
+
+        function stopHyperBurst() {
+          isHyperBurstActive = false;
+          if (hyperBurstTimer) {
+            clearInterval(hyperBurstTimer);
+            hyperBurstTimer = null;
+          }
+        }
+
         function updateCountdown() {
           if (!isAuthenticated) return;
           const cfg = GAME_MODES[currentMode];
           const cycleMs = cfg.cycleSeconds * 1000;
           const serverNow = Date.now() + state.serverOffset;
           const remainder = cycleMs - (serverNow % cycleMs);
+          const oldSec = state.seconds;
           state.seconds = Math.max(1, Math.min(cfg.cycleSeconds, Math.ceil(remainder / 1000)));
-          const cd = app.querySelector(".countdown span");
-          if (cd) cd.innerHTML = `${state.seconds}s<small>LEFT</small>`;
-          const cdEl = app.querySelector(".countdown");
-          if (cdEl) { if (state.seconds <= 5) cdEl.classList.add("urgent"); else cdEl.classList.remove("urgent"); }
+
+          if (oldSec !== state.seconds) {
+            const cd = app.querySelector(".countdown span");
+            if (cd) cd.innerHTML = `${state.seconds}s<small>LEFT</small>`;
+            const cdEl = app.querySelector(".countdown");
+            if (cdEl) {
+              if (state.seconds <= 5) cdEl.classList.add("urgent");
+              else cdEl.classList.remove("urgent");
+            }
+          }
+
+          // HYPER-BURST TRIGGER:
+          // When 3s or less remain, or right after 0s (when remainder is near cycleMs), activate 300ms Hyper-Burst!
+          const nearBoundary = state.seconds <= 3 || state.seconds >= cfg.cycleSeconds - 4;
+          if (nearBoundary && !isHyperBurstActive) {
+            startHyperBurst();
+          } else if (!nearBoundary && isHyperBurstActive) {
+            stopHyperBurst();
+          }
         }
 
-        // === TICK ===
+        // High-precision millisecond tick (every 100ms)
         setInterval(() => {
           if (!isAuthenticated) return;
           updateCountdown();
-          if (state.seconds === 2 && boundaryRequestedFor !== state.targetPeriod) {
-            boundaryRequestedFor = state.targetPeriod;
-            loadHistory({ silent: true });
-          }
-        }, 1000);
+        }, 100);
 
-        // Dynamic polling interval (every 6s)
+        // Steady-State Keep-Alive Polling (every 2.5s)
         setInterval(() => {
-          if (!isAuthenticated) return;
-          loadHistory({ silent: true });
-        }, 6000);
+          if (!isAuthenticated || isHyperBurstActive) return;
+          loadHistory({ silent: true, fast: false });
+        }, 2500);
 
         // Initial Session Check
         checkSavedSession();
