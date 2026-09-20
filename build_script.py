@@ -2,10 +2,10 @@ import json
 import os
 
 script_code = '''// ==UserScript==
-// @name         JASH VIP v17.0 Ultimate (Apex Titan Supreme 9F Zero-Bust)
+// @name         JASH VIP v18.0 Ultimate (Apex Titan Supreme 9F Direct-API Sync)
 // @namespace    http://tampermonkey.net/
-// @version      17.0
-// @description  👑 JASH VIP · WinGo 30S | TITAN SUPREME v17.0 (735-DRAW ZERO-BUST 9-FEATURE SHIELD) + Custom Progression (2->5->10) + No Loss Limit
+// @version      18.0
+// @description  👑 JASH VIP · WinGo 30S | TITAN SUPREME v18.0 (DIRECT AR-LOTTERY API SYNC + 9-FEATURE ZERO-BUST SHIELD) + Custom Progression (2->5->10) + No Loss Limit
 // @match        *://*.in999vv.com/*
 // @match        *://*.in999*.com/*
 // @match        *://*.us3b7o.com/*
@@ -20,7 +20,7 @@ script_code = '''// ==UserScript==
   if (window.__JASH_VIP_BOT_LOCK__) return;
   window.__JASH_VIP_BOT_LOCK__ = true;
 
-  console.log("%c👑 JASH VIP · WinGo 30S [TITAN SUPREME v17.0 ZERO-BUST 9-FEATURE SHIELD] ACTIVE", "background:linear-gradient(135deg,#00f5a0,#00d9f5,#7c3aed);color:#000;font-size:14px;font-weight:900;padding:6px 14px;border-radius:8px;box-shadow:0 0 20px rgba(0,245,160,0.5);");
+  console.log("%c👑 JASH VIP · WinGo 30S [TITAN SUPREME v18.0 DIRECT API ZERO-BUST 9F] ACTIVE", "background:linear-gradient(135deg,#00f5a0,#00d9f5,#7c3aed);color:#000;font-size:14px;font-weight:900;padding:6px 14px;border-radius:8px;box-shadow:0 0 20px rgba(0,245,160,0.5);");
 
   // ── 1. BULLETPROOF WAKE LOCK & KEEP-ALIVE ────────────────
   let wakeLockObj = null;
@@ -235,6 +235,40 @@ script_code = '''// ==UserScript==
   }
   setInterval(scrapeScreenGameHistory, 1000);
   scrapeScreenGameHistory();
+
+  // ── 3.1 DIRECT HIGH-SPEED AR-LOTTERY LIVE STREAM ─────────
+  async function fetchLiveLotteryHistoryDirectly() {
+    try {
+      const url = (GAME_MODE === '30S')
+        ? 'https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json'
+        : 'https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json';
+
+      const res = await (origFetch || window.fetch)(`${url}?_t=${Date.now()}`, {
+        method: 'GET',
+        cache: 'no-store',
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        const payload = await res.json();
+        const list = payload?.data?.list || [];
+        if (Array.isArray(list) && list.length > 0) {
+          const parsed = list.map(item => {
+            const p = String(item.issueNumber || item.period || '').trim();
+            const n = parseInt(item.number);
+            return { period: p, number: n, size: sizeFor(n) };
+          }).filter(x => /^\\d+$/.test(x.period) && Number.isInteger(x.number));
+          if (parsed.length > 0) {
+            LIVE_API_HISTORY = parsed;
+            mergeIntoBuffer(parsed);
+            updateHud();
+          }
+        }
+      }
+    } catch (e) {}
+  }
+  setInterval(fetchLiveLotteryHistoryDirectly, 1000);
+  fetchLiveLotteryHistoryDirectly();
+
 
   function getMergedResults() {
     const map = new Map();
@@ -453,7 +487,9 @@ script_code = '''// ==UserScript==
     if (LIVE_API_HISTORY.length > 0) {
       const top = LIVE_API_HISTORY[0];
       if (top && top.period) {
-        const won = lastPredicted ? (String(lastPredicted).trim().toUpperCase() === String(top.size).trim().toUpperCase()) : false;
+        const rec = RECORDED_BETS_FEED.find(r => r.period === top.period);
+        const targetPred = rec ? rec.prediction : lastPredicted;
+        const won = targetPred ? (String(targetPred).trim().toUpperCase() === String(top.size).trim().toUpperCase()) : false;
         return { period: top.period, won, size: top.size, number: top.number };
       }
     }
@@ -702,13 +738,13 @@ script_code = '''// ==UserScript==
         }
       </style>
       <div class="j-row" id="jash-drag-hdr" style="cursor:move;">
-        <span style="font-weight:900;font-size:12px;background:linear-gradient(90deg,#00f5a0,#00d9f5,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">👑 JASH VIP · TITAN SUPREME v17.0</span>
+        <span style="font-weight:900;font-size:12px;background:linear-gradient(90deg,#00f5a0,#00d9f5,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">👑 JASH VIP · TITAN SUPREME v18.0</span>
         <span id="j-timer" style="color:#00f5a0;font-weight:bold;font-size:13px;">--s</span>
       </div>
 
       <button class="j-mode-switch" id="j-mode-btn">⏱️ MODE: ${GAME_MODE === '30S' ? '30 SEC (FAST)' : '1 MIN (STANDARD)'}</button>
 
-      <div id="j-status-badge" style="background:rgba(0,245,160,0.12);border:1px solid #00f5a0;border-radius:8px;padding:5px;text-align:center;margin:4px 0 6px;font-weight:900;color:#00f5a0;font-size:10.5px;">⚡ TITAN SUPREME v17.0 (735-DRAW ZERO-BUST 9F)</div>
+      <div id="j-status-badge" style="background:rgba(0,245,160,0.12);border:1px solid #00f5a0;border-radius:8px;padding:5px;text-align:center;margin:4px 0 6px;font-weight:900;color:#00f5a0;font-size:10.5px;">⚡ TITAN SUPREME v18.0 (DIRECT API SYNC 9F)</div>
 
       <div class="j-row">
         <span class="j-lbl">Base Bet (₹):</span>
@@ -818,7 +854,7 @@ script_code = '''// ==UserScript==
 
     readScreenWalletBalance();
 
-    badge.textContent = running ? (pendingBet ? `⏳ BETTING ₹${pendingBet.stake} ON ${pendingBet.pred}` : `⚡ TITAN SUPREME v17.0 (${GAME_MODE}) ACTIVE`) : `⏹ ENGINE (${GAME_MODE}) STOPPED`;
+    badge.textContent = running ? (pendingBet ? `⏳ BETTING ₹${pendingBet.stake} ON ${pendingBet.pred}` : `⚡ TITAN SUPREME v18.0 (${GAME_MODE}) ACTIVE`) : `⏹ ENGINE (${GAME_MODE}) STOPPED`;
     badge.style.color = running ? '#00f5a0' : '#ff5368';
 
     document.getElementById('j-livebal').textContent = `₹${liveWalletBal.toFixed(2)}`;
