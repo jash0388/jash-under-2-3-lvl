@@ -559,11 +559,6 @@
       try { return BigInt(b.period) > BigInt(a.period) ? 1 : -1; } catch (e) { return 0; }
     });
   }
-        }
-      }
-    } catch (e) {}
-    return null;
-  }
 
   // ════════════════════════════════════════════════════════════
   // 7. FAST CLICK & SMART BET PLACEMENT
