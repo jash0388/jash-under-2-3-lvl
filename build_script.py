@@ -472,8 +472,47 @@ script_code = '''// ==UserScript==
     return { finalSize, regime: `${regimeTag} [${finalSize}]`, conf };
   }
 
+    function simulateSequentialStream(drawsList, mode) {
+    if (!drawsList || drawsList.length < 3) return { size: 'BIG', number: 7, balls: [7, 8], conf: 92, mode: 'INITIALIZING' };
+    
+    const sorted = [...drawsList].sort((a, b) => {
+      try { return BigInt(a.period) > BigInt(b.period) ? 1 : -1; } catch (e) { return 0; }
+    });
+
+    let runningLossStreak = 0;
+    const startIndex = Math.max(3, sorted.length - 30);
+    for (let i = startIndex; i < sorted.length; i++) {
+      const prev = sorted.slice(0, i);
+      const olderSizes = prev.map(r => r.size);
+      const olderNums = prev.map(r => r.number);
+      const pred = (mode === '1M')
+        ? predictApexTitan1M(olderSizes, olderNums, runningLossStreak)
+        : predictApexTitan30S(olderSizes, olderNums, runningLossStreak);
+      const actual = sorted[i];
+      if (pred.finalSize === actual.size) runningLossStreak = 0;
+      else runningLossStreak++;
+    }
+
+    const fullSizes = sorted.map(r => r.size);
+    const fullNums = sorted.map(r => r.number);
+    const nextPred = (mode === '1M')
+      ? predictApexTitan1M(fullSizes, fullNums, runningLossStreak)
+      : predictApexTitan30S(fullSizes, fullNums, runningLossStreak);
+    const bestNum = nextPred.finalSize === 'BIG' ? 7 : 2;
+    const secNum = nextPred.finalSize === 'BIG' ? 8 : 3;
+
+    return {
+      size: nextPred.finalSize,
+      number: bestNum,
+      balls: [bestNum, secNum],
+      conf: nextPred.conf,
+      mode: nextPred.regime,
+      lossStreak: runningLossStreak
+    };
+  }
+
   function computeMasterPrediction() {
-    // 1. STRICTLY FOLLOW LIVE /PRED WEB SIGNAL
+    // 1. STRICTLY FOLLOW LIVE /PRED WEB SIGNAL IF AVAILABLE
     if (LIVE_WEB_SIGNAL && LIVE_WEB_SIGNAL.size) {
       const bestN = LIVE_WEB_SIGNAL.number != null ? LIVE_WEB_SIGNAL.number : (LIVE_WEB_SIGNAL.size === 'BIG' ? 7 : 2);
       const secN = LIVE_WEB_SIGNAL.size === 'BIG' ? 8 : 3;
@@ -481,33 +520,24 @@ script_code = '''// ==UserScript==
         size: LIVE_WEB_SIGNAL.size,
         number: bestN,
         balls: LIVE_WEB_SIGNAL.balls || [bestN, secN],
-        mode: `🎯 /PRED SIGNAL [${LIVE_WEB_SIGNAL.size}]`,
-        conf: LIVE_WEB_SIGNAL.conf || 92
+        mode: `🎯 /PRED SIGNAL [${LIVE_WEB_SIGNAL.size}] (${LIVE_WEB_SIGNAL.regime || 'TITAN 9F'})`,
+        conf: LIVE_WEB_SIGNAL.conf || 95
       };
     }
 
-    // 2. Fallback if offline
+    // 2. Deterministic Sequential Stream Simulation (100% Identical to /pred)
     const results = getMergedResults();
     if (!results || results.length === 0) {
       return { size: 'BIG', balls: [7, 8], number: 7, mode: '👑 JASH VIP · CALIBRATING', conf: 90 };
     }
-    const historySeq = results.slice(0, 50).reverse();
-    const sizes = historySeq.map(r => r.size);
-    const nums = historySeq.map(r => r.number);
 
-    const pred = (GAME_MODE === '1M')
-      ? predictApexTitan1M(sizes, nums, martingaleStep)
-      : predictApexTitan30S(sizes, nums, martingaleStep);
-
-    const bestNum = pred.finalSize === 'BIG' ? 7 : 2;
-    const secNum = pred.finalSize === 'BIG' ? 8 : 3;
-
+    const sim = simulateSequentialStream(results, GAME_MODE);
     return {
-      size: pred.finalSize,
-      number: bestNum,
-      balls: [bestNum, secNum],
-      mode: pred.regime,
-      conf: pred.conf
+      size: sim.size,
+      number: sim.number,
+      balls: sim.balls,
+      mode: sim.mode,
+      conf: sim.conf
     };
   }
 

@@ -1,4 +1,11 @@
-const fs = require('fs');
+import os
+import json
+import re
+
+print("=== Applying Universal Stream Sequential Simulation Sync ===")
+
+# 1. Update api/live-signal.js
+api_code = '''const fs = require('fs');
 const path = require('path');
 
 const SIGNAL_FILE = path.join('/tmp', 'jash_live_signal.json');
@@ -224,3 +231,98 @@ module.exports = async (req, res) => {
 
   return res.status(200).json({ success: true, mode, signal: cur });
 };
+'''
+
+with open('api/live-signal.js', 'w') as f:
+    f.write(api_code)
+print("Updated api/live-signal.js with Sequential Stream Replay.")
+
+# 2. Update build_script.py
+with open('build_script.py', 'r') as f:
+    bs = f.read()
+
+# Replace computeMasterPrediction and local prediction in build_script.py
+new_pred_logic = '''  function simulateSequentialStream(drawsList, mode) {
+    if (!drawsList || drawsList.length < 3) return { size: 'BIG', number: 7, balls: [7, 8], conf: 92, mode: 'INITIALIZING' };
+    
+    const sorted = [...drawsList].sort((a, b) => {
+      try { return BigInt(a.period) > BigInt(b.period) ? 1 : -1; } catch (e) { return 0; }
+    });
+
+    let runningLossStreak = 0;
+    const startIndex = Math.max(3, sorted.length - 30);
+    for (let i = startIndex; i < sorted.length; i++) {
+      const prev = sorted.slice(0, i);
+      const olderSizes = prev.map(r => r.size);
+      const olderNums = prev.map(r => r.number);
+      const pred = (mode === '1M')
+        ? predictApexTitan1M(olderSizes, olderNums, runningLossStreak)
+        : predictApexTitan30S(olderSizes, olderNums, runningLossStreak);
+      const actual = sorted[i];
+      if (pred.finalSize === actual.size) runningLossStreak = 0;
+      else runningLossStreak++;
+    }
+
+    const fullSizes = sorted.map(r => r.size);
+    const fullNums = sorted.map(r => r.number);
+    const nextPred = (mode === '1M')
+      ? predictApexTitan1M(fullSizes, fullNums, runningLossStreak)
+      : predictApexTitan30S(fullSizes, fullNums, runningLossStreak);
+    const bestNum = nextPred.finalSize === 'BIG' ? 7 : 2;
+    const secNum = nextPred.finalSize === 'BIG' ? 8 : 3;
+
+    return {
+      size: nextPred.finalSize,
+      number: bestNum,
+      balls: [bestNum, secNum],
+      conf: nextPred.conf,
+      mode: nextPred.regime,
+      lossStreak: runningLossStreak
+    };
+  }
+
+  function computeMasterPrediction() {
+    // 1. STRICTLY FOLLOW LIVE /PRED WEB SIGNAL IF AVAILABLE
+    if (LIVE_WEB_SIGNAL && LIVE_WEB_SIGNAL.size) {
+      const bestN = LIVE_WEB_SIGNAL.number != null ? LIVE_WEB_SIGNAL.number : (LIVE_WEB_SIGNAL.size === 'BIG' ? 7 : 2);
+      const secN = LIVE_WEB_SIGNAL.size === 'BIG' ? 8 : 3;
+      return {
+        size: LIVE_WEB_SIGNAL.size,
+        number: bestN,
+        balls: LIVE_WEB_SIGNAL.balls || [bestN, secN],
+        mode: `🎯 /PRED SIGNAL [${LIVE_WEB_SIGNAL.size}] (${LIVE_WEB_SIGNAL.regime || 'TITAN 9F'})`,
+        conf: LIVE_WEB_SIGNAL.conf || 95
+      };
+    }
+
+    // 2. Deterministic Sequential Stream Simulation (100% Identical to /pred)
+    const results = getMergedResults();
+    if (!results || results.length === 0) {
+      return { size: 'BIG', balls: [7, 8], number: 7, mode: '👑 JASH VIP · CALIBRATING', conf: 90 };
+    }
+
+    const sim = simulateSequentialStream(results, GAME_MODE);
+    return {
+      size: sim.size,
+      number: sim.number,
+      balls: sim.balls,
+      mode: sim.mode,
+      conf: sim.conf
+    };
+  }'''
+
+# Replace old computeMasterPrediction block
+bs = re.sub(
+    r'function computeMasterPrediction\(\) \{.*?\n  \}\n\n  // ── 6\. WIN/LOSS RESOLUTION SCANNER',
+    new_pred_logic + '\n\n  // ── 6. WIN/LOSS RESOLUTION SCANNER',
+    bs,
+    flags=re.DOTALL
+)
+
+with open('build_script.py', 'w') as f:
+    f.write(bs)
+print("Updated build_script.py with simulateSequentialStream.")
+
+# 3. Rebuild all userscripts
+os.system('python3 build_script.py')
+print("Rebuilt all userscripts.")
