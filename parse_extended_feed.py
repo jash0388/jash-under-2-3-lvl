@@ -1,0 +1,80 @@
+import re
+import json
+
+raw_text = """…00051691	3	SMALL 1	SMALL 3	WINL1
+…00051690	8	BIG 8	BIG 8	WINL3
+…00051689	7	SMALL 1	BIG 7	LOSSL2
+…00051688	0	BIG 8	SMALL 0	LOSSL1
+…00051687	6	BIG 6	BIG 6	WINL2
+…00051686	0	BIG 6	SMALL 0	LOSSL1
+…00051685	7	BIG 6	BIG 7	WINL3
+…00051684	5	SMALL 1	BIG 5	LOSSL2
+…00051683	7	SMALL 1	BIG 7	LOSSL1
+…00051682	3	SMALL 1	SMALL 3	WINL2
+…00051681	2	BIG 7	SMALL 2	LOSSL1
+…00051680	3	SMALL 1	SMALL 3	WINL1
+…00051679	2	SMALL 2	SMALL 2	WINL2
+…00051678	5	SMALL 2	BIG 5	LOSSL1
+…00051677	8	BIG 7	BIG 8	WINL1
+…00051676	3	SMALL 3	SMALL 3	WINL1
+…00051675	2	SMALL 3	SMALL 2	WINL1
+…00051674	5	BIG 7	BIG 5	WINL1
+…00051673	0	SMALL 3	SMALL 0	WINL3
+…00051672	4	BIG 7	SMALL 4	LOSSL2
+…00051671	9	SMALL 3	BIG 9	LOSSL1
+…00051670	1	SMALL 1	SMALL 1	WINL1
+…00051669	5	BIG 6	BIG 5	WINL1
+…00051668	4	SMALL 1	SMALL 4	WINL3
+…00051667	0	BIG 6	SMALL 0	LOSSL2
+…00051666	5	SMALL 1	BIG 5	LOSSL1
+…00051665	2	SMALL 1	SMALL 2	WINL1
+…00051664	5	BIG 6	BIG 5	WINL1
+…00051663	4	SMALL 1	SMALL 4	WINL3
+…00051662	2	BIG 6	SMALL 2	LOSSL3
+…00051661	8	SMALL 1	BIG 8	LOSSL2
+…00051660	3	BIG 6	SMALL 3	LOSSL1
+…00051659	7	BIG 6	BIG 7	WINL1
+…00051658	8	BIG 6	BIG 8	WINL2
+…00051657	8	SMALL 3	BIG 8	LOSSL1
+…00051656	0	SMALL 3	SMALL 0	WINL1
+…00051655	2	SMALL 2	SMALL 2	WINL1
+…00051654	8	BIG 7	BIG 8	WINL1
+…00051653	9	BIG 7	BIG 9	WINL1
+…00051652	8	BIG 7	BIG 8	WINL1
+…00051651	7	BIG 7	BIG 7	WINL1
+…00051650	1	SMALL 2	SMALL 1	WINL3
+…00051649	0	BIG 7	SMALL 0	LOSSL2
+…00051648	5	SMALL 2	BIG 5	LOSSL1
+…00051647	1	SMALL 2	SMALL 1	WINL2
+…00051646	3	BIG 6	SMALL 3	LOSSL1
+…00051645	6	BIG 6	BIG 6	WINL1
+…00051644	9	BIG 6	BIG 9	WINL1
+…00051643	8	BIG 6	BIG 8	WINL1
+…00051642	8	BIG 6	BIG 8	WINL1
+…00051641	7	BIG 6	BIG 7	WINL2
+…00051640	5	SMALL 2	BIG 5	LOSSL1"""
+
+with open("user_feed_250_draws.json") as f:
+    existing = json.load(f)
+
+d_map = {int(x["period"]): x for x in existing}
+
+for line in raw_text.strip().split('\n'):
+    line = line.strip()
+    if not line: continue
+    parts = re.split(r'\t+|\s{2,}', line)
+    if len(parts) >= 2:
+        p_num = int(parts[0].replace('…', '').replace('...', '').strip())
+        num = int(parts[1])
+        size = 'BIG' if num >= 5 else 'SMALL'
+        p_str = f"000{p_num}" if p_num < 100000 else str(p_num)
+        d_map[p_num] = {'period': p_str, 'number': num, 'size': size}
+
+merged = list(d_map.values())
+merged.sort(key=lambda x: int(x['period']))
+
+print(f"Total Merged User Draws: {len(merged)} (from {merged[0]['period']} to {merged[-1]['period']})")
+
+with open("user_feed_extended_373_draws.json", "w") as f:
+    json.dump(merged, f, indent=2)
+
