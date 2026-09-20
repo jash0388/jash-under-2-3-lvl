@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         JASH VIP v16.0 Ultimate (Apex Titan v9UM Zero-Bust Dual-Engine)
+// @name         JASH VIP v17.0 Ultimate (Apex Titan Supreme 9F Zero-Bust)
 // @namespace    http://tampermonkey.net/
-// @version      16.0
-// @description  👑 JASH VIP · WinGo 30S | APEX TITAN v9UM (330-DRAW ZERO-BUST ULTIMATE SHIELD) + Custom Progression (2->5->10) + No Loss Limit
+// @version      17.0
+// @description  👑 JASH VIP · WinGo 30S | TITAN SUPREME v17.0 (735-DRAW ZERO-BUST 9-FEATURE SHIELD) + Custom Progression (2->5->10) + No Loss Limit
 // @match        *://*.in999vv.com/*
 // @match        *://*.in999*.com/*
 // @match        *://*.us3b7o.com/*
@@ -17,7 +17,7 @@
   if (window.__JASH_VIP_BOT_LOCK__) return;
   window.__JASH_VIP_BOT_LOCK__ = true;
 
-  console.log("%c👑 JASH VIP · WinGo 30S [APEX TITAN v9UM ZERO-BUST ULTIMATE SHIELD] ACTIVE", "background:linear-gradient(135deg,#00f5a0,#00d9f5,#7c3aed);color:#000;font-size:14px;font-weight:900;padding:6px 14px;border-radius:8px;box-shadow:0 0 20px rgba(0,245,160,0.5);");
+  console.log("%c👑 JASH VIP · WinGo 30S [TITAN SUPREME v17.0 ZERO-BUST 9-FEATURE SHIELD] ACTIVE", "background:linear-gradient(135deg,#00f5a0,#00d9f5,#7c3aed);color:#000;font-size:14px;font-weight:900;padding:6px 14px;border-radius:8px;box-shadow:0 0 20px rgba(0,245,160,0.5);");
 
   // ── 1. BULLETPROOF WAKE LOCK & KEEP-ALIVE ────────────────
   let wakeLockObj = null;
@@ -699,13 +699,13 @@
         }
       </style>
       <div class="j-row" id="jash-drag-hdr" style="cursor:move;">
-        <span style="font-weight:900;font-size:12px;background:linear-gradient(90deg,#00f5a0,#00d9f5,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">👑 JASH VIP · APEX TITAN</span>
+        <span style="font-weight:900;font-size:12px;background:linear-gradient(90deg,#00f5a0,#00d9f5,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">👑 JASH VIP · TITAN SUPREME v17.0</span>
         <span id="j-timer" style="color:#00f5a0;font-weight:bold;font-size:13px;">--s</span>
       </div>
 
       <button class="j-mode-switch" id="j-mode-btn">⏱️ MODE: ${GAME_MODE === '30S' ? '30 SEC (FAST)' : '1 MIN (STANDARD)'}</button>
 
-      <div id="j-status-badge" style="background:rgba(0,245,160,0.12);border:1px solid #00f5a0;border-radius:8px;padding:5px;text-align:center;margin:4px 0 6px;font-weight:900;color:#00f5a0;font-size:10.5px;">⚡ APEX TITAN v9UM (330-DRAW ZERO-BUST)</div>
+      <div id="j-status-badge" style="background:rgba(0,245,160,0.12);border:1px solid #00f5a0;border-radius:8px;padding:5px;text-align:center;margin:4px 0 6px;font-weight:900;color:#00f5a0;font-size:10.5px;">⚡ TITAN SUPREME v17.0 (735-DRAW ZERO-BUST 9F)</div>
 
       <div class="j-row">
         <span class="j-lbl">Base Bet (₹):</span>
@@ -815,7 +815,7 @@
 
     readScreenWalletBalance();
 
-    badge.textContent = running ? (pendingBet ? `⏳ BETTING ₹${pendingBet.stake} ON ${pendingBet.pred}` : `⚡ APEX TITAN (${GAME_MODE}) ACTIVE`) : `⏹ ENGINE (${GAME_MODE}) STOPPED`;
+    badge.textContent = running ? (pendingBet ? `⏳ BETTING ₹${pendingBet.stake} ON ${pendingBet.pred}` : `⚡ TITAN SUPREME v17.0 (${GAME_MODE}) ACTIVE`) : `⏹ ENGINE (${GAME_MODE}) STOPPED`;
     badge.style.color = running ? '#00f5a0' : '#ff5368';
 
     document.getElementById('j-livebal').textContent = `₹${liveWalletBal.toFixed(2)}`;

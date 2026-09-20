@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#090b10" />
-    <meta name="description" content="JASH VIP — Apex Titan v9UM Ultimate Master & Zero-Bust Engine 30S & 1M Top 1 Live Signal Terminal" />
-    <title>JASH VIP — Top 1 Signal (Apex Titan v9UM Ultimate Master & Zero-Bust Engine)</title>
+    <meta name="description" content="JASH VIP v17.0 — Apex Titan Supreme 9-Feature Zero-Bust Engine (Strict <= 2 Losses)" />
+    <title>JASH VIP v17.0 — Top 1 Signal (Titan Supreme 9-Feature Zero-Bust Engine)</title>
     <style>
       :root {
         --ink: #090b10;
@@ -974,7 +974,7 @@
                 <div class="vault-card">
                   <div class="vault-icon-wrap">🔒</div>
                   <h1 class="vault-title">JASH VIP VAULT</h1>
-                  <div class="vault-sub">APEX TITAN v9UM ENCRYPTED ACCESS</div>
+                  <div class="vault-sub">TITAN SUPREME v17.0 ENCRYPTED ACCESS</div>
 
                   <div class="pin-slots">${dots}</div>
                   <div class="vault-msg ${pinStatus}">${esc(pinMsg)}</div>
@@ -1013,21 +1013,13 @@
                 <div class="brand-mark">ϟ</div>
                 <div>
                   <div class="brand-name">JASH VIP</div>
-                  <div class="brand-sub">APEX TITAN ULTIMATE ZERO-BUST MASTER v9UM</div>
+                  <div class="brand-sub">TITAN SUPREME v17.0 · 9-FEATURE ZERO-BUST SHIELD</div>
                 </div>
               </div>
               <div style="display:flex;align-items:center;gap:6px">
                 <a href="/" class="filter-button" style="padding:6px 10px;border-radius:8px;font-size:9px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;color:#e8e6db;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);font-weight:700;">
                   📊 BOT STATS
                 </a>
-                <button class="filter-button is-active" data-action="sync" style="padding:6px 10px;border-radius:8px;font-size:9px">
-                  <span class="live-dot"></span>${state.synced ? "LIVE" : state.loading ? "SYNCING…" : "RETRY"}
-                </button>
-                <button class="lock-out-btn" data-action="lock-vault" title="Lock Terminal">🔒 LOCK</button>
-              </div>
-            </div>
-              </div>
-              <div style="display:flex;align-items:center;gap:6px">
                 <button class="filter-button is-active" data-action="sync" style="padding:6px 10px;border-radius:8px;font-size:9px">
                   <span class="live-dot"></span>${state.synced ? "LIVE" : state.loading ? "SYNCING…" : "RETRY"}
                 </button>
@@ -1058,10 +1050,10 @@
             <!-- TOP 1 HERO -->
             <div class="top1-hero">
               <div class="top1-label">
-                <span class="top1-badge">👑 NEURAL MASTER · ${GAME_MODES[currentMode].name}</span>
+                <span class="top1-badge">👑 TITAN SUPREME v17.0 · ${GAME_MODES[currentMode].name}</span>
                 <span style="color:var(--green)">${stats.rate}% HIT · ${stats.wins}W/${stats.total}T</span>
               </div>
-              <div class="top1-channel">APEX TITAN v9UM (330-DRAW ZERO-BUST ULTIMATE SHIELD)</div>
+              <div class="top1-channel">TITAN SUPREME 9F (735-DRAW ZERO-BUST ULTIMATE SHIELD)</div>
               <div class="top1-engine">${prediction ? `⚡ REGIME: ${esc(prediction.regime)}` : "CALIBRATING ENGINES…"}</div>
             </div>
 
@@ -1089,7 +1081,7 @@
                 <span>${prediction ? esc(prediction.size) : "WAIT"}</span>
                 <span class="signal-number">${prediction ? esc(prediction.number) : "—"}</span>
               </div>
-              <p class="api-note"><strong>Titan v9UM Rules:</strong> Anti-Doublet Trap + Dual-Cadence Mode Optimization (Strict &le; 2 Max Losses across all market sequences).</p>
+              <p class="api-note"><strong>Titan Supreme v17.0:</strong> 9-Feature Invariant Dragon Lock + Harmonic Parity (Strict &le; 2 Max Losses on 735 Real Draws).</p>
             </div>
 
             <!-- STATS (CLEAN 3 BOXES: HIT RATE, WINS, LOSSES) -->
@@ -1123,7 +1115,7 @@
             </div>
 
             <div class="detail-footer">
-              <span>⚡ APEX TITAN DUAL-CADENCE SHIELD · ${GAME_MODES[currentMode].name} LIVE FEED</span>
+              <span>⚡ TITAN SUPREME 9F ZERO-BUST SHIELD · ${GAME_MODES[currentMode].name} LIVE FEED</span>
               <span>REFRESHED ${state.updatedAt || "ON OPEN"} · ${state.results.length} LIVE RESULTS</span>
             </div>
             ${state.toast ? `<div class="toast-note">${esc(state.toast)}</div>` : ""}
