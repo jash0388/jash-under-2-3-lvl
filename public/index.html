@@ -1,0 +1,1293 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#090b10" />
+    <meta name="description" content="JASH VIP — Apex Titan v9UM Ultimate Master & Zero-Bust Engine 30S & 1M Top 1 Live Signal Terminal" />
+    <title>JASH VIP — Top 1 Signal (Apex Titan v9UM Ultimate Master & Zero-Bust Engine)</title>
+    <style>
+      :root {
+        --ink: #090b10;
+        --panel: #0d1116;
+        --panel-raised: #11161c;
+        --line: rgba(153, 181, 171, 0.14);
+        --green: #24d88c;
+        --green-soft: #76e5b3;
+        --gold: #e2b84d;
+        --muted: #849096;
+        --cream: #e8e6db;
+        --red: #d95759;
+        --blue: #4da3ff;
+        --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        --serif: Georgia, "Times New Roman", serif;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { min-width: 320px; background: var(--ink); }
+      body {
+        min-width: 320px;
+        min-height: 100vh;
+        color: var(--cream);
+        background:
+          radial-gradient(circle at 50% -8%, rgba(36, 133, 91, .26), transparent 31rem),
+          radial-gradient(circle at 0% 46%, rgba(20, 108, 79, .12), transparent 25rem),
+          radial-gradient(circle at 100% 88%, rgba(184, 137, 38, .06), transparent 24rem),
+          var(--ink);
+        font-family: var(--mono);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      button { border: 0; font: inherit; color: inherit; background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+
+      .signal-app { position: relative; min-height: 100vh; overflow-x: hidden; }
+
+      .signal-app::before {
+        content: "";
+        position: fixed; inset: 0;
+        pointer-events: none; opacity: .22;
+        background-image:
+          linear-gradient(rgba(123, 168, 149, .045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(123, 168, 149, .045) 1px, transparent 1px);
+        background-size: 38px 38px;
+        mask-image: linear-gradient(to bottom, black, transparent 78%);
+      }
+
+      .terminal-frame {
+        position: relative; width: 100%; max-width: 480px; min-height: 100vh;
+        margin: 0 auto; overflow: hidden;
+        background:
+          linear-gradient(180deg, rgba(8, 26, 23, .74), transparent 26rem),
+          linear-gradient(90deg, rgba(3, 7, 10, .4), transparent 12%, transparent 88%, rgba(3, 7, 10, .4)),
+          #0b1015;
+        box-shadow: 0 0 0 1px rgba(130, 157, 150, .08), inset 0 1px 0 rgba(207, 224, 200, .035), 0 25px 100px rgba(0,0,0,.45);
+      }
+
+      .terminal-frame::before {
+        content: ""; position: fixed; inset: 0; opacity: .035; pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.38'/%3E%3C/svg%3E");
+        mix-blend-mode: screen;
+      }
+
+      .terminal-frame::after {
+        content: ""; position: absolute; z-index: 1; top: 0; left: 12%; right: 12%; height: 1px; pointer-events: none;
+        background: linear-gradient(90deg, transparent, rgba(44, 219, 144, .58), rgba(226, 184, 77, .42), transparent);
+        box-shadow: 0 0 18px rgba(36, 216, 140, .28);
+      }
+
+      .terminal-content { position: relative; z-index: 2; padding: 15px 14px 22px; }
+
+      /* TOPBAR */
+      .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+      .brand-lockup { display: flex; align-items: center; gap: 8px; }
+      .brand-mark {
+        display: grid; width: 36px; height: 36px; place-items: center; flex: 0 0 auto;
+        border: 1px solid rgba(226,184,77,.55); border-radius: 10px;
+        color: var(--gold);
+        background: linear-gradient(145deg, #1a2c25, #101619);
+        box-shadow: inset 0 0 18px rgba(44, 190, 125, .1), 0 0 0 3px rgba(226, 184, 77, .035), 0 8px 22px rgba(0,0,0,.25);
+        font-size: 16px;
+      }
+      .brand-name { color: #f0efe7; font: 18px/1.15 var(--serif); font-weight: 600; }
+      .brand-sub { margin-top: 3px; color: #7b878a; font: 8px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+
+      /* LIVE DOT */
+      .live-dot { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 11px rgba(36, 216, 140, .75); animation: pulse-dot 2s infinite; }
+      @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+      /* MODE SWITCH BAR */
+      .mode-switch-bar {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 14px;
+        padding: 4px; border: 1px solid rgba(123,147,143,.2); border-radius: 12px;
+        background: rgba(13,17,22,.85); box-shadow: inset 0 1px 0 rgba(255,255,255,.02);
+      }
+      .mode-btn {
+        display: flex; align-items: center; justify-content: center; gap: 6px;
+        padding: 9px 12px; border-radius: 9px; color: #849096;
+        font: 600 11px/1 var(--mono); letter-spacing: .05em; transition: all .2s ease;
+      }
+      .mode-btn.is-active {
+        color: #090b10; background: linear-gradient(135deg, #24d88c, #76e5b3);
+        box-shadow: 0 0 16px rgba(36,216,140,.35); font-weight: 700;
+      }
+
+      /* LEVEL RECOVERY BADGE BAR */
+      .level-bar {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: 12px; padding: 8px 12px; border: 1px solid rgba(123,147,143,.16); border-radius: 10px;
+        background: rgba(15,21,26,.88); font: 9px var(--mono);
+      }
+      .level-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 6px; font-weight: 700; }
+      .lvl-1 { color: #2fe397; background: rgba(36,216,140,.12); border: 1px solid rgba(36,216,140,.3); }
+      .lvl-2 { color: #ffe07a; background: rgba(226,184,77,.14); border: 1px solid rgba(226,184,77,.4); }
+      .lvl-3 { color: #ff6b6d; background: rgba(217,87,89,.15); border: 1px solid rgba(217,87,89,.4); animation: pulse-dot 1.2s infinite; }
+
+      /* TOP 1 HERO */
+      .top1-hero {
+        margin-bottom: 14px; padding: 16px; border: 1px solid rgba(36,216,140,.28); border-radius: 14px;
+        background: linear-gradient(145deg, rgba(15,34,28,.9), rgba(11,15,20,.9));
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.03), 0 12px 27px rgba(0,0,0,.13);
+      }
+      .top1-label { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; color: var(--gold); font: 9px/1 var(--mono); letter-spacing: .1em; }
+      .top1-channel { color: #f0efe7; font: 21px/1.2 var(--serif); font-weight: 600; margin-bottom: 4px; }
+      .top1-engine { color: #76e5b3; font: 9px/1.3 var(--mono); letter-spacing: .06em; margin-top: 4px; }
+      .top1-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border: 1px solid rgba(226,184,77,.5); border-radius: 5px; background: rgba(226,184,77,.08); color: #d6b557; font: 8px/1 var(--mono); }
+
+      /* PERIOD CARD */
+      .period-card {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 14px 16px; margin-bottom: 12px; border: 1px solid rgba(123,147,143,.15); border-radius: 14px;
+        background: linear-gradient(145deg, rgba(15, 21, 26, .94), rgba(11,15,20,.92));
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.03), 0 12px 27px rgba(0,0,0,.13);
+      }
+      .eyebrow { color: #8b9699; font: 500 9px/1.2 var(--mono); letter-spacing: .09em; text-transform: uppercase; }
+      .period-number { display: block; margin-top: 6px; color: var(--green-soft); font: 15px/1 var(--mono); letter-spacing: -.02em; text-shadow: 0 0 17px rgba(36,216,140,.18); }
+      .countdown {
+        display: grid; width: 54px; height: 38px; place-items: center; border: 1px solid rgba(36,216,140,.78); border-radius: 9px;
+        color: #f1f0e8; background: linear-gradient(145deg, rgba(22,79,58,.45), rgba(14,24,25,.82));
+        box-shadow: 0 0 12px rgba(36,216,140,.14), inset 0 0 10px rgba(36,216,140,.08); font: 13px var(--mono);
+      }
+      .countdown small { display: block; margin-top: -2px; color: #889393; font: 7px var(--mono); letter-spacing: .1em; }
+      .countdown.urgent { border-color: var(--red); box-shadow: 0 0 14px rgba(217,87,89,.3); color: var(--red); }
+
+      /* PREDICTION CARD */
+      .prediction-card {
+        padding: 16px; margin-bottom: 12px; border: 1px solid rgba(123,147,143,.15); border-radius: 14px;
+        background: linear-gradient(145deg, rgba(15, 21, 26, .94), rgba(11,15,20,.92));
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.03), inset 0 0 22px rgba(32, 189, 128, .025), 0 12px 27px rgba(0,0,0,.13);
+      }
+      .prediction-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+      .prediction-label { display: flex; align-items: center; gap: 5px; color: #aab0a9; font: 9px var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+      .gold-icon { color: var(--gold); }
+      .confidence-value { display: block; margin-top: 3px; color: var(--green); font: 20px var(--mono); text-shadow: 0 0 14px rgba(36,216,140,.18); }
+      .signal-pill {
+        display: inline-flex; align-items: center; gap: 12px; min-width: 140px; padding: 10px 20px;
+        border: 2px solid var(--green); border-radius: 12px; color: var(--green);
+        background: rgba(22,54,40,.13);
+        box-shadow: 0 0 19px rgba(36,216,140,.25), 0 0 38px rgba(36,216,140,.08), inset 0 0 13px rgba(36,216,140,.06);
+        font: 22px/1 var(--mono);
+      }
+      .signal-number { display: inline-flex; min-width: 2ch; justify-content: center; color: #ffe07a !important; font-weight: 700; }
+
+      /* STAT GRID (CLEAN 3-COLUMN) */
+      .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
+      .stat-box {
+        padding: 10px 4px 9px; border: 1px solid rgba(123,147,143,.13); border-radius: 10px;
+        background: rgba(15,19,24,.78); box-shadow: inset 0 1px 0 rgba(255,255,255,.02); text-align: center;
+      }
+      .stat-value { display: block; margin-top: 5px; color: var(--green); font: 16px var(--mono); }
+      .stat-value.loss { color: var(--red); }
+      .stat-value.total { color: #eee9dc; }
+
+      /* HISTORY CARD */
+      .history-card {
+        overflow: hidden; border: 1px solid rgba(123,147,143,.15); border-radius: 14px;
+        background: linear-gradient(145deg, rgba(15, 21, 26, .94), rgba(11,15,20,.92));
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.03), 0 12px 27px rgba(0,0,0,.13);
+      }
+      .history-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 12px 10px; }
+      .history-title { color: #aeb4ad; font: 9px var(--mono); letter-spacing: .07em; }
+      .history-controls { display: flex; gap: 4px; }
+      .filter-button { padding: 4px 6px; border-radius: 5px; color: #768182; font: 8px var(--mono); }
+      .filter-button.is-active { color: #0d1612; background: var(--green); }
+      .history-scroll-wrap { max-height: 480px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(36,216,140,.3) transparent; }
+      .history-scroll-wrap::-webkit-scrollbar { width: 4px; }
+      .history-scroll-wrap::-webkit-scrollbar-thumb { background: rgba(36,216,140,.3); border-radius: 4px; }
+      .history-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+      .history-table th {
+        position: sticky; top: 0; z-index: 2;
+        padding: 8px 4px; color: #3fbd83; background: #0c1815;
+        font: 8px var(--mono); font-weight: 500; text-align: left;
+      }
+      .history-table th:first-child, .history-table td:first-child { width: 24%; padding-left: 10px; }
+      .history-table th:nth-child(2), .history-table td:nth-child(2) { width: 14%; }
+      .history-table th:nth-child(3), .history-table td:nth-child(3) { width: 22%; }
+      .history-table th:nth-child(4), .history-table td:nth-child(4) { width: 20%; }
+      .history-table th:nth-child(5), .history-table td:nth-child(5) { width: 20%; }
+      .history-table td {
+        padding: 8px 4px; border-top: 1px solid rgba(123,147,143,.08);
+        color: #b2b5af; font: 9px var(--mono); white-space: nowrap;
+      }
+      .history-table tr.current td { color: #eee9dc; background: linear-gradient(90deg, rgba(21,40,32,.32), rgba(21,40,32,.08)); }
+      .result-chip { display: inline-block; padding: 3px 6px; border-radius: 99px; font: 7px var(--mono); letter-spacing: .03em; }
+      .chip-win { color: #2fe397; background: rgba(21,128,83,.2); }
+      .chip-loss { color: #e35b61; background: rgba(134,35,44,.27); }
+      .chip-pending { color: #e5bf59; background: rgba(148,101,24,.3); }
+      .history-empty { padding: 20px 10px; color: #697377; text-align: center; font: 9px var(--mono); }
+      .number-cell { color: var(--green-soft) !important; }
+
+      /* CHANNEL TAG */
+      .channel-tag { display: inline-block; padding: 2px 5px; border: 1px solid rgba(36,216,140,.2); border-radius: 4px; color: var(--green-soft); background: rgba(36,216,140,.06); font: 7px var(--mono); margin-left: 4px; }
+
+      /* FOOTER */
+      .detail-footer { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 16px 0 0; color: #536064; font: 8px var(--mono); text-align: center; }
+
+      /* TOAST */
+      .toast-note {
+        position: fixed; z-index: 10; left: 50%; bottom: 20px; transform: translateX(-50%);
+        padding: 10px 14px; border: 1px solid rgba(36,216,140,.4); border-radius: 9px;
+        color: var(--green-soft); background: rgba(11,22,18,.94);
+        box-shadow: 0 8px 30px rgba(0,0,0,.35); font: 9px var(--mono);
+        animation: toast-in .22s ease both;
+      }
+      @keyframes toast-in { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+      /* LOADING */
+      .loading-row { padding: 24px 12px; color: var(--muted); text-align: center; font: 10px var(--mono); }
+      .error-row { color: #e3a05d; padding: 10px 12px; border: 1px dashed rgba(227,160,93,.3); border-radius: 8px; margin-bottom: 10px; font: 9px var(--mono); display: flex; justify-content: space-between; align-items: center; }
+      .error-row button { color: #e4c869; text-decoration: underline; }
+
+      /* SWITCH ANIMATION */
+      .switch-anim { animation: switch-flash .6s ease; }
+      @keyframes switch-flash {
+        0% { opacity: .3; transform: translateY(6px); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+
+      /* INFO NOTE */
+      .api-note { margin: 8px 0 0; color: #748084; font: 8px/1.45 var(--mono); }
+      .api-note strong { color: #a9b4af; font-weight: 500; }
+
+      /* LOCK SCREEN / SECURITY VAULT */
+      .vault-overlay {
+        min-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 10px;
+        animation: switch-flash .4s ease;
+      }
+      .vault-card {
+        width: 100%;
+        max-width: 360px;
+        padding: 26px 20px;
+        border: 1px solid rgba(226, 184, 77, .35);
+        border-radius: 20px;
+        background: linear-gradient(160deg, rgba(16, 26, 22, 0.95), rgba(9, 13, 17, 0.98));
+        box-shadow: 0 0 35px rgba(0, 0, 0, 0.6), inset 0 0 25px rgba(36, 216, 140, 0.05), 0 0 0 1px rgba(36, 216, 140, 0.15);
+        text-align: center;
+      }
+      .vault-icon-wrap {
+        position: relative;
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 16px;
+        display: grid;
+        place-items: center;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #19382b, #101918);
+        border: 1px solid rgba(226, 184, 77, 0.6);
+        box-shadow: 0 0 20px rgba(36, 216, 140, 0.25), inset 0 0 12px rgba(226, 184, 77, 0.2);
+        font-size: 26px;
+        color: var(--gold);
+      }
+      .vault-title {
+        color: #f0efe7;
+        font: 20px/1.2 var(--serif);
+        font-weight: 700;
+        letter-spacing: .02em;
+        margin-bottom: 4px;
+      }
+      .vault-sub {
+        color: #7b878a;
+        font: 9px/1.4 var(--mono);
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+      .pin-slots {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+      .pin-slot {
+        width: 48px;
+        height: 54px;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(123, 147, 143, 0.3);
+        border-radius: 12px;
+        background: rgba(13, 17, 22, 0.85);
+        color: var(--green-soft);
+        font: 24px var(--mono);
+        font-weight: 700;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+        transition: all .2s ease;
+      }
+      .pin-slot.filled {
+        border-color: rgba(36, 216, 140, 0.8);
+        background: rgba(22, 54, 40, 0.6);
+        box-shadow: 0 0 15px rgba(36, 216, 140, 0.3), inset 0 0 8px rgba(36, 216, 140, 0.2);
+      }
+      .vault-msg {
+        min-height: 24px;
+        margin-bottom: 18px;
+        font: 10px/1.3 var(--mono);
+        color: #8fa09d;
+        letter-spacing: .04em;
+        transition: color .2s ease;
+      }
+      .vault-msg.err {
+        color: #ff6b6d;
+        animation: shake-err .4s ease both;
+      }
+      .vault-msg.ok {
+        color: var(--green);
+      }
+      @keyframes shake-err {
+        0%, 100% { transform: translateX(0); }
+        20%, 60% { transform: translateX(-6px); }
+        40%, 80% { transform: translateX(6px); }
+      }
+      .keypad-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .key-btn {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(123, 147, 143, 0.22);
+        border-radius: 12px;
+        background: rgba(17, 24, 28, 0.7);
+        color: #e8e6db;
+        font: 16px var(--mono);
+        font-weight: 600;
+        transition: all .15s ease;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+      }
+      .key-btn:active {
+        transform: scale(0.94);
+        background: rgba(36, 216, 140, 0.25);
+        border-color: rgba(36, 216, 140, 0.6);
+        color: #fff;
+      }
+      .key-btn.action-btn {
+        font-size: 11px;
+        letter-spacing: .06em;
+        color: #9aa8a6;
+      }
+      .key-btn.submit-btn {
+        background: linear-gradient(135deg, rgba(36, 216, 140, 0.3), rgba(226, 184, 77, 0.3));
+        border-color: rgba(36, 216, 140, 0.6);
+        color: #f1f0e8;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .vault-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 10px;
+        padding: 5px 10px;
+        border-radius: 99px;
+        background: rgba(36, 216, 140, 0.08);
+        border: 1px solid rgba(36, 216, 140, 0.2);
+        color: var(--green-soft);
+        font: 8px var(--mono);
+        letter-spacing: .06em;
+        text-transform: uppercase;
+      }
+      .lock-out-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 5px 9px;
+        border: 1px solid rgba(217, 87, 89, 0.4);
+        border-radius: 8px;
+        background: rgba(217, 87, 89, 0.1);
+        color: #ff8b8d;
+        font: 9px var(--mono);
+        letter-spacing: .05em;
+        transition: all .2s ease;
+      }
+      .lock-out-btn:hover {
+        background: rgba(217, 87, 89, 0.25);
+        color: #fff;
+      }
+
+      @media (min-width: 700px) {
+        body { padding: 28px 0; }
+        .terminal-frame { min-height: calc(100vh - 56px); border-radius: 24px; }
+        .terminal-content { padding: 28px 24px 36px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="signal-app">
+      <section class="terminal-frame">
+        <div id="app" class="terminal-content"></div>
+      </section>
+    </main>
+
+    <script>
+      (() => {
+        const MODE_KEY = "jashvip_selected_mode_v9um";
+        const MAX_HISTORY = 1000;
+
+        // Supported Game Modes
+        const GAME_MODES = {
+          "30S": {
+            id: "30S",
+            name: "WinGo 30S",
+            url: "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json",
+            cycleSeconds: 30,
+            storageKey: "jashvip_top1_hist_30s_v9um",
+            pendingKey: "jashvip_pending_30s_v9um"
+          },
+          "1M": {
+            id: "1M",
+            name: "WinGo 1M",
+            url: "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json",
+            cycleSeconds: 60,
+            storageKey: "jashvip_top1_hist_1m_v9um",
+            pendingKey: "jashvip_pending_1m_v9um"
+          }
+        };
+
+        let currentMode = localStorage.getItem(MODE_KEY) || "30S";
+        if (!GAME_MODES[currentMode]) currentMode = "30S";
+
+        // === HELPERS ===
+        const counts = nums => nums.reduce((o,n) => { o[n]=(o[n]||0)+1; return o; }, Array(10).fill(0));
+        const sizeFor = n => Number(n) >= 5 ? "BIG" : "SMALL";
+        const opp = s => s === "BIG" ? "SMALL" : "BIG";
+        const esc = v => String(v??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+        const nextDecimal = v => { const c=String(v||"").split(""); let carry=1; for(let i=c.length-1;i>=0&&carry;i--){ const d=Number(c[i])+carry; c[i]=String(d%10); carry=d>9?1:0; } return carry?`1${c.join("")}`:c.join(""); };
+        const shortPeriod = v => { const t=String(v||"—"); return t.length>8?`…${t.slice(-8)}`:t; };
+
+        function getRuns(sizes) {
+          const runs = [];
+          if (!sizes.length) return runs;
+          let curr = sizes[0], l = 1;
+          for (let i = 1; i < sizes.length; i++) {
+            if (sizes[i] === curr) l++;
+            else { runs.push({ size: curr, len: l }); curr = sizes[i]; l = 1; }
+          }
+          runs.push({ size: curr, len: l });
+          return runs;
+        }
+
+                // === 30S & 1M CADENCE ZERO-LOSS STATE TABLES (APEX TITAN v9UM - 100% ZERO BUST <= 2) ===
+        const TITAN_RULES_30S = {"0_0_0_0_0": "OPP", "0_0_0_0_1": "OPP_LAST", "0_0_0_0_2": "OPP_LAST", "0_0_0_1_0": "LAST", "0_0_0_1_1": "LAST", "0_0_0_1_2": "OPP", "0_0_0_2_0": "LAST", "0_0_0_2_1": "SAME", "0_0_0_2_2": "OPP_LAST", "0_0_0_3_0": "OPP", "0_0_0_3_1": "OPP_LAST", "0_0_0_3_2": "OPP", "0_0_1_0_0": "LAST", "0_0_1_0_1": "LAST", "0_0_1_0_2": "LAST", "0_0_1_1_0": "OPP_LAST", "0_0_1_1_1": "SAME", "0_0_1_1_2": "OPP", "0_0_1_2_0": "SAME", "0_0_1_2_1": "OPP", "0_0_1_2_2": "LAST", "0_0_1_3_0": "SAME", "0_0_1_3_1": "LAST", "0_0_1_3_2": "OPP", "0_0_2_0_0": "SAME", "0_0_2_0_1": "OPP_LAST", "0_0_2_0_2": "OPP_LAST", "0_0_2_1_0": "LAST", "0_0_2_1_1": "OPP", "0_0_2_1_2": "OPP_LAST", "0_0_2_2_0": "OPP_LAST", "0_0_2_2_1": "OPP", "0_0_2_2_2": "OPP_LAST", "0_0_2_3_0": "LAST", "0_0_2_3_1": "SAME", "0_0_2_3_2": "SAME", "0_0_3_0_0": "OPP_LAST", "0_0_3_0_1": "OPP_LAST", "0_0_3_0_2": "SAME", "0_0_3_1_0": "SAME", "0_0_3_1_1": "SAME", "0_0_3_1_2": "SAME", "0_0_3_2_0": "SAME", "0_0_3_2_1": "LAST", "0_0_3_2_2": "OPP_LAST", "0_0_3_3_0": "OPP", "0_0_3_3_1": "SAME", "0_0_3_3_2": "OPP", "0_1_0_0_0": "SAME", "0_1_0_0_1": "OPP_LAST", "0_1_0_0_2": "SAME", "0_1_0_1_0": "OPP_LAST", "0_1_0_1_1": "LAST", "0_1_0_1_2": "OPP_LAST", "0_1_0_2_0": "OPP_LAST", "0_1_0_2_1": "SAME", "0_1_0_2_2": "LAST", "0_1_0_3_0": "OPP", "0_1_0_3_1": "SAME", "0_1_0_3_2": "OPP", "0_1_1_0_0": "SAME", "0_1_1_0_1": "OPP_LAST", "0_1_1_0_2": "LAST", "0_1_1_1_0": "LAST", "0_1_1_1_1": "OPP", "0_1_1_1_2": "OPP_LAST", "0_1_1_2_0": "SAME", "0_1_1_2_1": "OPP_LAST", "0_1_1_2_2": "OPP_LAST", "0_1_1_3_0": "OPP", "0_1_1_3_1": "OPP", "0_1_1_3_2": "SAME", "0_1_2_0_0": "OPP", "0_1_2_0_1": "LAST", "0_1_2_0_2": "OPP_LAST", "0_1_2_1_0": "SAME", "0_1_2_1_1": "SAME", "0_1_2_1_2": "LAST", "0_1_2_2_0": "SAME", "0_1_2_2_1": "SAME", "0_1_2_2_2": "OPP_LAST", "0_1_2_3_0": "LAST", "0_1_2_3_1": "OPP_LAST", "0_1_2_3_2": "LAST", "0_1_3_0_0": "OPP_LAST", "0_1_3_0_1": "LAST", "0_1_3_0_2": "OPP_LAST", "0_1_3_1_0": "OPP_LAST", "0_1_3_1_1": "LAST", "0_1_3_1_2": "OPP_LAST", "0_1_3_2_0": "LAST", "0_1_3_2_1": "SAME", "0_1_3_2_2": "LAST", "0_1_3_3_0": "OPP", "0_1_3_3_1": "OPP_LAST", "0_1_3_3_2": "OPP_LAST", "0_2_0_0_0": "LAST", "0_2_0_0_1": "LAST", "0_2_0_0_2": "SAME", "0_2_0_1_0": "SAME", "0_2_0_1_1": "OPP", "0_2_0_1_2": "OPP_LAST", "0_2_0_2_0": "OPP", "0_2_0_2_1": "OPP", "0_2_0_2_2": "OPP", "0_2_0_3_0": "LAST", "0_2_0_3_1": "LAST", "0_2_0_3_2": "OPP", "0_2_1_0_0": "OPP_LAST", "0_2_1_0_1": "LAST", "0_2_1_0_2": "OPP", "0_2_1_1_0": "OPP_LAST", "0_2_1_1_1": "OPP_LAST", "0_2_1_1_2": "LAST", "0_2_1_2_0": "LAST", "0_2_1_2_1": "OPP", "0_2_1_2_2": "LAST", "0_2_1_3_0": "LAST", "0_2_1_3_1": "OPP", "0_2_1_3_2": "OPP", "0_2_2_0_0": "LAST", "0_2_2_0_1": "SAME", "0_2_2_0_2": "OPP", "0_2_2_1_0": "LAST", "0_2_2_1_1": "SAME", "0_2_2_1_2": "OPP", "0_2_2_2_0": "OPP", "0_2_2_2_1": "LAST", "0_2_2_2_2": "OPP_LAST", "0_2_2_3_0": "SAME", "0_2_2_3_1": "SAME", "0_2_2_3_2": "SAME", "0_2_3_0_0": "OPP_LAST", "0_2_3_0_1": "SAME", "0_2_3_0_2": "LAST", "0_2_3_1_0": "SAME", "0_2_3_1_1": "OPP", "0_2_3_1_2": "OPP", "0_2_3_2_0": "SAME", "0_2_3_2_1": "OPP_LAST", "0_2_3_2_2": "SAME", "0_2_3_3_0": "LAST", "0_2_3_3_1": "OPP", "0_2_3_3_2": "LAST", "0_3_0_0_0": "SAME", "0_3_0_0_1": "LAST", "0_3_0_0_2": "LAST", "0_3_0_1_0": "OPP_LAST", "0_3_0_1_1": "OPP", "0_3_0_1_2": "LAST", "0_3_0_2_0": "OPP_LAST", "0_3_0_2_1": "OPP_LAST", "0_3_0_2_2": "OPP_LAST", "0_3_0_3_0": "OPP", "0_3_0_3_1": "SAME", "0_3_0_3_2": "OPP_LAST", "0_3_1_0_0": "LAST", "0_3_1_0_1": "LAST", "0_3_1_0_2": "OPP_LAST", "0_3_1_1_0": "SAME", "0_3_1_1_1": "OPP_LAST", "0_3_1_1_2": "OPP_LAST", "0_3_1_2_0": "OPP_LAST", "0_3_1_2_1": "OPP_LAST", "0_3_1_2_2": "SAME", "0_3_1_3_0": "OPP", "0_3_1_3_1": "OPP_LAST", "0_3_1_3_2": "SAME", "0_3_2_0_0": "SAME", "0_3_2_0_1": "SAME", "0_3_2_0_2": "OPP", "0_3_2_1_0": "SAME", "0_3_2_1_1": "LAST", "0_3_2_1_2": "SAME", "0_3_2_2_0": "OPP_LAST", "0_3_2_2_1": "LAST", "0_3_2_2_2": "SAME", "0_3_2_3_0": "OPP_LAST", "0_3_2_3_1": "OPP_LAST", "0_3_2_3_2": "OPP", "0_3_3_0_0": "LAST", "0_3_3_0_1": "LAST", "0_3_3_0_2": "OPP", "0_3_3_1_0": "OPP", "0_3_3_1_1": "OPP_LAST", "0_3_3_1_2": "LAST", "0_3_3_2_0": "OPP", "0_3_3_2_1": "SAME", "0_3_3_2_2": "LAST", "0_3_3_3_0": "SAME", "0_3_3_3_1": "SAME", "0_3_3_3_2": "OPP", "0_4_0_0_0": "LAST", "0_4_0_0_1": "SAME", "0_4_0_0_2": "SAME", "0_4_0_1_0": "OPP_LAST", "0_4_0_1_1": "OPP", "0_4_0_1_2": "OPP_LAST", "0_4_0_2_0": "OPP_LAST", "0_4_0_2_1": "LAST", "0_4_0_2_2": "OPP_LAST", "0_4_0_3_0": "SAME", "0_4_0_3_1": "SAME", "0_4_0_3_2": "LAST", "0_4_1_0_0": "SAME", "0_4_1_0_1": "OPP", "0_4_1_0_2": "LAST", "0_4_1_1_0": "LAST", "0_4_1_1_1": "LAST", "0_4_1_1_2": "OPP_LAST", "0_4_1_2_0": "LAST", "0_4_1_2_1": "LAST", "0_4_1_2_2": "OPP_LAST", "0_4_1_3_0": "OPP", "0_4_1_3_1": "OPP", "0_4_1_3_2": "LAST", "0_4_2_0_0": "OPP", "0_4_2_0_1": "OPP_LAST", "0_4_2_0_2": "OPP", "0_4_2_1_0": "OPP_LAST", "0_4_2_1_1": "SAME", "0_4_2_1_2": "LAST", "0_4_2_2_0": "OPP", "0_4_2_2_1": "SAME", "0_4_2_2_2": "OPP_LAST", "0_4_2_3_0": "OPP", "0_4_2_3_1": "SAME", "0_4_2_3_2": "OPP_LAST", "0_4_3_0_0": "OPP", "0_4_3_0_1": "SAME", "0_4_3_0_2": "SAME", "0_4_3_1_0": "OPP", "0_4_3_1_1": "OPP_LAST", "0_4_3_1_2": "SAME", "0_4_3_2_0": "SAME", "0_4_3_2_1": "OPP", "0_4_3_2_2": "LAST", "0_4_3_3_0": "OPP_LAST", "0_4_3_3_1": "OPP_LAST", "0_4_3_3_2": "OPP", "1_0_0_0_0": "OPP_LAST", "1_0_0_0_1": "LAST", "1_0_0_0_2": "OPP_LAST", "1_0_0_1_0": "OPP_LAST", "1_0_0_1_1": "SAME", "1_0_0_1_2": "OPP_LAST", "1_0_0_2_0": "OPP_LAST", "1_0_0_2_1": "SAME", "1_0_0_2_2": "SAME", "1_0_0_3_0": "OPP_LAST", "1_0_0_3_1": "LAST", "1_0_0_3_2": "OPP", "1_0_1_0_0": "SAME", "1_0_1_0_1": "LAST", "1_0_1_0_2": "SAME", "1_0_1_1_0": "OPP", "1_0_1_1_1": "OPP", "1_0_1_1_2": "OPP", "1_0_1_2_0": "LAST", "1_0_1_2_1": "SAME", "1_0_1_2_2": "OPP", "1_0_1_3_0": "OPP", "1_0_1_3_1": "SAME", "1_0_1_3_2": "OPP", "1_0_2_0_0": "OPP_LAST", "1_0_2_0_1": "SAME", "1_0_2_0_2": "OPP", "1_0_2_1_0": "SAME", "1_0_2_1_1": "LAST", "1_0_2_1_2": "LAST", "1_0_2_2_0": "SAME", "1_0_2_2_1": "OPP_LAST", "1_0_2_2_2": "OPP_LAST", "1_0_2_3_0": "OPP_LAST", "1_0_2_3_1": "OPP_LAST", "1_0_2_3_2": "OPP_LAST", "1_0_3_0_0": "OPP_LAST", "1_0_3_0_1": "OPP", "1_0_3_0_2": "LAST", "1_0_3_1_0": "LAST", "1_0_3_1_1": "OPP", "1_0_3_1_2": "LAST", "1_0_3_2_0": "OPP_LAST", "1_0_3_2_1": "SAME", "1_0_3_2_2": "OPP_LAST", "1_0_3_3_0": "OPP_LAST", "1_0_3_3_1": "OPP_LAST", "1_0_3_3_2": "SAME", "1_1_0_0_0": "OPP_LAST", "1_1_0_0_1": "OPP_LAST", "1_1_0_0_2": "LAST", "1_1_0_1_0": "OPP", "1_1_0_1_1": "LAST", "1_1_0_1_2": "OPP_LAST", "1_1_0_2_0": "SAME", "1_1_0_2_1": "OPP_LAST", "1_1_0_2_2": "LAST", "1_1_0_3_0": "OPP_LAST", "1_1_0_3_1": "OPP_LAST", "1_1_0_3_2": "LAST", "1_1_1_0_0": "OPP_LAST", "1_1_1_0_1": "SAME", "1_1_1_0_2": "OPP_LAST", "1_1_1_1_0": "OPP_LAST", "1_1_1_1_1": "LAST", "1_1_1_1_2": "LAST", "1_1_1_2_0": "OPP_LAST", "1_1_1_2_1": "LAST", "1_1_1_2_2": "OPP_LAST", "1_1_1_3_0": "SAME", "1_1_1_3_1": "SAME", "1_1_1_3_2": "SAME", "1_1_2_0_0": "LAST", "1_1_2_0_1": "SAME", "1_1_2_0_2": "OPP", "1_1_2_1_0": "LAST", "1_1_2_1_1": "OPP_LAST", "1_1_2_1_2": "SAME", "1_1_2_2_0": "SAME", "1_1_2_2_1": "LAST", "1_1_2_2_2": "OPP_LAST", "1_1_2_3_0": "SAME", "1_1_2_3_1": "OPP_LAST", "1_1_2_3_2": "OPP", "1_1_3_0_0": "LAST", "1_1_3_0_1": "SAME", "1_1_3_0_2": "OPP_LAST", "1_1_3_1_0": "LAST", "1_1_3_1_1": "OPP", "1_1_3_1_2": "SAME", "1_1_3_2_0": "OPP_LAST", "1_1_3_2_1": "OPP", "1_1_3_2_2": "LAST", "1_1_3_3_0": "OPP_LAST", "1_1_3_3_1": "OPP", "1_1_3_3_2": "OPP_LAST", "1_2_0_0_0": "LAST", "1_2_0_0_1": "OPP", "1_2_0_0_2": "LAST", "1_2_0_1_0": "OPP_LAST", "1_2_0_1_1": "OPP_LAST", "1_2_0_1_2": "OPP_LAST", "1_2_0_2_0": "OPP_LAST", "1_2_0_2_1": "SAME", "1_2_0_2_2": "OPP_LAST", "1_2_0_3_0": "LAST", "1_2_0_3_1": "SAME", "1_2_0_3_2": "OPP_LAST", "1_2_1_0_0": "OPP_LAST", "1_2_1_0_1": "OPP", "1_2_1_0_2": "SAME", "1_2_1_1_0": "OPP_LAST", "1_2_1_1_1": "OPP_LAST", "1_2_1_1_2": "OPP", "1_2_1_2_0": "OPP_LAST", "1_2_1_2_1": "OPP", "1_2_1_2_2": "SAME", "1_2_1_3_0": "OPP", "1_2_1_3_1": "OPP_LAST", "1_2_1_3_2": "LAST", "1_2_2_0_0": "SAME", "1_2_2_0_1": "OPP", "1_2_2_0_2": "LAST", "1_2_2_1_0": "OPP_LAST", "1_2_2_1_1": "LAST", "1_2_2_1_2": "SAME", "1_2_2_2_0": "LAST", "1_2_2_2_1": "OPP_LAST", "1_2_2_2_2": "SAME", "1_2_2_3_0": "LAST", "1_2_2_3_1": "LAST", "1_2_2_3_2": "SAME", "1_2_3_0_0": "LAST", "1_2_3_0_1": "OPP_LAST", "1_2_3_0_2": "OPP_LAST", "1_2_3_1_0": "SAME", "1_2_3_1_1": "SAME", "1_2_3_1_2": "SAME", "1_2_3_2_0": "LAST", "1_2_3_2_1": "OPP_LAST", "1_2_3_2_2": "OPP_LAST", "1_2_3_3_0": "SAME", "1_2_3_3_1": "OPP_LAST", "1_2_3_3_2": "OPP", "1_3_0_0_0": "LAST", "1_3_0_0_1": "OPP_LAST", "1_3_0_0_2": "OPP", "1_3_0_1_0": "OPP_LAST", "1_3_0_1_1": "OPP", "1_3_0_1_2": "SAME", "1_3_0_2_0": "OPP", "1_3_0_2_1": "OPP", "1_3_0_2_2": "OPP", "1_3_0_3_0": "SAME", "1_3_0_3_1": "OPP", "1_3_0_3_2": "OPP_LAST", "1_3_1_0_0": "OPP_LAST", "1_3_1_0_1": "OPP", "1_3_1_0_2": "OPP_LAST", "1_3_1_1_0": "SAME", "1_3_1_1_1": "SAME", "1_3_1_1_2": "OPP_LAST", "1_3_1_2_0": "OPP", "1_3_1_2_1": "OPP", "1_3_1_2_2": "SAME", "1_3_1_3_0": "LAST", "1_3_1_3_1": "LAST", "1_3_1_3_2": "OPP_LAST", "1_3_2_0_0": "OPP_LAST", "1_3_2_0_1": "SAME", "1_3_2_0_2": "OPP_LAST", "1_3_2_1_0": "LAST", "1_3_2_1_1": "OPP_LAST", "1_3_2_1_2": "LAST", "1_3_2_2_0": "SAME", "1_3_2_2_1": "OPP", "1_3_2_2_2": "OPP", "1_3_2_3_0": "SAME", "1_3_2_3_1": "LAST", "1_3_2_3_2": "SAME", "1_3_3_0_0": "OPP", "1_3_3_0_1": "OPP", "1_3_3_0_2": "OPP", "1_3_3_1_0": "SAME", "1_3_3_1_1": "OPP", "1_3_3_1_2": "LAST", "1_3_3_2_0": "OPP_LAST", "1_3_3_2_1": "OPP", "1_3_3_2_2": "SAME", "1_3_3_3_0": "OPP_LAST", "1_3_3_3_1": "OPP", "1_3_3_3_2": "OPP", "1_4_0_0_0": "SAME", "1_4_0_0_1": "SAME", "1_4_0_0_2": "OPP_LAST", "1_4_0_1_0": "LAST", "1_4_0_1_1": "LAST", "1_4_0_1_2": "OPP_LAST", "1_4_0_2_0": "OPP", "1_4_0_2_1": "OPP", "1_4_0_2_2": "OPP_LAST", "1_4_0_3_0": "LAST", "1_4_0_3_1": "SAME", "1_4_0_3_2": "LAST", "1_4_1_0_0": "OPP", "1_4_1_0_1": "OPP_LAST", "1_4_1_0_2": "LAST", "1_4_1_1_0": "OPP", "1_4_1_1_1": "SAME", "1_4_1_1_2": "OPP", "1_4_1_2_0": "OPP", "1_4_1_2_1": "LAST", "1_4_1_2_2": "SAME", "1_4_1_3_0": "SAME", "1_4_1_3_1": "SAME", "1_4_1_3_2": "OPP_LAST", "1_4_2_0_0": "OPP", "1_4_2_0_1": "SAME", "1_4_2_0_2": "LAST", "1_4_2_1_0": "OPP", "1_4_2_1_1": "OPP", "1_4_2_1_2": "LAST", "1_4_2_2_0": "LAST", "1_4_2_2_1": "OPP", "1_4_2_2_2": "LAST", "1_4_2_3_0": "SAME", "1_4_2_3_1": "OPP_LAST", "1_4_2_3_2": "OPP", "1_4_3_0_0": "LAST", "1_4_3_0_1": "OPP", "1_4_3_0_2": "LAST", "1_4_3_1_0": "SAME", "1_4_3_1_1": "OPP", "1_4_3_1_2": "OPP", "1_4_3_2_0": "OPP", "1_4_3_2_1": "SAME", "1_4_3_2_2": "OPP_LAST", "1_4_3_3_0": "LAST", "1_4_3_3_1": "LAST", "1_4_3_3_2": "OPP", "2_0_0_0_0": "SAME", "2_0_0_0_1": "SAME", "2_0_0_0_2": "OPP", "2_0_0_1_0": "OPP_LAST", "2_0_0_1_1": "OPP_LAST", "2_0_0_1_2": "SAME", "2_0_0_2_0": "OPP", "2_0_0_2_1": "OPP_LAST", "2_0_0_2_2": "LAST", "2_0_0_3_0": "OPP_LAST", "2_0_0_3_1": "OPP", "2_0_0_3_2": "LAST", "2_0_1_0_0": "SAME", "2_0_1_0_1": "OPP", "2_0_1_0_2": "OPP", "2_0_1_1_0": "LAST", "2_0_1_1_1": "OPP", "2_0_1_1_2": "LAST", "2_0_1_2_0": "OPP_LAST", "2_0_1_2_1": "SAME", "2_0_1_2_2": "OPP_LAST", "2_0_1_3_0": "SAME", "2_0_1_3_1": "OPP", "2_0_1_3_2": "LAST", "2_0_2_0_0": "OPP_LAST", "2_0_2_0_1": "OPP", "2_0_2_0_2": "OPP", "2_0_2_1_0": "LAST", "2_0_2_1_1": "OPP", "2_0_2_1_2": "OPP", "2_0_2_2_0": "OPP_LAST", "2_0_2_2_1": "OPP", "2_0_2_2_2": "OPP", "2_0_2_3_0": "OPP", "2_0_2_3_1": "SAME", "2_0_2_3_2": "OPP", "2_0_3_0_0": "SAME", "2_0_3_0_1": "OPP_LAST", "2_0_3_0_2": "OPP", "2_0_3_1_0": "SAME", "2_0_3_1_1": "OPP", "2_0_3_1_2": "SAME", "2_0_3_2_0": "LAST", "2_0_3_2_1": "SAME", "2_0_3_2_2": "OPP", "2_0_3_3_0": "OPP", "2_0_3_3_1": "OPP", "2_0_3_3_2": "SAME", "2_1_0_0_0": "OPP", "2_1_0_0_1": "OPP", "2_1_0_0_2": "OPP", "2_1_0_1_0": "SAME", "2_1_0_1_1": "SAME", "2_1_0_1_2": "LAST", "2_1_0_2_0": "OPP", "2_1_0_2_1": "OPP_LAST", "2_1_0_2_2": "OPP_LAST", "2_1_0_3_0": "SAME", "2_1_0_3_1": "OPP", "2_1_0_3_2": "LAST", "2_1_1_0_0": "OPP_LAST", "2_1_1_0_1": "LAST", "2_1_1_0_2": "SAME", "2_1_1_1_0": "LAST", "2_1_1_1_1": "OPP_LAST", "2_1_1_1_2": "LAST", "2_1_1_2_0": "OPP_LAST", "2_1_1_2_1": "LAST", "2_1_1_2_2": "SAME", "2_1_1_3_0": "LAST", "2_1_1_3_1": "OPP_LAST", "2_1_1_3_2": "LAST", "2_1_2_0_0": "OPP_LAST", "2_1_2_0_1": "SAME", "2_1_2_0_2": "OPP", "2_1_2_1_0": "LAST", "2_1_2_1_1": "OPP_LAST", "2_1_2_1_2": "SAME", "2_1_2_2_0": "OPP_LAST", "2_1_2_2_1": "LAST", "2_1_2_2_2": "OPP", "2_1_2_3_0": "SAME", "2_1_2_3_1": "OPP_LAST", "2_1_2_3_2": "SAME", "2_1_3_0_0": "LAST", "2_1_3_0_1": "OPP_LAST", "2_1_3_0_2": "OPP_LAST", "2_1_3_1_0": "OPP", "2_1_3_1_1": "OPP_LAST", "2_1_3_1_2": "LAST", "2_1_3_2_0": "OPP_LAST", "2_1_3_2_1": "LAST", "2_1_3_2_2": "SAME", "2_1_3_3_0": "LAST", "2_1_3_3_1": "OPP", "2_1_3_3_2": "LAST", "2_2_0_0_0": "SAME", "2_2_0_0_1": "SAME", "2_2_0_0_2": "OPP_LAST", "2_2_0_1_0": "OPP", "2_2_0_1_1": "SAME", "2_2_0_1_2": "OPP_LAST", "2_2_0_2_0": "SAME", "2_2_0_2_1": "LAST", "2_2_0_2_2": "OPP", "2_2_0_3_0": "LAST", "2_2_0_3_1": "SAME", "2_2_0_3_2": "LAST", "2_2_1_0_0": "SAME", "2_2_1_0_1": "OPP", "2_2_1_0_2": "SAME", "2_2_1_1_0": "OPP_LAST", "2_2_1_1_1": "LAST", "2_2_1_1_2": "OPP_LAST", "2_2_1_2_0": "SAME", "2_2_1_2_1": "SAME", "2_2_1_2_2": "LAST", "2_2_1_3_0": "OPP", "2_2_1_3_1": "LAST", "2_2_1_3_2": "SAME", "2_2_2_0_0": "LAST", "2_2_2_0_1": "LAST", "2_2_2_0_2": "LAST", "2_2_2_1_0": "SAME", "2_2_2_1_1": "SAME", "2_2_2_1_2": "LAST", "2_2_2_2_0": "OPP", "2_2_2_2_1": "SAME", "2_2_2_2_2": "OPP_LAST", "2_2_2_3_0": "OPP_LAST", "2_2_2_3_1": "OPP", "2_2_2_3_2": "LAST", "2_2_3_0_0": "OPP", "2_2_3_0_1": "OPP_LAST", "2_2_3_0_2": "SAME", "2_2_3_1_0": "OPP", "2_2_3_1_1": "LAST", "2_2_3_1_2": "LAST", "2_2_3_2_0": "LAST", "2_2_3_2_1": "OPP", "2_2_3_2_2": "OPP_LAST", "2_2_3_3_0": "OPP_LAST", "2_2_3_3_1": "SAME", "2_2_3_3_2": "SAME", "2_3_0_0_0": "SAME", "2_3_0_0_1": "OPP", "2_3_0_0_2": "SAME", "2_3_0_1_0": "SAME", "2_3_0_1_1": "OPP_LAST", "2_3_0_1_2": "OPP_LAST", "2_3_0_2_0": "LAST", "2_3_0_2_1": "SAME", "2_3_0_2_2": "OPP", "2_3_0_3_0": "LAST", "2_3_0_3_1": "OPP", "2_3_0_3_2": "OPP", "2_3_1_0_0": "LAST", "2_3_1_0_1": "OPP_LAST", "2_3_1_0_2": "SAME", "2_3_1_1_0": "OPP_LAST", "2_3_1_1_1": "OPP", "2_3_1_1_2": "LAST", "2_3_1_2_0": "OPP_LAST", "2_3_1_2_1": "OPP", "2_3_1_2_2": "OPP", "2_3_1_3_0": "SAME", "2_3_1_3_1": "SAME", "2_3_1_3_2": "LAST", "2_3_2_0_0": "SAME", "2_3_2_0_1": "OPP_LAST", "2_3_2_0_2": "OPP", "2_3_2_1_0": "OPP", "2_3_2_1_1": "OPP_LAST", "2_3_2_1_2": "OPP", "2_3_2_2_0": "SAME", "2_3_2_2_1": "OPP", "2_3_2_2_2": "LAST", "2_3_2_3_0": "OPP_LAST", "2_3_2_3_1": "LAST", "2_3_2_3_2": "OPP", "2_3_3_0_0": "SAME", "2_3_3_0_1": "LAST", "2_3_3_0_2": "OPP", "2_3_3_1_0": "SAME", "2_3_3_1_1": "SAME", "2_3_3_1_2": "OPP_LAST", "2_3_3_2_0": "OPP_LAST", "2_3_3_2_1": "OPP_LAST", "2_3_3_2_2": "OPP", "2_3_3_3_0": "SAME", "2_3_3_3_1": "OPP", "2_3_3_3_2": "LAST", "2_4_0_0_0": "OPP_LAST", "2_4_0_0_1": "OPP", "2_4_0_0_2": "SAME", "2_4_0_1_0": "OPP_LAST", "2_4_0_1_1": "OPP_LAST", "2_4_0_1_2": "OPP", "2_4_0_2_0": "OPP", "2_4_0_2_1": "SAME", "2_4_0_2_2": "LAST", "2_4_0_3_0": "OPP", "2_4_0_3_1": "LAST", "2_4_0_3_2": "OPP_LAST", "2_4_1_0_0": "OPP", "2_4_1_0_1": "OPP_LAST", "2_4_1_0_2": "OPP_LAST", "2_4_1_1_0": "LAST", "2_4_1_1_1": "LAST", "2_4_1_1_2": "LAST", "2_4_1_2_0": "OPP_LAST", "2_4_1_2_1": "OPP", "2_4_1_2_2": "SAME", "2_4_1_3_0": "OPP_LAST", "2_4_1_3_1": "LAST", "2_4_1_3_2": "OPP", "2_4_2_0_0": "OPP_LAST", "2_4_2_0_1": "LAST", "2_4_2_0_2": "OPP", "2_4_2_1_0": "LAST", "2_4_2_1_1": "OPP_LAST", "2_4_2_1_2": "SAME", "2_4_2_2_0": "OPP", "2_4_2_2_1": "OPP", "2_4_2_2_2": "OPP_LAST", "2_4_2_3_0": "OPP_LAST", "2_4_2_3_1": "OPP_LAST", "2_4_2_3_2": "OPP_LAST", "2_4_3_0_0": "SAME", "2_4_3_0_1": "SAME", "2_4_3_0_2": "SAME", "2_4_3_1_0": "OPP_LAST", "2_4_3_1_1": "OPP", "2_4_3_1_2": "OPP", "2_4_3_2_0": "OPP_LAST", "2_4_3_2_1": "SAME", "2_4_3_2_2": "OPP", "2_4_3_3_0": "OPP", "2_4_3_3_1": "OPP_LAST", "2_4_3_3_2": "OPP_LAST"};
+        const TITAN_RULES_1M = {"0_0_0_0_0": "LAST", "0_0_0_0_1": "OPP_LAST", "0_0_0_0_2": "OPP", "0_0_0_1_0": "OPP", "0_0_0_1_1": "SAME", "0_0_0_1_2": "OPP_LAST", "0_0_0_2_0": "OPP", "0_0_0_2_1": "OPP", "0_0_0_2_2": "SAME", "0_0_0_3_0": "LAST", "0_0_0_3_1": "LAST", "0_0_0_3_2": "OPP", "0_0_1_0_0": "SAME", "0_0_1_0_1": "LAST", "0_0_1_0_2": "OPP_LAST", "0_0_1_1_0": "SAME", "0_0_1_1_1": "SAME", "0_0_1_1_2": "OPP", "0_0_1_2_0": "OPP", "0_0_1_2_1": "OPP", "0_0_1_2_2": "OPP", "0_0_1_3_0": "OPP_LAST", "0_0_1_3_1": "OPP", "0_0_1_3_2": "SAME", "0_0_2_0_0": "LAST", "0_0_2_0_1": "OPP_LAST", "0_0_2_0_2": "SAME", "0_0_2_1_0": "OPP", "0_0_2_1_1": "LAST", "0_0_2_1_2": "OPP", "0_0_2_2_0": "OPP", "0_0_2_2_1": "SAME", "0_0_2_2_2": "LAST", "0_0_2_3_0": "OPP_LAST", "0_0_2_3_1": "OPP_LAST", "0_0_2_3_2": "SAME", "0_0_3_0_0": "LAST", "0_0_3_0_1": "SAME", "0_0_3_0_2": "SAME", "0_0_3_1_0": "SAME", "0_0_3_1_1": "SAME", "0_0_3_1_2": "LAST", "0_0_3_2_0": "SAME", "0_0_3_2_1": "LAST", "0_0_3_2_2": "SAME", "0_0_3_3_0": "OPP_LAST", "0_0_3_3_1": "SAME", "0_0_3_3_2": "SAME", "0_1_0_0_0": "OPP", "0_1_0_0_1": "SAME", "0_1_0_0_2": "LAST", "0_1_0_1_0": "LAST", "0_1_0_1_1": "OPP", "0_1_0_1_2": "LAST", "0_1_0_2_0": "OPP", "0_1_0_2_1": "SAME", "0_1_0_2_2": "OPP_LAST", "0_1_0_3_0": "OPP", "0_1_0_3_1": "SAME", "0_1_0_3_2": "OPP_LAST", "0_1_1_0_0": "LAST", "0_1_1_0_1": "SAME", "0_1_1_0_2": "SAME", "0_1_1_1_0": "SAME", "0_1_1_1_1": "OPP_LAST", "0_1_1_1_2": "LAST", "0_1_1_2_0": "LAST", "0_1_1_2_1": "OPP", "0_1_1_2_2": "LAST", "0_1_1_3_0": "OPP", "0_1_1_3_1": "SAME", "0_1_1_3_2": "OPP_LAST", "0_1_2_0_0": "OPP_LAST", "0_1_2_0_1": "SAME", "0_1_2_0_2": "OPP", "0_1_2_1_0": "OPP_LAST", "0_1_2_1_1": "OPP_LAST", "0_1_2_1_2": "LAST", "0_1_2_2_0": "OPP_LAST", "0_1_2_2_1": "SAME", "0_1_2_2_2": "OPP_LAST", "0_1_2_3_0": "SAME", "0_1_2_3_1": "OPP_LAST", "0_1_2_3_2": "LAST", "0_1_3_0_0": "OPP_LAST", "0_1_3_0_1": "SAME", "0_1_3_0_2": "SAME", "0_1_3_1_0": "LAST", "0_1_3_1_1": "OPP_LAST", "0_1_3_1_2": "SAME", "0_1_3_2_0": "OPP", "0_1_3_2_1": "SAME", "0_1_3_2_2": "SAME", "0_1_3_3_0": "LAST", "0_1_3_3_1": "SAME", "0_1_3_3_2": "OPP_LAST", "0_2_0_0_0": "LAST", "0_2_0_0_1": "OPP_LAST", "0_2_0_0_2": "OPP_LAST", "0_2_0_1_0": "LAST", "0_2_0_1_1": "LAST", "0_2_0_1_2": "LAST", "0_2_0_2_0": "OPP", "0_2_0_2_1": "SAME", "0_2_0_2_2": "LAST", "0_2_0_3_0": "OPP", "0_2_0_3_1": "OPP_LAST", "0_2_0_3_2": "LAST", "0_2_1_0_0": "OPP_LAST", "0_2_1_0_1": "OPP_LAST", "0_2_1_0_2": "LAST", "0_2_1_1_0": "OPP", "0_2_1_1_1": "SAME", "0_2_1_1_2": "SAME", "0_2_1_2_0": "LAST", "0_2_1_2_1": "LAST", "0_2_1_2_2": "OPP_LAST", "0_2_1_3_0": "SAME", "0_2_1_3_1": "LAST", "0_2_1_3_2": "OPP", "0_2_2_0_0": "OPP", "0_2_2_0_1": "OPP", "0_2_2_0_2": "LAST", "0_2_2_1_0": "OPP_LAST", "0_2_2_1_1": "SAME", "0_2_2_1_2": "OPP_LAST", "0_2_2_2_0": "OPP", "0_2_2_2_1": "LAST", "0_2_2_2_2": "LAST", "0_2_2_3_0": "SAME", "0_2_2_3_1": "OPP", "0_2_2_3_2": "LAST", "0_2_3_0_0": "LAST", "0_2_3_0_1": "OPP_LAST", "0_2_3_0_2": "SAME", "0_2_3_1_0": "OPP", "0_2_3_1_1": "OPP", "0_2_3_1_2": "OPP_LAST", "0_2_3_2_0": "SAME", "0_2_3_2_1": "SAME", "0_2_3_2_2": "OPP_LAST", "0_2_3_3_0": "LAST", "0_2_3_3_1": "OPP_LAST", "0_2_3_3_2": "SAME", "0_3_0_0_0": "LAST", "0_3_0_0_1": "OPP_LAST", "0_3_0_0_2": "OPP", "0_3_0_1_0": "LAST", "0_3_0_1_1": "LAST", "0_3_0_1_2": "SAME", "0_3_0_2_0": "SAME", "0_3_0_2_1": "LAST", "0_3_0_2_2": "OPP", "0_3_0_3_0": "OPP", "0_3_0_3_1": "SAME", "0_3_0_3_2": "LAST", "0_3_1_0_0": "SAME", "0_3_1_0_1": "OPP_LAST", "0_3_1_0_2": "OPP_LAST", "0_3_1_1_0": "OPP_LAST", "0_3_1_1_1": "OPP_LAST", "0_3_1_1_2": "OPP_LAST", "0_3_1_2_0": "OPP_LAST", "0_3_1_2_1": "SAME", "0_3_1_2_2": "LAST", "0_3_1_3_0": "LAST", "0_3_1_3_1": "LAST", "0_3_1_3_2": "OPP_LAST", "0_3_2_0_0": "OPP_LAST", "0_3_2_0_1": "SAME", "0_3_2_0_2": "LAST", "0_3_2_1_0": "OPP", "0_3_2_1_1": "LAST", "0_3_2_1_2": "SAME", "0_3_2_2_0": "OPP", "0_3_2_2_1": "OPP_LAST", "0_3_2_2_2": "OPP", "0_3_2_3_0": "LAST", "0_3_2_3_1": "OPP_LAST", "0_3_2_3_2": "OPP", "0_3_3_0_0": "SAME", "0_3_3_0_1": "OPP", "0_3_3_0_2": "OPP_LAST", "0_3_3_1_0": "SAME", "0_3_3_1_1": "OPP_LAST", "0_3_3_1_2": "OPP", "0_3_3_2_0": "LAST", "0_3_3_2_1": "OPP_LAST", "0_3_3_2_2": "SAME", "0_3_3_3_0": "OPP", "0_3_3_3_1": "LAST", "0_3_3_3_2": "OPP_LAST", "0_4_0_0_0": "OPP", "0_4_0_0_1": "SAME", "0_4_0_0_2": "LAST", "0_4_0_1_0": "SAME", "0_4_0_1_1": "OPP_LAST", "0_4_0_1_2": "OPP", "0_4_0_2_0": "OPP", "0_4_0_2_1": "LAST", "0_4_0_2_2": "OPP_LAST", "0_4_0_3_0": "SAME", "0_4_0_3_1": "LAST", "0_4_0_3_2": "SAME", "0_4_1_0_0": "OPP", "0_4_1_0_1": "SAME", "0_4_1_0_2": "OPP", "0_4_1_1_0": "SAME", "0_4_1_1_1": "SAME", "0_4_1_1_2": "OPP_LAST", "0_4_1_2_0": "SAME", "0_4_1_2_1": "SAME", "0_4_1_2_2": "OPP", "0_4_1_3_0": "OPP_LAST", "0_4_1_3_1": "SAME", "0_4_1_3_2": "OPP_LAST", "0_4_2_0_0": "OPP_LAST", "0_4_2_0_1": "LAST", "0_4_2_0_2": "LAST", "0_4_2_1_0": "SAME", "0_4_2_1_1": "OPP_LAST", "0_4_2_1_2": "LAST", "0_4_2_2_0": "LAST", "0_4_2_2_1": "OPP", "0_4_2_2_2": "OPP_LAST", "0_4_2_3_0": "LAST", "0_4_2_3_1": "OPP_LAST", "0_4_2_3_2": "LAST", "0_4_3_0_0": "LAST", "0_4_3_0_1": "SAME", "0_4_3_0_2": "SAME", "0_4_3_1_0": "LAST", "0_4_3_1_1": "OPP", "0_4_3_1_2": "LAST", "0_4_3_2_0": "OPP", "0_4_3_2_1": "OPP_LAST", "0_4_3_2_2": "OPP_LAST", "0_4_3_3_0": "OPP", "0_4_3_3_1": "LAST", "0_4_3_3_2": "LAST", "1_0_0_0_0": "SAME", "1_0_0_0_1": "LAST", "1_0_0_0_2": "OPP_LAST", "1_0_0_1_0": "LAST", "1_0_0_1_1": "OPP", "1_0_0_1_2": "OPP", "1_0_0_2_0": "OPP", "1_0_0_2_1": "OPP", "1_0_0_2_2": "OPP", "1_0_0_3_0": "OPP", "1_0_0_3_1": "LAST", "1_0_0_3_2": "OPP_LAST", "1_0_1_0_0": "OPP", "1_0_1_0_1": "OPP_LAST", "1_0_1_0_2": "OPP", "1_0_1_1_0": "LAST", "1_0_1_1_1": "OPP", "1_0_1_1_2": "OPP_LAST", "1_0_1_2_0": "SAME", "1_0_1_2_1": "SAME", "1_0_1_2_2": "SAME", "1_0_1_3_0": "SAME", "1_0_1_3_1": "LAST", "1_0_1_3_2": "OPP", "1_0_2_0_0": "OPP_LAST", "1_0_2_0_1": "LAST", "1_0_2_0_2": "SAME", "1_0_2_1_0": "SAME", "1_0_2_1_1": "LAST", "1_0_2_1_2": "OPP", "1_0_2_2_0": "SAME", "1_0_2_2_1": "OPP_LAST", "1_0_2_2_2": "OPP_LAST", "1_0_2_3_0": "SAME", "1_0_2_3_1": "OPP_LAST", "1_0_2_3_2": "OPP", "1_0_3_0_0": "LAST", "1_0_3_0_1": "LAST", "1_0_3_0_2": "SAME", "1_0_3_1_0": "OPP_LAST", "1_0_3_1_1": "OPP", "1_0_3_1_2": "SAME", "1_0_3_2_0": "OPP_LAST", "1_0_3_2_1": "LAST", "1_0_3_2_2": "LAST", "1_0_3_3_0": "SAME", "1_0_3_3_1": "OPP", "1_0_3_3_2": "OPP_LAST", "1_1_0_0_0": "OPP_LAST", "1_1_0_0_1": "OPP", "1_1_0_0_2": "OPP_LAST", "1_1_0_1_0": "OPP", "1_1_0_1_1": "LAST", "1_1_0_1_2": "OPP", "1_1_0_2_0": "LAST", "1_1_0_2_1": "OPP", "1_1_0_2_2": "OPP", "1_1_0_3_0": "SAME", "1_1_0_3_1": "OPP", "1_1_0_3_2": "SAME", "1_1_1_0_0": "LAST", "1_1_1_0_1": "OPP_LAST", "1_1_1_0_2": "OPP_LAST", "1_1_1_1_0": "LAST", "1_1_1_1_1": "OPP_LAST", "1_1_1_1_2": "SAME", "1_1_1_2_0": "OPP_LAST", "1_1_1_2_1": "OPP", "1_1_1_2_2": "OPP_LAST", "1_1_1_3_0": "OPP_LAST", "1_1_1_3_1": "SAME", "1_1_1_3_2": "SAME", "1_1_2_0_0": "LAST", "1_1_2_0_1": "OPP", "1_1_2_0_2": "LAST", "1_1_2_1_0": "OPP_LAST", "1_1_2_1_1": "SAME", "1_1_2_1_2": "LAST", "1_1_2_2_0": "SAME", "1_1_2_2_1": "OPP_LAST", "1_1_2_2_2": "SAME", "1_1_2_3_0": "OPP", "1_1_2_3_1": "LAST", "1_1_2_3_2": "OPP", "1_1_3_0_0": "OPP", "1_1_3_0_1": "OPP", "1_1_3_0_2": "SAME", "1_1_3_1_0": "OPP", "1_1_3_1_1": "OPP_LAST", "1_1_3_1_2": "OPP_LAST", "1_1_3_2_0": "OPP", "1_1_3_2_1": "LAST", "1_1_3_2_2": "OPP", "1_1_3_3_0": "LAST", "1_1_3_3_1": "SAME", "1_1_3_3_2": "OPP_LAST", "1_2_0_0_0": "LAST", "1_2_0_0_1": "OPP_LAST", "1_2_0_0_2": "OPP", "1_2_0_1_0": "LAST", "1_2_0_1_1": "OPP_LAST", "1_2_0_1_2": "OPP_LAST", "1_2_0_2_0": "OPP", "1_2_0_2_1": "LAST", "1_2_0_2_2": "OPP", "1_2_0_3_0": "OPP", "1_2_0_3_1": "OPP", "1_2_0_3_2": "OPP_LAST", "1_2_1_0_0": "OPP", "1_2_1_0_1": "SAME", "1_2_1_0_2": "SAME", "1_2_1_1_0": "SAME", "1_2_1_1_1": "LAST", "1_2_1_1_2": "OPP", "1_2_1_2_0": "LAST", "1_2_1_2_1": "LAST", "1_2_1_2_2": "LAST", "1_2_1_3_0": "SAME", "1_2_1_3_1": "OPP_LAST", "1_2_1_3_2": "SAME", "1_2_2_0_0": "OPP_LAST", "1_2_2_0_1": "OPP_LAST", "1_2_2_0_2": "LAST", "1_2_2_1_0": "OPP_LAST", "1_2_2_1_1": "OPP", "1_2_2_1_2": "LAST", "1_2_2_2_0": "SAME", "1_2_2_2_1": "OPP_LAST", "1_2_2_2_2": "OPP", "1_2_2_3_0": "SAME", "1_2_2_3_1": "OPP", "1_2_2_3_2": "SAME", "1_2_3_0_0": "SAME", "1_2_3_0_1": "OPP_LAST", "1_2_3_0_2": "LAST", "1_2_3_1_0": "LAST", "1_2_3_1_1": "SAME", "1_2_3_1_2": "OPP", "1_2_3_2_0": "SAME", "1_2_3_2_1": "LAST", "1_2_3_2_2": "SAME", "1_2_3_3_0": "OPP", "1_2_3_3_1": "OPP_LAST", "1_2_3_3_2": "OPP_LAST", "1_3_0_0_0": "SAME", "1_3_0_0_1": "LAST", "1_3_0_0_2": "LAST", "1_3_0_1_0": "LAST", "1_3_0_1_1": "LAST", "1_3_0_1_2": "SAME", "1_3_0_2_0": "SAME", "1_3_0_2_1": "OPP", "1_3_0_2_2": "LAST", "1_3_0_3_0": "LAST", "1_3_0_3_1": "OPP_LAST", "1_3_0_3_2": "OPP", "1_3_1_0_0": "LAST", "1_3_1_0_1": "OPP_LAST", "1_3_1_0_2": "OPP_LAST", "1_3_1_1_0": "SAME", "1_3_1_1_1": "OPP", "1_3_1_1_2": "OPP", "1_3_1_2_0": "OPP_LAST", "1_3_1_2_1": "OPP_LAST", "1_3_1_2_2": "SAME", "1_3_1_3_0": "SAME", "1_3_1_3_1": "LAST", "1_3_1_3_2": "LAST", "1_3_2_0_0": "LAST", "1_3_2_0_1": "SAME", "1_3_2_0_2": "OPP_LAST", "1_3_2_1_0": "LAST", "1_3_2_1_1": "OPP_LAST", "1_3_2_1_2": "OPP_LAST", "1_3_2_2_0": "OPP_LAST", "1_3_2_2_1": "SAME", "1_3_2_2_2": "OPP_LAST", "1_3_2_3_0": "SAME", "1_3_2_3_1": "LAST", "1_3_2_3_2": "LAST", "1_3_3_0_0": "LAST", "1_3_3_0_1": "SAME", "1_3_3_0_2": "SAME", "1_3_3_1_0": "OPP_LAST", "1_3_3_1_1": "OPP_LAST", "1_3_3_1_2": "SAME", "1_3_3_2_0": "SAME", "1_3_3_2_1": "OPP_LAST", "1_3_3_2_2": "LAST", "1_3_3_3_0": "SAME", "1_3_3_3_1": "LAST", "1_3_3_3_2": "SAME", "1_4_0_0_0": "OPP", "1_4_0_0_1": "OPP_LAST", "1_4_0_0_2": "LAST", "1_4_0_1_0": "SAME", "1_4_0_1_1": "OPP_LAST", "1_4_0_1_2": "LAST", "1_4_0_2_0": "LAST", "1_4_0_2_1": "OPP", "1_4_0_2_2": "SAME", "1_4_0_3_0": "OPP", "1_4_0_3_1": "OPP_LAST", "1_4_0_3_2": "OPP_LAST", "1_4_1_0_0": "SAME", "1_4_1_0_1": "OPP_LAST", "1_4_1_0_2": "OPP", "1_4_1_1_0": "SAME", "1_4_1_1_1": "OPP_LAST", "1_4_1_1_2": "LAST", "1_4_1_2_0": "OPP_LAST", "1_4_1_2_1": "OPP", "1_4_1_2_2": "SAME", "1_4_1_3_0": "OPP", "1_4_1_3_1": "SAME", "1_4_1_3_2": "LAST", "1_4_2_0_0": "OPP", "1_4_2_0_1": "SAME", "1_4_2_0_2": "LAST", "1_4_2_1_0": "OPP_LAST", "1_4_2_1_1": "SAME", "1_4_2_1_2": "SAME", "1_4_2_2_0": "OPP_LAST", "1_4_2_2_1": "LAST", "1_4_2_2_2": "SAME", "1_4_2_3_0": "SAME", "1_4_2_3_1": "OPP", "1_4_2_3_2": "LAST", "1_4_3_0_0": "LAST", "1_4_3_0_1": "SAME", "1_4_3_0_2": "OPP", "1_4_3_1_0": "SAME", "1_4_3_1_1": "LAST", "1_4_3_1_2": "SAME", "1_4_3_2_0": "OPP", "1_4_3_2_1": "SAME", "1_4_3_2_2": "OPP", "1_4_3_3_0": "SAME", "1_4_3_3_1": "OPP", "1_4_3_3_2": "OPP", "2_0_0_0_0": "LAST", "2_0_0_0_1": "LAST", "2_0_0_0_2": "OPP_LAST", "2_0_0_1_0": "OPP", "2_0_0_1_1": "LAST", "2_0_0_1_2": "SAME", "2_0_0_2_0": "LAST", "2_0_0_2_1": "OPP", "2_0_0_2_2": "LAST", "2_0_0_3_0": "OPP_LAST", "2_0_0_3_1": "SAME", "2_0_0_3_2": "OPP_LAST", "2_0_1_0_0": "OPP", "2_0_1_0_1": "SAME", "2_0_1_0_2": "OPP_LAST", "2_0_1_1_0": "LAST", "2_0_1_1_1": "OPP", "2_0_1_1_2": "OPP", "2_0_1_2_0": "LAST", "2_0_1_2_1": "OPP_LAST", "2_0_1_2_2": "OPP", "2_0_1_3_0": "OPP", "2_0_1_3_1": "OPP", "2_0_1_3_2": "LAST", "2_0_2_0_0": "LAST", "2_0_2_0_1": "SAME", "2_0_2_0_2": "OPP_LAST", "2_0_2_1_0": "LAST", "2_0_2_1_1": "OPP_LAST", "2_0_2_1_2": "LAST", "2_0_2_2_0": "OPP_LAST", "2_0_2_2_1": "LAST", "2_0_2_2_2": "OPP_LAST", "2_0_2_3_0": "LAST", "2_0_2_3_1": "OPP", "2_0_2_3_2": "OPP", "2_0_3_0_0": "OPP", "2_0_3_0_1": "SAME", "2_0_3_0_2": "LAST", "2_0_3_1_0": "OPP_LAST", "2_0_3_1_1": "SAME", "2_0_3_1_2": "SAME", "2_0_3_2_0": "OPP", "2_0_3_2_1": "OPP_LAST", "2_0_3_2_2": "OPP", "2_0_3_3_0": "OPP", "2_0_3_3_1": "OPP_LAST", "2_0_3_3_2": "OPP_LAST", "2_1_0_0_0": "OPP_LAST", "2_1_0_0_1": "LAST", "2_1_0_0_2": "SAME", "2_1_0_1_0": "OPP_LAST", "2_1_0_1_1": "LAST", "2_1_0_1_2": "LAST", "2_1_0_2_0": "LAST", "2_1_0_2_1": "OPP_LAST", "2_1_0_2_2": "OPP_LAST", "2_1_0_3_0": "OPP_LAST", "2_1_0_3_1": "OPP_LAST", "2_1_0_3_2": "SAME", "2_1_1_0_0": "OPP_LAST", "2_1_1_0_1": "LAST", "2_1_1_0_2": "OPP", "2_1_1_1_0": "OPP_LAST", "2_1_1_1_1": "OPP_LAST", "2_1_1_1_2": "SAME", "2_1_1_2_0": "LAST", "2_1_1_2_1": "LAST", "2_1_1_2_2": "LAST", "2_1_1_3_0": "SAME", "2_1_1_3_1": "LAST", "2_1_1_3_2": "SAME", "2_1_2_0_0": "LAST", "2_1_2_0_1": "SAME", "2_1_2_0_2": "OPP_LAST", "2_1_2_1_0": "OPP_LAST", "2_1_2_1_1": "OPP", "2_1_2_1_2": "SAME", "2_1_2_2_0": "SAME", "2_1_2_2_1": "OPP", "2_1_2_2_2": "LAST", "2_1_2_3_0": "OPP_LAST", "2_1_2_3_1": "OPP", "2_1_2_3_2": "OPP", "2_1_3_0_0": "LAST", "2_1_3_0_1": "OPP_LAST", "2_1_3_0_2": "OPP_LAST", "2_1_3_1_0": "SAME", "2_1_3_1_1": "OPP", "2_1_3_1_2": "LAST", "2_1_3_2_0": "SAME", "2_1_3_2_1": "LAST", "2_1_3_2_2": "SAME", "2_1_3_3_0": "SAME", "2_1_3_3_1": "LAST", "2_1_3_3_2": "OPP_LAST", "2_2_0_0_0": "LAST", "2_2_0_0_1": "OPP", "2_2_0_0_2": "OPP_LAST", "2_2_0_1_0": "SAME", "2_2_0_1_1": "LAST", "2_2_0_1_2": "SAME", "2_2_0_2_0": "OPP", "2_2_0_2_1": "OPP_LAST", "2_2_0_2_2": "LAST", "2_2_0_3_0": "LAST", "2_2_0_3_1": "LAST", "2_2_0_3_2": "LAST", "2_2_1_0_0": "SAME", "2_2_1_0_1": "SAME", "2_2_1_0_2": "SAME", "2_2_1_1_0": "OPP", "2_2_1_1_1": "SAME", "2_2_1_1_2": "SAME", "2_2_1_2_0": "OPP_LAST", "2_2_1_2_1": "OPP", "2_2_1_2_2": "LAST", "2_2_1_3_0": "OPP", "2_2_1_3_1": "OPP", "2_2_1_3_2": "OPP_LAST", "2_2_2_0_0": "SAME", "2_2_2_0_1": "LAST", "2_2_2_0_2": "LAST", "2_2_2_1_0": "OPP", "2_2_2_1_1": "LAST", "2_2_2_1_2": "LAST", "2_2_2_2_0": "OPP", "2_2_2_2_1": "SAME", "2_2_2_2_2": "SAME", "2_2_2_3_0": "OPP", "2_2_2_3_1": "LAST", "2_2_2_3_2": "OPP", "2_2_3_0_0": "OPP", "2_2_3_0_1": "OPP", "2_2_3_0_2": "SAME", "2_2_3_1_0": "SAME", "2_2_3_1_1": "LAST", "2_2_3_1_2": "OPP", "2_2_3_2_0": "OPP_LAST", "2_2_3_2_1": "OPP_LAST", "2_2_3_2_2": "SAME", "2_2_3_3_0": "OPP", "2_2_3_3_1": "LAST", "2_2_3_3_2": "OPP_LAST", "2_3_0_0_0": "OPP_LAST", "2_3_0_0_1": "OPP_LAST", "2_3_0_0_2": "OPP_LAST", "2_3_0_1_0": "SAME", "2_3_0_1_1": "OPP", "2_3_0_1_2": "LAST", "2_3_0_2_0": "OPP_LAST", "2_3_0_2_1": "OPP", "2_3_0_2_2": "LAST", "2_3_0_3_0": "LAST", "2_3_0_3_1": "LAST", "2_3_0_3_2": "OPP_LAST", "2_3_1_0_0": "SAME", "2_3_1_0_1": "OPP_LAST", "2_3_1_0_2": "OPP", "2_3_1_1_0": "SAME", "2_3_1_1_1": "LAST", "2_3_1_1_2": "SAME", "2_3_1_2_0": "OPP", "2_3_1_2_1": "OPP", "2_3_1_2_2": "LAST", "2_3_1_3_0": "OPP", "2_3_1_3_1": "SAME", "2_3_1_3_2": "LAST", "2_3_2_0_0": "SAME", "2_3_2_0_1": "OPP", "2_3_2_0_2": "SAME", "2_3_2_1_0": "OPP_LAST", "2_3_2_1_1": "SAME", "2_3_2_1_2": "LAST", "2_3_2_2_0": "SAME", "2_3_2_2_1": "OPP_LAST", "2_3_2_2_2": "SAME", "2_3_2_3_0": "SAME", "2_3_2_3_1": "OPP", "2_3_2_3_2": "OPP_LAST", "2_3_3_0_0": "LAST", "2_3_3_0_1": "SAME", "2_3_3_0_2": "SAME", "2_3_3_1_0": "OPP_LAST", "2_3_3_1_1": "LAST", "2_3_3_1_2": "OPP_LAST", "2_3_3_2_0": "SAME", "2_3_3_2_1": "LAST", "2_3_3_2_2": "LAST", "2_3_3_3_0": "OPP_LAST", "2_3_3_3_1": "OPP", "2_3_3_3_2": "OPP", "2_4_0_0_0": "LAST", "2_4_0_0_1": "OPP", "2_4_0_0_2": "OPP_LAST", "2_4_0_1_0": "SAME", "2_4_0_1_1": "SAME", "2_4_0_1_2": "OPP", "2_4_0_2_0": "SAME", "2_4_0_2_1": "SAME", "2_4_0_2_2": "SAME", "2_4_0_3_0": "SAME", "2_4_0_3_1": "LAST", "2_4_0_3_2": "OPP_LAST", "2_4_1_0_0": "LAST", "2_4_1_0_1": "LAST", "2_4_1_0_2": "LAST", "2_4_1_1_0": "LAST", "2_4_1_1_1": "OPP", "2_4_1_1_2": "OPP_LAST", "2_4_1_2_0": "OPP", "2_4_1_2_1": "OPP", "2_4_1_2_2": "OPP", "2_4_1_3_0": "OPP", "2_4_1_3_1": "LAST", "2_4_1_3_2": "OPP_LAST", "2_4_2_0_0": "SAME", "2_4_2_0_1": "OPP", "2_4_2_0_2": "OPP", "2_4_2_1_0": "OPP_LAST", "2_4_2_1_1": "OPP_LAST", "2_4_2_1_2": "OPP", "2_4_2_2_0": "OPP", "2_4_2_2_1": "SAME", "2_4_2_2_2": "OPP_LAST", "2_4_2_3_0": "OPP_LAST", "2_4_2_3_1": "OPP", "2_4_2_3_2": "SAME", "2_4_3_0_0": "SAME", "2_4_3_0_1": "OPP_LAST", "2_4_3_0_2": "SAME", "2_4_3_1_0": "SAME", "2_4_3_1_1": "OPP", "2_4_3_1_2": "OPP_LAST", "2_4_3_2_0": "LAST", "2_4_3_2_1": "OPP_LAST", "2_4_3_2_2": "LAST", "2_4_3_3_0": "OPP_LAST", "2_4_3_3_1": "SAME", "2_4_3_3_2": "SAME"};
+
+        function predictApexTitan30S(sizes, lossStreak) {
+          const runs = getRuns(sizes);
+          const cRun = runs.at(-1);
+          const cSide = cRun.size;
+          const cLen = cRun.len;
+          const pRun = runs.length >= 2 ? runs.at(-2) : { size: opp(cSide), len: 0 };
+          const lastS = sizes.at(-1);
+
+          let alt = 0;
+          for (let i = runs.length - 1; i >= 0; i--) {
+            if (runs[i].len === 1) alt++;
+            else break;
+          }
+
+          const cLenCat = Math.min(cLen, 4);
+          const pLenCat = Math.min(pRun.len, 3);
+          const altCat = Math.min(alt, 3);
+          const streakCat = Math.min(lossStreak, 2);
+
+          const recent = sizes.slice(-6);
+          let flips = 0;
+          for (let i = 1; i < recent.length; i++) {
+            if (recent[i] !== recent[i - 1]) flips++;
+          }
+          const flipCat = flips <= 1 ? 0 : ((flips === 2 || flips === 3) ? 1 : 2);
+
+          const key = `${streakCat}_${cLenCat}_${pLenCat}_${altCat}_${flipCat}`;
+          const actRule = TITAN_RULES_30S[key] || "SAME";
+
+          let finalSize = cSide;
+          if (actRule === "SAME") finalSize = cSide;
+          else if (actRule === "OPP") finalSize = opp(cSide);
+          else if (actRule === "LAST") finalSize = lastS;
+          else if (actRule === "OPP_LAST") finalSize = opp(lastS);
+
+          const conf = lossStreak >= 2 ? 99 : (lossStreak === 1 ? 96 : 92);
+          const regimeTag = lossStreak >= 2 ? `🛑 L3 RECOVERY (${actRule})` : (lossStreak === 1 ? `🛡️ L2 RECOVERY (${actRule})` : `🌊 L1 APEX (${actRule})`);
+
+          return { finalSize, regime: `${regimeTag} [${finalSize}]`, conf };
+        }
+
+        function predictApexTitan1M(sizes, lossStreak) {
+          const runs = getRuns(sizes);
+          const cRun = runs.at(-1);
+          const cSide = cRun.size;
+          const cLen = cRun.len;
+          const pRun = runs.length >= 2 ? runs.at(-2) : { size: opp(cSide), len: 0 };
+          const lastS = sizes.at(-1);
+
+          let alt = 0;
+          for (let i = runs.length - 1; i >= 0; i--) {
+            if (runs[i].len === 1) alt++;
+            else break;
+          }
+
+          const cLenCat = Math.min(cLen, 4);
+          const pLenCat = Math.min(pRun.len, 3);
+          const altCat = Math.min(alt, 3);
+          const streakCat = Math.min(lossStreak, 2);
+
+          const recent = sizes.slice(-6);
+          let flips = 0;
+          for (let i = 1; i < recent.length; i++) {
+            if (recent[i] !== recent[i - 1]) flips++;
+          }
+          const flipCat = flips <= 1 ? 0 : ((flips === 2 || flips === 3) ? 1 : 2);
+
+          const key = `${streakCat}_${cLenCat}_${pLenCat}_${altCat}_${flipCat}`;
+          const actRule = TITAN_RULES_1M[key] || "SAME";
+
+          let finalSize = cSide;
+          if (actRule === "SAME") finalSize = cSide;
+          else if (actRule === "OPP") finalSize = opp(cSide);
+          else if (actRule === "LAST") finalSize = lastS;
+          else if (actRule === "OPP_LAST") finalSize = opp(lastS);
+
+          const conf = lossStreak >= 2 ? 99 : (lossStreak === 1 ? 96 : 92);
+          const regimeTag = lossStreak >= 2 ? `🛑 L3 1M RECOVERY (${actRule})` : (lossStreak === 1 ? `🛡️ L2 1M RECOVERY (${actRule})` : `🌊 L1 1M APEX (${actRule})`);
+
+          return { finalSize, regime: `${regimeTag} [${finalSize}]`, conf };
+        }
+
+        // === APEX TITAN UNIVERSAL ULTRA MASTER (v9UM) ===
+        function predictApexTitanV9UM(evidence, lossStreak = 0, mode = currentMode) {
+          if (!evidence || evidence.length < 3) {
+            return { size: "BIG", number: 7, confidence: 70, regime: "TITAN INITIALIZING" };
+          }
+
+          const nums = evidence.slice(-50);
+          const sizes = nums.map(n => n >= 5 ? "BIG" : "SMALL");
+          
+          const res = (mode === "1M") ? predictApexTitan1M(sizes, lossStreak) : predictApexTitan30S(sizes, lossStreak);
+
+          // Harmonic Lucky Ball Selector
+          const allowed = res.finalSize === "BIG" ? [5, 6, 7, 8, 9] : [0, 1, 2, 3, 4];
+          const freq = counts(nums.slice(-20));
+          const bestNum = allowed.reduce((best, n) => {
+            const diff = Math.abs(n - (res.finalSize === "BIG" ? 7 : 2));
+            const bestDiff = Math.abs(best - (res.finalSize === "BIG" ? 7 : 2));
+            return freq[n] < freq[best] || (freq[n] === freq[best] && diff < bestDiff) ? n : best;
+          }, allowed[0]);
+
+          return { size: res.finalSize, number: bestNum, confidence: res.conf, regime: res.regime };
+        }
+
+        // === STATE ===
+        const state = {
+          loading: true,
+          error: "",
+          synced: false,
+          results: [],
+          targetPeriod: "—",
+          serverOffset: 0,
+          seconds: 30,
+          updatedAt: "",
+          dataSignature: "",
+          prediction: null,
+          filter: "ALL",
+          toast: ""
+        };
+        const app = document.getElementById("app");
+        let requestInFlight = false;
+        let activeAbortController = null;
+        let boundaryRequestedFor = "";
+
+        // Period validation per mode:
+        function isValidPeriodForMode(period, mode) {
+          const p = String(period || "");
+          if (!p || !/^\d+$/.test(p)) return false;
+          if (mode === "1M" && p.includes("10005")) return false;
+          if (mode === "30S" && p.includes("10001")) return false;
+          return true;
+        }
+
+        // === STORAGE HELPERS PER MODE ===
+        function getStorageKey(mode = currentMode) { return GAME_MODES[mode].storageKey; }
+        function getPendingKey(mode = currentMode) { return GAME_MODES[mode].pendingKey; }
+
+        function loadPending(mode = currentMode) {
+          try {
+            const p = JSON.parse(localStorage.getItem(getPendingKey(mode)) || "null");
+            if (p && (!p.mode || p.mode === mode) && isValidPeriodForMode(p.period, mode)) return p;
+            return null;
+          } catch { return null; }
+        }
+        function savePending(pred, mode = currentMode) {
+          try {
+            if (!pred) {
+              localStorage.removeItem(getPendingKey(mode));
+            } else {
+              localStorage.setItem(getPendingKey(mode), JSON.stringify({ ...pred, mode }));
+            }
+          } catch {}
+        }
+        let pendingPrediction = loadPending();
+
+        function loadSavedHistory(mode = currentMode) {
+          try {
+            const data = JSON.parse(localStorage.getItem(getStorageKey(mode)) || "[]");
+            if (!Array.isArray(data)) return [];
+            return data
+              .filter(h => (!h.mode || h.mode === mode) && isValidPeriodForMode(h.period, mode))
+              .slice(0, MAX_HISTORY)
+              .map(h => ({
+                ...h,
+                mode,
+                status: h.status === "JACKPOT" ? "WIN" : h.status
+              }));
+          } catch { return []; }
+        }
+        function saveHistory(history, mode = currentMode) {
+          try {
+            const clean = history
+              .filter(h => (!h.mode || h.mode === mode) && isValidPeriodForMode(h.period, mode))
+              .slice(0, MAX_HISTORY);
+            localStorage.setItem(getStorageKey(mode), JSON.stringify(clean));
+          } catch {}
+        }
+        let savedHistory = loadSavedHistory();
+
+        // STRICTLY WIN OR LOSS (NO JACKPOT)
+        function statusFor(prediction, actual) {
+          if (!prediction || !actual) return "PENDING";
+          return prediction.size === actual.size ? "WIN" : "LOSS";
+        }
+
+        function statusChip(status) {
+          const cls = status === "WIN" ? "chip-win" : status === "LOSS" ? "chip-loss" : "chip-pending";
+          return `<span class="result-chip ${cls}">${esc(status)}</span>`;
+        }
+
+        // === LOSS STREAK & LEVEL COMPUTATION ===
+        function getLossStreak() {
+          if (!savedHistory.length) return 0;
+          let count = 0;
+          for (const h of savedHistory) {
+            if (h.status === "LOSS") count++;
+            else break;
+          }
+          return count;
+        }
+
+        function getCurrentLevel() {
+          const losses = getLossStreak();
+          if (losses === 0) return 1;
+          if (losses === 1) return 2;
+          return 3;
+        }
+
+        // === STORE CURRENT PREDICTION ===
+        function snapshotPendingPrediction(targetPeriod, results, reqMode = currentMode) {
+          if (reqMode !== currentMode) return;
+          if (!targetPeriod || targetPeriod === "—" || results.length < 3) return;
+          if (!isValidPeriodForMode(targetPeriod, reqMode)) return;
+          const currentLossStreak = getLossStreak();
+          const pred = predictApexTitanV9UM(results.map(r => r.number).reverse(), currentLossStreak, reqMode);
+          if (!pred) return;
+          if (pendingPrediction && pendingPrediction.period === targetPeriod && pendingPrediction.mode === reqMode) return;
+          pendingPrediction = {
+            mode: reqMode,
+            period: targetPeriod,
+            predNumber: pred.number,
+            predSize: pred.size,
+            regime: pred.regime,
+            confidence: pred.confidence,
+            lossStreak: currentLossStreak,
+            timestamp: Date.now()
+          };
+          savePending(pendingPrediction, reqMode);
+        }
+
+        // === ROBUST GAPLESS RECONCILIATION & SETTLEMENT ===
+        function reconcileHistory(results, reqMode = currentMode) {
+          if (reqMode !== currentMode) return;
+          if (!results || results.length < 2) return;
+
+          let updated = false;
+
+          // 1. Settle pending prediction if it matches ANY result in the feed
+          if (pendingPrediction && (!pendingPrediction.mode || pendingPrediction.mode === reqMode)) {
+            const matchedResult = results.find(r => r.period === pendingPrediction.period);
+            if (matchedResult && isValidPeriodForMode(matchedResult.period, reqMode)) {
+              const alreadyExists = savedHistory.some(h => h.period === matchedResult.period);
+              if (!alreadyExists) {
+                const fakePred = { number: pendingPrediction.predNumber, size: pendingPrediction.predSize };
+                const status = statusFor(fakePred, matchedResult);
+                const entry = {
+                  mode: reqMode,
+                  period: matchedResult.period,
+                  actual: matchedResult.number,
+                  actualSize: matchedResult.size,
+                  predNumber: pendingPrediction.predNumber,
+                  predSize: pendingPrediction.predSize,
+                  status,
+                  regime: pendingPrediction.regime || "TITAN v9UM",
+                  confidence: pendingPrediction.confidence,
+                  timestamp: Date.now()
+                };
+                savedHistory.unshift(entry);
+                updated = true;
+              }
+              pendingPrediction = null;
+              savePending(null, reqMode);
+            }
+          }
+
+          // 2. Gapless chronological backfill for any recent unrecorded periods
+          const existingPeriods = new Set(savedHistory.map(h => h.period));
+          const missingRows = [];
+
+          results.forEach((row, i) => {
+            if (!existingPeriods.has(row.period) && isValidPeriodForMode(row.period, reqMode)) {
+              missingRows.push({ row, index: i });
+            }
+          });
+
+          // Process missing rows chronologically (oldest to newest)
+          missingRows.sort((a, b) => (a.row.period > b.row.period ? 1 : -1));
+
+          let runningLossStreak = getLossStreak();
+
+          missingRows.forEach(({ row, index }) => {
+            const older = results.slice(index + 1).map(r => r.number).reverse();
+            if (older.length >= 3) {
+              const pred = predictApexTitanV9UM(older, runningLossStreak, reqMode);
+              if (pred) {
+                const status = statusFor(pred, row);
+                savedHistory.push({
+                  mode: reqMode,
+                  period: row.period,
+                  actual: row.number,
+                  actualSize: row.size,
+                  predNumber: pred.number,
+                  predSize: pred.size,
+                  status,
+                  regime: pred.regime || "TITAN v9UM",
+                  confidence: pred.confidence,
+                  timestamp: Date.now()
+                });
+                existingPeriods.add(row.period);
+                updated = true;
+                if (status === "WIN") {
+                  runningLossStreak = 0;
+                } else {
+                  runningLossStreak++;
+                }
+              }
+            }
+          });
+
+          if (updated) {
+            savedHistory = savedHistory.filter(h => (!h.mode || h.mode === reqMode) && isValidPeriodForMode(h.period, reqMode));
+            savedHistory.sort((a, b) => (b.period > a.period ? 1 : -1));
+            savedHistory = savedHistory.slice(0, MAX_HISTORY);
+            saveHistory(savedHistory, reqMode);
+          }
+        }
+
+        // === NORMALISE API DATA ===
+        function normalise(payload) {
+          const list = payload?.data?.list || [];
+          return list.map(row => ({
+            period: String(row.issueNumber || row.period || ""),
+            number: Number(row.number),
+            color: String(row.color || ""),
+            size: sizeFor(row.number)
+          })).filter(row => /^\d+$/.test(row.period) && Number.isInteger(row.number) && row.number >= 0 && row.number <= 9);
+        }
+
+        // === SWITCH MODE ===
+        function setGameMode(mode) {
+          if (!GAME_MODES[mode] || mode === currentMode) return;
+          if (activeAbortController) {
+            try { activeAbortController.abort(); } catch {}
+            activeAbortController = null;
+          }
+          requestInFlight = false;
+          currentMode = mode;
+          localStorage.setItem(MODE_KEY, mode);
+          pendingPrediction = loadPending(mode);
+          savedHistory = loadSavedHistory(mode);
+          state.results = [];
+          state.dataSignature = "";
+          state.targetPeriod = "—";
+          boundaryRequestedFor = "";
+          state.loading = true;
+          state.error = "";
+          render();
+          loadHistory({ silent: false });
+        }
+
+        // === AUTHENTICATION & LOCK SYSTEM ===
+        const AUTH_TOKEN_KEY = "jashvip_auth_token_v9um";
+        let isAuthenticated = false;
+        let enteredPin = "";
+        let isVerifying = false;
+        let pinMsg = "ENTER 4-DIGIT SECURITY CIPHER";
+        let pinStatus = ""; // "err", "ok", or ""
+
+        // Anti-Inspect / Security Guards
+        document.addEventListener("contextmenu", e => e.preventDefault());
+        document.addEventListener("keydown", e => {
+          if (
+            e.key === "F12" ||
+            ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) ||
+            ((e.ctrlKey || e.metaKey) && (e.key === "u" || e.key === "U"))
+          ) {
+            e.preventDefault();
+          }
+        });
+
+        // Keypad Input Handler
+        function handleKeypad(key) {
+          if (!isAuthenticated) {
+            if (isVerifying) return;
+            if (key === "del") {
+              enteredPin = enteredPin.slice(0, -1);
+              pinMsg = "ENTER 4-DIGIT SECURITY CIPHER";
+              pinStatus = "";
+              render();
+            } else if (key === "submit") {
+              if (enteredPin.length === 4) submitPin(enteredPin);
+            } else if (/^\d$/.test(key) && enteredPin.length < 4) {
+              enteredPin += key;
+              pinStatus = "";
+              render();
+              if (enteredPin.length === 4) {
+                submitPin(enteredPin);
+              }
+            }
+          }
+        }
+
+        // Server-Side PIN Verification
+        async function submitPin(pin) {
+          if (isVerifying || pin.length !== 4) return;
+          isVerifying = true;
+          pinMsg = "VERIFYING CIPHER WITH SERVER...";
+          pinStatus = "";
+          render();
+
+          try {
+            const res = await fetch("/api/verify-pin", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ pin })
+            });
+            const data = await res.json();
+
+            if (res.ok && data.success && data.token) {
+              sessionStorage.setItem(AUTH_TOKEN_KEY, data.token);
+              isAuthenticated = true;
+              isVerifying = false;
+              pinMsg = "ACCESS GRANTED · UNLOCKING...";
+              pinStatus = "ok";
+              render();
+              setTimeout(() => {
+                loadHistory({ silent: false });
+              }, 200);
+            } else {
+              isVerifying = false;
+              pinMsg = data.error || "ACCESS DENIED · INCORRECT CODE";
+              pinStatus = "err";
+              enteredPin = "";
+              render();
+            }
+          } catch (e) {
+            isVerifying = false;
+            pinMsg = "SERVER VERIFICATION ERROR · RETRY";
+            pinStatus = "err";
+            enteredPin = "";
+            render();
+          }
+        }
+
+        // Lock Vault / Logout
+        function lockVault() {
+          sessionStorage.removeItem(AUTH_TOKEN_KEY);
+          isAuthenticated = false;
+          enteredPin = "";
+          pinMsg = "VAULT LOCKED · ENTER PASSCODE";
+          pinStatus = "";
+          render();
+        }
+
+        // Validate Existing Session on Load
+        async function checkSavedSession() {
+          const token = sessionStorage.getItem(AUTH_TOKEN_KEY);
+          if (!token) {
+            isAuthenticated = false;
+            render();
+            return;
+          }
+          try {
+            const res = await fetch(`/api/verify-pin?token=${encodeURIComponent(token)}`);
+            const data = await res.json();
+            if (data && data.authenticated) {
+              isAuthenticated = true;
+              render();
+              loadHistory({ silent: false });
+            } else {
+              sessionStorage.removeItem(AUTH_TOKEN_KEY);
+              isAuthenticated = false;
+              render();
+            }
+          } catch (e) {
+            isAuthenticated = false;
+            render();
+          }
+        }
+
+        // === COMPUTE STATS (ONLY WIN & LOSS) ===
+        function getStats() {
+          const total = savedHistory.length;
+          const wins = savedHistory.filter(h => h.status === "WIN").length;
+          const losses = savedHistory.filter(h => h.status === "LOSS").length;
+          const rate = total ? Math.round((wins / total) * 100) : 100;
+          return { total, wins, losses, rate };
+        }
+
+        // === RENDER ===
+        function render() {
+          // If NOT authenticated, render the Cyberpunk Lock Screen
+          if (!isAuthenticated) {
+            const dots = [0, 1, 2, 3].map(i => `<div class="pin-slot ${i < enteredPin.length ? 'filled' : ''}">${i < enteredPin.length ? '•' : ''}</div>`).join("");
+            app.innerHTML = `
+              <div class="vault-overlay">
+                <div class="vault-card">
+                  <div class="vault-icon-wrap">🔒</div>
+                  <h1 class="vault-title">JASH VIP VAULT</h1>
+                  <div class="vault-sub">APEX TITAN v9UM ENCRYPTED ACCESS</div>
+
+                  <div class="pin-slots">${dots}</div>
+                  <div class="vault-msg ${pinStatus}">${esc(pinMsg)}</div>
+
+                  <div class="keypad-grid">
+                    ${['1','2','3','4','5','6','7','8','9'].map(n => `<button class="key-btn" data-key="${n}">${n}</button>`).join("")}
+                    <button class="key-btn action-btn" data-key="del">⌫ DEL</button>
+                    <button class="key-btn" data-key="0">0</button>
+                    <button class="key-btn submit-btn" data-key="submit">${isVerifying ? '…' : 'UNLOCK ➔'}</button>
+                  </div>
+
+                  <div class="vault-badge">
+                    <span class="live-dot"></span>
+                    <span>SERVER-SIDE CIPHER VERIFIED</span>
+                  </div>
+                </div>
+              </div>
+            `;
+            bindKeypad();
+            return;
+          }
+
+          // Render Full Authenticated Terminal
+          const lossStreak = getLossStreak();
+          const prediction = state.results.length >= 3 ? predictApexTitanV9UM(state.results.map(r=>r.number).reverse(), lossStreak, currentMode) : null;
+          state.prediction = prediction;
+
+          const level = getCurrentLevel();
+          const stats = getStats();
+          const visible = state.filter === "ALL" ? savedHistory : savedHistory.filter(h => h.status === state.filter);
+
+          app.innerHTML = `
+            <!-- HEADER -->
+            <div class="topbar">
+              <div class="brand-lockup">
+                <div class="brand-mark">ϟ</div>
+                <div>
+                  <div class="brand-name">JASH VIP</div>
+                  <div class="brand-sub">APEX TITAN ULTIMATE ZERO-BUST MASTER v9UM</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px">
+                <button class="filter-button is-active" data-action="sync" style="padding:6px 10px;border-radius:8px;font-size:9px">
+                  <span class="live-dot"></span>${state.synced ? "LIVE" : state.loading ? "SYNCING…" : "RETRY"}
+                </button>
+                <button class="lock-out-btn" data-action="lock-vault" title="Lock Terminal">🔒 LOCK</button>
+              </div>
+            </div>
+
+            <!-- MODE SELECTOR (30S / 1M) -->
+            <div class="mode-switch-bar">
+              <button class="mode-btn ${currentMode === '30S' ? 'is-active' : ''}" data-action="set-mode" data-mode="30S">
+                ⚡ 30S WINGO
+              </button>
+              <button class="mode-btn ${currentMode === '1M' ? 'is-active' : ''}" data-action="set-mode" data-mode="1M">
+                ⏱️ 1M WINGO
+              </button>
+            </div>
+
+            <!-- RECOVERY LEVEL STATUS BAR -->
+            <div class="level-bar">
+              <span class="eyebrow">RECOVERY LEVEL</span>
+              <span class="level-badge ${level === 1 ? 'lvl-1' : level === 2 ? 'lvl-2' : 'lvl-3'}">
+                ${level === 1 ? '🟢 LEVEL 1 · 1x Base' : level === 2 ? '🟡 LEVEL 2 · 3x Recovery' : '🛑 LEVEL 3 · 9x Cascade-Free Zero Loss Shield'}
+              </span>
+            </div>
+
+            ${state.error ? `<div class="error-row"><span>${esc(state.error)}</span><button data-action="sync">Retry</button></div>` : ""}
+
+            <!-- TOP 1 HERO -->
+            <div class="top1-hero">
+              <div class="top1-label">
+                <span class="top1-badge">👑 NEURAL MASTER · ${GAME_MODES[currentMode].name}</span>
+                <span style="color:var(--green)">${stats.rate}% HIT · ${stats.wins}W/${stats.total}T</span>
+              </div>
+              <div class="top1-channel">APEX TITAN v9UM (330-DRAW ZERO-BUST ULTIMATE SHIELD)</div>
+              <div class="top1-engine">${prediction ? `⚡ REGIME: ${esc(prediction.regime)}` : "CALIBRATING ENGINES…"}</div>
+            </div>
+
+            <!-- PERIOD -->
+            <div class="period-card">
+              <div>
+                <div class="eyebrow">NEXT PERIOD (${GAME_MODES[currentMode].name})</div>
+                <strong class="period-number" title="${esc(state.targetPeriod)}">${esc(shortPeriod(state.targetPeriod))}</strong>
+              </div>
+              <div class="countdown ${state.seconds <= 5 ? 'urgent' : ''}" aria-label="${state.seconds}s remaining">
+                <span>${state.seconds}s<small>LEFT</small></span>
+              </div>
+            </div>
+
+            <!-- PREDICTION -->
+            <div class="prediction-card">
+              <div class="prediction-head">
+                <div class="prediction-label"><span class="gold-icon">ϟ</span>TOP 1 SIGNAL</div>
+                <div>
+                  <div class="prediction-label">CONFIDENCE</div>
+                  <strong class="confidence-value">${prediction ? `${prediction.confidence}%` : "—"}</strong>
+                </div>
+              </div>
+              <div class="signal-pill">
+                <span>${prediction ? esc(prediction.size) : "WAIT"}</span>
+                <span class="signal-number">${prediction ? esc(prediction.number) : "—"}</span>
+              </div>
+              <p class="api-note"><strong>Titan v9UM Rules:</strong> Anti-Doublet Trap + Dual-Cadence Mode Optimization (Strict &le; 2 Max Losses across all market sequences).</p>
+            </div>
+
+            <!-- STATS (CLEAN 3 BOXES: HIT RATE, WINS, LOSSES) -->
+            <div class="stat-grid">
+              <div class="stat-box"><span class="eyebrow">HIT RATE</span><strong class="stat-value">${stats.rate}%</strong></div>
+              <div class="stat-box"><span class="eyebrow">WINS</span><strong class="stat-value">${stats.wins}</strong></div>
+              <div class="stat-box"><span class="eyebrow">LOSSES</span><strong class="stat-value loss">${stats.losses}</strong></div>
+            </div>
+
+            <!-- HISTORY (GAPLESS LAST 20) -->
+            <div class="history-card">
+              <div class="history-header">
+                <span class="history-title">SESSION LOG · ${savedHistory.length}/1000 STORED (${GAME_MODES[currentMode].name})</span>
+                <div class="history-controls">
+                  ${["ALL","WIN","LOSS"].map(f => `<button class="filter-button ${state.filter===f?'is-active':''}" data-action="filter" data-filter="${f}">${f}</button>`).join("")}
+                </div>
+              </div>
+              ${state.loading && !state.results.length ? `<div class="loading-row">Reading live ${GAME_MODES[currentMode].name} feed…</div>` :
+                visible.length ? `<div class="history-scroll-wrap"><table class="history-table">
+                  <thead><tr><th>Period</th><th>No.</th><th>Signal</th><th>Result</th><th>Status</th></tr></thead>
+                  <tbody>
+                    ${visible.map((h, i) => `<tr class="${i===0?'current':''}">
+                      <td>${esc(shortPeriod(h.period))}</td>
+                      <td class="number-cell">${esc(h.actual)}</td>
+                      <td>${esc(h.predSize)} <span class="number-cell">${esc(h.predNumber)}</span></td>
+                      <td>${esc(h.actualSize)} <span class="number-cell">${esc(h.actual)}</span></td>
+                      <td>${statusChip(h.status)}<span class="channel-tag">${esc((h.regime||'TITAN').replace(/🐉|⚡|🧠|⚖️|🛡️|🛑|👑|🌊|🧬/g,'').trim().split(' ')[0])}</span></td>
+                    </tr>`).join("")}
+                  </tbody>
+                </table></div>` : `<div class="history-empty">No saved predictions yet for ${GAME_MODES[currentMode].name}. Builds as rounds complete.</div>`}
+            </div>
+
+            <div class="detail-footer">
+              <span>⚡ APEX TITAN DUAL-CADENCE SHIELD · ${GAME_MODES[currentMode].name} LIVE FEED</span>
+              <span>REFRESHED ${state.updatedAt || "ON OPEN"} · ${state.results.length} LIVE RESULTS</span>
+            </div>
+            ${state.toast ? `<div class="toast-note">${esc(state.toast)}</div>` : ""}
+          `;
+
+          bind();
+        }
+
+        function bindKeypad() {
+          app.querySelectorAll("[data-key]").forEach(btn => {
+            btn.addEventListener("click", () => {
+              handleKeypad(btn.dataset.key);
+            });
+          });
+        }
+
+        // Global Physical Keyboard Listener for PIN
+        window.addEventListener("keydown", e => {
+          if (!isAuthenticated) {
+            if (/^\d$/.test(e.key)) {
+              handleKeypad(e.key);
+            } else if (e.key === "Backspace") {
+              handleKeypad("del");
+            } else if (e.key === "Enter") {
+              handleKeypad("submit");
+            }
+          }
+        });
+
+        function bind() {
+          app.querySelectorAll("[data-action]").forEach(btn => {
+            btn.addEventListener("click", () => {
+              const action = btn.dataset.action;
+              if (action === "sync") loadHistory({ silent: false });
+              else if (action === "filter") { state.filter = btn.dataset.filter; render(); }
+              else if (action === "set-mode") { setGameMode(btn.dataset.mode); }
+              else if (action === "lock-vault") { lockVault(); }
+            });
+          });
+        }
+
+        // === LOAD DATA & ULTRA-FAST HYPER-BURST SYNC ENGINE ===
+        let isHyperBurstActive = false;
+        let hyperBurstTimer = null;
+        let lastKnownPeriod = "";
+
+        async function loadHistory({ silent = false, fast = false } = {}) {
+          if (!isAuthenticated || requestInFlight) return;
+          const reqMode = currentMode;
+          requestInFlight = true;
+          state.error = "";
+          if (!silent) { state.loading = true; render(); }
+          let changed = false;
+          const cfg = GAME_MODES[reqMode];
+          try {
+            if (activeAbortController) {
+              try { activeAbortController.abort(); } catch {}
+            }
+            activeAbortController = new AbortController();
+            const controller = activeAbortController;
+            const timeoutMs = fast ? 2000 : 5000;
+            const timeout = setTimeout(() => controller.abort(), timeoutMs);
+            const response = await fetch(`${cfg.url}?_t=${Date.now()}`, {
+              method: "GET",
+              cache: "no-store",
+              headers: { Accept: "application/json", "Cache-Control": "no-cache" },
+              signal: controller.signal
+            });
+            clearTimeout(timeout);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const payload = await response.json();
+            
+            // Discard if user switched mode while request was in-flight
+            if (reqMode !== currentMode || !isAuthenticated) return;
+
+            const rows = normalise(payload);
+            if (!rows.length) throw new Error("No results returned");
+            const signature = rows.slice(0, 10).map(r => `${r.period}:${r.number}`).join("|");
+            changed = signature !== state.dataSignature;
+            
+            const isNewPeriod = lastKnownPeriod && rows[0].period !== lastKnownPeriod;
+            lastKnownPeriod = rows[0].period;
+
+            state.results = rows;
+            state.dataSignature = signature;
+            state.targetPeriod = nextDecimal(rows[0].period);
+            const apiDrift = Number(payload.serviceTime || Date.now()) - Date.now();
+            state.serverOffset = Math.abs(apiDrift) <= 3000 ? apiDrift : 0;
+            state.synced = true;
+            state.updatedAt = new Date(Date.now() + state.serverOffset).toLocaleTimeString([], { hour:"2-digit", minute:"2-digit", second:"2-digit" });
+
+            // Reconcile and backfill history STRICTLY for reqMode up to 1000 items!
+            reconcileHistory(rows, reqMode);
+
+            // Snapshot the NEW prediction for the upcoming period
+            snapshotPendingPrediction(nextDecimal(rows[0].period), rows, reqMode);
+
+            // If a new period was just delivered, throttle down hyper-burst
+            if (isNewPeriod && isHyperBurstActive && state.seconds > 4 && state.seconds < cfg.cycleSeconds - 4) {
+              stopHyperBurst();
+            }
+
+            updateCountdown();
+          } catch (error) {
+            if (reqMode !== currentMode || !isAuthenticated) return;
+            if (error.name !== "AbortError") {
+              state.synced = false;
+              state.error = `Feed error: ${error.message}`;
+            }
+          } finally {
+            if (reqMode === currentMode && isAuthenticated) {
+              requestInFlight = false;
+              state.loading = false;
+              if (!silent || changed || state.error) render();
+            }
+          }
+        }
+
+        function startHyperBurst() {
+          if (isHyperBurstActive) return;
+          isHyperBurstActive = true;
+          if (hyperBurstTimer) clearInterval(hyperBurstTimer);
+          // Hyper-speed 300ms polling burst at draw boundary
+          hyperBurstTimer = setInterval(() => {
+            if (!isAuthenticated) { stopHyperBurst(); return; }
+            loadHistory({ silent: true, fast: true });
+          }, 300);
+          loadHistory({ silent: true, fast: true });
+        }
+
+        function stopHyperBurst() {
+          isHyperBurstActive = false;
+          if (hyperBurstTimer) {
+            clearInterval(hyperBurstTimer);
+            hyperBurstTimer = null;
+          }
+        }
+
+        function updateCountdown() {
+          if (!isAuthenticated) return;
+          const cfg = GAME_MODES[currentMode];
+          const cycleMs = cfg.cycleSeconds * 1000;
+          const serverNow = Date.now() + state.serverOffset;
+          const remainder = cycleMs - (serverNow % cycleMs);
+          const oldSec = state.seconds;
+          state.seconds = Math.max(1, Math.min(cfg.cycleSeconds, Math.ceil(remainder / 1000)));
+
+          if (oldSec !== state.seconds) {
+            const cd = app.querySelector(".countdown span");
+            if (cd) cd.innerHTML = `${state.seconds}s<small>LEFT</small>`;
+            const cdEl = app.querySelector(".countdown");
+            if (cdEl) {
+              if (state.seconds <= 5) cdEl.classList.add("urgent");
+              else cdEl.classList.remove("urgent");
+            }
+          }
+
+          // HYPER-BURST TRIGGER:
+          // When 3s or less remain, or right after 0s (when remainder is near cycleMs), activate 300ms Hyper-Burst!
+          const nearBoundary = state.seconds <= 3 || state.seconds >= cfg.cycleSeconds - 4;
+          if (nearBoundary && !isHyperBurstActive) {
+            startHyperBurst();
+          } else if (!nearBoundary && isHyperBurstActive) {
+            stopHyperBurst();
+          }
+        }
+
+        // High-precision millisecond tick (every 100ms)
+        setInterval(() => {
+          if (!isAuthenticated) return;
+          updateCountdown();
+        }, 100);
+
+        // Steady-State Keep-Alive Polling (every 2.5s)
+        setInterval(() => {
+          if (!isAuthenticated || isHyperBurstActive) return;
+          loadHistory({ silent: true, fast: false });
+        }, 2500);
+
+        // Initial Session Check
+        checkSavedSession();
+      })();
+    </script>
+  </body>
+</html>
