@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         JASH VIP v20.0 Ultimate (Direct /pred Live-Signal Follower)
+// @name         JASH VIP v21.0 Ultimate (Direct /pred Live-Signal Follower)
 // @namespace    http://tampermonkey.net/
-// @version      20.0
-// @description  👑 JASH VIP · WinGo 30S | TITAN SUPREME v20.0 (100% STRICT /pred WEB SIGNAL FOLLOWER) + Custom Progression (2->5->10) + No Loss Limit
+// @version      21.0
+// @description  👑 JASH VIP · WinGo 30S | TITAN SUPREME v21.0 (100% STRICT /pred WEB SIGNAL FOLLOWER) + Custom Progression (2->5->10) + No Loss Limit
 // @match        *://*.in999vv.com/*
 // @match        *://*.in999*.com/*
 // @match        *://*.us3b7o.com/*
@@ -17,7 +17,7 @@
   if (window.__JASH_VIP_BOT_LOCK__) return;
   window.__JASH_VIP_BOT_LOCK__ = true;
 
-  console.log("%c👑 JASH VIP · WinGo 30S [TITAN SUPREME v20.0 DIRECT /PRED WEB SIGNAL FOLLOWER] ACTIVE", "background:linear-gradient(135deg,#00f5a0,#00d9f5,#7c3aed);color:#000;font-size:14px;font-weight:900;padding:6px 14px;border-radius:8px;box-shadow:0 0 20px rgba(0,245,160,0.5);");
+  console.log("%c👑 JASH VIP · WinGo 30S [TITAN SUPREME v21.0 DIRECT /PRED WEB SIGNAL FOLLOWER] ACTIVE", "background:linear-gradient(135deg,#00f5a0,#00d9f5,#7c3aed);color:#000;font-size:14px;font-weight:900;padding:6px 14px;border-radius:8px;box-shadow:0 0 20px rgba(0,245,160,0.5);");
 
   // ── 1. BULLETPROOF WAKE LOCK & KEEP-ALIVE ────────────────
   let wakeLockObj = null;
@@ -290,11 +290,15 @@
 
 
 
-  function getMergedResults() {
+    function getMergedResults() {
     const map = new Map();
-    [...LIVE_API_HISTORY, ...DOM_SCRAPED_HISTORY, ...LOCAL_DRAW_BUFFER].forEach(item => {
-      if (item && item.period && !map.has(item.period)) {
-        map.set(item.period, item);
+    [...LIVE_API_HISTORY, ...LOCAL_DRAW_BUFFER, ...DOM_SCRAPED_HISTORY].forEach(item => {
+      if (item && item.period && /^2026\d{10,16}$/.test(String(item.period).trim()) && Number.isInteger(item.number)) {
+        map.set(String(item.period).trim(), {
+          period: String(item.period).trim(),
+          number: parseInt(item.number),
+          size: sizeFor(parseInt(item.number))
+        });
       }
     });
     return Array.from(map.values()).sort((a, b) => {
@@ -794,13 +798,13 @@
         }
       </style>
       <div class="j-row" id="jash-drag-hdr" style="cursor:move;">
-        <span style="font-weight:900;font-size:12px;background:linear-gradient(90deg,#00f5a0,#00d9f5,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">👑 JASH VIP · TITAN SUPREME v20.0</span>
+        <span style="font-weight:900;font-size:12px;background:linear-gradient(90deg,#00f5a0,#00d9f5,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">👑 JASH VIP · TITAN SUPREME v21.0</span>
         <span id="j-timer" style="color:#00f5a0;font-weight:bold;font-size:13px;">--s</span>
       </div>
 
       <button class="j-mode-switch" id="j-mode-btn">⏱️ MODE: ${GAME_MODE === '30S' ? '30 SEC (FAST)' : '1 MIN (STANDARD)'}</button>
 
-      <div id="j-status-badge" style="background:rgba(0,245,160,0.12);border:1px solid #00f5a0;border-radius:8px;padding:5px;text-align:center;margin:4px 0 6px;font-weight:900;color:#00f5a0;font-size:10.5px;">🎯 /PRED LIVE SIGNAL FOLLOWER v20.0</div>
+      <div id="j-status-badge" style="background:rgba(0,245,160,0.12);border:1px solid #00f5a0;border-radius:8px;padding:5px;text-align:center;margin:4px 0 6px;font-weight:900;color:#00f5a0;font-size:10.5px;">🎯 /PRED LIVE SIGNAL FOLLOWER v21.0</div>
 
       <div class="j-row">
         <span class="j-lbl">Base Bet (₹):</span>
