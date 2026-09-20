@@ -533,6 +533,7 @@
           else if (actRule === "OPP") finalSize = opp(cSide);
           else if (actRule === "LAST") finalSize = lastS;
           else if (actRule === "OPP_LAST") finalSize = opp(lastS);
+          else if (actRule === "BIG" || actRule === "SMALL") finalSize = actRule;
 
           const conf = lossStreak >= 2 ? 99 : (lossStreak === 1 ? 96 : 92);
           const regimeTag = lossStreak >= 2 ? `🛑 L3 RECOVERY (${actRule})` : (lossStreak === 1 ? `🛡️ L2 RECOVERY (${actRule})` : `🌊 L1 APEX (${actRule})`);
@@ -559,6 +560,7 @@
           else if (actRule === "OPP") finalSize = opp(cSide);
           else if (actRule === "LAST") finalSize = lastS;
           else if (actRule === "OPP_LAST") finalSize = opp(lastS);
+          else if (actRule === "BIG" || actRule === "SMALL") finalSize = actRule;
 
           const conf = lossStreak >= 2 ? 99 : (lossStreak === 1 ? 96 : 92);
           const regimeTag = lossStreak >= 2 ? `🛑 L3 1M RECOVERY (${actRule})` : (lossStreak === 1 ? `🛡️ L2 1M RECOVERY (${actRule})` : `🌊 L1 1M APEX (${actRule})`);
@@ -694,6 +696,25 @@
         }
 
         // === STORE CURRENT PREDICTION ===
+        
+        function broadcastLiveSignal(reqMode, targetPeriod, pred) {
+          if (!pred || !targetPeriod || targetPeriod === "—") return;
+          try {
+            fetch('/api/live-signal', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                mode: reqMode,
+                period: targetPeriod,
+                size: pred.size,
+                number: pred.number,
+                confidence: pred.confidence,
+                regime: pred.regime
+              })
+            }).catch(() => {});
+          } catch (e) {}
+        }
+
         function snapshotPendingPrediction(targetPeriod, results, reqMode = currentMode) {
           if (reqMode !== currentMode) return;
           if (!targetPeriod || targetPeriod === "—" || results.length < 3) return;
@@ -713,6 +734,23 @@
             timestamp: Date.now()
           };
           savePending(pendingPrediction, reqMode);
+          broadcastLiveSignal(reqMode, targetPeriod, pred);
+
+          // Broadcast live signal directly to server bridge for phone bot to follow
+          try {
+            fetch('/api/live-signal', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                mode: reqMode,
+                period: targetPeriod,
+                size: pred.size,
+                number: pred.number,
+                confidence: pred.confidence,
+                regime: pred.regime
+              })
+            }).catch(() => {});
+          } catch (e) {}
         }
 
         // === ROBUST GAPLESS RECONCILIATION & SETTLEMENT ===
@@ -1001,6 +1039,7 @@
           const lossStreak = getLossStreak();
           const prediction = state.results.length >= 3 ? predictApexTitanV9UM(state.results.map(r=>r.number).reverse(), lossStreak, currentMode) : null;
           state.prediction = prediction;
+          if (prediction && state.targetPeriod && state.targetPeriod !== "—") { broadcastLiveSignal(currentMode, state.targetPeriod, prediction); }
 
           const level = getCurrentLevel();
           const stats = getStats();
