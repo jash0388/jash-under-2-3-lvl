@@ -1,18 +1,19 @@
 // ==UserScript==
 // @name         JASH_BOT — Apex Titan v9UM (Auto-Updating Zero-Bust Master)
 // @namespace    http://tampermonkey.net/
-// @version      70.4
+// @version      70.5
 // @description  Universal 24/7 Overnight WinGo Auto-Betting Bot powered by Apex Titan v9UM Neural Quantum Supreme Engine with Cloud OTA Real-Time Auto-Update.
-// @match        *://*.dmfirst17.com/*
 // @match        *://*.dmfirst*.com/*
-// @match        *://*.in999vv.com/*
+// @match        *://*.dmfirst17.com/*
+// @match        *://*.dmfirst9.com/*
 // @match        *://*.in999*.com/*
+// @match        *://*.in999vv.com/*
+// @match        *://*.muskan*.com/*
 // @match        *://*.muskan2.com/*
 // @match        *://*.muskan22.com/*
-// @match        *://*.muskan*.com/*
+// @match        *://*.shreewin*.com/*
 // @match        *://*.shreewin.net/*
-// @match        *://*.shreewin1.com/*
-// @match        *://*.dhanuwin88.com/*
+// @match        *://*.dhanuwin*.com/*
 // @match        *://*.daman*.com/*
 // @match        *://*.tiranga*.com/*
 // @match        *://*.bigdaddy*.com/*
@@ -101,7 +102,7 @@
   // ════════════════════════════════════════════════════════════
   function dismissOvernightPopups() {
     try {
-      const closeButtons = Array.from(document.querySelectorAll('.van-dialog__confirm, .van-popup__close-icon, [class*="close"], [class*="dialog"] button, i.van-icon-cross, uni-icons.uni-icons-close, .van-overlay + div button, div.announcement-close, .notice-close, .notice-dialog .van-button')).filter(e => !e.closest('#jash-v1UM-hud'));
+      const closeButtons = Array.from(document.querySelectorAll('.van-dialog__confirm, .van-popup__close-icon, [class*="close"], [class*="dialog"] button, i.van-icon-cross, uni-icons.uni-icons-close, .van-overlay + div button, div.announcement-close, .notice-close, .notice-dialog .van-button')).filter(e => !e.closest('#jash-v9UM-hud'));
       for (const btn of closeButtons) {
         const txt = (btn.textContent || '').trim();
         if (/Cancel|Close|Confirm|I Know|Got It|确定|我知道了|×|X/i.test(txt) || btn.classList.contains('van-popup__close-icon') || btn.classList.contains('van-icon-cross')) {
@@ -116,7 +117,7 @@
 
   function keepSessionAlive() {
     try {
-      const refreshBtns = Array.from(document.querySelectorAll('.van-icon-replay, [class*="refresh"], [class*="reload"], [class*="replay"], [class*="wallet"] i, [class*="balance"] i')).filter(e => !e.closest('#jash-v1UM-hud'));
+      const refreshBtns = Array.from(document.querySelectorAll('.van-icon-replay, [class*="refresh"], [class*="reload"], [class*="replay"], [class*="wallet"] i, [class*="balance"] i')).filter(e => !e.closest('#jash-v9UM-hud'));
       if (refreshBtns.length > 0) {
         fireClick(refreshBtns[0]);
       }
@@ -127,46 +128,46 @@
   // ════════════════════════════════════════════════════════════
   // 3. CONFIG & LOCALSTORAGE PERSISTENCE
   // ════════════════════════════════════════════════════════════
-  let BASE_BET = parseInt(localStorage.getItem('JASH_v1UM_BASE_BET')) || 5;
-  let START_BANKROLL = parseFloat(localStorage.getItem('JASH_v1UM_START_BANKROLL')) || 500;
-  let TAKE_PROFIT = parseFloat(localStorage.getItem('JASH_v1UM_TAKE_PROFIT')) || 999999;
-  let MAX_MART_STEPS = parseInt(localStorage.getItem('JASH_v1UM_MAX_STEPS')) || 3; // Strict 3-Level Martingale
+  let BASE_BET = parseInt(localStorage.getItem('JASH_v9UM_BASE_BET')) || 5;
+  let START_BANKROLL = parseFloat(localStorage.getItem('JASH_v9UM_START_BANKROLL')) || 500;
+  let TAKE_PROFIT = parseFloat(localStorage.getItem('JASH_v9UM_TAKE_PROFIT')) || 999999;
+  let MAX_MART_STEPS = parseInt(localStorage.getItem('JASH_v9UM_MAX_STEPS')) || 3; // Strict 3-Level Martingale
 
-  let sessionProfit = parseFloat(localStorage.getItem('JASH_v1UM_PROFIT')) || 0;
-  let wins = parseInt(localStorage.getItem('JASH_v1UM_WINS')) || 0;
-  let losses = parseInt(localStorage.getItem('JASH_v1UM_LOSSES')) || 0;
-  let currentBet = parseInt(localStorage.getItem('JASH_v1UM_CUR_BET')) || BASE_BET;
-  let martingaleStep = parseInt(localStorage.getItem('JASH_v1UM_MART_STEP')) || 0;
-  let liveWalletBal = parseFloat(localStorage.getItem('JASH_v1UM_WALLET')) || 500;
+  let sessionProfit = parseFloat(localStorage.getItem('JASH_v9UM_PROFIT')) || 0;
+  let wins = parseInt(localStorage.getItem('JASH_v9UM_WINS')) || 0;
+  let losses = parseInt(localStorage.getItem('JASH_v9UM_LOSSES')) || 0;
+  let currentBet = parseInt(localStorage.getItem('JASH_v9UM_CUR_BET')) || BASE_BET;
+  let martingaleStep = parseInt(localStorage.getItem('JASH_v9UM_MART_STEP')) || 0;
+  let liveWalletBal = parseFloat(localStorage.getItem('JASH_v9UM_WALLET')) || 500;
   let running = true; // Auto-on by default for overnight autoplay
   let isBettingInProgress = false;
   let pendingBet = null;
 
-  let consecutiveWins = parseInt(localStorage.getItem('JASH_v1UM_CONSEC_WINS')) || 0;
-  let consecutiveLosses = parseInt(localStorage.getItem('JASH_v1UM_CONSEC_LOSSES')) || 0;
+  let consecutiveWins = parseInt(localStorage.getItem('JASH_v9UM_CONSEC_WINS')) || 0;
+  let consecutiveLosses = parseInt(localStorage.getItem('JASH_v9UM_CONSEC_LOSSES')) || 0;
 
   const LOCKED_BUCKETS = new Set();
   const RESOLVED_PERIODS = new Set();
   let LIVE_API_HISTORY = [];
   let SIGNAL_API_RESULTS = [];
   let BETS_FEED = [];
-  try { const s = localStorage.getItem('JASH_v1UM_BETS_FEED'); if (s) BETS_FEED = JSON.parse(s); } catch (e) {}
+  try { const s = localStorage.getItem('JASH_v9UM_BETS_FEED'); if (s) BETS_FEED = JSON.parse(s); } catch (e) {}
 
   function persist() {
     try {
-      localStorage.setItem('JASH_v1UM_BASE_BET', BASE_BET);
-      localStorage.setItem('JASH_v1UM_START_BANKROLL', START_BANKROLL);
-      localStorage.setItem('JASH_v1UM_TAKE_PROFIT', TAKE_PROFIT);
-      localStorage.setItem('JASH_v1UM_MAX_STEPS', MAX_MART_STEPS);
-      localStorage.setItem('JASH_v1UM_PROFIT', sessionProfit);
-      localStorage.setItem('JASH_v1UM_WINS', wins);
-      localStorage.setItem('JASH_v1UM_LOSSES', losses);
-      localStorage.setItem('JASH_v1UM_CUR_BET', currentBet);
-      localStorage.setItem('JASH_v1UM_MART_STEP', martingaleStep);
-      localStorage.setItem('JASH_v1UM_WALLET', liveWalletBal);
-      localStorage.setItem('JASH_v1UM_CONSEC_WINS', consecutiveWins);
-      localStorage.setItem('JASH_v1UM_CONSEC_LOSSES', consecutiveLosses);
-      localStorage.setItem('JASH_v1UM_RUNNING', running);
+      localStorage.setItem('JASH_v9UM_BASE_BET', BASE_BET);
+      localStorage.setItem('JASH_v9UM_START_BANKROLL', START_BANKROLL);
+      localStorage.setItem('JASH_v9UM_TAKE_PROFIT', TAKE_PROFIT);
+      localStorage.setItem('JASH_v9UM_MAX_STEPS', MAX_MART_STEPS);
+      localStorage.setItem('JASH_v9UM_PROFIT', sessionProfit);
+      localStorage.setItem('JASH_v9UM_WINS', wins);
+      localStorage.setItem('JASH_v9UM_LOSSES', losses);
+      localStorage.setItem('JASH_v9UM_CUR_BET', currentBet);
+      localStorage.setItem('JASH_v9UM_MART_STEP', martingaleStep);
+      localStorage.setItem('JASH_v9UM_WALLET', liveWalletBal);
+      localStorage.setItem('JASH_v9UM_CONSEC_WINS', consecutiveWins);
+      localStorage.setItem('JASH_v9UM_CONSEC_LOSSES', consecutiveLosses);
+      localStorage.setItem('JASH_v9UM_RUNNING', running);
     } catch (e) {}
   }
 
@@ -399,7 +400,7 @@
     return { finalSize, regime, conf };
   }
 
-  // === APEX TITAN UNIVERSAL MASTER (v1UM) ===
+  // === APEX TITAN UNIVERSAL MASTER (v9UM) ===
   function predictApexTitanV9UM(evidence, lossStreak = 0, mode = '30S') {
     if (!evidence || evidence.length < 3) {
       return { size: 'BIG', number: 7, confidence: 70, regime: 'TITAN INITIALIZING' };
@@ -422,12 +423,124 @@
     return { size: res.finalSize, number: bestNum, confidence: res.conf, regime: res.regime };
   }
 
+    // ════════════════════════════════════════════════════════════
+  // 5. TRIPLE-REDUNDANT RESULT INGESTION (XHR + FETCH + DOM + API)
   // ════════════════════════════════════════════════════════════
-  // 5. GAME MODE & API FETCHER (30S / 1M DUAL AUTO-SYNC)
-  // ════════════════════════════════════════════════════════════
+  let DOM_SCRAPED_HISTORY = [];
+
+  // 1. XMLHttpRequest Hook (Captures 100% of Mobile/Web Casino Game History & Balance)
+  const origXhrSend = XMLHttpRequest.prototype.send;
+  const origXhrOpen = XMLHttpRequest.prototype.open;
+
+  XMLHttpRequest.prototype.open = function (method, url) {
+    this._url = url ? url.toString() : '';
+    return origXhrOpen.apply(this, arguments);
+  };
+
+  XMLHttpRequest.prototype.send = function (body) {
+    this.addEventListener('load', () => {
+      try {
+        const resJson = JSON.parse(this.responseText);
+        if (resJson && typeof resJson === 'object') {
+          // Wallet balance sync
+          const b = resJson?.data?.balance ?? resJson?.data?.userBalance ?? resJson?.data?.money ?? resJson?.balance ?? resJson?.data?.amount;
+          if (b != null && !isNaN(parseFloat(b))) {
+            const bVal = parseFloat(b);
+            if (bVal >= 0.1) updateWalletAndProfit(bVal);
+          }
+
+          // Lottery historical draw results
+          const list = resJson?.data?.list || resJson?.data?.issueHistory || resJson?.data?.gameslist || (Array.isArray(resJson.data) ? resJson.data : []);
+          if (Array.isArray(list) && list.length > 0) {
+            const parsed = list.map(item => {
+              const p = (item.issueNumber || item.issueNo || item.period || item.issue || item.periodNumber || '').toString().trim();
+              const n = parseInt(item.number != null ? item.number : (item.lotteryResults != null ? item.lotteryResults : (item.result != null ? item.result : item.num)));
+              return { period: p, number: n, size: sizeFor(n) };
+            }).filter(x => /^\d+$/.test(x.period) && Number.isInteger(x.number));
+            if (parsed.length > 0) {
+              LIVE_API_HISTORY = parsed;
+              updateHud();
+            }
+          }
+        }
+      } catch (e) {}
+    });
+    return origXhrSend.apply(this, arguments);
+  };
+
+  // 2. Fetch Hook (Captures Next-Gen API Requests)
+  const origFetch = window.fetch;
+  window.fetch = async function () {
+    const response = await origFetch.apply(this, arguments);
+    try {
+      const clone = response.clone();
+      clone.json().then(data => {
+        try {
+          if (data && typeof data === 'object') {
+            const b = data?.data?.amount || data?.data?.balance || data?.data?.money || data?.balance;
+            if (b != null && !isNaN(parseFloat(b))) {
+              const bVal = parseFloat(b);
+              if (bVal >= 0.1) updateWalletAndProfit(bVal);
+            }
+            const list = data?.data?.list || data?.data?.issueHistory || data?.data?.gameslist || (Array.isArray(data.data) ? data.data : []);
+            if (Array.isArray(list) && list.length > 0) {
+              const parsed = list.map(item => {
+                const p = (item.issueNumber || item.issueNo || item.period || item.issue || item.periodNumber || '').toString().trim();
+                const n = parseInt(item.number != null ? item.number : (item.lotteryResults != null ? item.lotteryResults : item.result));
+                return { period: p, number: n, size: sizeFor(n) };
+              }).filter(x => /^\d+$/.test(x.period) && Number.isInteger(x.number));
+              if (parsed.length > 0) {
+                LIVE_API_HISTORY = parsed;
+                updateHud();
+              }
+            }
+          }
+        } catch (e) {}
+      }).catch(() => {});
+    } catch (e) {}
+    return response;
+  };
+
+  // 3. Screen DOM History Scraper (Failsafe Instant Fallback)
+  function scrapeScreenGameHistory() {
+    try {
+      const rows = Array.from(document.querySelectorAll('table tbody tr, .van-table__row, [class*="record"] tr, [class*="history"] tr, [class*="list"] [class*="item"]')).filter(e => !e.closest('#jash-v9UM-hud'));
+      const parsed = [];
+      for (const r of rows) {
+        const txt = (r.textContent || '').trim();
+        const pMatch = txt.match(/(\d{8,20})/);
+        const nMatch = txt.match(/\b([0-9])\b/);
+        if (pMatch && nMatch) {
+          const p = pMatch[1];
+          const n = parseInt(nMatch[1]);
+          parsed.push({ period: p, number: n, size: sizeFor(n) });
+        }
+      }
+      if (parsed.length >= 3) {
+        DOM_SCRAPED_HISTORY = parsed;
+      }
+
+      // 5-Ball Banner Scraper (e.g., 4 8 3 5 7)
+      const ballEls = Array.from(document.querySelectorAll('.ball, [class*="ball"], .van-col, .balls span, .game-ball')).filter(e => !e.closest('#jash-v9UM-hud') && /^[0-9]$/.test((e.textContent || '').trim()));
+      if (ballEls.length >= 3 && DOM_SCRAPED_HISTORY.length === 0) {
+        const ballNums = ballEls.map(b => parseInt(b.textContent.trim())).filter(n => Number.isInteger(n) && n >= 0 && n <= 9);
+        if (ballNums.length >= 3) {
+          const fakeBase = BigInt(Date.now());
+          DOM_SCRAPED_HISTORY = ballNums.map((num, idx) => ({
+            period: String(fakeBase - BigInt(idx)),
+            number: num,
+            size: sizeFor(num)
+          }));
+        }
+      }
+    } catch (e) {}
+  }
+  setInterval(scrapeScreenGameHistory, 1000);
+  scrapeScreenGameHistory();
+
   function detectActiveGameMode() {
     const text = document.body ? (document.body.textContent || '') : '';
-    if (/WinGo 30 second|Win\s*Go\s*30S|30 second|30S/i.test(text)) return '30S';
+    if (/WinGo 30 second|Win\s*Go\s*30S|30 second|30S|30sec/i.test(text)) return '30S';
     return '1M';
   }
 
@@ -448,7 +561,7 @@
       GM_xmlhttpRequest({
         method: 'GET',
         url: `${url}?_t=${Date.now()}`,
-        timeout: 5000,
+        timeout: 4000,
         onload: function (res) {
           fetchInFlight = false;
           try {
@@ -486,37 +599,11 @@
     }
   }
   setInterval(fetchSignalAPI, 1000);
-
-  // Network Hook Interception
-  const origFetch = window.fetch;
-  window.fetch = async function () {
-    const response = await origFetch.apply(this, arguments);
-    const clone = response.clone();
-    clone.json().then(data => {
-      try {
-        if (data && typeof data === 'object') {
-          const b = data?.data?.amount || data?.data?.balance || data?.balance;
-          if (b != null && !isNaN(parseFloat(b))) {
-            const bVal = parseFloat(b);
-            if (bVal >= 0.1) updateWalletAndProfit(bVal);
-          }
-          const list = data?.data?.list || data?.data?.issueHistory || (Array.isArray(data.data) ? data.data : []);
-          if (Array.isArray(list) && list.length > 0) {
-            LIVE_API_HISTORY = list.map(item => {
-              const p = (item.issueNumber || item.issueNo || item.period || item.issue || '').toString();
-              const n = parseInt(item.number != null ? item.number : (item.lotteryResults != null ? item.lotteryResults : item.result));
-              return { period: p, number: n, size: sizeFor(n) };
-            }).filter(x => /^\d+$/.test(x.period) && Number.isInteger(x.number));
-          }
-        }
-      } catch (e) {}
-    }).catch(() => {});
-    return response;
-  };
+  fetchSignalAPI();
 
   function getMergedResults() {
     const map = new Map();
-    [...LIVE_API_HISTORY, ...SIGNAL_API_RESULTS].forEach(item => {
+    [...LIVE_API_HISTORY, ...SIGNAL_API_RESULTS, ...DOM_SCRAPED_HISTORY].forEach(item => {
       if (item && item.period && !map.has(item.period)) {
         map.set(item.period, item);
       }
@@ -525,74 +612,6 @@
       try { return BigInt(b.period) > BigInt(a.period) ? 1 : -1; } catch (e) { return 0; }
     });
   }
-
-  // ════════════════════════════════════════════════════════════
-  // 6. SCREEN WALLET SCANNER & PERIOD DETECTOR
-  // ════════════════════════════════════════════════════════════
-  let bankrollInitialized = (localStorage.getItem('JASH_v1UM_BANKROLL_INIT') === 'true');
-
-  function readScreenWalletBalance() {
-    try {
-      const priorityEls = Array.from(document.querySelectorAll('[class*="balance"], [class*="wallet"], [class*="money"], [class*="amount"], .user-info, .head, .header, .nav, .van-nav-bar')).filter(e => !e.closest('#jash-v1UM-hud') && !e.closest('table') && !e.closest('.ball'));
-      for (const el of priorityEls) {
-        const txt = (el.textContent || '').trim();
-        const clean = txt.replace(/,/g, '').trim();
-        const m = clean.match(/^[₹$¥]?\s*([0-9]+(?:\.[0-9]{1,2})?)$/);
-        if (m) {
-          const val = parseFloat(m[1]);
-          if (val >= 0.1 && val < 50000000) {
-            updateWalletAndProfit(val);
-            return val;
-          }
-        }
-      }
-    } catch (e) {}
-    return liveWalletBal;
-  }
-
-  function updateWalletAndProfit(val) {
-    liveWalletBal = val;
-    if (!bankrollInitialized || (START_BANKROLL === 500 && sessionProfit === 0)) {
-      START_BANKROLL = val;
-      bankrollInitialized = true;
-      try { localStorage.setItem('JASH_v1UM_BANKROLL_INIT', 'true'); } catch (e) {}
-    }
-    sessionProfit = liveWalletBal - START_BANKROLL;
-    persist();
-  }
-
-  function getScreenActivePeriod(latestPeriod) {
-    try {
-      const allEls = Array.from(document.querySelectorAll('div, span, p, h1, h2, h3, b')).filter(e => {
-        if (e.closest('#jash-v1UM-hud')) return false;
-        if (e.closest('tr, tbody, table, .van-tabs__content, [class*="history"], [class*="record"], [class*="list-item"]')) return false;
-        return true;
-      });
-      for (const el of allEls) {
-        const txt = (el.textContent || '').trim();
-        const m = txt.match(/\b(202\d{11,15})\b/);
-        if (m) {
-          const p = m[1];
-          if (!latestPeriod || BigInt(p) > BigInt(latestPeriod)) return p;
-        }
-      }
-    } catch (e) {}
-    return latestPeriod ? String(BigInt(latestPeriod) + 1n) : null;
-  }
-
-  function scanMyHistoryStatus(targetPeriod) {
-    try {
-      const allRows = Array.from(document.querySelectorAll('tr, .van-row, [class*="history"] [class*="item"], [class*="list"] [class*="item"], [class*="record"] [class*="item"], [class*="van-list"] > div, div')).filter(e => !e.closest('#jash-v1UM-hud'));
-      for (const row of allRows) {
-        const txt = (row.textContent || '').trim();
-        if (targetPeriod && txt.includes(targetPeriod)) {
-          const allPeriods = txt.match(/\b(202\d{11,15})\b/g) || [];
-          if (allPeriods.length === 1 && allPeriods[0] === targetPeriod) {
-            const hasSucceed = /succeed|\+₹|win|success/i.test(txt);
-            const hasFailed = /failed|\-₹|loss|fail/i.test(txt);
-            if (hasSucceed && !hasFailed) return { resolved: true, won: true };
-            if (hasFailed && !hasSucceed) return { resolved: true, won: false };
-          }
         }
       }
     } catch (e) {}
@@ -623,7 +642,7 @@
     const target = targetChoice.trim().toUpperCase();
     console.log(`%c[OVERNIGHT BOT] 🎯 AUTOBET: ${target} ₹${amount}`, 'background:linear-gradient(90deg,#00f5a0,#7928ca);color:#fff;font-weight:bold;padding:6px 14px;font-size:13px;border-radius:4px');
 
-    const allEls = Array.from(document.querySelectorAll('div, button, span, uni-view, p')).filter(e => !e.closest('#jash-v1UM-hud'));
+    const allEls = Array.from(document.querySelectorAll('div, button, span, uni-view, p')).filter(e => !e.closest('#jash-v9UM-hud'));
 
     let targetBtn = allEls.find(e => {
       const txt = (e.textContent || '').trim().toUpperCase();
@@ -644,7 +663,7 @@
     await new Promise(r => setTimeout(r, 350));
 
     // Amount input
-    const modalInputs = Array.from(document.querySelectorAll('.van-popup input, .popup input, input[type="tel"], input[type="number"], input')).filter(i => !i.closest('#jash-v1UM-hud'));
+    const modalInputs = Array.from(document.querySelectorAll('.van-popup input, .popup input, input[type="tel"], input[type="number"], input')).filter(i => !i.closest('#jash-v9UM-hud'));
     if (modalInputs.length > 0) {
       const inp = modalInputs[modalInputs.length - 1];
       try {
@@ -659,7 +678,7 @@
 
     // Plus stepper fallback
     if (amount > 1) {
-      const plusBtns = Array.from(document.querySelectorAll('.van-stepper__plus, button.plus, .plus, [class*="plus"], [class*="stepper"] [class*="plus"], uni-view[class*="plus"]')).filter(b => !b.closest('#jash-v1UM-hud'));
+      const plusBtns = Array.from(document.querySelectorAll('.van-stepper__plus, button.plus, .plus, [class*="plus"], [class*="stepper"] [class*="plus"], uni-view[class*="plus"]')).filter(b => !b.closest('#jash-v9UM-hud'));
       if (plusBtns.length > 0) {
         const plusBtn = plusBtns[plusBtns.length - 1];
         for (let i = 1; i < amount; i++) {
@@ -673,7 +692,7 @@
 
     // Confirm button
     let confirmBtn = null;
-    const allPopupEls = Array.from(document.querySelectorAll('div, button, span, uni-view, uni-button, p')).filter(e => !e.closest('#jash-v1UM-hud'));
+    const allPopupEls = Array.from(document.querySelectorAll('div, button, span, uni-view, uni-button, p')).filter(e => !e.closest('#jash-v9UM-hud'));
 
     const totalAmountCandidates = allPopupEls.filter(b => {
       const t = (b.textContent || '').trim();
@@ -714,10 +733,10 @@
   // 9. CYBER DRAGGABLE HUD
   // ════════════════════════════════════════════════════════════
   function createHud() {
-    if (document.getElementById('jash-v1UM-hud')) return;
+    if (document.getElementById('jash-v9UM-hud')) return;
 
     const hud = document.createElement('div');
-    hud.id = 'jash-v1UM-hud';
+    hud.id = 'jash-v9UM-hud';
     hud.style.cssText = `
       position:fixed;top:15px;right:15px;z-index:9999999;width:260px;
       background:linear-gradient(160deg,#0a0c16,#101328,#070814);
@@ -729,7 +748,7 @@
 
     hud.innerHTML = `
       <div id="jash-drag-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;cursor:move;padding-bottom:5px;border-bottom:1px solid rgba(0,245,160,0.25)">
-        <div style="font-size:12px;font-weight:900;background:linear-gradient(90deg,#00f5a0,#00d9f5,#ff007a);-webkit-background-clip:text;-webkit-text-fill-color:transparent">ϟ JASH OVERNIGHT v1UM</div>
+        <div style="font-size:12px;font-weight:900;background:linear-gradient(90deg,#00f5a0,#00d9f5,#ff007a);-webkit-background-clip:text;-webkit-text-fill-color:transparent">ϟ JASH VIP APEX v9UM</div>
         <div id="jash-mode-lbl" style="font-size:9px;color:#00f5a0;background:rgba(0,245,160,0.15);border:1px solid rgba(0,245,160,0.4);padding:2px 7px;border-radius:10px;font-weight:900">30S / 1M</div>
       </div>
 
@@ -836,7 +855,7 @@
       consecutiveWins = 0;
       consecutiveLosses = 0;
       BETS_FEED = [];
-      try { localStorage.removeItem('JASH_v1UM_BETS_FEED'); } catch (e) {}
+      try { localStorage.removeItem('JASH_v9UM_BETS_FEED'); } catch (e) {}
       persist();
       updateHud();
     });
@@ -845,14 +864,14 @@
   }
 
   function updateHud() {
-    const hud = document.getElementById('jash-v1UM-hud');
+    const hud = document.getElementById('jash-v9UM-hud');
     if (!hud) return;
 
     readScreenWalletBalance();
 
     const mode = detectActiveGameMode();
     const modeLbl = document.getElementById('jash-mode-lbl');
-    if (modeLbl) modeLbl.textContent = `${mode} TITAN v1UM`;
+    if (modeLbl) modeLbl.textContent = `${mode} TITAN v9UM`;
 
     const results = getMergedResults();
     const currentLossStreak = martingaleStep;
@@ -978,7 +997,7 @@
             consecutiveLosses = 0;
             martingaleStep = 0;
             currentBet = BASE_BET;
-            console.log(`%c✅ [APEX v1UM] WIN on #${pendingBet.period}! Reset to Base ₹${BASE_BET}.`, 'background:#00f5a0;color:#000;font-weight:bold;padding:5px');
+            console.log(`%c✅ [APEX v9UM] WIN on #${pendingBet.period}! Reset to Base ₹${BASE_BET}.`, 'background:#00f5a0;color:#000;font-weight:bold;padding:5px');
           } else {
             losses++;
             consecutiveWins = 0;
@@ -987,15 +1006,15 @@
             if (martingaleStep >= MAX_MART_STEPS) {
               martingaleStep = 0;
               currentBet = BASE_BET;
-              console.log(`%c🛑 [APEX v1UM] 3-Level Cycle Resolved. Reset to Base ₹${BASE_BET}.`, 'background:#ff007a;color:#fff;font-weight:bold;padding:5px');
+              console.log(`%c🛑 [APEX v9UM] 3-Level Cycle Resolved. Reset to Base ₹${BASE_BET}.`, 'background:#ff007a;color:#fff;font-weight:bold;padding:5px');
             } else {
               currentBet = calculateNextStake(BASE_BET, martingaleStep);
-              console.log(`%c⚠️ [APEX v1UM] Step ${martingaleStep + 1} Recovery. Next Stake ₹${currentBet}.`, 'background:#ffb703;color:#000;font-weight:bold;padding:5px');
+              console.log(`%c⚠️ [APEX v9UM] Step ${martingaleStep + 1} Recovery. Next Stake ₹${currentBet}.`, 'background:#ffb703;color:#000;font-weight:bold;padding:5px');
             }
           }
 
           if (BETS_FEED.length > 30) BETS_FEED = BETS_FEED.slice(0, 30);
-          try { localStorage.setItem('JASH_v1UM_BETS_FEED', JSON.stringify(BETS_FEED)); } catch (e) {}
+          try { localStorage.setItem('JASH_v9UM_BETS_FEED', JSON.stringify(BETS_FEED)); } catch (e) {}
           pendingBet = null;
           persist();
           updateHud();
@@ -1042,7 +1061,7 @@
           time: new Date().toLocaleTimeString()
         });
         if (BETS_FEED.length > 30) BETS_FEED = BETS_FEED.slice(0, 30);
-        try { localStorage.setItem('JASH_v1UM_BETS_FEED', JSON.stringify(BETS_FEED)); } catch (e) {}
+        try { localStorage.setItem('JASH_v9UM_BETS_FEED', JSON.stringify(BETS_FEED)); } catch (e) {}
 
         persist();
         updateHud();
