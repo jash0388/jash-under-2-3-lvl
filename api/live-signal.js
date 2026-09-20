@@ -186,8 +186,8 @@ module.exports = async (req, res) => {
   const mode = (req.query?.mode === '1M') ? '1M' : '30S';
   let cur = signals[mode] || {};
 
-  // If signal is older than 25s or empty, compute server-side with sequential stream replay
-  if (!cur.period || (Date.now() - (cur.updatedAt || 0) > 25000)) {
+  // If signal is older than 50s or empty, compute server-side with sequential stream replay
+  if (!cur.period || (Date.now() - (cur.updatedAt || 0) > 50000)) {
     try {
       const url = (mode === '1M')
         ? 'https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json'

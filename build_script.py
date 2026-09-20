@@ -2,10 +2,10 @@ import json
 import os
 
 script_code = '''// ==UserScript==
-// @name         JASH VIP v23.0 Ultimate (Direct /pred Live-Signal Follower)
+// @name         JASH VIP v25.0 ULTRA (100% Strict /pred Sync)
 // @namespace    http://tampermonkey.net/
-// @version      23.0
-// @description  👑 JASH VIP · WinGo 30S | TITAN SUPREME v23.0 (100% STRICT /pred WEB SIGNAL FOLLOWER) + Custom Progression (2->5->10) + No Loss Limit
+// @version      25.0
+// @description  👑 JASH VIP · WinGo 30S | TITAN SUPREME v25.0 (100% STRICT /pred WEB SIGNAL FOLLOWER) + Custom Progression (2->5->10) + No Loss Limit
 // @match        *://*.in999vv.com/*
 // @match        *://*.in999*.com/*
 // @match        *://*.us3b7o.com/*
@@ -20,7 +20,7 @@ script_code = '''// ==UserScript==
   if (window.__JASH_VIP_BOT_LOCK__) return;
   window.__JASH_VIP_BOT_LOCK__ = true;
 
-  console.log("%c👑 JASH VIP · WinGo 30S [TITAN SUPREME v23.0 DIRECT /PRED WEB SIGNAL FOLLOWER] ACTIVE", "background:linear-gradient(135deg,#00f5a0,#00d9f5,#7c3aed);color:#000;font-size:14px;font-weight:900;padding:6px 14px;border-radius:8px;box-shadow:0 0 20px rgba(0,245,160,0.5);");
+  console.log("%c👑 JASH VIP · WinGo 30S [TITAN SUPREME v25.0 DIRECT /PRED WEB SIGNAL FOLLOWER] ACTIVE", "background:linear-gradient(135deg,#00f5a0,#00d9f5,#7c3aed);color:#000;font-size:14px;font-weight:900;padding:6px 14px;border-radius:8px;box-shadow:0 0 20px rgba(0,245,160,0.5);");
 
   // ── 1. BULLETPROOF WAKE LOCK & KEEP-ALIVE ────────────────
   let wakeLockObj = null;
@@ -217,24 +217,7 @@ script_code = '''// ==UserScript==
         updateHud();
       }
 
-      const balls = Array.from(document.querySelectorAll('.ball, [class*="ball"], .balls span, .game-ball')).filter(e => !e.closest('#jash-hud') && /^[0-9]$/.test((e.textContent || '').trim()));
-      if (balls.length >= 5 && LOCAL_DRAW_BUFFER.length < 5) {
-        const nums = balls.map(b => parseInt(b.textContent.trim())).filter(n => !isNaN(n));
-        if (nums.length >= 5) {
-          const pseudo = nums.map((num, i) => ({
-            period: String(Date.now() - i * 30000),
-            number: num,
-            size: sizeFor(num)
-          }));
-          DOM_SCRAPED_HISTORY = pseudo;
-          mergeIntoBuffer(pseudo);
-          updateHud();
-        }
-      }
-    } catch (e) {}
-  }
-  setInterval(scrapeScreenGameHistory, 1000);
-  scrapeScreenGameHistory();
+      // DOM scraped history removed to prevent ball button poisoning
 
   // ── 3.1 DIRECT HIGH-SPEED AR-LOTTERY LIVE STREAM ─────────
   async function fetchLiveLotteryHistoryDirectly() {
@@ -288,7 +271,7 @@ script_code = '''// ==UserScript==
       }
     } catch (e) {}
   }
-  setInterval(fetchLiveWebPredictionSignal, 600);
+  setInterval(fetchLiveWebPredictionSignal, 250);
   fetchLiveWebPredictionSignal();
 
 
@@ -366,6 +349,18 @@ script_code = '''// ==UserScript==
   }
 
     // ── 5. 👑 NEURAL MASTER · APEX TITAN v9UM STRATEGY ENGINE (100% WEB STRATEGY) ───
+  
+  function isPeriodMatch(p1, p2) {
+    if (!p1 || !p2) return false;
+    const s1 = String(p1).replace(/\D/g, '');
+    const s2 = String(p2).replace(/\D/g, '');
+    if (s1 === s2) return true;
+    if (s1.length >= 4 && s2.length >= 4) {
+      return s1.slice(-5) === s2.slice(-5);
+    }
+    return false;
+  }
+
   const opp = s => (s === 'BIG' ? 'SMALL' : 'BIG');
 
   function getRuns(sizes) {
@@ -515,18 +510,21 @@ script_code = '''// ==UserScript==
     };
   }
 
-  function computeMasterPrediction() {
-    // 1. STRICTLY FOLLOW LIVE /PRED WEB SIGNAL IF AVAILABLE
+  function computeMasterPrediction(targetPeriod) {
+    // 1. STRICTLY FOLLOW LIVE /PRED WEB SIGNAL IF MATCHING CURRENT PERIOD
     if (LIVE_WEB_SIGNAL && LIVE_WEB_SIGNAL.size) {
-      const bestN = LIVE_WEB_SIGNAL.number != null ? LIVE_WEB_SIGNAL.number : (LIVE_WEB_SIGNAL.size === 'BIG' ? 7 : 2);
-      const secN = LIVE_WEB_SIGNAL.size === 'BIG' ? 8 : 3;
-      return {
-        size: LIVE_WEB_SIGNAL.size,
-        number: bestN,
-        balls: LIVE_WEB_SIGNAL.balls || [bestN, secN],
-        mode: `🎯 /PRED SIGNAL [${LIVE_WEB_SIGNAL.size}] (${LIVE_WEB_SIGNAL.regime || 'TITAN 9F'})`,
-        conf: LIVE_WEB_SIGNAL.conf || 95
-      };
+      if (!targetPeriod || isPeriodMatch(LIVE_WEB_SIGNAL.period, targetPeriod)) {
+        const bestN = LIVE_WEB_SIGNAL.number != null ? LIVE_WEB_SIGNAL.number : (LIVE_WEB_SIGNAL.size === 'BIG' ? 7 : 2);
+        const secN = LIVE_WEB_SIGNAL.size === 'BIG' ? 8 : 3;
+        return {
+          size: LIVE_WEB_SIGNAL.size,
+          number: bestN,
+          balls: LIVE_WEB_SIGNAL.balls || [bestN, secN],
+          mode: `🎯 /PRED SIGNAL [${LIVE_WEB_SIGNAL.size}] (#${String(LIVE_WEB_SIGNAL.period).slice(-5)})`,
+          conf: LIVE_WEB_SIGNAL.conf || 95,
+          isSynced: true
+        };
+      }
     }
 
     // 2. Deterministic Sequential Stream Simulation (100% Identical to /pred)
@@ -578,7 +576,7 @@ script_code = '''// ==UserScript==
   function sendCloudTelemetry() {
     try {
       const secondsLeft = getSynchronizedSeconds();
-      const pred = computeMasterPrediction();
+      const pred = computeMasterPrediction(currentPeriod);
 
       let statusText = running ? `24/7 ACTIVE (${GAME_MODE})` : 'STOPPED';
       if (liveWalletBal >= TAKE_PROFIT_TARGET) statusText = 'TARGET REACHED';
@@ -682,7 +680,11 @@ script_code = '''// ==UserScript==
     const target = size.trim().toUpperCase();
     console.log(`%c[👑 JASH VIP] 🎯 BETTING: ${target} ₹${amount} (${GAME_MODE} Step ${martingaleStep})`, 'background:linear-gradient(90deg,#00f5a0,#7c3aed);color:#000;font-weight:bold;padding:6px 12px;font-size:13px;border-radius:4px');
 
-    const allEls = Array.from(document.querySelectorAll('div, button, span, uni-view, p')).filter(e => !e.closest('#jash-hud'));
+    const allEls = Array.from(document.querySelectorAll('div, button, span, uni-view, p')).filter(e => {
+      if (e.closest('#jash-hud')) return false;
+      if (e.closest('.history, [class*="history"], [class*="record"], table, .list, [class*="list"], .record-list, .tab-content, .my-history')) return false;
+      return true;
+    });
 
     let targetBtn = allEls.find(e => {
       const txt = (e.textContent || '').trim().toUpperCase();
@@ -801,13 +803,13 @@ script_code = '''// ==UserScript==
         }
       </style>
       <div class="j-row" id="jash-drag-hdr" style="cursor:move;">
-        <span style="font-weight:900;font-size:12px;background:linear-gradient(90deg,#00f5a0,#00d9f5,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">👑 JASH VIP · TITAN SUPREME v23.0</span>
+        <span style="font-weight:900;font-size:12px;background:linear-gradient(90deg,#00f5a0,#00d9f5,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">👑 JASH VIP · TITAN SUPREME v25.0</span>
         <span id="j-timer" style="color:#00f5a0;font-weight:bold;font-size:13px;">--s</span>
       </div>
 
       <button class="j-mode-switch" id="j-mode-btn">⏱️ MODE: ${GAME_MODE === '30S' ? '30 SEC (FAST)' : '1 MIN (STANDARD)'}</button>
 
-      <div id="j-status-badge" style="background:rgba(0,245,160,0.12);border:1px solid #00f5a0;border-radius:8px;padding:5px;text-align:center;margin:4px 0 6px;font-weight:900;color:#00f5a0;font-size:10.5px;">🎯 /PRED LIVE SIGNAL FOLLOWER v23.0</div>
+      <div id="j-status-badge" style="background:rgba(0,245,160,0.12);border:1px solid #00f5a0;border-radius:8px;padding:5px;text-align:center;margin:4px 0 6px;font-weight:900;color:#00f5a0;font-size:10.5px;">🎯 /PRED LIVE SIGNAL FOLLOWER v25.0</div>
 
       <div class="j-row">
         <span class="j-lbl">Base Bet (₹):</span>
@@ -932,7 +934,7 @@ script_code = '''// ==UserScript==
 
     const nextLbl = document.getElementById('j-next-pred-lbl');
     if (nextLbl) {
-      const pred = computeMasterPrediction();
+      const pred = computeMasterPrediction(currentPeriod);
       nextLbl.textContent = `${pred.size} [${pred.balls.join(',')}]`;
       nextLbl.style.color = pred.size === 'BIG' ? '#56e6ff' : '#ff4da6';
     }
@@ -1010,7 +1012,7 @@ script_code = '''// ==UserScript==
         updateHud();
       }
 
-      const masterPred = computeMasterPrediction();
+      const masterPred = computeMasterPrediction(activePeriod);
       updateHud();
 
       if (liveWalletBal >= TAKE_PROFIT_TARGET && running) {
@@ -1023,8 +1025,16 @@ script_code = '''// ==UserScript==
       if (LOCKED_TIME_BUCKETS.has(currentBucket)) return;
 
       const canBet = (GAME_MODE === '30S')
-        ? (secondsLeft <= 25 && secondsLeft >= 4)
-        : (secondsLeft <= 55 && secondsLeft >= 8);
+        ? (secondsLeft <= 25 && secondsLeft >= 3)
+        : (secondsLeft <= 55 && secondsLeft >= 6);
+
+      // CRITICAL ZERO-DESYNC GUARD:
+      // If web signal is from an OLD period, WAIT for the new period's signal up to 4s left!
+      const hasMatchingWebSignal = LIVE_WEB_SIGNAL && isPeriodMatch(LIVE_WEB_SIGNAL.period, activePeriod);
+      if (running && !hasMatchingWebSignal && secondsLeft > 4) {
+        // Wait for /pred signal of THIS active period to arrive
+        return;
+      }
 
       if (running && canBet && !LOCKED_TIME_BUCKETS.has(currentBucket)) {
         LOCKED_TIME_BUCKETS.add(currentBucket);
@@ -1082,6 +1092,7 @@ output_paths = [
     '/Users/jashwanthsingh/Downloads/30sec_win_v1.user.js',
     '/Users/jashwanthsingh/Downloads/JASH_BOT.user.js',
     '/Users/jashwanthsingh/Downloads/JASH_VIP_APEX_TITAN_V9UM_AUTOBET.user.js',
+    '/Users/jashwanthsingh/Downloads/jashvip/30sec_win_v1.user.js',
     '/Users/jashwanthsingh/Downloads/jashvip/signal_top1_follower.user.js',
     '/Users/jashwanthsingh/Downloads/jashvip/jash_perc_win.user.js',
     '/Users/jashwanthsingh/Downloads/jashvip/JASH_BOT.user.js',
