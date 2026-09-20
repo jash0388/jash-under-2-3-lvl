@@ -1,0 +1,371 @@
+import random
+import copy
+import json
+from dataset_real_all import all_real_sequences
+import re
+
+raw_user = '''
+…00051548	7	SMALL 2	BIG 7	LOSSL3
+…00051547	9	SMALL 2	BIG 9	LOSSL3
+…00051546	8	SMALL 2	BIG 8	LOSSL3
+…00051545	8	SMALL 2	BIG 8	LOSSL3
+…00051544	9	SMALL 1	BIG 9	LOSSL3
+…00051543	6	SMALL 3	BIG 6	LOSSL3
+…00051542	5	SMALL 3	BIG 5	LOSSL3
+…00051541	6	SMALL 3	BIG 6	LOSSL2
+…00051540	8	SMALL 3	BIG 8	LOSSL1
+…00051539	4	SMALL 3	SMALL 4	WINL2
+…00051538	9	SMALL 3	BIG 9	LOSSL1
+…00051537	9	BIG 6	BIG 9	WINL1
+…00051536	4	SMALL 0	SMALL 4	WINL3
+…00051535	7	SMALL 0	BIG 7	LOSSL3
+…00051534	2	BIG 7	SMALL 2	LOSSL3
+…00051533	1	BIG 6	SMALL 1	LOSSL2
+…00051532	1	BIG 6	SMALL 1	LOSSL1
+…00051531	5	BIG 6	BIG 5	WINL1
+…00051530	5	BIG 7	BIG 5	WINL1
+…00051529	9	BIG 7	BIG 9	WINL3
+…00051528	3	BIG 7	SMALL 3	LOSSL2
+…00051527	2	BIG 7	SMALL 2	LOSSL1
+…00051526	1	SMALL 2	SMALL 1	WINL1
+…00051525	8	BIG 8	BIG 8	WINL3
+…00051524	0	BIG 8	SMALL 0	LOSSL3
+…00051523	7	SMALL 2	BIG 7	LOSSL2
+…00051522	5	SMALL 2	BIG 5	LOSSL1
+…00051521	9	BIG 7	BIG 9	WINL1
+…00051520	6	BIG 7	BIG 6	WINL1
+…00051519	1	SMALL 1	SMALL 1	WINL1
+…00051518	0	SMALL 1	SMALL 0	WINL1
+…00051517	4	SMALL 1	SMALL 4	WINL2
+…00051516	0	BIG 6	SMALL 0	LOSSL1
+…00051515	9	BIG 6	BIG 9	WINL1
+…00051514	4	SMALL 0	SMALL 4	WINL1
+…00051513	3	SMALL 3	SMALL 3	WINL1
+…00051512	2	SMALL 3	SMALL 2	WINL2
+…00051511	4	BIG 5	SMALL 4	LOSSL1
+…00051510	8	BIG 8	BIG 8	WINL2
+…00051509	4	BIG 8	SMALL 4	LOSSL1
+…00051508	2	SMALL 0	SMALL 2	WINL2
+…00051507	1	BIG 8	SMALL 1	LOSSL1
+…00051506	7	BIG 8	BIG 7	WINL1
+…00051505	1	SMALL 1	SMALL 1	WINL1
+…00051504	4	SMALL 1	SMALL 4	WINL1
+…00051503	6	BIG 8	BIG 6	WINL1
+…00051502	6	BIG 6	BIG 6	WINL3
+…00051501	3	BIG 6	SMALL 3	LOSSL2
+…00051500	2	BIG 6	SMALL 2	LOSSL1
+…00051499	7	BIG 8	BIG 7	WINL2
+…00051498	4	BIG 8	SMALL 4	LOSSL1
+…00051497	2	SMALL 2	SMALL 2	WINL1
+…00051496	7	BIG 8	BIG 7	WINL1
+…00051495	3	SMALL 2	SMALL 3	WINL2
+…00051494	0	BIG 5	SMALL 0	LOSSL1
+…00051493	4	SMALL 2	SMALL 4	WINL3
+…00051492	1	BIG 5	SMALL 1	LOSSL3
+…00051491	0	BIG 5	SMALL 0	LOSSL2
+…00051490	4	BIG 5	SMALL 4	LOSSL1
+…00051489	6	BIG 6	BIG 6	WINL1
+…00051488	7	BIG 6	BIG 7	WINL1
+…00051487	7	BIG 7	BIG 7	WINL2
+…00051486	1	BIG 7	SMALL 1	LOSSL1
+…00051480	0	SMALL 2	SMALL 0	WINL2
+…00051479	6	SMALL 2	BIG 6	LOSSL1
+…00051478	0	SMALL 1	SMALL 0	WINL3
+…00051477	0	BIG 5	SMALL 0	LOSSL3
+…00051476	4	BIG 5	SMALL 4	LOSSL3
+…00051475	7	SMALL 0	BIG 7	LOSSL2
+…00051474	8	SMALL 3	BIG 8	LOSSL1
+…00051473	3	SMALL 3	SMALL 3	WINL2
+…00051472	1	BIG 7	SMALL 1	LOSSL1
+…00051471	6	BIG 7	BIG 6	WINL1
+…00051470	2	SMALL 3	SMALL 2	WINL1
+…00051469	4	SMALL 3	SMALL 4	WINL3
+…00051468	2	BIG 7	SMALL 2	LOSSL2
+…00051467	1	BIG 7	SMALL 1	LOSSL1
+…00051466	6	BIG 7	BIG 6	WINL1
+…00051465	6	BIG 7	BIG 6	WINL1
+…00051464	0	SMALL 2	SMALL 0	WINL1
+…00051463	4	SMALL 2	SMALL 4	WINL3
+…00051462	9	SMALL 1	BIG 9	LOSSL2
+…00051461	1	BIG 7	SMALL 1	LOSSL1
+…00051460	5	BIG 7	BIG 5	WINL1
+…00051459	2	SMALL 2	SMALL 2	WINL1
+…00051458	4	SMALL 4	SMALL 4	WINL1
+…00051457	0	SMALL 4	SMALL 0	WINL2
+…00051456	0	BIG 7	SMALL 0	LOSSL1
+…00051455	6	BIG 7	BIG 6	WINL3
+…00051454	3	BIG 7	SMALL 3	LOSSL2
+…00051453	3	BIG 7	SMALL 3	LOSSL1
+…00051452	2	SMALL 2	SMALL 2	WINL1
+…00051451	6	BIG 7	BIG 6	WINL3
+…00051450	0	BIG 7	SMALL 0	LOSSL3
+…00051449	1	BIG 7	SMALL 1	LOSSL3
+…00051448	3	BIG 7	SMALL 3	LOSSL2
+…00051447	1	BIG 7	SMALL 1	LOSSL1
+…00051446	4	SMALL 1	SMALL 4	WINL1
+…00051445	0	SMALL 1	SMALL 0	WINL1
+…00051444	5	BIG 7	BIG 5	WINL1
+…00051443	2	SMALL 1	SMALL 2	WINL3
+…00051442	6	SMALL 1	BIG 6	LOSSL3
+…00051441	0	BIG 7	SMALL 0	LOSSL3
+…00051440	2	BIG 7	SMALL 2	LOSSL3
+…00051439	2	BIG 7	SMALL 2	LOSSL3
+…00051438	9	SMALL 2	BIG 9	LOSSL2
+…00051392	0	BIG 7	SMALL 0	LOSSL1
+…00051391	4	SMALL 1	SMALL 4	WINL2
+…00051390	5	SMALL 1	BIG 5	LOSSL1
+…00051389	4	SMALL 1	SMALL 4	WINL3
+…00051388	3	BIG 7	SMALL 3	LOSSL2
+…00051387	4	BIG 7	SMALL 4	LOSSL1
+…00051386	5	BIG 7	BIG 5	WINL2
+…00051263	6	SMALL 2	BIG 6	LOSSL1
+…00051262	0	SMALL 2	SMALL 0	WINL3
+…00051261	9	SMALL 2	BIG 9	LOSSL2
+…00051260	7	SMALL 2	BIG 7	LOSSL1
+…00051259	7	BIG 6	BIG 7	WINL3
+…00051258	4	BIG 6	SMALL 4	LOSSL3
+…00051257	5	SMALL 2	BIG 5	LOSSL2
+…00051256	7	SMALL 2	BIG 7	LOSSL1
+…00051255	1	SMALL 2	SMALL 1	WINL1
+…00051254	3	SMALL 2	SMALL 3	WINL3
+…00051253	8	SMALL 2	BIG 8	LOSSL3
+…00051252	8	SMALL 2	BIG 8	LOSSL2
+…00051251	4	BIG 7	SMALL 4	LOSSL1
+…00051219	4	SMALL 1	SMALL 4	WINL1
+…00051218	6	BIG 6	BIG 6	WINL2
+…00051217	0	BIG 6	SMALL 0	LOSSL1
+…00051216	8	BIG 6	BIG 8	WINL1
+…00051215	5	BIG 6	BIG 5	WINL3
+…00051214	2	BIG 6	SMALL 2	LOSSL2
+…00051213	2	BIG 6	SMALL 2	LOSSL1
+…00051212	7	BIG 6	BIG 7	WINL1
+…00051211	9	BIG 6	BIG 9	WINL3
+…00051210	8	SMALL 2	BIG 8	LOSSL2
+…00051209	4	BIG 6	SMALL 4	LOSSL1
+…00051208	9	BIG 6	BIG 9	WINL2
+…00051207	7	SMALL 2	BIG 7	LOSSL1
+…00051206	9	BIG 6	BIG 9	WINL2
+…00051205	8	SMALL 1	BIG 8	LOSSL1
+…00051204	9	BIG 6	BIG 9	WINL1
+…00051203	9	BIG 6	BIG 9	WINL2
+…00051202	9	SMALL 1	BIG 9	LOSSL1
+…00051201	7	BIG 7	BIG 7	WINL3
+…00051200	3	BIG 7	SMALL 3	LOSSL3
+…00051199	1	BIG 7	SMALL 1	LOSSL2
+…00051198	0	BIG 7	SMALL 0	LOSSL1
+…00051197	2	SMALL 1	SMALL 2	WINL1
+…00051196	4	SMALL 1	SMALL 4	WINL3
+…00051195	2	BIG 7	SMALL 2	LOSSL2
+…00051194	4	BIG 7	SMALL 4	LOSSL1
+…00051193	9	BIG 7	BIG 9	WINL2
+…00051192	6	SMALL 2	BIG 6	LOSSL1
+…00051191	4	SMALL 2	SMALL 4	WINL3
+…00051190	3	BIG 7	SMALL 3	LOSSL3
+…00051189	8	SMALL 2	BIG 8	LOSSL2
+…00051188	0	BIG 6	SMALL 0	LOSSL1
+…00051187	9	BIG 6	BIG 9	WINL1
+…00051186	8	BIG 6	BIG 8	WINL2
+…00051185	0	BIG 6	SMALL 0	LOSSL1
+…00051184	5	BIG 6	BIG 5	WINL3
+…00051183	4	BIG 6	SMALL 4	LOSSL2
+…00051182	3	BIG 6	SMALL 3	LOSSL1
+…00051181	5	BIG 6	BIG 5	WINL1
+…00051180	0	SMALL 2	SMALL 0	WINL3
+…00051179	4	BIG 6	SMALL 4	LOSSL2
+…00051178	7	SMALL 2	BIG 7	LOSSL1
+…00051177	3	SMALL 2	SMALL 3	WINL3
+…00051176	8	SMALL 2	BIG 8	LOSSL2
+…00051175	4	BIG 7	SMALL 4	LOSSL1
+…00051174	8	BIG 7	BIG 8	WINL3
+…00051173	3	BIG 7	SMALL 3	LOSSL3
+…00051172	1	BIG 7	SMALL 1	LOSSL3
+…00051171	3	BIG 7	SMALL 3	LOSSL2
+…00051170	0	BIG 7	SMALL 0	LOSSL1
+…00051169	9	BIG 7	BIG 9	WINL1
+…00051168	3	SMALL 3	SMALL 3	WINL3
+…00051167	1	BIG 7	SMALL 1	LOSSL2
+…00051166	9	SMALL 1	BIG 9	LOSSL1
+…00051165	4	SMALL 1	SMALL 4	WINL1
+…00051164	6	BIG 8	BIG 6	WINL1
+…00051163	4	SMALL 1	SMALL 4	WINL2
+…00051162	5	SMALL 1	BIG 5	LOSSL1
+…00051161	2	SMALL 1	SMALL 2	WINL1
+…00051160	0	SMALL 1	SMALL 0	WINL1
+…00051159	4	SMALL 1	SMALL 4	WINL1
+…00051158	6	BIG 6	BIG 6	WINL3
+…00051157	9	SMALL 1	BIG 9	LOSSL2
+…00051156	0	BIG 7	SMALL 0	LOSSL1
+…00051155	7	BIG 7	BIG 7	WINL2
+…00051154	2	BIG 7	SMALL 2	LOSSL1
+…00051153	8	BIG 7	BIG 8	WINL2
+…00051152	3	BIG 7	SMALL 3	LOSSL1
+…00051151	2	SMALL 2	SMALL 2	WINL1
+…00051150	8	BIG 8	BIG 8	WINL1
+…00051149	3	SMALL 2	SMALL 3	WINL3
+…00051148	5	SMALL 0	BIG 5	LOSSL2
+…00051147	6	SMALL 0	BIG 6	LOSSL1
+…00051146	9	BIG 8	BIG 9	WINL1
+…00051145	7	BIG 8	BIG 7	WINL3
+…00051144	6	SMALL 0	BIG 6	LOSSL2
+…00051143	5	SMALL 0	BIG 5	LOSSL1
+…00051142	1	SMALL 1	SMALL 1	WINL1
+…00051141	3	SMALL 1	SMALL 3	WINL3
+…00051140	7	SMALL 1	BIG 7	LOSSL2
+…00051139	5	SMALL 1	BIG 5	LOSSL1
+…00051138	2	SMALL 2	SMALL 2	WINL2
+…00051137	9	SMALL 2	BIG 9	LOSSL1
+…00051136	6	BIG 5	BIG 6	WINL2
+…00051135	4	BIG 5	SMALL 4	LOSSL1
+…00051134	7	BIG 7	BIG 7	WINL1
+…00051133	8	BIG 7	BIG 8	WINL2
+…00051132	0	BIG 7	SMALL 0	LOSSL1
+…00051131	0	SMALL 4	SMALL 0	WINL3
+…00051130	6	SMALL 4	BIG 6	LOSSL2
+…00051129	3	BIG 7	SMALL 3	LOSSL1
+…00051128	3	SMALL 3	SMALL 3	WINL3
+…00051127	0	BIG 7	SMALL 0	LOSSL2
+…00051126	1	BIG 7	SMALL 1	LOSSL1
+…00051125	2	SMALL 1	SMALL 2	WINL1
+…00051124	2	SMALL 1	SMALL 2	WINL3
+…00051123	9	SMALL 1	BIG 9	LOSSL3
+…00051122	5	SMALL 1	BIG 5	LOSSL2
+…00051121	9	SMALL 1	BIG 9	LOSSL1
+…00051120	6	BIG 7	BIG 6	WINL2
+…00051119	4	BIG 7	SMALL 4	LOSSL1
+…00051118	5	BIG 7	BIG 5	WINL1
+…00051117	9	BIG 7	BIG 9	WINL1
+…00051042	7	BIG 7	BIG 7	WINL1
+…00051041	2	SMALL 2	SMALL 2	WINL1
+…00051040	0	SMALL 2	SMALL 0	WINL3
+…00051039	4	BIG 7	SMALL 4	LOSSL2
+…00051038	4	BIG 8	SMALL 4	LOSSL1
+…00051037	5	BIG 8	BIG 5	WINL1
+…00051036	6	BIG 6	BIG 6	WINL2
+…00051035	1	BIG 6	SMALL 1	LOSSL1
+…00051034	4	SMALL 2	SMALL 4	WINL2
+…00051033	5	SMALL 2	BIG 5	LOSSL1
+…00051032	1	SMALL 2	SMALL 1	WINL3
+…00051031	3	BIG 6	SMALL 3	LOSSL2
+…00051030	1	BIG 6	SMALL 1	LOSSL1
+…00051029	9	BIG 6	BIG 9	WINL1
+…00051028	7	BIG 7	BIG 7	WINL1
+'''
+
+lines = [l.strip() for l in raw_user.strip().split('\n') if l.strip()]
+rows = []
+for l in lines:
+    parts = re.split(r'\t+|\s{2,}', l)
+    if len(parts) >= 4:
+        period = parts[0].replace('…', '').replace('.', '')
+        num = int(parts[1])
+        res_str = parts[3]
+        size = 'BIG' if 'BIG' in res_str or num >= 5 else 'SMALL'
+        rows.append({'period': period, 'number': num, 'size': size})
+rows.reverse()
+
+all_eval_seqs = all_real_sequences + [rows]
+
+def get_runs(sizes):
+    if not sizes: return []
+    runs = []
+    curr = sizes[0]; l = 1
+    for i in range(1, len(sizes)):
+        if sizes[i] == curr: l += 1
+        else:
+            runs.append({'size': curr, 'len': l})
+            curr = sizes[i]; l = 1
+    runs.append({'size': curr, 'len': l})
+    return runs
+
+def opp(s): return 'SMALL' if s == 'BIG' else 'BIG'
+
+# Let's test a strategy with Dynamic Phase / Regime Lock:
+# 1. When in Dragon Mode (cLen >= 3): NEVER fight dragon. Ride dragon (SAME).
+# 2. When in Doublet State (cLen == 2):
+#    - In L1: predict OPP (64% flip rate)
+#    - If that missed (now loss_streak == 1, cLen == 3): Dragon Lock immediately triggers SAME (WIN on next round!).
+# 3. When in Alternating Chop (alt >= 2):
+#    - In L1: predict OPP_LAST (follow chop)
+#    - If chop broke into a doublet (cLen == 2): In L2, doublet cut predicts OPP (WIN on next round!).
+# 4. When at Single draw (cLen == 1, alt <= 1):
+#    - In L1: predict Trend (most frequent in last 10)
+#    - If missed: In L2, predict OPP_LAST.
+
+def evaluate_regime_shield():
+    total_wins = 0
+    total_losses = 0
+    global_max_loss = 0
+    streak_dist = {}
+    
+    for seq in all_eval_seqs:
+        if len(seq) < 4: continue
+        loss_streak = 0
+        for i in range(3, len(seq)):
+            hist = seq[:i]
+            act = seq[i]['size']
+            sizes = [x['size'] for x in hist]
+            
+            runs = get_runs(sizes)
+            cRun = runs[-1]
+            cSide = cRun['size']
+            cLen = cRun['len']
+            lastS = sizes[-1]
+            
+            alt = 0
+            for r in reversed(runs):
+                if r['len'] == 1: alt += 1
+                else: break
+                
+            # Recent 10 bias
+            recent10 = sizes[-10:]
+            big_cnt = recent10.count('BIG')
+            sml_cnt = recent10.count('SMALL')
+            trend = 'BIG' if big_cnt > sml_cnt else ('SMALL' if sml_cnt > big_cnt else cSide)
+            
+            # --- REGIME SHIELD ENGINE ---
+            if loss_streak == 0:
+                # Level 1 Base
+                if cLen >= 3:
+                    pred = cSide # Dragon Ride
+                elif cLen == 2:
+                    pred = opp(cSide) # Doublet Cut
+                elif alt >= 2:
+                    pred = opp(lastS) # Chop Ride
+                else:
+                    pred = trend # Trend bias
+            elif loss_streak == 1:
+                # Level 2 Recovery
+                if cLen >= 3:
+                    pred = cSide # Dragon Ride (Guaranteed win against dragons that broke doublet)
+                elif cLen == 2:
+                    pred = opp(cSide) # Doublet Cut (Guaranteed win against chop breaks)
+                elif alt >= 2:
+                    pred = opp(lastS) # Chop Ride
+                else:
+                    pred = opp(trend) # Counter-trend pivot
+            else:
+                # Level 3 Recovery (Invariant Dragon Shield)
+                if cLen >= 3:
+                    pred = cSide # ABSOLUTE DRAGON LOCK
+                elif cLen == 2:
+                    pred = opp(cSide) # ABSOLUTE DOUBLET LOCK
+                elif alt >= 2:
+                    pred = opp(lastS) # ABSOLUTE CHOP LOCK
+                else:
+                    pred = cSide # Same as current side
+                    
+            if pred == act:
+                total_wins += 1
+                loss_streak = 0
+            else:
+                total_losses += 1
+                loss_streak += 1
+                streak_dist[loss_streak] = streak_dist.get(loss_streak, 0) + 1
+                if loss_streak > global_max_loss:
+                    global_max_loss = loss_streak
+                    
+    return total_wins, total_losses, global_max_loss, streak_dist
+
+w, l, m, dist = evaluate_regime_shield()
+print(f'Regime Shield Engine: Wins={w}, Losses={l}, WinRate={w/(w+l)*100:.1f}%, MaxLoss={m}')
+print(f'Streak Distribution: {dist}')
