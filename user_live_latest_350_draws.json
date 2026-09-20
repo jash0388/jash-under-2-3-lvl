@@ -1,0 +1,1178 @@
+[
+  {
+    "period": "00051028",
+    "num": 7,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 7",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051029",
+    "num": 9,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 9",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051030",
+    "num": 1,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 1",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051031",
+    "num": 3,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 3",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051032",
+    "num": 1,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 1",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051033",
+    "num": 5,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 5",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051034",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 4",
+    "status": "WINL2"
+  },
+  {
+    "period": "00051035",
+    "num": 1,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 1",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051036",
+    "num": 6,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 6",
+    "status": "WINL2"
+  },
+  {
+    "period": "00051037",
+    "num": 5,
+    "size": "BIG",
+    "signal": "BIG 8",
+    "result": "BIG 5",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051038",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "BIG 8",
+    "result": "SMALL 4",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051039",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 4",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051040",
+    "num": 0,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 0",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051041",
+    "num": 2,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 2",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051042",
+    "num": 7,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 7",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051117",
+    "num": 9,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 9",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051118",
+    "num": 5,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 5",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051119",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 4",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051120",
+    "num": 6,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 6",
+    "status": "WINL2"
+  },
+  {
+    "period": "00051121",
+    "num": 9,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 9",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051122",
+    "num": 5,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 5",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051123",
+    "num": 9,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 9",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "00051124",
+    "num": 2,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 2",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051125",
+    "num": 2,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 2",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051126",
+    "num": 1,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 1",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051127",
+    "num": 0,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 0",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051128",
+    "num": 3,
+    "size": "SMALL",
+    "signal": "SMALL 3",
+    "result": "SMALL 3",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051129",
+    "num": 3,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 3",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051130",
+    "num": 6,
+    "size": "BIG",
+    "signal": "SMALL 4",
+    "result": "BIG 6",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051131",
+    "num": 0,
+    "size": "SMALL",
+    "signal": "SMALL 4",
+    "result": "SMALL 0",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051132",
+    "num": 0,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 0",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051133",
+    "num": 8,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 8",
+    "status": "WINL2"
+  },
+  {
+    "period": "00051134",
+    "num": 7,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 7",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051135",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "BIG 5",
+    "result": "SMALL 4",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051136",
+    "num": 6,
+    "size": "BIG",
+    "signal": "BIG 5",
+    "result": "BIG 6",
+    "status": "WINL2"
+  },
+  {
+    "period": "00051137",
+    "num": 9,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 9",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051138",
+    "num": 2,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 2",
+    "status": "WINL2"
+  },
+  {
+    "period": "00051139",
+    "num": 5,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 5",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051140",
+    "num": 7,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 7",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051141",
+    "num": 3,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 3",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051142",
+    "num": 1,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 1",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051143",
+    "num": 5,
+    "size": "BIG",
+    "signal": "SMALL 0",
+    "result": "BIG 5",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051144",
+    "num": 6,
+    "size": "BIG",
+    "signal": "SMALL 0",
+    "result": "BIG 6",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051145",
+    "num": 7,
+    "size": "BIG",
+    "signal": "BIG 8",
+    "result": "BIG 7",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051146",
+    "num": 9,
+    "size": "BIG",
+    "signal": "BIG 8",
+    "result": "BIG 9",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051147",
+    "num": 6,
+    "size": "BIG",
+    "signal": "SMALL 0",
+    "result": "BIG 6",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051148",
+    "num": 5,
+    "size": "BIG",
+    "signal": "SMALL 0",
+    "result": "BIG 5",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051149",
+    "num": 3,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 3",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051150",
+    "num": 8,
+    "size": "BIG",
+    "signal": "BIG 8",
+    "result": "BIG 8",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051151",
+    "num": 2,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 2",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051152",
+    "num": 3,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 3",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051153",
+    "num": 8,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 8",
+    "status": "WINL2"
+  },
+  {
+    "period": "00051154",
+    "num": 2,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 2",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051155",
+    "num": 7,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 7",
+    "status": "WINL2"
+  },
+  {
+    "period": "00051156",
+    "num": 0,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 0",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051157",
+    "num": 9,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 9",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051158",
+    "num": 6,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 6",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051159",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 4",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051160",
+    "num": 0,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 0",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051161",
+    "num": 2,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 2",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051162",
+    "num": 5,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 5",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051163",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 4",
+    "status": "WINL2"
+  },
+  {
+    "period": "00051164",
+    "num": 6,
+    "size": "BIG",
+    "signal": "BIG 8",
+    "result": "BIG 6",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051165",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 4",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051166",
+    "num": 9,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 9",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051167",
+    "num": 1,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 1",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051168",
+    "num": 3,
+    "size": "SMALL",
+    "signal": "SMALL 3",
+    "result": "SMALL 3",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051169",
+    "num": 9,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 9",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051170",
+    "num": 0,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 0",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051171",
+    "num": 3,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 3",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051172",
+    "num": 1,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 1",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "00051173",
+    "num": 3,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 3",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "00051174",
+    "num": 8,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 8",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051175",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 4",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051176",
+    "num": 8,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 8",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051177",
+    "num": 3,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 3",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051178",
+    "num": 7,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 7",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051179",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 4",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051180",
+    "num": 0,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 0",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051181",
+    "num": 5,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 5",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051182",
+    "num": 3,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 3",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051183",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 4",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051184",
+    "num": 5,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 5",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051185",
+    "num": 0,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 0",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051186",
+    "num": 8,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 8",
+    "status": "WINL2"
+  },
+  {
+    "period": "00051187",
+    "num": 9,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 9",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051188",
+    "num": 0,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 0",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051189",
+    "num": 8,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 8",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051190",
+    "num": 3,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 3",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "00051191",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 4",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051192",
+    "num": 6,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 6",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051193",
+    "num": 9,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 9",
+    "status": "WINL2"
+  },
+  {
+    "period": "00051194",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 4",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051195",
+    "num": 2,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 2",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051196",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 4",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051197",
+    "num": 2,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 2",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051198",
+    "num": 0,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 0",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051199",
+    "num": 1,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 1",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051200",
+    "num": 3,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 3",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "00051201",
+    "num": 7,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 7",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051202",
+    "num": 9,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 9",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051203",
+    "num": 9,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 9",
+    "status": "WINL2"
+  },
+  {
+    "period": "00051204",
+    "num": 9,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 9",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051205",
+    "num": 8,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 8",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051206",
+    "num": 9,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 9",
+    "status": "WINL2"
+  },
+  {
+    "period": "00051207",
+    "num": 7,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 7",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051208",
+    "num": 9,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 9",
+    "status": "WINL2"
+  },
+  {
+    "period": "00051209",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 4",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051210",
+    "num": 8,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 8",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051211",
+    "num": 9,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 9",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051212",
+    "num": 7,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 7",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051213",
+    "num": 2,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 2",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051214",
+    "num": 2,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 2",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051215",
+    "num": 5,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 5",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051216",
+    "num": 8,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 8",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051217",
+    "num": 0,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 0",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051218",
+    "num": 6,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 6",
+    "status": "WINL2"
+  },
+  {
+    "period": "00051219",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 4",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051251",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 4",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051252",
+    "num": 8,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 8",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051253",
+    "num": 8,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 8",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "00051254",
+    "num": 3,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 3",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051255",
+    "num": 1,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 1",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051256",
+    "num": 7,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 7",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051257",
+    "num": 5,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 5",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051258",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "BIG 6",
+    "result": "SMALL 4",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "00051259",
+    "num": 7,
+    "size": "BIG",
+    "signal": "BIG 6",
+    "result": "BIG 7",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051260",
+    "num": 7,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 7",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051261",
+    "num": 9,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 9",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051262",
+    "num": 0,
+    "size": "SMALL",
+    "signal": "SMALL 2",
+    "result": "SMALL 0",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051263",
+    "num": 6,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 6",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051386",
+    "num": 5,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 5",
+    "status": "WINL2"
+  },
+  {
+    "period": "00051387",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 4",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051388",
+    "num": 3,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 3",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051389",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 4",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051390",
+    "num": 5,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 5",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051391",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 4",
+    "status": "WINL2"
+  },
+  {
+    "period": "00051392",
+    "num": 0,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 0",
+    "status": "LOSSL1"
+  },
+  {
+    "period": "00051438",
+    "num": 9,
+    "size": "BIG",
+    "signal": "SMALL 2",
+    "result": "BIG 9",
+    "status": "LOSSL2"
+  },
+  {
+    "period": "00051439",
+    "num": 2,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 2",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "00051440",
+    "num": 2,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 2",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "00051441",
+    "num": 0,
+    "size": "SMALL",
+    "signal": "BIG 7",
+    "result": "SMALL 0",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "00051442",
+    "num": 6,
+    "size": "BIG",
+    "signal": "SMALL 1",
+    "result": "BIG 6",
+    "status": "LOSSL3"
+  },
+  {
+    "period": "00051443",
+    "num": 2,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 2",
+    "status": "WINL3"
+  },
+  {
+    "period": "00051444",
+    "num": 5,
+    "size": "BIG",
+    "signal": "BIG 7",
+    "result": "BIG 5",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051445",
+    "num": 0,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 0",
+    "status": "WINL1"
+  },
+  {
+    "period": "00051446",
+    "num": 4,
+    "size": "SMALL",
+    "signal": "SMALL 1",
+    "result": "SMALL 4",
+    "status": "WINL1"
+  }
+]

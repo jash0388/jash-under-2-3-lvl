@@ -1,15 +1,6 @@
 import json
 import os
 
-with open('/Users/jashwanthsingh/Downloads/jashvip/v9um_apex_titan_supreme_30s_rules.json', 'r') as f:
-    rules_30s = json.load(f)
-
-with open('/Users/jashwanthsingh/Downloads/jashvip/v3um_enhanced_1m_rules.json', 'r') as f:
-    rules_1m = json.load(f)
-
-rules_30s_str = json.dumps(rules_30s)
-rules_1m_str = json.dumps(rules_1m)
-
 script_code = '''// ==UserScript==
 // @name         JASH VIP v16.0 Ultimate (Apex Titan v9UM Zero-Bust Dual-Engine)
 // @namespace    http://tampermonkey.net/
@@ -75,6 +66,12 @@ script_code = '''// ==UserScript==
 
   let LIVE_API_HISTORY = [];
   let DOM_SCRAPED_HISTORY = [];
+  let LOCAL_DRAW_BUFFER = [];
+  try {
+    const savedBuffer = localStorage.getItem('JASH_LOCAL_DRAW_BUFFER');
+    if (savedBuffer) LOCAL_DRAW_BUFFER = JSON.parse(savedBuffer);
+  } catch (e) {}
+
   let RECORDED_BETS_FEED = [];
   try {
     const savedFeed = localStorage.getItem('JASH_BETS_FEED') || localStorage.getItem('REAL_BETS_FEED');
@@ -101,6 +98,20 @@ script_code = '''// ==UserScript==
   // ── 3. REAL-TIME HIGH-SPEED API & DOM CAPTURE ─────────────
   const sizeFor = n => (Number(n) >= 5 ? 'BIG' : 'SMALL');
 
+  function mergeIntoBuffer(items) {
+    if (!items || !items.length) return;
+    const map = new Map();
+    [...items, ...LOCAL_DRAW_BUFFER].forEach(item => {
+      if (item && item.period && !map.has(item.period)) {
+        map.set(item.period, item);
+      }
+    });
+    LOCAL_DRAW_BUFFER = Array.from(map.values()).sort((a, b) => {
+      try { return BigInt(b.period) > BigInt(a.period) ? 1 : -1; } catch (e) { return 0; }
+    }).slice(0, 100);
+    try { localStorage.setItem('JASH_LOCAL_DRAW_BUFFER', JSON.stringify(LOCAL_DRAW_BUFFER)); } catch (e) {}
+  }
+
   const origXhrSend = XMLHttpRequest.prototype.send;
   XMLHttpRequest.prototype.send = function (body) {
     this.addEventListener('load', () => {
@@ -126,6 +137,7 @@ script_code = '''// ==UserScript==
             }).filter(x => /^\\d+$/.test(x.period) && Number.isInteger(x.number));
             if (parsed.length > 0) {
               LIVE_API_HISTORY = parsed;
+              mergeIntoBuffer(parsed);
               updateHud();
             }
           }
@@ -161,6 +173,7 @@ script_code = '''// ==UserScript==
               }).filter(x => /^\\d+$/.test(x.period) && Number.isInteger(x.number));
               if (parsed.length > 0) {
                 LIVE_API_HISTORY = parsed;
+                mergeIntoBuffer(parsed);
                 updateHud();
               }
             }
@@ -173,32 +186,48 @@ script_code = '''// ==UserScript==
 
   function scrapeScreenGameHistory() {
     try {
-      const rows = Array.from(document.querySelectorAll('table tbody tr, .van-table__row, [class*="record"] tr, [class*="history"] tr, [class*="list"] [class*="item"]')).filter(e => !e.closest('#jash-hud'));
+      const rows = Array.from(document.querySelectorAll('table tbody tr, .van-table__row, [class*="record"] tr, [class*="history"] tr, [class*="list"] [class*="item"], .van-row')).filter(e => !e.closest('#jash-hud'));
       const parsed = [];
       for (const r of rows) {
         const txt = (r.textContent || '').trim();
         const pMatch = txt.match(/(\\d{8,20})/);
-        const nMatch = txt.match(/\\b([0-9])\\b/);
-        if (pMatch && nMatch) {
+        if (pMatch) {
           const p = pMatch[1];
-          const n = parseInt(nMatch[1]);
-          parsed.push({ period: p, number: n, size: sizeFor(n) });
+          // Try child cell for precise number
+          let numVal = null;
+          const numCell = r.querySelector('.num, .number, .ball, [class*="ball"], [class*="num"], td:nth-child(2), td:nth-child(3)');
+          if (numCell) {
+            const cTxt = (numCell.textContent || '').trim();
+            if (/^[0-9]$/.test(cTxt)) numVal = parseInt(cTxt);
+          }
+          if (numVal == null) {
+            const numMatches = Array.from(txt.matchAll(/\\b([0-9])\\b/g));
+            if (numMatches.length > 0) {
+              numVal = parseInt(numMatches[0][1]);
+            }
+          }
+          if (numVal != null && !isNaN(numVal)) {
+            parsed.push({ period: p, number: numVal, size: sizeFor(numVal) });
+          }
         }
       }
-      if (parsed.length >= 3) {
+      if (parsed.length >= 2) {
         DOM_SCRAPED_HISTORY = parsed;
+        mergeIntoBuffer(parsed);
         updateHud();
       }
 
       const balls = Array.from(document.querySelectorAll('.ball, [class*="ball"], .balls span, .game-ball')).filter(e => !e.closest('#jash-hud') && /^[0-9]$/.test((e.textContent || '').trim()));
-      if (balls.length >= 5 && DOM_SCRAPED_HISTORY.length < 5) {
+      if (balls.length >= 5 && LOCAL_DRAW_BUFFER.length < 5) {
         const nums = balls.map(b => parseInt(b.textContent.trim())).filter(n => !isNaN(n));
         if (nums.length >= 5) {
-          DOM_SCRAPED_HISTORY = nums.map((num, i) => ({
+          const pseudo = nums.map((num, i) => ({
             period: String(Date.now() - i * 30000),
             number: num,
             size: sizeFor(num)
           }));
+          DOM_SCRAPED_HISTORY = pseudo;
+          mergeIntoBuffer(pseudo);
           updateHud();
         }
       }
@@ -209,7 +238,7 @@ script_code = '''// ==UserScript==
 
   function getMergedResults() {
     const map = new Map();
-    [...LIVE_API_HISTORY, ...DOM_SCRAPED_HISTORY].forEach(item => {
+    [...LIVE_API_HISTORY, ...DOM_SCRAPED_HISTORY, ...LOCAL_DRAW_BUFFER].forEach(item => {
       if (item && item.period && !map.has(item.period)) {
         map.set(item.period, item);
       }
@@ -290,16 +319,14 @@ script_code = '''// ==UserScript==
     return runs;
   }
 
-  const TITAN_RULES_30S = ''' + rules_30s_str + ''';
-  const TITAN_RULES_1M = ''' + rules_1m_str + ''';
-
   function predictApexTitan30S(sizes, lossStreak) {
+    if (!sizes || sizes.length === 0) return { finalSize: 'BIG', regime: 'INITIALIZING', conf: 85 };
     const runs = getRuns(sizes);
     const cRun = runs[runs.length - 1];
     const cSide = cRun.size;
     const cLen = cRun.len;
     const pRun = runs.length >= 2 ? runs[runs.length - 2] : { size: opp(cSide), len: 0 };
-    const p2Run = runs.length >= 3 ? runs[runs.length - 3] : { size: cSide, len: 0 };
+    const p3Run = runs.length >= 3 ? runs[runs.length - 3] : { size: cSide, len: 0 };
     const lastS = sizes[sizes.length - 1];
 
     let alt = 0;
@@ -308,84 +335,44 @@ script_code = '''// ==UserScript==
       else break;
     }
 
-    const cLenCat = Math.min(cLen, 4);
-    const pLenCat = Math.min(pRun.len, 3);
-    const p2LenCat = Math.min(p2Run.len, 3);
-    const altCat = Math.min(alt, 3);
-    const streakCat = Math.min(lossStreak || 0, 2);
-
-    const recent = sizes.slice(-6);
-    let flips = 0;
-    for (let i = 1; i < recent.length; i++) {
-      if (recent[i] !== recent[i - 1]) flips++;
+    // --- LEVEL 3 INVARIANT SHIELD (STREAK >= 2) ---
+    if (lossStreak >= 2) {
+      if (cLen >= 3) return { finalSize: cSide, regime: `🛑 L3 DRAGON LOCK (${cSide} x${cLen})`, conf: 99 };
+      if (cLen === 2) return { finalSize: opp(cSide), regime: `🛑 L3 DOUBLET CUT (${opp(cSide)})`, conf: 98 };
+      if (alt >= 2) return { finalSize: opp(lastS), regime: `🛑 L3 CHOP OSCILLATE (${opp(lastS)})`, conf: 99 };
+      if (pRun.len === 2 && cLen === 1) return { finalSize: opp(cSide), regime: `🛑 L3 WAVE SHIELD (${opp(cSide)})`, conf: 97 };
+      return { finalSize: opp(cSide), regime: `🛑 L3 SAFE RECOVERY (${opp(cSide)})`, conf: 96 };
     }
-    const flipCat = flips <= 1 ? 0 : ((flips === 2 || flips === 3) ? 1 : 2);
-    const cSideBit = cSide === "BIG" ? 1 : 0;
 
-    const key = `${streakCat}_${cLenCat}_${pLenCat}_${p2LenCat}_${altCat}_${flipCat}_${cSideBit}`;
-    
-    // Safe Invariant Fallback: Dragon Lock + Doublet Ride + Chop Oscillate
-    const actRule = TITAN_RULES_30S[key] || (cLen >= 2 ? "SAME" : (alt >= 2 ? "OPP_LAST" : "SAME"));
+    // --- LEVEL 2 RECOVERY (STREAK == 1) ---
+    if (lossStreak === 1) {
+      if (cLen >= 3) return { finalSize: cSide, regime: `🛡️ L2 DRAGON RIDE (${cSide} x${cLen})`, conf: 96 };
+      if (cLen === 2) return { finalSize: opp(cSide), regime: `🛡️ L2 DOUBLET CUT (${opp(cSide)})`, conf: 96 };
+      if (alt >= 3) return { finalSize: opp(lastS), regime: `🛡️ L2 DEEP CHOP OSC (${opp(lastS)})`, conf: 95 };
+      if (alt >= 2) return { finalSize: cSide, regime: `🛡️ L2 CHOP BREAK (${cSide})`, conf: 94 };
+      if (pRun.len >= 3 && cLen === 1) return { finalSize: opp(cSide), regime: `🛡️ L2 POST-DRAGON FLIP (${opp(cSide)})`, conf: 95 };
+      return { finalSize: cSide, regime: `🛡️ L2 MOMENTUM LOCK (${cSide})`, conf: 93 };
+    }
 
-    let finalSize = cSide;
-    if (actRule === "SAME") finalSize = cSide;
-    else if (actRule === "OPP") finalSize = opp(cSide);
-    else if (actRule === "LAST") finalSize = lastS;
-    else if (actRule === "OPP_LAST") finalSize = opp(lastS);
-
-    const conf = lossStreak >= 2 ? 99 : (lossStreak === 1 ? 96 : 92);
-    const regimeTag = lossStreak >= 2 ? `🛑 L3 RECOVERY (${actRule}) [${finalSize}]` : (lossStreak === 1 ? `🛡️ L2 RECOVERY (${actRule}) [${finalSize}]` : `🌊 L1 APEX (${actRule}) [${finalSize}]`);
-
-    return { finalSize, regime: regimeTag, conf };
+    // --- LEVEL 1 BASE (STREAK == 0) ---
+    if (cLen === 3 && pRun.len === 1 && p3Run.len === 3) {
+      return { finalSize: opp(cSide), regime: `🎯 L1 3-1-3 HARMONIC CUT (${opp(cSide)})`, conf: 94 };
+    }
+    if (cLen >= 3) return { finalSize: cSide, regime: `🌊 L1 DRAGON RIDE (${cSide} x${cLen})`, conf: 94 };
+    if (cLen === 2) return { finalSize: opp(cSide), regime: `🌊 L1 DOUBLET CUT (${opp(cSide)})`, conf: 95 };
+    if (alt >= 3) return { finalSize: opp(lastS), regime: `⚡ L1 DEEP CHOP OSC (${opp(lastS)})`, conf: 93 };
+    if (alt >= 2) return { finalSize: lastS, regime: `⚡ L1 CHOP STABILIZE (${lastS})`, conf: 92 };
+    if (cLen === 1) return { finalSize: cSide, regime: `🌊 L1 PAIR BUILD (${cSide})`, conf: 91 };
+    return { finalSize: cSide, regime: `🌊 L1 MOMENTUM (${cSide})`, conf: 90 };
   }
 
   function predictApexTitan1M(sizes, lossStreak) {
-    const runs = getRuns(sizes);
-    const cRun = runs[runs.length - 1];
-    const cSide = cRun.size;
-    const cLen = cRun.len;
-    const pRun = runs.length >= 2 ? runs[runs.length - 2] : { size: opp(cSide), len: 0 };
-    const p2Run = runs.length >= 3 ? runs[runs.length - 3] : { size: cSide, len: 0 };
-    const lastS = sizes[sizes.length - 1];
-
-    let alt = 0;
-    for (let i = runs.length - 1; i >= 0; i--) {
-      if (runs[i].len === 1) alt++;
-      else break;
-    }
-
-    const cLenCat = Math.min(cLen, 4);
-    const pLenCat = Math.min(pRun.len, 3);
-    const p2LenCat = Math.min(p2Run.len, 3);
-    const altCat = Math.min(alt, 3);
-    const streakCat = Math.min(lossStreak || 0, 2);
-
-    const recent = sizes.slice(-6);
-    let flips = 0;
-    for (let i = 1; i < recent.length; i++) {
-      if (recent[i] !== recent[i - 1]) flips++;
-    }
-    const flipCat = flips <= 1 ? 0 : ((flips === 2 || flips === 3) ? 1 : 2);
-    const cSideBit = cSide === "BIG" ? 1 : 0;
-
-    const key = `${streakCat}_${cLenCat}_${pLenCat}_${p2LenCat}_${altCat}_${flipCat}_${cSideBit}`;
-    const actRule = (TITAN_RULES_1M && TITAN_RULES_1M[key]) ? TITAN_RULES_1M[key] : (cLen >= 2 ? "SAME" : (alt >= 2 ? "OPP_LAST" : "SAME"));
-
-    let finalSize = cSide;
-    if (actRule === "SAME") finalSize = cSide;
-    else if (actRule === "OPP") finalSize = opp(cSide);
-    else if (actRule === "LAST") finalSize = lastS;
-    else if (actRule === "OPP_LAST") finalSize = opp(lastS);
-
-    const conf = lossStreak >= 2 ? 99 : (lossStreak === 1 ? 96 : 91);
-    const regimeTag = lossStreak >= 2 ? `🛑 1M L3 ZERO-BUST SHIELD (${actRule}) [${finalSize}]` : (lossStreak === 1 ? `🛡️ 1M L2 RECOVERY (${actRule}) [${finalSize}]` : `🌊 1M L1 APEX (${actRule}) [${finalSize}]`);
-
-    return { finalSize, regime: regimeTag, conf };
+    return predictApexTitan30S(sizes, lossStreak);
   }
 
   function computeMasterPrediction() {
     const results = getMergedResults();
-    if (!results || results.length < 3) {
+    if (!results || results.length === 0) {
       return { size: 'BIG', balls: [7, 8], number: 7, mode: '👑 JASH VIP · CALIBRATING', conf: 90 };
     }
     const historySeq = results.slice(0, 50).reverse();
@@ -837,8 +824,8 @@ script_code = '''// ==UserScript==
         const m = txt.match(/\\b(2026\\d{10,14})\\b/);
         if (m && txt.length < 30) { activePeriod = m[1]; break; }
       }
-      if (!activePeriod && LIVE_API_HISTORY.length > 0) {
-        try { activePeriod = (BigInt(LIVE_API_HISTORY[0].period) + 1n).toString(); } catch (e) {}
+      if (!activePeriod && LOCAL_DRAW_BUFFER.length > 0) {
+        try { activePeriod = (BigInt(LOCAL_DRAW_BUFFER[0].period) + 1n).toString(); } catch (e) {}
       }
 
       if (activePeriod && currentPeriod && activePeriod !== currentPeriod) {
