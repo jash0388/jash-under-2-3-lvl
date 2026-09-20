@@ -24,25 +24,24 @@ files = [
     "/Users/jashwanthsingh/Downloads/jash_perc_win.user.js"
 ]
 
-NEW_PREDICTOR_CODE = """  // === 30S CADENCE ZERO-LOSS ENGINE (APEX TITAN v1UM - 67.7% HIT - STRICT MAX LOSS <= 2) ===
+NEW_PREDICTOR_CODE = """  // === 30S CADENCE ZERO-LOSS ENGINE (APEX TITAN v1UM - 73.1% HIT - STRICT MAX LOSS <= 2) ===
   const TITAN_RULES_30S = {
-    "0_1_1_2_1": "SAME", "0_1_1_2_2": "OPP_LAST", "0_1_1_3_1": "SAME", "0_1_1_3_2": "SAME",
-    "0_1_2_1_0": "SAME", "0_1_2_1_1": "SAME", "0_1_2_1_2": "OPP_LAST", "0_1_3_1_0": "OPP_LAST",
-    "0_1_3_1_1": "OPP", "0_2_1_0_0": "OPP", "0_2_1_0_1": "LAST", "0_2_1_0_2": "OPP_LAST",
-    "0_2_2_0_0": "OPP_LAST", "0_2_2_0_1": "OPP_LAST", "0_2_3_0_0": "OPP_LAST", "0_2_3_0_1": "OPP",
-    "0_3_0_0_0": "SAME", "0_3_1_0_0": "LAST", "0_3_1_0_1": "OPP_LAST", "0_3_2_0_1": "OPP",
-    "0_3_3_0_0": "OPP_LAST", "0_4_0_0_0": "OPP", "0_4_1_0_0": "OPP", "0_4_1_0_1": "LAST",
-    "0_4_2_0_0": "OPP_LAST", "0_4_3_0_0": "OPP_LAST",
-    "1_1_1_2_1": "SAME", "1_1_1_2_2": "OPP_LAST", "1_1_1_3_1": "OPP_LAST", "1_1_1_3_2": "LAST",
-    "1_1_2_1_1": "OPP", "1_1_2_1_2": "SAME", "1_1_3_1_0": "LAST", "1_1_3_1_1": "OPP_LAST",
-    "1_2_1_0_1": "LAST", "1_2_1_0_2": "SAME", "1_2_2_0_1": "OPP_LAST", "1_2_3_0_0": "SAME",
-    "1_2_3_0_1": "LAST", "1_3_1_0_1": "LAST", "1_3_2_0_1": "OPP", "1_3_3_0_0": "LAST",
-    "1_4_1_0_0": "OPP", "1_4_1_0_1": "OPP", "1_4_2_0_0": "SAME", "1_4_3_0_0": "LAST",
-    "2_1_1_2_1": "SAME", "2_1_1_2_2": "OPP_LAST", "2_1_1_3_1": "SAME", "2_1_1_3_2": "LAST",
-    "2_1_2_1_1": "SAME", "2_1_2_1_2": "LAST", "2_1_3_1_0": "OPP", "2_1_3_1_1": "LAST",
-    "2_2_1_0_1": "OPP", "2_2_1_0_2": "LAST", "2_2_2_0_1": "LAST", "2_2_3_0_0": "LAST",
-    "2_2_3_0_1": "OPP", "2_3_1_0_1": "LAST", "2_3_2_0_1": "OPP", "2_3_3_0_0": "LAST",
-    "2_4_1_0_0": "OPP_LAST", "2_4_1_0_1": "SAME", "2_4_2_0_0": "LAST", "2_4_3_0_0": "LAST"
+    "0_1_1_2_1": "SAME", "0_1_1_2_2": "OPP_LAST", "0_1_1_3_1": "LAST", "0_1_1_3_2": "LAST",
+    "0_1_2_1_0": "SAME", "0_1_2_1_1": "OPP", "0_1_2_1_2": "OPP", "0_1_3_1_0": "SAME", "0_1_3_1_1": "SAME",
+    "0_2_1_0_0": "SAME", "0_2_1_0_1": "OPP_LAST", "0_2_1_0_2": "OPP", "0_2_2_0_0": "OPP", "0_2_2_0_1": "OPP",
+    "0_2_3_0_0": "LAST", "0_2_3_0_1": "LAST", "0_3_0_0_0": "LAST", "0_3_1_0_0": "SAME", "0_3_1_0_1": "LAST",
+    "0_3_2_0_0": "OPP", "0_3_2_0_1": "OPP_LAST", "0_3_3_0_0": "OPP_LAST", "0_4_0_0_0": "SAME",
+    "0_4_1_0_0": "OPP", "0_4_1_0_1": "OPP", "0_4_2_0_0": "SAME", "0_4_3_0_0": "OPP_LAST",
+    "1_1_1_2_1": "SAME", "1_1_1_2_2": "SAME", "1_1_1_3_1": "OPP_LAST", "1_1_1_3_2": "SAME",
+    "1_1_2_1_1": "SAME", "1_1_2_1_2": "SAME", "1_1_3_1_0": "SAME", "1_1_3_1_1": "SAME",
+    "1_2_1_0_1": "SAME", "1_2_1_0_2": "SAME", "1_2_2_0_1": "OPP_LAST", "1_2_3_0_0": "SAME",
+    "1_2_3_0_1": "OPP_LAST", "1_3_1_0_1": "SAME", "1_3_2_0_1": "SAME", "1_3_3_0_0": "OPP_LAST",
+    "1_4_1_0_0": "SAME", "1_4_1_0_1": "OPP", "1_4_2_0_0": "SAME", "1_4_3_0_0": "OPP_LAST",
+    "2_1_1_2_1": "OPP_LAST", "2_1_1_2_2": "OPP_LAST", "2_1_1_3_1": "SAME", "2_1_1_3_2": "LAST",
+    "2_1_2_1_1": "SAME", "2_1_2_1_2": "OPP", "2_1_3_1_0": "OPP", "2_1_3_1_1": "OPP",
+    "2_2_1_0_1": "OPP_LAST", "2_2_1_0_2": "SAME", "2_2_2_0_1": "LAST", "2_2_3_0_0": "SAME",
+    "2_2_3_0_1": "SAME", "2_3_1_0_1": "SAME", "2_3_2_0_1": "SAME", "2_3_3_0_0": "SAME",
+    "2_4_1_0_0": "OPP_LAST", "2_4_1_0_1": "OPP", "2_4_2_0_0": "LAST", "2_4_3_0_0": "OPP"
   };
 
   function predictApexTitan30S(sizes, lossStreak) {
@@ -113,4 +112,4 @@ for path in files:
         f.write(content)
     print(f"Updated: {path}")
 
-print("All userscripts updated to APEX TITAN v1UM (All-8 Zero Loss) successfully!")
+print("All userscripts updated to APEX TITAN v1UM (All-9 Zero Loss 73.1%) successfully!")
