@@ -755,7 +755,52 @@
     ]
   ],
   [
-    "Live Master Feed 3 (36 Draws 50867-50902)",
+    "Live Master Feed 3 (8 Draws 50842-50849)",
+    [
+      {
+        "period": "00050842",
+        "number": 4,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050843",
+        "number": 5,
+        "size": "BIG"
+      },
+      {
+        "period": "00050844",
+        "number": 0,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050845",
+        "number": 5,
+        "size": "BIG"
+      },
+      {
+        "period": "00050846",
+        "number": 3,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050847",
+        "number": 7,
+        "size": "BIG"
+      },
+      {
+        "period": "00050848",
+        "number": 3,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050849",
+        "number": 3,
+        "size": "SMALL"
+      }
+    ]
+  ],
+  [
+    "Live Master Feed 4 (36 Draws 50867-50902)",
     [
       {
         "period": "00050867",
