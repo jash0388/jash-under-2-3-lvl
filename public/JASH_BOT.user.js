@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         JASH_BOT — Apex Titan v9UM (Auto-Updating Zero-Bust Master)
 // @namespace    http://tampermonkey.net/
-// @version      70.5
+// @version      70.6
 // @description  Universal 24/7 Overnight WinGo Auto-Betting Bot powered by Apex Titan v9UM Neural Quantum Supreme Engine with Cloud OTA Real-Time Auto-Update.
 // @match        *://*.dmfirst*.com/*
 // @match        *://*.dmfirst17.com/*
@@ -729,11 +729,15 @@
     return base;
   }
 
-  // ════════════════════════════════════════════════════════════
-  // 9. CYBER DRAGGABLE HUD
+    // ════════════════════════════════════════════════════════════
+  // 9. CYBER DRAGGABLE HUD (SELF-ATTACHING & SPA-PERSISTENT)
   // ════════════════════════════════════════════════════════════
   function createHud() {
     if (document.getElementById('jash-v9UM-hud')) return;
+    if (!document.body) {
+      setTimeout(createHud, 300);
+      return;
+    }
 
     const hud = document.createElement('div');
     hud.id = 'jash-v9UM-hud';
@@ -1077,13 +1081,22 @@
     }
   }
 
+    // ════════════════════════════════════════════════════════════
+  // 11. INITIALIZATION & SPA CONTINUOUS RESCUE
   // ════════════════════════════════════════════════════════════
-  // 11. INITIALIZATION
-  // ════════════════════════════════════════════════════════════
+  function ensureHudAttached() {
+    try {
+      if (document.body && !document.getElementById('jash-v9UM-hud')) {
+        createHud();
+      }
+    } catch (e) {}
+  }
+
   function init() {
     createHud();
+    setInterval(ensureHudAttached, 1000);
     setInterval(botCycle, 1000);
-    setInterval(readScreenWalletBalance, 2000);
+    setInterval(readScreenWalletBalance, 1500);
   }
 
   if (document.readyState === 'loading') {
@@ -1091,5 +1104,7 @@
   } else {
     init();
   }
-
+  // Failsafe auto-init
+  setTimeout(init, 500);
+  setTimeout(init, 1500);
 })();
