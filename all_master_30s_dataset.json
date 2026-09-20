@@ -1413,5 +1413,290 @@
         "size": "SMALL"
       }
     ]
+  ],
+  [
+    "Live Master Feed 6 (56 Draws 50932-51028)",
+    [
+      {
+        "period": "00050932",
+        "number": 6,
+        "size": "BIG"
+      },
+      {
+        "period": "00050933",
+        "number": 7,
+        "size": "BIG"
+      },
+      {
+        "period": "00050934",
+        "number": 7,
+        "size": "BIG"
+      },
+      {
+        "period": "00050935",
+        "number": 3,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050936",
+        "number": 8,
+        "size": "BIG"
+      },
+      {
+        "period": "00050937",
+        "number": 1,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050938",
+        "number": 7,
+        "size": "BIG"
+      },
+      {
+        "period": "00050939",
+        "number": 8,
+        "size": "BIG"
+      },
+      {
+        "period": "00050981",
+        "number": 3,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050982",
+        "number": 1,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050983",
+        "number": 3,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050984",
+        "number": 1,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050985",
+        "number": 7,
+        "size": "BIG"
+      },
+      {
+        "period": "00050986",
+        "number": 1,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050987",
+        "number": 1,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050988",
+        "number": 1,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050989",
+        "number": 7,
+        "size": "BIG"
+      },
+      {
+        "period": "00050990",
+        "number": 2,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050991",
+        "number": 4,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050992",
+        "number": 3,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050993",
+        "number": 5,
+        "size": "BIG"
+      },
+      {
+        "period": "00050994",
+        "number": 9,
+        "size": "BIG"
+      },
+      {
+        "period": "00050995",
+        "number": 7,
+        "size": "BIG"
+      },
+      {
+        "period": "00050996",
+        "number": 3,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050997",
+        "number": 1,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050998",
+        "number": 2,
+        "size": "SMALL"
+      },
+      {
+        "period": "00050999",
+        "number": 6,
+        "size": "BIG"
+      },
+      {
+        "period": "00051000",
+        "number": 1,
+        "size": "SMALL"
+      },
+      {
+        "period": "00051001",
+        "number": 1,
+        "size": "SMALL"
+      },
+      {
+        "period": "00051002",
+        "number": 2,
+        "size": "SMALL"
+      },
+      {
+        "period": "00051003",
+        "number": 5,
+        "size": "BIG"
+      },
+      {
+        "period": "00051004",
+        "number": 9,
+        "size": "BIG"
+      },
+      {
+        "period": "00051005",
+        "number": 0,
+        "size": "SMALL"
+      },
+      {
+        "period": "00051006",
+        "number": 7,
+        "size": "BIG"
+      },
+      {
+        "period": "00051007",
+        "number": 7,
+        "size": "BIG"
+      },
+      {
+        "period": "00051008",
+        "number": 1,
+        "size": "SMALL"
+      },
+      {
+        "period": "00051009",
+        "number": 4,
+        "size": "SMALL"
+      },
+      {
+        "period": "00051010",
+        "number": 1,
+        "size": "SMALL"
+      },
+      {
+        "period": "00051011",
+        "number": 9,
+        "size": "BIG"
+      },
+      {
+        "period": "00051012",
+        "number": 1,
+        "size": "SMALL"
+      },
+      {
+        "period": "00051013",
+        "number": 1,
+        "size": "SMALL"
+      },
+      {
+        "period": "00051014",
+        "number": 1,
+        "size": "SMALL"
+      },
+      {
+        "period": "00051015",
+        "number": 9,
+        "size": "BIG"
+      },
+      {
+        "period": "00051016",
+        "number": 1,
+        "size": "SMALL"
+      },
+      {
+        "period": "00051017",
+        "number": 1,
+        "size": "SMALL"
+      },
+      {
+        "period": "00051018",
+        "number": 3,
+        "size": "SMALL"
+      },
+      {
+        "period": "00051019",
+        "number": 1,
+        "size": "SMALL"
+      },
+      {
+        "period": "00051020",
+        "number": 7,
+        "size": "BIG"
+      },
+      {
+        "period": "00051021",
+        "number": 2,
+        "size": "SMALL"
+      },
+      {
+        "period": "00051022",
+        "number": 6,
+        "size": "BIG"
+      },
+      {
+        "period": "00051023",
+        "number": 6,
+        "size": "BIG"
+      },
+      {
+        "period": "00051024",
+        "number": 6,
+        "size": "BIG"
+      },
+      {
+        "period": "00051025",
+        "number": 8,
+        "size": "BIG"
+      },
+      {
+        "period": "00051026",
+        "number": 3,
+        "size": "SMALL"
+      },
+      {
+        "period": "00051027",
+        "number": 0,
+        "size": "SMALL"
+      },
+      {
+        "period": "00051028",
+        "number": 7,
+        "size": "BIG"
+      }
+    ]
   ]
 ]
