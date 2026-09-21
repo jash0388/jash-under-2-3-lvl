@@ -274,6 +274,35 @@
       color: var(--pink);
       text-shadow: 0 0 30px var(--pink-glow);
     }
+    .signal-big-text.SKIP {
+      color: var(--pink);
+      font-size: 32px;
+      text-shadow: 0 0 25px rgba(255, 0, 85, 0.7);
+      animation: pulse-skip 0.8s infinite alternate;
+    }
+    @keyframes pulse-skip {
+      from { opacity: 0.8; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1.02); }
+    }
+    .hero-card.shield-active {
+      border-color: #ff0055 !important;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 35px rgba(255, 0, 85, 0.4) !important;
+      background: linear-gradient(180deg, rgba(255,0,85,0.12) 0%, var(--panel) 100%) !important;
+    }
+    .virtual-warning-banner {
+      background: rgba(255, 0, 85, 0.22);
+      border: 1.5px solid #ff0055;
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-top: 10px;
+      text-align: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 11px;
+      font-family: var(--mono);
+      line-height: 1.4;
+      animation: pulse-skip 1s infinite alternate;
+    }
 
     .balls-wrap {
       display: flex;
@@ -615,6 +644,12 @@
     <div class="regime-badge-row">
       <span class="regime-text" id="disp-regime">⚡ CALIBRATING PRNG MATRIX…</span>
       <span class="confidence-text" id="disp-confidence">CONF: 95%</span>
+    </div>
+
+    <!-- VIRTUAL MODE UNMISSABLE WARNING BANNER -->
+    <div id="virtual-warning-banner" class="virtual-warning-banner" style="display:none">
+      ⛔ <b>DO NOT PLACE ANY REAL BET!</b><br>
+      <span style="color:#ffb703;font-size:10px">🛡️ STRICT 2-LEVEL SHIELD IS PAUSING REAL BETS (WAITING FOR 1 VIRTUAL WIN TO RE-SYNC)</span>
     </div>
   </div>
 
@@ -998,25 +1033,62 @@
   function updateUI(pred, targetPeriod) {
     document.getElementById('disp-target-period').textContent = 'TARGET: #' + targetPeriod.slice(-5);
     
+    const heroCard = document.querySelector('.hero-card');
     const sigEl = document.getElementById('disp-signal');
-    sigEl.textContent = pred.finalSize;
-    sigEl.className = 'signal-big-text ' + pred.finalSize;
-
-    document.getElementById('disp-lucky-ball').textContent = pred.luckyBall;
-    document.getElementById('disp-regime').textContent = pred.regime;
-    document.getElementById('disp-confidence').textContent = `CONF: ${pred.conf}%`;
-
-    // Update Shield Status Banner
+    const sigSub = document.querySelector('.signal-box .signal-sub');
+    const luckyBallEl = document.getElementById('disp-lucky-ball');
+    const warnBanner = document.getElementById('virtual-warning-banner');
     const lvlTag = document.getElementById('disp-level-tag');
+
     if (isVirtualMode) {
-      lvlTag.textContent = '🛡️ VIRTUAL PAPER SHIELD (0 LOSS RISK)';
+      // 🚨 SHIELD ACTIVE — ABSOLUTELY DO NOT SHOW BIG OR SMALL TO PREVENT REAL BET LOSSES!
+      heroCard.classList.add('shield-active');
+      warnBanner.style.display = 'block';
+
+      sigEl.textContent = '⛔ SKIP ROUND';
+      sigEl.className = 'signal-big-text SKIP';
+
+      sigSub.textContent = '🚨 SHIELD ENGAGED (2 LOSSES HIT) · DO NOT BET REAL MONEY';
+      sigSub.style.color = 'var(--pink)';
+
+      luckyBallEl.textContent = '⏸️';
+      luckyBallEl.style.borderColor = 'var(--pink)';
+      luckyBallEl.style.boxShadow = '0 0 20px rgba(255, 0, 85, 0.4)';
+
+      document.getElementById('disp-regime').textContent = '🛑 REAL BETTING PAUSED (TESTING PAPER OUTCOME)';
+      document.getElementById('disp-confidence').textContent = 'STAKE: ₹0 (PAUSED)';
+      document.getElementById('disp-confidence').style.color = 'var(--pink)';
+
+      lvlTag.textContent = '🛡️ VIRTUAL PAPER SHIELD (DO NOT BET)';
       lvlTag.className = 'recovery-tag virtual';
-    } else if (runningRealStreak === 1) {
-      lvlTag.textContent = 'LEVEL 2 · REAL ₹4';
-      lvlTag.className = 'recovery-tag level2';
     } else {
-      lvlTag.textContent = 'LEVEL 1 · REAL ₹2';
-      lvlTag.className = 'recovery-tag level1';
+      // ✅ NORMAL BETTING ALLOWED (LEVEL 1 OR LEVEL 2)
+      heroCard.classList.remove('shield-active');
+      warnBanner.style.display = 'none';
+
+      sigEl.textContent = pred.finalSize;
+      sigEl.className = 'signal-big-text ' + pred.finalSize;
+
+      const levelNum = runningRealStreak + 1;
+      const stakeAmt = runningRealStreak === 0 ? 2 : 4;
+      sigSub.textContent = `PURE PRNG SIGNAL · LEVEL ${levelNum} (REAL ₹${stakeAmt})`;
+      sigSub.style.color = 'var(--muted)';
+
+      luckyBallEl.textContent = pred.luckyBall;
+      luckyBallEl.style.borderColor = 'var(--cyan)';
+      luckyBallEl.style.boxShadow = '0 0 20px rgba(0, 217, 245, 0.4)';
+
+      document.getElementById('disp-regime').textContent = pred.regime;
+      document.getElementById('disp-confidence').textContent = `CONF: ${pred.conf}%`;
+      document.getElementById('disp-confidence').style.color = 'var(--green)';
+
+      if (runningRealStreak === 1) {
+        lvlTag.textContent = 'LEVEL 2 · REAL ₹4';
+        lvlTag.className = 'recovery-tag level2';
+      } else {
+        lvlTag.textContent = 'LEVEL 1 · REAL ₹2';
+        lvlTag.className = 'recovery-tag level1';
+      }
     }
 
     // Update PRNG Matrix Card
