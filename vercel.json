@@ -14,6 +14,8 @@
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/(.*\\.user\\.js)", "destination": "/$1" },
+    { "source": "/v1", "destination": "/v1.html" },
+    { "source": "/v1/(.*)", "destination": "/v1.html" },
     { "source": "/pred", "destination": "/console.html" },
     { "source": "/pred/(.*)", "destination": "/console.html" },
     { "source": "/console", "destination": "/console.html" },
