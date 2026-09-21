@@ -1,77 +1,1717 @@
 [
   {
-    "period": "51028",
-    "number": 7,
-    "size": "BIG"
-  },
-  {
-    "period": "51029",
-    "number": 9,
-    "size": "BIG"
-  },
-  {
-    "period": "51030",
-    "number": 1,
-    "size": "SMALL"
-  },
-  {
-    "period": "51031",
-    "number": 3,
-    "size": "SMALL"
-  },
-  {
-    "period": "51032",
-    "number": 1,
-    "size": "SMALL"
-  },
-  {
-    "period": "51033",
+    "period": "50460",
     "number": 5,
     "size": "BIG"
   },
   {
-    "period": "51034",
-    "number": 4,
-    "size": "SMALL"
-  },
-  {
-    "period": "51035",
-    "number": 1,
-    "size": "SMALL"
-  },
-  {
-    "period": "51036",
-    "number": 6,
-    "size": "BIG"
-  },
-  {
-    "period": "51037",
-    "number": 5,
-    "size": "BIG"
-  },
-  {
-    "period": "51038",
-    "number": 4,
-    "size": "SMALL"
-  },
-  {
-    "period": "51039",
-    "number": 4,
-    "size": "SMALL"
-  },
-  {
-    "period": "51040",
+    "period": "50461",
     "number": 0,
     "size": "SMALL"
   },
   {
-    "period": "51041",
+    "period": "50462",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50463",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50464",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50465",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50466",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50467",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50468",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50469",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50470",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50471",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50472",
     "number": 2,
     "size": "SMALL"
   },
   {
-    "period": "51042",
+    "period": "50473",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50506",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50507",
     "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50508",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50509",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50510",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50511",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50512",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50513",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50514",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50515",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50516",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50517",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50518",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50519",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50520",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50521",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50522",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50523",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50524",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50525",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50526",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50527",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50528",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50529",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50530",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50531",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50532",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50533",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50534",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50535",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50536",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50537",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50538",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50539",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50540",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50541",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50542",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50543",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50544",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50545",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50546",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50547",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50548",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50549",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50550",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50551",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50552",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50553",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50554",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50555",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50556",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50557",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50558",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50559",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50560",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50561",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50562",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50563",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50564",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50565",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50566",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50567",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50568",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50569",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50570",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50571",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50572",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50573",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50574",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50575",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50576",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50577",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50578",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50579",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50580",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50581",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50584",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50585",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50586",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50587",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50588",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50589",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50590",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50591",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50592",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50593",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50594",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50595",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50596",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50597",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50598",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50599",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50600",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50601",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50602",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50603",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50659",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50660",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50661",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50662",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50663",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50664",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50665",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50676",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50677",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50678",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50679",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50680",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50681",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50682",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50695",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50696",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50697",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50698",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50699",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50700",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50701",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50702",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50703",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50704",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50705",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50706",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50707",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50708",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50713",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50714",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50715",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50716",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50717",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50718",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50719",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50720",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50721",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50722",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50723",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50724",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50725",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50726",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50727",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50728",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50729",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50730",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50731",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50732",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50733",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50734",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50735",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50736",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50737",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50738",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50739",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50740",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50741",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50742",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50743",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50744",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50745",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50746",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50747",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50748",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50749",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50750",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50751",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50752",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50753",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50754",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50755",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50756",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50757",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50790",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50791",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50792",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50793",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50794",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50795",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50796",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50797",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50798",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50799",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50800",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50801",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50802",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50803",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50804",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50805",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50806",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50807",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50808",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50809",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50810",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50811",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50812",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50813",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50814",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50815",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50816",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50817",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50818",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50819",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50820",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50821",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50822",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50823",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50824",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50825",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50826",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50827",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50828",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50829",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50830",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50831",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50832",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50833",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50834",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50835",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50836",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50837",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50838",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50839",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50840",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50841",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50842",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50843",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50853",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50854",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50855",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50856",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50857",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50858",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50859",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50860",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50861",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50862",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50863",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50864",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50865",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50866",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50867",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50868",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50869",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50870",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50871",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50872",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50873",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50874",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50875",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50876",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50877",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50878",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50879",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50880",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "50881",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50882",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50883",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50884",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50885",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50928",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50929",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50930",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50931",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50932",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50933",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50934",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "50985",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50986",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50987",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "50988",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "50989",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50990",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50991",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "50992",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50993",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50994",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "50995",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "50996",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "50997",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "50998",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "50999",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "51000",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "51001",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "51002",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "51003",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "51004",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "51005",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "51006",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "51007",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "51008",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "51009",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "51010",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "51011",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "51012",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "51013",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "51014",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "51015",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "51016",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "51017",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "51018",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "51019",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "51020",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "51021",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "51022",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "51023",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "51024",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "51025",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "51026",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "51027",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "51028",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "51029",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "51030",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "51031",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "51032",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "51033",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "51034",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "51035",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "51036",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "51037",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "51038",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "51039",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "51040",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "51041",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "51042",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "51105",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "51106",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "51107",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "51108",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "51109",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "51110",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "51111",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "51112",
+    "number": 6,
     "size": "BIG"
   },
   {
@@ -1811,8 +3451,8 @@
   },
   {
     "period": "51681",
-    "number": 2,
-    "size": "SMALL"
+    "number": 5,
+    "size": "BIG"
   },
   {
     "period": "51682",
@@ -1821,8 +3461,8 @@
   },
   {
     "period": "51683",
-    "number": 7,
-    "size": "BIG"
+    "number": 1,
+    "size": "SMALL"
   },
   {
     "period": "51684",
@@ -1841,8 +3481,8 @@
   },
   {
     "period": "51687",
-    "number": 6,
-    "size": "BIG"
+    "number": 2,
+    "size": "SMALL"
   },
   {
     "period": "51688",
@@ -1976,43 +3616,43 @@
   },
   {
     "period": "51715",
-    "number": 6,
+    "number": 9,
     "size": "BIG"
   },
   {
     "period": "51716",
-    "number": 5,
+    "number": 8,
     "size": "BIG"
   },
   {
     "period": "51717",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "51718",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "51719",
     "number": 5,
     "size": "BIG"
   },
   {
-    "period": "51718",
-    "number": 4,
-    "size": "SMALL"
-  },
-  {
-    "period": "51719",
-    "number": 3,
-    "size": "SMALL"
-  },
-  {
     "period": "51720",
-    "number": 3,
-    "size": "SMALL"
+    "number": 5,
+    "size": "BIG"
   },
   {
     "period": "51721",
-    "number": 1,
+    "number": 2,
     "size": "SMALL"
   },
   {
     "period": "51722",
-    "number": 6,
-    "size": "BIG"
+    "number": 3,
+    "size": "SMALL"
   },
   {
     "period": "51723",
@@ -2136,48 +3776,48 @@
   },
   {
     "period": "51747",
-    "number": 1,
-    "size": "SMALL"
-  },
-  {
-    "period": "51748",
-    "number": 9,
-    "size": "BIG"
-  },
-  {
-    "period": "51749",
-    "number": 5,
-    "size": "BIG"
-  },
-  {
-    "period": "51750",
-    "number": 9,
-    "size": "BIG"
-  },
-  {
-    "period": "51751",
     "number": 3,
     "size": "SMALL"
   },
   {
-    "period": "51752",
-    "number": 8,
-    "size": "BIG"
+    "period": "51748",
+    "number": 3,
+    "size": "SMALL"
   },
   {
-    "period": "51753",
+    "period": "51749",
     "number": 6,
     "size": "BIG"
   },
   {
+    "period": "51750",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "51751",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "51752",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "51753",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
     "period": "51754",
-    "number": 7,
+    "number": 5,
     "size": "BIG"
   },
   {
     "period": "51755",
-    "number": 8,
-    "size": "BIG"
+    "number": 3,
+    "size": "SMALL"
   },
   {
     "period": "51756",
@@ -2251,7 +3891,7 @@
   },
   {
     "period": "51770",
-    "number": 5,
+    "number": 7,
     "size": "BIG"
   },
   {
@@ -2261,73 +3901,73 @@
   },
   {
     "period": "51772",
-    "number": 0,
-    "size": "SMALL"
-  },
-  {
-    "period": "51773",
-    "number": 2,
-    "size": "SMALL"
-  },
-  {
-    "period": "51774",
-    "number": 3,
-    "size": "SMALL"
-  },
-  {
-    "period": "51775",
-    "number": 0,
-    "size": "SMALL"
-  },
-  {
-    "period": "51776",
-    "number": 3,
-    "size": "SMALL"
-  },
-  {
-    "period": "51777",
-    "number": 6,
-    "size": "BIG"
-  },
-  {
-    "period": "51778",
-    "number": 7,
-    "size": "BIG"
-  },
-  {
-    "period": "51779",
-    "number": 6,
-    "size": "BIG"
-  },
-  {
-    "period": "51780",
     "number": 9,
     "size": "BIG"
   },
   {
-    "period": "51781",
-    "number": 0,
+    "period": "51773",
+    "number": 4,
     "size": "SMALL"
   },
   {
-    "period": "51782",
+    "period": "51774",
     "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "51775",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "51776",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "51777",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "51778",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "51779",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "51780",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "51781",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "51782",
+    "number": 8,
     "size": "BIG"
   },
   {
     "period": "51783",
-    "number": 5,
-    "size": "BIG"
-  },
-  {
-    "period": "51784",
     "number": 7,
     "size": "BIG"
   },
   {
-    "period": "51785",
-    "number": 4,
+    "period": "51784",
+    "number": 3,
     "size": "SMALL"
+  },
+  {
+    "period": "51785",
+    "number": 7,
+    "size": "BIG"
   },
   {
     "period": "51786",
@@ -2336,33 +3976,33 @@
   },
   {
     "period": "51787",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "51788",
     "number": 1,
     "size": "SMALL"
   },
   {
-    "period": "51788",
-    "number": 0,
-    "size": "SMALL"
-  },
-  {
     "period": "51789",
-    "number": 4,
-    "size": "SMALL"
-  },
-  {
-    "period": "51790",
-    "number": 9,
+    "number": 8,
     "size": "BIG"
   },
   {
+    "period": "51790",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
     "period": "51791",
-    "number": 6,
+    "number": 7,
     "size": "BIG"
   },
   {
     "period": "51792",
-    "number": 6,
-    "size": "BIG"
+    "number": 3,
+    "size": "SMALL"
   },
   {
     "period": "51793",
@@ -2370,33 +4010,68 @@
     "size": "BIG"
   },
   {
-    "period": "51801",
-    "number": 9,
+    "period": "51794",
+    "number": 7,
     "size": "BIG"
   },
   {
-    "period": "51802",
+    "period": "51795",
     "number": 8,
     "size": "BIG"
   },
   {
-    "period": "51803",
+    "period": "51796",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "51797",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "51798",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "51799",
     "number": 9,
     "size": "BIG"
   },
   {
-    "period": "51804",
-    "number": 6,
+    "period": "51800",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "51801",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "51802",
+    "number": 7,
     "size": "BIG"
   },
   {
+    "period": "51803",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "51804",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
     "period": "51805",
-    "number": 6,
+    "number": 9,
     "size": "BIG"
   },
   {
     "period": "51806",
-    "number": 4,
+    "number": 0,
     "size": "SMALL"
   },
   {
@@ -2406,23 +4081,23 @@
   },
   {
     "period": "51808",
-    "number": 6,
+    "number": 7,
     "size": "BIG"
   },
   {
     "period": "51809",
-    "number": 2,
-    "size": "SMALL"
+    "number": 6,
+    "size": "BIG"
   },
   {
     "period": "51810",
-    "number": 5,
+    "number": 7,
     "size": "BIG"
   },
   {
     "period": "51811",
-    "number": 7,
-    "size": "BIG"
+    "number": 3,
+    "size": "SMALL"
   },
   {
     "period": "51812",
@@ -2431,8 +4106,8 @@
   },
   {
     "period": "51813",
-    "number": 4,
-    "size": "SMALL"
+    "number": 7,
+    "size": "BIG"
   },
   {
     "period": "51814",
@@ -2446,23 +4121,23 @@
   },
   {
     "period": "51816",
-    "number": 5,
+    "number": 6,
     "size": "BIG"
   },
   {
     "period": "51817",
-    "number": 7,
-    "size": "BIG"
+    "number": 0,
+    "size": "SMALL"
   },
   {
     "period": "51818",
-    "number": 1,
+    "number": 4,
     "size": "SMALL"
   },
   {
     "period": "51819",
-    "number": 9,
-    "size": "BIG"
+    "number": 0,
+    "size": "SMALL"
   },
   {
     "period": "51820",
@@ -2471,43 +4146,43 @@
   },
   {
     "period": "51821",
-    "number": 0,
-    "size": "SMALL"
-  },
-  {
-    "period": "51822",
-    "number": 7,
+    "number": 6,
     "size": "BIG"
   },
   {
+    "period": "51822",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
     "period": "51823",
-    "number": 3,
+    "number": 1,
     "size": "SMALL"
   },
   {
     "period": "51824",
-    "number": 7,
-    "size": "BIG"
-  },
-  {
-    "period": "51825",
-    "number": 8,
-    "size": "BIG"
-  },
-  {
-    "period": "51826",
     "number": 4,
     "size": "SMALL"
   },
   {
+    "period": "51825",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "51826",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
     "period": "51827",
-    "number": 3,
+    "number": 0,
     "size": "SMALL"
   },
   {
     "period": "51828",
-    "number": 6,
-    "size": "BIG"
+    "number": 2,
+    "size": "SMALL"
   },
   {
     "period": "51829",
@@ -2516,48 +4191,48 @@
   },
   {
     "period": "51830",
-    "number": 6,
+    "number": 9,
     "size": "BIG"
   },
   {
     "period": "51831",
-    "number": 6,
+    "number": 9,
     "size": "BIG"
   },
   {
     "period": "51832",
-    "number": 9,
+    "number": 8,
     "size": "BIG"
   },
   {
     "period": "51833",
-    "number": 3,
-    "size": "SMALL"
+    "number": 8,
+    "size": "BIG"
   },
   {
     "period": "51834",
-    "number": 9,
-    "size": "BIG"
+    "number": 0,
+    "size": "SMALL"
   },
   {
     "period": "51835",
-    "number": 9,
-    "size": "BIG"
+    "number": 0,
+    "size": "SMALL"
   },
   {
     "period": "51836",
-    "number": 6,
+    "number": 5,
     "size": "BIG"
   },
   {
     "period": "51837",
-    "number": 9,
+    "number": 5,
     "size": "BIG"
   },
   {
     "period": "51838",
-    "number": 5,
-    "size": "BIG"
+    "number": 2,
+    "size": "SMALL"
   },
   {
     "period": "51839",
@@ -2651,17 +4326,17 @@
   },
   {
     "period": "51857",
-    "number": 5,
-    "size": "BIG"
+    "number": 3,
+    "size": "SMALL"
   },
   {
     "period": "51858",
-    "number": 4,
+    "number": 0,
     "size": "SMALL"
   },
   {
     "period": "51859",
-    "number": 8,
+    "number": 5,
     "size": "BIG"
   },
   {
@@ -2671,112 +4346,112 @@
   },
   {
     "period": "51861",
-    "number": 9,
+    "number": 8,
     "size": "BIG"
   },
   {
     "period": "51862",
-    "number": 9,
+    "number": 5,
     "size": "BIG"
   },
   {
     "period": "51863",
-    "number": 6,
-    "size": "BIG"
-  },
-  {
-    "period": "51864",
-    "number": 5,
-    "size": "BIG"
-  },
-  {
-    "period": "51865",
-    "number": 7,
-    "size": "BIG"
-  },
-  {
-    "period": "51866",
-    "number": 7,
-    "size": "BIG"
-  },
-  {
-    "period": "51867",
-    "number": 9,
-    "size": "BIG"
-  },
-  {
-    "period": "51868",
     "number": 3,
     "size": "SMALL"
   },
   {
-    "period": "51869",
-    "number": 6,
-    "size": "BIG"
-  },
-  {
-    "period": "51870",
-    "number": 1,
-    "size": "SMALL"
-  },
-  {
-    "period": "51871",
-    "number": 8,
-    "size": "BIG"
-  },
-  {
-    "period": "51872",
+    "period": "51864",
     "number": 0,
     "size": "SMALL"
   },
   {
-    "period": "51873",
-    "number": 8,
-    "size": "BIG"
-  },
-  {
-    "period": "51874",
-    "number": 6,
-    "size": "BIG"
-  },
-  {
-    "period": "51875",
+    "period": "51865",
     "number": 4,
     "size": "SMALL"
   },
   {
-    "period": "51876",
-    "number": 8,
-    "size": "BIG"
+    "period": "51866",
+    "number": 4,
+    "size": "SMALL"
   },
   {
-    "period": "51877",
-    "number": 9,
-    "size": "BIG"
+    "period": "51867",
+    "number": 1,
+    "size": "SMALL"
   },
   {
-    "period": "51878",
-    "number": 5,
-    "size": "BIG"
+    "period": "51868",
+    "number": 0,
+    "size": "SMALL"
   },
   {
-    "period": "51879",
-    "number": 6,
-    "size": "BIG"
+    "period": "51869",
+    "number": 3,
+    "size": "SMALL"
   },
   {
-    "period": "51880",
+    "period": "51870",
     "number": 7,
     "size": "BIG"
   },
   {
-    "period": "51881",
+    "period": "51871",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "51872",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "51873",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "51874",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "51875",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "51876",
     "number": 5,
     "size": "BIG"
   },
   {
+    "period": "51877",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "51878",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "51879",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "51880",
+    "number": 8,
+    "size": "BIG"
+  },
+  {
+    "period": "51881",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
     "period": "51882",
-    "number": 3,
+    "number": 0,
     "size": "SMALL"
   },
   {
@@ -3265,6 +4940,46 @@
     "size": "BIG"
   },
   {
+    "period": "52104",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "52105",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "52106",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "52107",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "52108",
+    "number": 9,
+    "size": "BIG"
+  },
+  {
+    "period": "52109",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "52110",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "52111",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
     "period": "52239",
     "number": 7,
     "size": "BIG"
@@ -3383,5 +5098,80 @@
     "period": "52294",
     "number": 0,
     "size": "SMALL"
+  },
+  {
+    "period": "52295",
+    "number": 2,
+    "size": "SMALL"
+  },
+  {
+    "period": "52296",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "52297",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "52298",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "52299",
+    "number": 1,
+    "size": "SMALL"
+  },
+  {
+    "period": "52300",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "52301",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "52302",
+    "number": 4,
+    "size": "SMALL"
+  },
+  {
+    "period": "52303",
+    "number": 0,
+    "size": "SMALL"
+  },
+  {
+    "period": "52304",
+    "number": 3,
+    "size": "SMALL"
+  },
+  {
+    "period": "52305",
+    "number": 6,
+    "size": "BIG"
+  },
+  {
+    "period": "52306",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "52307",
+    "number": 7,
+    "size": "BIG"
+  },
+  {
+    "period": "52308",
+    "number": 5,
+    "size": "BIG"
+  },
+  {
+    "period": "52309",
+    "number": 8,
+    "size": "BIG"
   }
 ]

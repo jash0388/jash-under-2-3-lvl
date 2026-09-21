@@ -582,6 +582,33 @@
       border: 1px solid rgba(255, 183, 3, 0.3);
     }
 
+    .phase-tag {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-family: var(--mono);
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .phase-tag.straight {
+      background: rgba(0, 245, 160, 0.15);
+      color: var(--green);
+      border: 1px solid rgba(0, 245, 160, 0.4);
+    }
+    .phase-tag.reverse {
+      background: rgba(255, 183, 3, 0.2);
+      color: var(--gold);
+      border: 1px solid rgba(255, 183, 3, 0.5);
+      animation: pulse-phase 1.2s infinite alternate ease-in-out;
+    }
+    @keyframes pulse-phase {
+      0% { transform: scale(1); box-shadow: 0 0 5px rgba(255, 183, 3, 0.3); }
+      100% { transform: scale(1.03); box-shadow: 0 0 12px rgba(255, 183, 3, 0.7); }
+    }
+
     .footer-note {
       font-size: 9px;
       color: var(--muted);
@@ -617,9 +644,10 @@
     <button class="mode-btn" id="btn-1m" onclick="switchMode('1M')">⏱️ WinGo 1M</button>
   </div>
 
-  <!-- STRICT 2-LEVEL SHIELD BANNER -->
+  <!-- STRICT 2-LEVEL SHIELD BANNER WITH DUAL-PHASE (STRAIGHT & REVERSE) -->
   <div class="shield-banner">
     <span class="shield-tag">🛡️ STRICT 2-LEVEL SHIELD ACTIVE</span>
+    <span class="phase-tag straight" id="disp-phase-tag">🟢 STRAIGHT PHASE (7/7)</span>
     <span class="recovery-tag level1" id="disp-level-tag">LEVEL 1 · REAL ₹2</span>
   </div>
 
@@ -753,6 +781,8 @@
   let runningRealStreak = 0;
   let shieldSavesCount = 0;
   let isVirtualMode = false;
+  let currentPhase = 'STRAIGHT'; // 'STRAIGHT' or 'REVERSE'
+  let phaseHistory = []; // Rolling array of booleans: did raw PRNG hit
   let sessionHistory = [];
   let currentPrediction = null;
 
@@ -802,6 +832,8 @@
     document.getElementById('btn-30s').className = 'mode-btn' + (m === '30S' ? ' active' : '');
     document.getElementById('btn-1m').className = 'mode-btn' + (m === '1M' ? ' active' : '');
     sessionHistory = [];
+    phaseHistory = [];
+    currentPhase = 'STRAIGHT';
     runningRealStreak = 0;
     isVirtualMode = false;
     currentPrediction = null;
@@ -821,18 +853,18 @@
   function predictPurePRNG(nums) {
     if (!nums || nums.length < 5) {
       return {
-        finalSize: 'BIG',
-        luckyBall: 7,
-        conf: 90,
-        regime: 'PRNG BOOTSTRAP',
+        rawSize: 'BIG',
+        lastRow: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        probs: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+        topDigit: 7,
+        topBiasText: '50% BIG',
         entropyBits: '3.15',
         lcgResidue: 7,
         lcgSize: 'BIG',
         markovSize: 'BIG',
         lfgSize: 'BIG',
-        probs: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
-        topDigit: 7,
-        topBias: '50% BIG'
+        bestA: 1,
+        bestC: 9
       };
     }
 
@@ -874,15 +906,15 @@
 
     // 2. LINEAR CONGRUENTIAL GENERATOR (LCG) RESIDUE
     // S(n+1) = (a * S(n) + c) mod 10
-    // Dynamic regression: find best (a, c) over last 20 draws
+    // Dynamic regression: find best (a, c) over last 15 draws
     let bestA = 1, bestC = 9, bestHits = -1;
-    const window20 = nums.slice(-20);
+    const window15 = nums.slice(-15);
     for (const a of [1, 3, 7, 9]) {
       for (let c = 0; c < 10; c++) {
         let hits = 0;
-        for (let j = 1; j < window20.length; j++) {
-          const expected = (a * window20[j - 1] + c) % 10;
-          if (expected === window20[j]) hits++;
+        for (let j = 1; j < window15.length; j++) {
+          const expected = (a * window15[j - 1] + c) % 10;
+          if (expected === window15[j]) hits++;
         }
         if (hits > bestHits) {
           bestHits = hits;
@@ -926,34 +958,17 @@
       finalSize = lastSide;
     }
 
-    // Harmonic Lucky Ball
-    const allowed = finalSize === 'BIG' ? [5, 6, 7, 8, 9] : [0, 1, 2, 3, 4];
-    let luckyBall = allowed[0];
-    let highestP = -1;
-    for (const d of allowed) {
-      if (lastRow[d] > highestP) {
-        highestP = lastRow[d];
-        luckyBall = d;
-      }
-    }
-    if (highestP === 0) luckyBall = (finalSize === 'BIG' ? 7 : 2);
-
-    const conf = Math.min(99, 90 + bigVotes * 3);
-    const regime = `⚡ PRNG MATRIX [LCG ${lcgSize} · MARKOV ${markovSize} · LFG ${lfgSize}]`;
-
     return {
-      finalSize,
-      luckyBall,
-      conf,
-      regime,
+      rawSize: finalSize,
+      lastRow,
+      probs,
+      topDigit,
+      topBiasText,
       entropyBits,
       lcgResidue,
       lcgSize,
       markovSize,
       lfgSize,
-      probs,
-      topDigit,
-      topBiasText,
       bestA,
       bestC
     };
@@ -975,13 +990,17 @@
       if (currentPrediction && latestPeriod === currentPrediction.targetPeriod) {
         const actualSize = Number(latest.number) >= 5 ? 'BIG' : 'SMALL';
         const win = (currentPrediction.predSize === actualSize);
+        const rawHit = (currentPrediction.rawSize === actualSize);
+
+        phaseHistory.push(rawHit);
+        if (phaseHistory.length > 25) phaseHistory.shift();
         
         let status = '';
         if (isVirtualMode) {
           if (win) {
             status = 'V-WIN (SYNCED)';
             isVirtualMode = false;
-            runningRealStreak = 0;
+            runningRealStreak = 0; // Reset back to Level 1
           } else {
             status = 'V-LOSS (SAVED)';
             shieldSavesCount++;
@@ -994,7 +1013,7 @@
             runningRealStreak++;
             status = `LOSS L${runningRealStreak}`;
             if (runningRealStreak >= 2) {
-              isVirtualMode = true; // TRIGGER SHIELD
+              isVirtualMode = true; // TRIGGER SHIELD IMMEDIATELY AT 2 LOSSES!
             }
           }
         }
@@ -1004,6 +1023,8 @@
           number: latest.number,
           actualSize: actualSize,
           predSize: currentPrediction.predSize,
+          rawSize: currentPrediction.rawSize,
+          phase: currentPrediction.phase,
           luckyBall: currentPrediction.luckyBall,
           status: status,
           isWin: win
@@ -1012,20 +1033,61 @@
         playAlertSound(win ? 'win' : 'loss');
       }
 
+      // Determine Dual-Phase via Hysteresis State Machine K=7 (low<=2, high>=3)
+      const K = 7;
+      const rollingTotal = Math.min(phaseHistory.length, K);
+      const rollingHits = rollingTotal > 0 ? phaseHistory.slice(-rollingTotal).filter(Boolean).length : 0;
+
+      if (phaseHistory.length >= K) {
+        if (currentPhase === 'STRAIGHT') {
+          if (rollingHits <= 2) {
+            currentPhase = 'REVERSE'; // Anti-phase chop detected! Invert!
+          }
+        } else {
+          if (rollingHits >= 3) {
+            currentPhase = 'STRAIGHT'; // Re-synced with direct stream!
+          }
+        }
+      }
+
       // Compute prediction for NEXT upcoming period
       const nHist = chron.map(d => Number(d.number));
       const nextPeriodNum = (BigInt(latestPeriod) + 1n).toString();
 
-      const pred = predictPurePRNG(nHist);
+      const rawPred = predictPurePRNG(nHist);
+      const finalSize = (currentPhase === 'STRAIGHT') ? rawPred.rawSize : opp(rawPred.rawSize);
+
+      // Harmonic Lucky Ball tailored to finalSize
+      const allowed = finalSize === 'BIG' ? [5, 6, 7, 8, 9] : [0, 1, 2, 3, 4];
+      let luckyBall = allowed[0];
+      let highestP = -1;
+      for (const d of allowed) {
+        if (rawPred.lastRow[d] > highestP) {
+          highestP = rawPred.lastRow[d];
+          luckyBall = d;
+        }
+      }
+      if (highestP <= 0) luckyBall = (finalSize === 'BIG' ? 7 : 2);
+
+      const conf = Math.min(99, 91 + (currentPhase === 'STRAIGHT' ? rollingHits * 2 : (7 - rollingHits) * 2));
+      const regime = currentPhase === 'STRAIGHT'
+        ? `🟢 PRNG STRAIGHT [LCG ${rawPred.lcgSize} · MARKOV ${rawPred.markovSize} · LFG ${rawPred.lfgSize}]`
+        : `🔄 DUAL-PHASE REVERSE [ANTI-CHOP FLIP: RAW ${rawPred.rawSize} ➔ BET ${finalSize}]`;
+
       currentPrediction = {
         targetPeriod: nextPeriodNum,
-        predSize: pred.finalSize,
-        luckyBall: pred.luckyBall,
-        regime: pred.regime,
-        conf: pred.conf
+        predSize: finalSize,
+        rawSize: rawPred.rawSize,
+        phase: currentPhase,
+        luckyBall: luckyBall,
+        regime: regime,
+        conf: conf,
+        rollingHits: rollingHits,
+        rollingTotal: rollingTotal,
+        rawPred: rawPred
       };
 
-      updateUI(pred, nextPeriodNum);
+      updateUI(currentPrediction, nextPeriodNum);
       renderHistory();
     } catch (e) {}
   }
@@ -1033,6 +1095,19 @@
   function updateUI(pred, targetPeriod) {
     document.getElementById('disp-target-period').textContent = 'TARGET: #' + targetPeriod.slice(-5);
     
+    // Update Phase Badge
+    const phaseTag = document.getElementById('disp-phase-tag');
+    if (phaseTag) {
+      const hitStr = `${pred.rollingHits || 0}/${pred.rollingTotal || 7}`;
+      if (currentPhase === 'STRAIGHT') {
+        phaseTag.textContent = `🟢 STRAIGHT PHASE (${hitStr})`;
+        phaseTag.className = 'phase-tag straight';
+      } else {
+        phaseTag.textContent = `🔄 REVERSE PHASE (${hitStr})`;
+        phaseTag.className = 'phase-tag reverse';
+      }
+    }
+
     const heroCard = document.querySelector('.hero-card');
     const sigEl = document.getElementById('disp-signal');
     const sigSub = document.querySelector('.signal-box .signal-sub');
@@ -1066,12 +1141,13 @@
       heroCard.classList.remove('shield-active');
       warnBanner.style.display = 'none';
 
-      sigEl.textContent = pred.finalSize;
-      sigEl.className = 'signal-big-text ' + pred.finalSize;
+      sigEl.textContent = pred.predSize;
+      sigEl.className = 'signal-big-text ' + pred.predSize;
 
       const levelNum = runningRealStreak + 1;
       const stakeAmt = runningRealStreak === 0 ? 2 : 4;
-      sigSub.textContent = `PURE PRNG SIGNAL · LEVEL ${levelNum} (REAL ₹${stakeAmt})`;
+      const phasePrefix = currentPhase === 'STRAIGHT' ? 'PURE PRNG' : '🔄 ANTI-PHASE';
+      sigSub.textContent = `${phasePrefix} · LEVEL ${levelNum} (REAL ₹${stakeAmt})`;
       sigSub.style.color = 'var(--muted)';
 
       luckyBallEl.textContent = pred.luckyBall;
@@ -1091,38 +1167,41 @@
       }
     }
 
-    // Update PRNG Matrix Card
-    document.getElementById('disp-entropy-badge').textContent = `ENTROPY: ${pred.entropyBits} BITS`;
-    document.getElementById('disp-lcg-eq').textContent = `S(n+1) ≡ (${pred.bestA}·S + ${pred.bestC}) mod 10`;
-    document.getElementById('disp-lcg-val').textContent = `RESIDUE: ${pred.lcgResidue} (${pred.lcgSize})`;
+    const rawP = pred.rawPred;
+    if (rawP) {
+      // Update PRNG Matrix Card
+      document.getElementById('disp-entropy-badge').textContent = `ENTROPY: ${rawP.entropyBits} BITS`;
+      document.getElementById('disp-lcg-eq').textContent = `S(n+1) ≡ (${rawP.bestA}·S + ${rawP.bestC}) mod 10`;
+      document.getElementById('disp-lcg-val').textContent = `RESIDUE: ${rawP.lcgResidue} (${rawP.lcgSize})`;
 
-    document.getElementById('disp-top-bias').textContent = pred.topBiasText;
+      document.getElementById('disp-top-bias').textContent = rawP.topBiasText;
 
-    // Render Digits Grid (0-9)
-    const dGrid = document.getElementById('disp-digits-grid');
-    dGrid.innerHTML = pred.probs.map((p, d) => {
-      const isTop = (d === pred.topDigit);
-      const col = d >= 5 ? 'var(--green)' : 'var(--pink)';
-      return `
-        <div class="digit-cell ${isTop ? 'top-digit' : ''}">
-          <div class="digit-num" style="color:${col}">${d}</div>
-          <div class="digit-prob">${p}%</div>
-        </div>
-      `;
-    }).join('');
+      // Render Digits Grid (0-9)
+      const dGrid = document.getElementById('disp-digits-grid');
+      dGrid.innerHTML = rawP.probs.map((p, d) => {
+        const isTop = (d === rawP.topDigit);
+        const col = d >= 5 ? 'var(--green)' : 'var(--pink)';
+        return `
+          <div class="digit-cell ${isTop ? 'top-digit' : ''}">
+            <div class="digit-num" style="color:${col}">${d}</div>
+            <div class="digit-prob">${p}%</div>
+          </div>
+        `;
+      }).join('');
 
-    // Update Votes
-    const lcgVoteEl = document.getElementById('vote-lcg');
-    lcgVoteEl.textContent = pred.lcgSize;
-    lcgVoteEl.className = 'vote-res ' + pred.lcgSize;
+      // Update Votes
+      const lcgVoteEl = document.getElementById('vote-lcg');
+      lcgVoteEl.textContent = rawP.lcgSize;
+      lcgVoteEl.className = 'vote-res ' + rawP.lcgSize;
 
-    const markovVoteEl = document.getElementById('vote-markov');
-    markovVoteEl.textContent = pred.markovSize;
-    markovVoteEl.className = 'vote-res ' + pred.markovSize;
+      const markovVoteEl = document.getElementById('vote-markov');
+      markovVoteEl.textContent = rawP.markovSize;
+      markovVoteEl.className = 'vote-res ' + rawP.markovSize;
 
-    const lfgVoteEl = document.getElementById('vote-lfg');
-    lfgVoteEl.textContent = pred.lfgSize;
-    lfgVoteEl.className = 'vote-res ' + pred.lfgSize;
+      const lfgVoteEl = document.getElementById('vote-lfg');
+      lfgVoteEl.textContent = rawP.lfgSize;
+      lfgVoteEl.className = 'vote-res ' + rawP.lfgSize;
+    }
 
     // Update Stats
     const realTotal = sessionHistory.filter(h => !h.status.startsWith('V-')).length;
@@ -1153,12 +1232,15 @@
       const isVirtual = h.status.startsWith('V-');
       const badgeClass = isVirtual ? 'virtual' : (isWin ? 'win' : 'loss');
       const numColor = h.number >= 5 ? 'var(--green)' : 'var(--pink)';
+      const phaseBadge = h.phase === 'REVERSE' 
+        ? `<span style="font-size:8.5px;color:var(--gold);margin-left:3px">[REV]</span>` 
+        : `<span style="font-size:8.5px;color:var(--muted);margin-left:3px">[STR]</span>`;
       return `
         <tr>
           <td style="color:var(--cyan);font-weight:800">#${h.period.slice(-5)}</td>
           <td style="color:${numColor};font-weight:900">${h.number}</td>
-          <td style="font-weight:800">${h.predSize}</td>
-          <td style="color:${numColor};font-weight:700">${h.actualSize}</td>
+          <td style="font-weight:800">${h.predSize} ${h.luckyBall !== undefined ? h.luckyBall : ''} ${phaseBadge}</td>
+          <td style="color:${numColor};font-weight:700">${h.actualSize} ${h.number}</td>
           <td><span class="status-badge ${badgeClass}">${h.status}</span></td>
         </tr>
       `;
