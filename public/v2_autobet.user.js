@@ -104,7 +104,7 @@
     const bigVotes = votes.filter(v => v === 'BIG').length;
     let finalSize = bigVotes >= 2 ? 'BIG' : 'SMALL';
 
-    // Dragon Momentum Protection (3 <= streak < 6)
+    // Dragon & Alternating Cadence Protection
     let streakLen = 1;
     const lastSide = lastNum >= 5 ? 'BIG' : 'SMALL';
     for (let i = nLen - 2; i >= 0; i--) {
@@ -112,8 +112,19 @@
       if (s === lastSide) streakLen++;
       else break;
     }
-    if (streakLen >= 3 && streakLen < 6) {
+
+    let altCount = 0;
+    for (let i = nLen - 1; i >= 1; i--) {
+      const s1 = nums[i] >= 5 ? 'BIG' : 'SMALL';
+      const s0 = nums[i - 1] >= 5 ? 'BIG' : 'SMALL';
+      if (s1 !== s0) altCount++;
+      else break;
+    }
+
+    if (streakLen >= 3 && streakLen < 7) {
       finalSize = lastSide;
+    } else if (streakLen === 1 && altCount >= 2) {
+      finalSize = (lastSide === 'BIG' ? 'SMALL' : 'BIG');
     }
 
     return { rawSize: finalSize, lcgSize, markovSize, lfgSize, lastRow };
