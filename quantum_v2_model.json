@@ -1,0 +1,788 @@
+{
+  "trends": {
+    "1": {
+      "name": "6-BIG DRAGON",
+      "pat": [
+        "BIG",
+        "BIG",
+        "BIG",
+        "BIG",
+        "BIG",
+        "BIG"
+      ],
+      "next": 2
+    },
+    "2": {
+      "name": "6-SMALL DRAGON",
+      "pat": [
+        "SMALL",
+        "SMALL",
+        "SMALL",
+        "SMALL",
+        "SMALL",
+        "SMALL"
+      ],
+      "next": 3
+    },
+    "3": {
+      "name": "1-1 ZIGZAG (B)",
+      "pat": [
+        "BIG",
+        "SMALL",
+        "BIG",
+        "SMALL",
+        "BIG",
+        "SMALL"
+      ],
+      "next": 4
+    },
+    "4": {
+      "name": "1-1 ZIGZAG (S)",
+      "pat": [
+        "SMALL",
+        "BIG",
+        "SMALL",
+        "BIG",
+        "SMALL",
+        "BIG"
+      ],
+      "next": 5
+    },
+    "5": {
+      "name": "2-1 RHYTHM (B)",
+      "pat": [
+        "BIG",
+        "BIG",
+        "SMALL",
+        "BIG",
+        "BIG",
+        "SMALL"
+      ],
+      "next": 6
+    },
+    "6": {
+      "name": "2-1 RHYTHM (S)",
+      "pat": [
+        "SMALL",
+        "SMALL",
+        "BIG",
+        "SMALL",
+        "SMALL",
+        "BIG"
+      ],
+      "next": 7
+    },
+    "7": {
+      "name": "3-3 MIRROR (B)",
+      "pat": [
+        "BIG",
+        "BIG",
+        "BIG",
+        "SMALL",
+        "SMALL",
+        "SMALL"
+      ],
+      "next": 8
+    },
+    "8": {
+      "name": "3-3 MIRROR (S)",
+      "pat": [
+        "SMALL",
+        "SMALL",
+        "SMALL",
+        "BIG",
+        "BIG",
+        "BIG"
+      ],
+      "next": 9
+    },
+    "9": {
+      "name": "1-2 RHYTHM (B)",
+      "pat": [
+        "BIG",
+        "SMALL",
+        "SMALL",
+        "BIG",
+        "SMALL",
+        "SMALL"
+      ],
+      "next": 10
+    },
+    "10": {
+      "name": "1-2 RHYTHM (S)",
+      "pat": [
+        "SMALL",
+        "BIG",
+        "BIG",
+        "SMALL",
+        "BIG",
+        "BIG"
+      ],
+      "next": 11
+    },
+    "11": {
+      "name": "2-2 RHYTHM (B)",
+      "pat": [
+        "BIG",
+        "BIG",
+        "SMALL",
+        "SMALL",
+        "BIG",
+        "BIG"
+      ],
+      "next": 12
+    },
+    "12": {
+      "name": "2-2 RHYTHM (S)",
+      "pat": [
+        "SMALL",
+        "SMALL",
+        "BIG",
+        "BIG",
+        "SMALL",
+        "SMALL"
+      ],
+      "next": 13
+    },
+    "13": {
+      "name": "ALT-DOUBLE (B)",
+      "pat": [
+        "BIG",
+        "SMALL",
+        "BIG",
+        "BIG",
+        "SMALL",
+        "BIG"
+      ],
+      "next": 14
+    },
+    "14": {
+      "name": "ALT-DOUBLE (S)",
+      "pat": [
+        "SMALL",
+        "BIG",
+        "SMALL",
+        "SMALL",
+        "BIG",
+        "SMALL"
+      ],
+      "next": 15
+    },
+    "15": {
+      "name": "4-2 SHIFT (B)",
+      "pat": [
+        "BIG",
+        "BIG",
+        "BIG",
+        "BIG",
+        "SMALL",
+        "SMALL"
+      ],
+      "next": 16
+    },
+    "16": {
+      "name": "4-2 SHIFT (S)",
+      "pat": [
+        "SMALL",
+        "SMALL",
+        "SMALL",
+        "SMALL",
+        "BIG",
+        "BIG"
+      ],
+      "next": 17
+    },
+    "17": {
+      "name": "CHOPPER-LOCK (B)",
+      "pat": [
+        "BIG",
+        "SMALL",
+        "BIG",
+        "SMALL",
+        "SMALL",
+        "BIG"
+      ],
+      "next": 18
+    },
+    "18": {
+      "name": "CHOPPER-LOCK (S)",
+      "pat": [
+        "SMALL",
+        "BIG",
+        "SMALL",
+        "BIG",
+        "BIG",
+        "SMALL"
+      ],
+      "next": 19
+    },
+    "19": {
+      "name": "1-3-2 PULSE (B)",
+      "pat": [
+        "BIG",
+        "SMALL",
+        "SMALL",
+        "SMALL",
+        "BIG",
+        "BIG"
+      ],
+      "next": 20
+    },
+    "20": {
+      "name": "1-3-2 PULSE (S)",
+      "pat": [
+        "SMALL",
+        "BIG",
+        "BIG",
+        "BIG",
+        "SMALL",
+        "SMALL"
+      ],
+      "next": 21
+    },
+    "21": {
+      "name": "2-3-1 FLIP (B)",
+      "pat": [
+        "BIG",
+        "BIG",
+        "SMALL",
+        "SMALL",
+        "SMALL",
+        "BIG"
+      ],
+      "next": 22
+    },
+    "22": {
+      "name": "1-3-1-1 FLIP (S)",
+      "pat": [
+        "SMALL",
+        "BIG",
+        "BIG",
+        "BIG",
+        "SMALL",
+        "BIG"
+      ],
+      "next": 23
+    },
+    "23": {
+      "name": "1-1-3-1 FLIP (B)",
+      "pat": [
+        "BIG",
+        "SMALL",
+        "BIG",
+        "BIG",
+        "BIG",
+        "SMALL"
+      ],
+      "next": 24
+    },
+    "24": {
+      "name": "2-1-1-1-1 S-RUN",
+      "pat": [
+        "SMALL",
+        "SMALL",
+        "BIG",
+        "SMALL",
+        "BIG",
+        "SMALL"
+      ],
+      "next": 25
+    },
+    "25": {
+      "name": "1-4-1 DRAGON-END (B)",
+      "pat": [
+        "BIG",
+        "SMALL",
+        "SMALL",
+        "SMALL",
+        "SMALL",
+        "BIG"
+      ],
+      "next": 26
+    },
+    "26": {
+      "name": "1-4-1 DRAGON-END (S)",
+      "pat": [
+        "SMALL",
+        "BIG",
+        "BIG",
+        "BIG",
+        "BIG",
+        "SMALL"
+      ],
+      "next": 27
+    },
+    "27": {
+      "name": "3-1-1-1 SURGE (B)",
+      "pat": [
+        "BIG",
+        "BIG",
+        "BIG",
+        "SMALL",
+        "BIG",
+        "SMALL"
+      ],
+      "next": 28
+    },
+    "28": {
+      "name": "3-1-1-1 SURGE (S)",
+      "pat": [
+        "SMALL",
+        "SMALL",
+        "SMALL",
+        "BIG",
+        "SMALL",
+        "BIG"
+      ],
+      "next": 29
+    },
+    "29": {
+      "name": "1-1-1-3 SURGE (B)",
+      "pat": [
+        "BIG",
+        "SMALL",
+        "BIG",
+        "SMALL",
+        "SMALL",
+        "SMALL"
+      ],
+      "next": 30
+    },
+    "30": {
+      "name": "1-1-1-3 SURGE (S)",
+      "pat": [
+        "SMALL",
+        "BIG",
+        "SMALL",
+        "BIG",
+        "BIG",
+        "BIG"
+      ],
+      "next": 1
+    }
+  },
+  "version": "2.0-studocu-titan",
+  "shield_max_loss": 2,
+  "chains": {
+    "1": [
+      "BIG",
+      "BIG",
+      "BIG",
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "SMALL"
+    ],
+    "2": [
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL"
+    ],
+    "3": [
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG"
+    ],
+    "4": [
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "SMALL"
+    ],
+    "5": [
+      "BIG",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "BIG"
+    ],
+    "6": [
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "SMALL"
+    ],
+    "7": [
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG"
+    ],
+    "8": [
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "SMALL"
+    ],
+    "9": [
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG"
+    ],
+    "10": [
+      "SMALL",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "BIG"
+    ],
+    "11": [
+      "BIG",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "SMALL"
+    ],
+    "12": [
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "BIG"
+    ],
+    "13": [
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "SMALL"
+    ],
+    "14": [
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "SMALL"
+    ],
+    "15": [
+      "BIG",
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "BIG"
+    ],
+    "16": [
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "BIG"
+    ],
+    "17": [
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "SMALL"
+    ],
+    "18": [
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "BIG"
+    ],
+    "19": [
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "SMALL"
+    ],
+    "20": [
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "BIG"
+    ],
+    "21": [
+      "BIG",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "BIG"
+    ],
+    "22": [
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL"
+    ],
+    "23": [
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL"
+    ],
+    "24": [
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "BIG"
+    ],
+    "25": [
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL"
+    ],
+    "26": [
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL"
+    ],
+    "27": [
+      "BIG",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG"
+    ],
+    "28": [
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "SMALL"
+    ],
+    "29": [
+      "BIG",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG"
+    ],
+    "30": [
+      "SMALL",
+      "BIG",
+      "SMALL",
+      "BIG",
+      "BIG",
+      "BIG",
+      "BIG",
+      "BIG",
+      "BIG",
+      "BIG",
+      "BIG",
+      "BIG"
+    ]
+  }
+}

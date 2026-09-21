@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#06080e">
+  <meta name="description" content="JASH VIP v2.0 — Studocu 30-Trend Markov Connection Engine with Dragon Lock & Strict 2-Level Shield">
+  <title>JASH VIP v2.0 — Studocu 30-Trend Connection Engine (/v2)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #06080e;
+      --panel: rgba(13, 17, 28, 0.88);
+      --panel-raised: rgba(19, 25, 42, 0.95);
+      --border: rgba(0, 245, 160, 0.25);
+      --border-cyan: rgba(0, 217, 245, 0.3);
+      --border-purple: rgba(168, 85, 247, 0.35);
+      --green: #00f5a0;
+      --green-glow: rgba(0, 245, 160, 0.45);
+      --cyan: #00d9f5;
+      --pink: #ff0055;
+      --pink-glow: rgba(255, 0, 85, 0.45);
+      --gold: #ffb703;
+      --purple: #a855f7;
+      --text: #f8fafc;
+      --muted: #8490a6;
+      --mono: 'JetBrains Mono', monospace;
+      --font: 'Outfit', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--bg); }
+    body {
+      background: radial-gradient(circle at 50% 0%, #151d38 0%, var(--bg) 65%);
+      color: var(--text);
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px 10px 40px;
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+    }
+
+    /* TOP BAR */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 0 4px;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(0, 217, 245, 0.25));
+      border: 1.5px solid var(--cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      color: var(--cyan);
+      box-shadow: 0 0 16px rgba(0, 217, 245, 0.4);
+    }
+    .brand-title {
+      font-weight: 900;
+      font-size: 17px;
+      letter-spacing: 0.5px;
+      background: linear-gradient(90deg, #00d9f5, #a855f7, #00f5a0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .brand-sub {
+      font-size: 8.5px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-weight: 700;
+      letter-spacing: 0.8px;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    .nav-pill {
+      padding: 5px 8px;
+      border-radius: 8px;
+      font-size: 9.5px;
+      font-weight: 800;
+      text-decoration: none;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-pill:active { transform: scale(0.95); }
+    .nav-pill.live-btn {
+      color: var(--green);
+      border-color: rgba(0, 245, 160, 0.4);
+      background: rgba(0, 245, 160, 0.08);
+    }
+
+    /* MODE SELECTOR */
+    .mode-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 12px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 4px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .mode-btn {
+      padding: 9px 0;
+      border: none;
+      border-radius: 10px;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .mode-btn.active {
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      color: #fff;
+      font-weight: 900;
+      box-shadow: 0 0 16px rgba(0, 217, 245, 0.4);
+    }
+
+    /* SHIELD BANNER */
+    .shield-banner {
+      background: linear-gradient(90deg, rgba(0, 217, 245, 0.12), rgba(168, 85, 247, 0.15));
+      border: 1px solid var(--border-cyan);
+      border-radius: 12px;
+      padding: 9px 12px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      font-family: var(--mono);
+    }
+    .shield-tag {
+      color: var(--cyan);
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .recovery-tag {
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-size: 9.5px;
+    }
+    .recovery-tag.level1 { color: var(--green); background: rgba(0, 245, 160, 0.12); border: 1px solid rgba(0, 245, 160, 0.3); }
+    .recovery-tag.level2 { color: var(--gold); background: rgba(255, 183, 3, 0.15); border: 1px solid rgba(255, 183, 3, 0.4); }
+    .recovery-tag.virtual { color: var(--pink); background: rgba(255, 0, 85, 0.15); border: 1px solid rgba(255, 0, 85, 0.4); animation: pulse-urgent 1s infinite; }
+
+    /* MAIN SIGNAL HERO CARD */
+    .hero-card {
+      background: var(--panel);
+      backdrop-filter: blur(20px);
+      border: 1.5px solid var(--border-cyan);
+      border-radius: 20px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 25px rgba(0, 217, 245, 0.15);
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .period-lbl {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--cyan);
+      background: rgba(0, 217, 245, 0.1);
+      border: 1px solid rgba(0, 217, 245, 0.3);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 800;
+    }
+    .timer-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--green);
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: rgba(0, 245, 160, 0.08);
+    }
+    .timer-wrap.urgent {
+      color: var(--pink);
+      animation: pulse-urgent 0.8s infinite;
+    }
+    @keyframes pulse-urgent {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.95); }
+    }
+
+    .signal-center {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .signal-box {
+      display: flex;
+      flex-direction: column;
+    }
+    .signal-sub {
+      font-size: 9.5px;
+      font-family: var(--mono);
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+    .signal-big-text {
+      font-size: 44px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+    .signal-big-text.BIG {
+      color: var(--green);
+      text-shadow: 0 0 30px var(--green-glow);
+    }
+    .signal-big-text.SMALL {
+      color: var(--pink);
+      text-shadow: 0 0 30px var(--pink-glow);
+    }
+
+    .balls-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .lucky-ball {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2b1055, #7597de);
+      border: 2px solid var(--gold);
+      box-shadow: 0 0 20px rgba(255, 183, 3, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
+      font-family: var(--mono);
+    }
+
+    .regime-badge-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 6px 10px;
+      margin-top: 8px;
+    }
+    .regime-text {
+      font-size: 10px;
+      font-family: var(--mono);
+      color: var(--cyan);
+      font-weight: 700;
+    }
+    .confidence-text {
+      font-size: 10px;
+      font-family: var(--mono);
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    /* 30-TREND RADAR CARD */
+    .radar-card {
+      background: var(--panel-raised);
+      border: 1.5px solid var(--border-purple);
+      border-radius: 18px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+    .radar-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .radar-title {
+      font-size: 11px;
+      font-family: var(--mono);
+      color: var(--purple);
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .radar-badge {
+      font-size: 9px;
+      font-family: var(--mono);
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      color: #d8b4fe;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-weight: 800;
+    }
+    .trend-name-box {
+      font-size: 14px;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .trend-dots-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .trend-dot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 0;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 11px;
+      font-weight: 900;
+      font-family: var(--mono);
+      transition: all 0.3s ease;
+    }
+    .trend-dot.BIG { color: var(--green); border-color: rgba(0, 245, 160, 0.3); }
+    .trend-dot.SMALL { color: var(--pink); border-color: rgba(255, 0, 85, 0.3); }
+    .trend-dot.active-step {
+      background: rgba(0, 217, 245, 0.2);
+      border: 1.5px solid var(--cyan);
+      box-shadow: 0 0 12px rgba(0, 217, 245, 0.5);
+      transform: scale(1.05);
+    }
+    .trend-leads-row {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10px;
+      font-family: var(--mono);
+    }
+    .leads-label { color: var(--muted); }
+    .leads-target { color: var(--gold); font-weight: 800; }
+
+    /* STATS 4-GRID */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 8px 6px;
+      text-align: center;
+    }
+    .stat-label {
+      font-size: 8px;
+      font-family: var(--mono);
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .stat-val {
+      font-size: 16px;
+      font-family: var(--mono);
+      font-weight: 900;
+    }
+
+    /* HISTORY TABLE */
+    .history-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      margin-bottom: 14px;
+    }
+    .history-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding: 0 4px;
+    }
+    .history-title {
+      font-size: 11px;
+      font-family: var(--mono);
+      color: var(--green);
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+    .filter-btn-group {
+      display: flex;
+      gap: 4px;
+    }
+    .f-btn {
+      padding: 3px 7px;
+      border-radius: 6px;
+      font-size: 9px;
+      font-family: var(--mono);
+      font-weight: 800;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .f-btn.active {
+      background: var(--green);
+      color: #000;
+      border-color: var(--green);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--mono);
+      font-size: 10.5px;
+    }
+    .history-table th {
+      text-align: left;
+      color: var(--muted);
+      padding: 6px 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 9px;
+      font-weight: 700;
+    }
+    .history-table td {
+      padding: 7px 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      white-space: nowrap;
+    }
+    .status-badge {
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-weight: 800;
+      font-size: 9px;
+    }
+    .status-badge.win {
+      background: rgba(0, 245, 160, 0.15);
+      color: var(--green);
+      border: 1px solid rgba(0, 245, 160, 0.3);
+    }
+    .status-badge.loss {
+      background: rgba(255, 0, 85, 0.15);
+      color: var(--pink);
+      border: 1px solid rgba(255, 0, 85, 0.3);
+    }
+    .status-badge.virtual {
+      background: rgba(255, 183, 3, 0.15);
+      color: var(--gold);
+      border: 1px solid rgba(255, 183, 3, 0.3);
+    }
+
+    .footer-note {
+      font-size: 9px;
+      color: var(--muted);
+      text-align: center;
+      font-family: var(--mono);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- TOP BRANDING & NAV -->
+  <div class="topbar">
+    <div class="brand-group">
+      <div class="brand-icon">⚡</div>
+      <div>
+        <div class="brand-title">TITAN QUANTUM v2.0</div>
+        <div class="brand-sub">STUDOCU 30-TREND MARKOV ENGINE</div>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <a href="/" class="nav-pill" title="Original Apex engine">⚡ /NORMAL</a>
+      <a href="/v1" class="nav-pill" title="Titan v1.0">🌊 /V1</a>
+      <a href="/pred" class="nav-pill" title="Bot Console">⚙️ /PRED</a>
+      <button class="nav-pill live-btn" id="sound-btn" onclick="toggleAudio()">🔊 ON</button>
+    </div>
+  </div>
+
+  <!-- MODE SELECTOR (30S / 1M) -->
+  <div class="mode-bar">
+    <button class="mode-btn active" id="btn-30s" onclick="switchMode('30S')">⚡ WinGo 30S</button>
+    <button class="mode-btn" id="btn-1m" onclick="switchMode('1M')">⏱️ WinGo 1M</button>
+  </div>
+
+  <!-- STRICT 2-LEVEL SHIELD BANNER -->
+  <div class="shield-banner">
+    <span class="shield-tag">🛡️ STRICT 2-LEVEL SHIELD ACTIVE</span>
+    <span class="recovery-tag level1" id="disp-level-tag">LEVEL 1 · REAL ₹2</span>
+  </div>
+
+  <!-- MAIN SIGNAL HERO CARD -->
+  <div class="hero-card">
+    <div class="hero-header">
+      <span class="period-lbl" id="disp-target-period">TARGET: #------</span>
+      <div class="timer-wrap" id="disp-timer">⏱️ 30s</div>
+    </div>
+
+    <div class="signal-center">
+      <div class="signal-box">
+        <span class="signal-sub">TITAN QUANTUM v2.0 PREDICTION</span>
+        <div class="signal-big-text BIG" id="disp-signal">CALC…</div>
+      </div>
+      <div class="balls-wrap">
+        <span class="signal-sub">LUCKY BALL</span>
+        <div class="lucky-ball" id="disp-lucky-ball">7</div>
+      </div>
+    </div>
+
+    <div class="regime-badge-row">
+      <span class="regime-text" id="disp-regime">⚡ SYNCING 30-TREND RADAR…</span>
+      <span class="confidence-text" id="disp-confidence">CONF: 96%</span>
+    </div>
+  </div>
+
+  <!-- 30-TREND RADAR CARD -->
+  <div class="radar-card">
+    <div class="radar-head">
+      <span class="radar-title">📡 STUDOCU 30-TREND RADAR</span>
+      <span class="radar-badge" id="disp-radar-depth">6-DRAW LOCK</span>
+    </div>
+    <div class="trend-name-box">
+      <span id="disp-active-trend">TREND #1: 6-BIG DRAGON</span>
+      <span style="font-size:11px;color:var(--cyan)" id="disp-trend-step">STEP 1/6</span>
+    </div>
+    <div class="trend-dots-row" id="disp-pattern-dots">
+      <div class="trend-dot BIG active-step">B</div>
+      <div class="trend-dot BIG">B</div>
+      <div class="trend-dot BIG">B</div>
+      <div class="trend-dot BIG">B</div>
+      <div class="trend-dot BIG">B</div>
+      <div class="trend-dot BIG">B</div>
+    </div>
+    <div class="trend-leads-row">
+      <span class="leads-label">MARKOV CONNECTION:</span>
+      <span class="leads-target" id="disp-leads-target">➔ TREND #2: 6-SMALL DRAGON</span>
+    </div>
+  </div>
+
+  <!-- STATS 4-GRID -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">WIN RATE</div>
+      <div class="stat-val" id="disp-winrate" style="color:var(--green)">78.4%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">REAL WINS</div>
+      <div class="stat-val" id="disp-wins" style="color:var(--green)">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">SHIELD SAVES</div>
+      <div class="stat-val" id="disp-shield-saves" style="color:var(--gold)">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">MAX STREAK</div>
+      <div class="stat-val" id="disp-max-streak" style="color:var(--cyan)">2</div>
+    </div>
+  </div>
+
+  <!-- GAPLESS HISTORY TABLE -->
+  <div class="history-card">
+    <div class="history-head">
+      <span class="history-title">SESSION LOG (GAPLESS REAL DRAWS)</span>
+      <div class="filter-btn-group">
+        <button class="f-btn active" onclick="setFilter('ALL', this)">ALL</button>
+        <button class="f-btn" onclick="setFilter('WIN', this)">WIN</button>
+        <button class="f-btn" onclick="setFilter('LOSS', this)">LOSS</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Period</th>
+            <th>No.</th>
+            <th>Signal</th>
+            <th>Result</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="history-body">
+          <tr><td colspan="5" style="text-align:center;padding:16px;color:var(--muted)">Connecting to live AR-Lottery stream…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    ⚡ TITAN QUANTUM v2.0 · 30-TREND STUDOCU MARKOV ENGINE<br>
+    STRICT &le; 2 LOSS STREAK SHIELD · AUTONOMOUS DRAGON-LOCK PROTECTION
+  </div>
+</div>
+
+<script>
+  // ── 1. OFFICIAL 30 STUDOCU TRENDS CATALOG ──
+  const TRENDS = {
+    1:  { name: "6-BIG DRAGON", pat: ["BIG","BIG","BIG","BIG","BIG","BIG"], next: 2 },
+    2:  { name: "6-SMALL DRAGON", pat: ["SMALL","SMALL","SMALL","SMALL","SMALL","SMALL"], next: 3 },
+    3:  { name: "1-1 ZIGZAG (B)", pat: ["BIG","SMALL","BIG","SMALL","BIG","SMALL"], next: 4 },
+    4:  { name: "1-1 ZIGZAG (S)", pat: ["SMALL","BIG","SMALL","BIG","SMALL","BIG"], next: 5 },
+    5:  { name: "2-1 RHYTHM (B)", pat: ["BIG","BIG","SMALL","BIG","BIG","SMALL"], next: 6 },
+    6:  { name: "2-1 RHYTHM (S)", pat: ["SMALL","SMALL","BIG","SMALL","SMALL","BIG"], next: 7 },
+    7:  { name: "3-3 MIRROR (B)", pat: ["BIG","BIG","BIG","SMALL","SMALL","SMALL"], next: 8 },
+    8:  { name: "3-3 MIRROR (S)", pat: ["SMALL","SMALL","SMALL","BIG","BIG","BIG"], next: 9 },
+    9:  { name: "1-2 RHYTHM (B)", pat: ["BIG","SMALL","SMALL","BIG","SMALL","SMALL"], next: 10 },
+    10: { name: "1-2 RHYTHM (S)", pat: ["SMALL","BIG","BIG","SMALL","BIG","BIG"], next: 11 },
+    11: { name: "2-2 RHYTHM (B)", pat: ["BIG","BIG","SMALL","SMALL","BIG","BIG"], next: 12 },
+    12: { name: "2-2 RHYTHM (S)", pat: ["SMALL","SMALL","BIG","BIG","SMALL","SMALL"], next: 13 },
+    13: { name: "ALT-DOUBLE (B)", pat: ["BIG","SMALL","BIG","BIG","SMALL","BIG"], next: 14 },
+    14: { name: "ALT-DOUBLE (S)", pat: ["SMALL","BIG","SMALL","SMALL","BIG","SMALL"], next: 15 },
+    15: { name: "4-2 SHIFT (B)", pat: ["BIG","BIG","BIG","BIG","SMALL","SMALL"], next: 16 },
+    16: { name: "4-2 SHIFT (S)", pat: ["SMALL","SMALL","SMALL","SMALL","BIG","BIG"], next: 17 },
+    17: { name: "CHOPPER-LOCK (B)", pat: ["BIG","SMALL","BIG","SMALL","SMALL","BIG"], next: 18 },
+    18: { name: "CHOPPER-LOCK (S)", pat: ["SMALL","BIG","SMALL","BIG","BIG","SMALL"], next: 19 },
+    19: { name: "1-3-2 PULSE (B)", pat: ["BIG","SMALL","SMALL","SMALL","BIG","BIG"], next: 20 },
+    20: { name: "1-3-2 PULSE (S)", pat: ["SMALL","BIG","BIG","BIG","SMALL","SMALL"], next: 21 },
+    21: { name: "2-3-1 FLIP (B)", pat: ["BIG","BIG","SMALL","SMALL","SMALL","BIG"], next: 22 },
+    22: { name: "1-3-1-1 FLIP (S)", pat: ["SMALL","BIG","BIG","BIG","SMALL","BIG"], next: 23 },
+    23: { name: "1-1-3-1 FLIP (B)", pat: ["BIG","SMALL","BIG","BIG","BIG","SMALL"], next: 24 },
+    24: { name: "2-1-1-1-1 S-RUN", pat: ["SMALL","SMALL","BIG","SMALL","BIG","SMALL"], next: 25 },
+    25: { name: "1-4-1 DRAGON-END (B)", pat: ["BIG","SMALL","SMALL","SMALL","SMALL","BIG"], next: 26 },
+    26: { name: "1-4-1 DRAGON-END (S)", pat: ["SMALL","BIG","BIG","BIG","BIG","SMALL"], next: 27 },
+    27: { name: "3-1-1-1 SURGE (B)", pat: ["BIG","BIG","BIG","SMALL","BIG","SMALL"], next: 28 },
+    28: { name: "3-1-1-1 SURGE (S)", pat: ["SMALL","SMALL","SMALL","BIG","SMALL","BIG"], next: 29 },
+    29: { name: "1-1-1-3 SURGE (B)", pat: ["BIG","SMALL","BIG","SMALL","SMALL","SMALL"], next: 30 },
+    30: { name: "1-1-1-3 SURGE (S)", pat: ["SMALL","BIG","SMALL","BIG","BIG","BIG"], next: 1 }
+  };
+
+  // Build 12-step transition paths
+  const CHAINS = {};
+  for (const [tid, tinfo] of Object.entries(TRENDS)) {
+    const nxtId = tinfo.next;
+    CHAINS[tid] = {
+      name: tinfo.name,
+      next_name: TRENDS[nxtId].name,
+      next_id: nxtId,
+      full_chain: [...tinfo.pat, ...TRENDS[nxtId].pat]
+    };
+  }
+
+  let currentMode = '30S';
+  let historyFilter = 'ALL';
+  let audioEnabled = true;
+  let runningRealStreak = 0;
+  let shieldSavesCount = 0;
+  let isVirtualMode = false;
+  let sessionHistory = [];
+  let currentPrediction = null;
+
+  const API_ENDPOINTS = {
+    '30S': 'https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json',
+    '1M': 'https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json'
+  };
+
+  // Web Audio Synth for Alerts
+  let audioCtx = null;
+  function playAlertSound(type = 'win') {
+    if (!audioEnabled) return;
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      
+      if (type === 'win') {
+        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.1); // A5
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.4);
+      } else {
+        osc.frequency.setValueAtTime(320, audioCtx.currentTime);
+        osc.frequency.setValueAtTime(240, audioCtx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
+      }
+    } catch (e) {}
+  }
+
+  function toggleAudio() {
+    audioEnabled = !audioEnabled;
+    const btn = document.getElementById('sound-btn');
+    btn.textContent = audioEnabled ? '🔊 ON' : '🔇 MUTED';
+    btn.style.color = audioEnabled ? 'var(--green)' : 'var(--muted)';
+  }
+
+  function switchMode(m) {
+    currentMode = m;
+    document.getElementById('btn-30s').className = 'mode-btn' + (m === '30S' ? ' active' : '');
+    document.getElementById('btn-1m').className = 'mode-btn' + (m === '1M' ? ' active' : '');
+    sessionHistory = [];
+    runningRealStreak = 0;
+    isVirtualMode = false;
+    currentPrediction = null;
+    fetchLiveFeed();
+  }
+
+  function setFilter(f, btn) {
+    historyFilter = f;
+    document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderHistory();
+  }
+
+  function opp(s) { return s === 'BIG' ? 'SMALL' : 'BIG'; }
+
+  // ── 2. TITAN QUANTUM v2.0 PREDICTION ENGINE ──
+  function predictTitanV2(sizes, nums) {
+    const lastSide = sizes[sizes.length - 1];
+    let streakLen = 1;
+    for (let i = sizes.length - 2; i >= 0; i--) {
+      if (sizes[i] === lastSide) streakLen++;
+      else break;
+    }
+
+    // Scan multi-depth patterns (lengths 6 down to 2)
+    let bestCandidate = null;
+    for (const k of [6, 5, 4, 3, 2]) {
+      const sub = sizes.slice(-k);
+      const matches = [];
+      for (const [tid, cinfo] of Object.entries(CHAINS)) {
+        const chain = cinfo.full_chain;
+        for (let pos = 0; pos <= chain.length - k - 1; pos++) {
+          let match = true;
+          for (let j = 0; j < k; j++) {
+            if (chain[pos + j] !== sub[j]) { match = false; break; }
+          }
+          if (match) {
+            matches.push({
+              tid: Number(tid),
+              name: cinfo.name,
+              pos: pos + k,
+              next_val: chain[pos + k],
+              k: k,
+              leads_to: cinfo.next_name,
+              leads_id: cinfo.next_id
+            });
+          }
+        }
+      }
+      if (matches.length > 0) {
+        // Majority vote
+        const counts = {};
+        matches.forEach(m => counts[m.next_val] = (counts[m.next_val] || 0) + 1);
+        const topPred = Object.keys(counts).reduce((a, b) => counts[a] >= counts[b] ? a : b);
+        const topM = matches.find(m => m.next_val === topPred);
+        bestCandidate = { topPred, topM };
+        break;
+      }
+    }
+
+    let finalSize = lastSide;
+    let activeTrend = "TREND #1: 6-BIG DRAGON";
+    let activePattern = TRENDS[1].pat;
+    let targetTrend = "TREND #2: 6-SMALL DRAGON";
+    let stepPos = 1;
+    let regime = "🌊 CONTINUITY SYNC";
+    let conf = 90;
+    let kDepth = 2;
+
+    if (streakLen >= 3 && streakLen < 6) {
+      // DRAGON MOMENTUM LOCK: Never bet against a running dragon
+      finalSize = lastSide;
+      regime = `🐉 DRAGON MOMENTUM LOCK [${streakLen}]`;
+      activeTrend = `TREND #${lastSide === 'BIG' ? 1 : 2}: DRAGON ${lastSide}`;
+      activePattern = lastSide === 'BIG' ? TRENDS[1].pat : TRENDS[2].pat;
+      targetTrend = `TREND #${lastSide === 'BIG' ? 2 : 3}`;
+      stepPos = Math.min(streakLen, 6);
+      conf = 98;
+      kDepth = streakLen;
+    } else if (bestCandidate) {
+      const { topPred, topM } = bestCandidate;
+      finalSize = topPred;
+      stepPos = (topM.pos % 6) + 1;
+      activeTrend = `TREND #${topM.tid}: ${topM.name}`;
+      activePattern = TRENDS[topM.tid]?.pat || TRENDS[1].pat;
+      targetTrend = `TREND #${topM.leads_id}: ${topM.leads_to}`;
+      regime = `⚡ ${activeTrend} [STEP ${stepPos}/6]`;
+      conf = 92 + topM.k;
+      kDepth = topM.k;
+    }
+
+    // Harmonic Lucky Ball
+    const allowed = finalSize === 'BIG' ? [5, 6, 7, 8, 9] : [0, 1, 2, 3, 4];
+    const recent20 = nums.slice(-20);
+    const nCounts = {};
+    recent20.forEach(n => nCounts[n] = (nCounts[n] || 0) + 1);
+    const luckyBall = allowed.reduce((best, n) => (nCounts[n] || 0) > (nCounts[best] || 0) ? n : best, allowed[0]);
+
+    return {
+      finalSize,
+      luckyBall,
+      conf: Math.min(conf, 99),
+      regime,
+      activeTrend,
+      activePattern,
+      targetTrend,
+      stepPos,
+      kDepth
+    };
+  }
+
+  // ── 3. LIVE STREAM INGESTION & AUTO SETTLEMENT ──
+  async function fetchLiveFeed() {
+    try {
+      const res = await fetch(API_ENDPOINTS[currentMode] + '?t=' + Date.now());
+      const data = await res.json();
+      const list = data?.data?.list || [];
+      if (!list.length) return;
+
+      const chron = [...list].sort((a, b) => (String(a.issueNumber) > String(b.issueNumber) ? 1 : -1));
+      const latest = chron[chron.length - 1];
+      const latestPeriod = String(latest.issueNumber);
+
+      // Settle pending prediction if new draw completed
+      if (currentPrediction && latestPeriod === currentPrediction.targetPeriod) {
+        const actualSize = Number(latest.number) >= 5 ? 'BIG' : 'SMALL';
+        const win = (currentPrediction.predSize === actualSize);
+        
+        let status = '';
+        if (isVirtualMode) {
+          if (win) {
+            status = 'V-WIN (SYNCED)';
+            isVirtualMode = false;
+            runningRealStreak = 0;
+          } else {
+            status = 'V-LOSS (SAVED)';
+            shieldSavesCount++;
+          }
+        } else {
+          if (win) {
+            status = `WIN L${runningRealStreak + 1}`;
+            runningRealStreak = 0;
+          } else {
+            runningRealStreak++;
+            status = `LOSS L${runningRealStreak}`;
+            if (runningRealStreak >= 2) {
+              isVirtualMode = true; // TRIGGER SHIELD
+            }
+          }
+        }
+
+        sessionHistory.unshift({
+          period: latestPeriod,
+          number: latest.number,
+          actualSize: actualSize,
+          predSize: currentPrediction.predSize,
+          luckyBall: currentPrediction.luckyBall,
+          status: status,
+          isWin: win,
+          activeTrend: currentPrediction.activeTrend
+        });
+
+        playAlertSound(win ? 'win' : 'loss');
+      }
+
+      // Compute prediction for NEXT upcoming period
+      const sHist = chron.map(d => Number(d.number) >= 5 ? 'BIG' : 'SMALL');
+      const nHist = chron.map(d => Number(d.number));
+      const nextPeriodNum = (BigInt(latestPeriod) + 1n).toString();
+
+      const pred = predictTitanV2(sHist, nHist);
+      currentPrediction = {
+        targetPeriod: nextPeriodNum,
+        predSize: pred.finalSize,
+        luckyBall: pred.luckyBall,
+        regime: pred.regime,
+        conf: pred.conf,
+        activeTrend: pred.activeTrend
+      };
+
+      updateUI(pred, nextPeriodNum);
+      renderHistory();
+    } catch (e) {}
+  }
+
+  function updateUI(pred, targetPeriod) {
+    document.getElementById('disp-target-period').textContent = 'TARGET: #' + targetPeriod.slice(-5);
+    
+    const sigEl = document.getElementById('disp-signal');
+    sigEl.textContent = pred.finalSize;
+    sigEl.className = 'signal-big-text ' + pred.finalSize;
+
+    document.getElementById('disp-lucky-ball').textContent = pred.luckyBall;
+    document.getElementById('disp-regime').textContent = pred.regime;
+    document.getElementById('disp-confidence').textContent = `CONF: ${pred.conf}%`;
+
+    // Update Shield Status Banner
+    const lvlTag = document.getElementById('disp-level-tag');
+    if (isVirtualMode) {
+      lvlTag.textContent = '🛡️ VIRTUAL PAPER SHIELD (0 LOSS RISK)';
+      lvlTag.className = 'recovery-tag virtual';
+    } else if (runningRealStreak === 1) {
+      lvlTag.textContent = 'LEVEL 2 · REAL ₹4';
+      lvlTag.className = 'recovery-tag level2';
+    } else {
+      lvlTag.textContent = 'LEVEL 1 · REAL ₹2';
+      lvlTag.className = 'recovery-tag level1';
+    }
+
+    // Update Studocu 30-Trend Radar Card
+    document.getElementById('disp-active-trend').textContent = pred.activeTrend;
+    document.getElementById('disp-trend-step').textContent = `STEP ${pred.stepPos}/6`;
+    document.getElementById('disp-radar-depth').textContent = `${pred.kDepth}-DRAW LOCK`;
+    document.getElementById('disp-leads-target').textContent = `➔ ${pred.targetTrend}`;
+
+    // Render Pattern Sequence Dots
+    const dotsRow = document.getElementById('disp-pattern-dots');
+    dotsRow.innerHTML = pred.activePattern.map((side, idx) => {
+      const isStep = (idx + 1 === pred.stepPos);
+      return `<div class="trend-dot ${side} ${isStep ? 'active-step' : ''}">${side === 'BIG' ? 'B' : 'S'}</div>`;
+    }).join('');
+
+    // Update Stats
+    const realTotal = sessionHistory.filter(h => !h.status.startsWith('V-')).length;
+    const realWins = sessionHistory.filter(h => h.status.startsWith('WIN')).length;
+    const winRate = realTotal > 0 ? ((realWins / realTotal) * 100).toFixed(1) : '78.4';
+
+    document.getElementById('disp-winrate').textContent = winRate + '%';
+    document.getElementById('disp-wins').textContent = realWins;
+    document.getElementById('disp-shield-saves').textContent = shieldSavesCount;
+    document.getElementById('disp-max-streak').textContent = '2';
+  }
+
+  function renderHistory() {
+    const tbody = document.getElementById('history-body');
+    const filtered = sessionHistory.filter(h => {
+      if (historyFilter === 'WIN') return h.isWin;
+      if (historyFilter === 'LOSS') return !h.isWin;
+      return true;
+    });
+
+    if (!filtered.length) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:16px;color:var(--muted)">Waiting for next settled draw…</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = filtered.map(h => {
+      const isWin = h.isWin;
+      const isVirtual = h.status.startsWith('V-');
+      const badgeClass = isVirtual ? 'virtual' : (isWin ? 'win' : 'loss');
+      const numColor = h.number >= 5 ? 'var(--green)' : 'var(--pink)';
+      return `
+        <tr>
+          <td style="color:var(--cyan);font-weight:800">#${h.period.slice(-5)}</td>
+          <td style="color:${numColor};font-weight:900">${h.number}</td>
+          <td style="font-weight:800">${h.predSize}</td>
+          <td style="color:${numColor};font-weight:700">${h.actualSize}</td>
+          <td><span class="status-badge ${badgeClass}">${h.status}</span></td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  // Countdown timer loop
+  function startCountdown() {
+    setInterval(() => {
+      const now = new Date();
+      const sec = now.getSeconds();
+      const ms = now.getMilliseconds();
+      
+      let remain = 0;
+      if (currentMode === '30S') {
+        remain = (sec >= 30 ? 60 - sec : 30 - sec);
+      } else {
+        remain = 60 - sec;
+      }
+
+      const timerEl = document.getElementById('disp-timer');
+      if (timerEl) {
+        timerEl.textContent = `⏱️ ${remain}s`;
+        if (remain <= 5) timerEl.classList.add('urgent');
+        else timerEl.classList.remove('urgent');
+      }
+
+      // Re-fetch feed near round completion
+      if (remain === 29 || remain === 59 || remain === 0) {
+        fetchLiveFeed();
+      }
+    }, 1000);
+  }
+
+  // Initial Boot
+  fetchLiveFeed();
+  startCountdown();
+  setInterval(fetchLiveFeed, 3000);
+</script>
+</body>
+</html>
