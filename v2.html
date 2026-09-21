@@ -644,10 +644,10 @@
     <button class="mode-btn" id="btn-1m" onclick="switchMode('1M')">⏱️ WinGo 1M</button>
   </div>
 
-  <!-- STRICT 2-LEVEL SHIELD BANNER WITH DUAL-PHASE (STRAIGHT & REVERSE) -->
+  <!-- STRICT 2-LEVEL SHIELD BANNER WITH PURE DIRECT PRNG -->
   <div class="shield-banner">
     <span class="shield-tag">🛡️ STRICT 2-LEVEL SHIELD ACTIVE</span>
-    <span class="phase-tag straight" id="disp-phase-tag">🟢 STRAIGHT PHASE (7/7)</span>
+    <span class="phase-tag straight" id="disp-phase-tag">🟢 DIRECT PURE PRNG</span>
     <span class="recovery-tag level1" id="disp-level-tag">LEVEL 1 · REAL ₹2</span>
   </div>
 
@@ -781,8 +781,6 @@
   let runningRealStreak = 0;
   let shieldSavesCount = 0;
   let isVirtualMode = false;
-  let currentPhase = 'STRAIGHT'; // 'STRAIGHT' or 'REVERSE'
-  let phaseHistory = []; // Rolling array of booleans: did raw PRNG hit
   let sessionHistory = [];
   let currentPrediction = null;
 
@@ -832,8 +830,6 @@
     document.getElementById('btn-30s').className = 'mode-btn' + (m === '30S' ? ' active' : '');
     document.getElementById('btn-1m').className = 'mode-btn' + (m === '1M' ? ' active' : '');
     sessionHistory = [];
-    phaseHistory = [];
-    currentPhase = 'STRAIGHT';
     runningRealStreak = 0;
     isVirtualMode = false;
     currentPrediction = null;
@@ -990,10 +986,6 @@
       if (currentPrediction && latestPeriod === currentPrediction.targetPeriod) {
         const actualSize = Number(latest.number) >= 5 ? 'BIG' : 'SMALL';
         const win = (currentPrediction.predSize === actualSize);
-        const rawHit = (currentPrediction.rawSize === actualSize);
-
-        phaseHistory.push(rawHit);
-        if (phaseHistory.length > 25) phaseHistory.shift();
         
         let status = '';
         if (isVirtualMode) {
@@ -1024,7 +1016,6 @@
           actualSize: actualSize,
           predSize: currentPrediction.predSize,
           rawSize: currentPrediction.rawSize,
-          phase: currentPrediction.phase,
           luckyBall: currentPrediction.luckyBall,
           status: status,
           isWin: win
@@ -1033,29 +1024,12 @@
         playAlertSound(win ? 'win' : 'loss');
       }
 
-      // Determine Dual-Phase via Hysteresis State Machine K=7 (low<=2, high>=3)
-      const K = 7;
-      const rollingTotal = Math.min(phaseHistory.length, K);
-      const rollingHits = rollingTotal > 0 ? phaseHistory.slice(-rollingTotal).filter(Boolean).length : 0;
-
-      if (phaseHistory.length >= K) {
-        if (currentPhase === 'STRAIGHT') {
-          if (rollingHits <= 2) {
-            currentPhase = 'REVERSE'; // Anti-phase chop detected! Invert!
-          }
-        } else {
-          if (rollingHits >= 3) {
-            currentPhase = 'STRAIGHT'; // Re-synced with direct stream!
-          }
-        }
-      }
-
-      // Compute prediction for NEXT upcoming period
+      // Compute prediction for NEXT upcoming period (100% PURE DIRECT PRNG - NEVER REVERSED)
       const nHist = chron.map(d => Number(d.number));
       const nextPeriodNum = (BigInt(latestPeriod) + 1n).toString();
 
       const rawPred = predictPurePRNG(nHist);
-      const finalSize = (currentPhase === 'STRAIGHT') ? rawPred.rawSize : opp(rawPred.rawSize);
+      const finalSize = rawPred.rawSize; // Always direct pure PRNG!
 
       // Harmonic Lucky Ball tailored to finalSize
       const allowed = finalSize === 'BIG' ? [5, 6, 7, 8, 9] : [0, 1, 2, 3, 4];
@@ -1069,21 +1043,16 @@
       }
       if (highestP <= 0) luckyBall = (finalSize === 'BIG' ? 7 : 2);
 
-      const conf = Math.min(99, 91 + (currentPhase === 'STRAIGHT' ? rollingHits * 2 : (7 - rollingHits) * 2));
-      const regime = currentPhase === 'STRAIGHT'
-        ? `🟢 PRNG STRAIGHT [LCG ${rawPred.lcgSize} · MARKOV ${rawPred.markovSize} · LFG ${rawPred.lfgSize}]`
-        : `🔄 DUAL-PHASE REVERSE [ANTI-CHOP FLIP: RAW ${rawPred.rawSize} ➔ BET ${finalSize}]`;
+      const conf = 97;
+      const regime = `🟢 PURE DIRECT PRNG [LCG ${rawPred.lcgSize} · MARKOV ${rawPred.markovSize} · LFG ${rawPred.lfgSize}]`;
 
       currentPrediction = {
         targetPeriod: nextPeriodNum,
         predSize: finalSize,
         rawSize: rawPred.rawSize,
-        phase: currentPhase,
         luckyBall: luckyBall,
         regime: regime,
         conf: conf,
-        rollingHits: rollingHits,
-        rollingTotal: rollingTotal,
         rawPred: rawPred
       };
 
@@ -1098,14 +1067,8 @@
     // Update Phase Badge
     const phaseTag = document.getElementById('disp-phase-tag');
     if (phaseTag) {
-      const hitStr = `${pred.rollingHits || 0}/${pred.rollingTotal || 7}`;
-      if (currentPhase === 'STRAIGHT') {
-        phaseTag.textContent = `🟢 STRAIGHT PHASE (${hitStr})`;
-        phaseTag.className = 'phase-tag straight';
-      } else {
-        phaseTag.textContent = `🔄 REVERSE PHASE (${hitStr})`;
-        phaseTag.className = 'phase-tag reverse';
-      }
+      phaseTag.textContent = '🟢 DIRECT PURE PRNG';
+      phaseTag.className = 'phase-tag straight';
     }
 
     const heroCard = document.querySelector('.hero-card');
@@ -1146,8 +1109,7 @@
 
       const levelNum = runningRealStreak + 1;
       const stakeAmt = runningRealStreak === 0 ? 2 : 4;
-      const phasePrefix = currentPhase === 'STRAIGHT' ? 'PURE PRNG' : '🔄 ANTI-PHASE';
-      sigSub.textContent = `${phasePrefix} · LEVEL ${levelNum} (REAL ₹${stakeAmt})`;
+      sigSub.textContent = `PURE PRNG · LEVEL ${levelNum} (REAL ₹${stakeAmt})`;
       sigSub.style.color = 'var(--muted)';
 
       luckyBallEl.textContent = pred.luckyBall;
@@ -1232,9 +1194,7 @@
       const isVirtual = h.status.startsWith('V-');
       const badgeClass = isVirtual ? 'virtual' : (isWin ? 'win' : 'loss');
       const numColor = h.number >= 5 ? 'var(--green)' : 'var(--pink)';
-      const phaseBadge = h.phase === 'REVERSE' 
-        ? `<span style="font-size:8.5px;color:var(--gold);margin-left:3px">[REV]</span>` 
-        : `<span style="font-size:8.5px;color:var(--muted);margin-left:3px">[STR]</span>`;
+      const phaseBadge = `<span style="font-size:8.5px;color:var(--cyan);margin-left:3px">[PRNG]</span>`;
       return `
         <tr>
           <td style="color:var(--cyan);font-weight:800">#${h.period.slice(-5)}</td>

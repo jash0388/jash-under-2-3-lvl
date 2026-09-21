@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         JASH VIP v2.0 DUAL-PHASE PRNG (Straight & Reverse Engine)
+// @name         JASH VIP v2.0 PURE DIRECT PRNG (Strict Direct Engine)
 // @namespace    http://tampermonkey.net/
-// @version      2.0
-// @description  ⚡ JASH VIP v2.0 · Pure PRNG Seed Reconstruction & Modular LCG Residual Engine | Dual-Phase (Straight & Reverse) | Strict 2-Level Loss Shield
+// @version      2.1
+// @description  ⚡ JASH VIP v2.0 · Pure PRNG Seed Reconstruction & Modular LCG Residual Engine | 100% Direct Signals (Zero Reversal) | Strict 2-Level Loss Shield
 // @match        *://*.in999vv.com/*
 // @match        *://*.in999*.com/*
 // @match        *://*.us3b7o.com/*
@@ -19,7 +19,7 @@
   if (window.__JASH_VIP_V2_LOCK__) return;
   window.__JASH_VIP_V2_LOCK__ = true;
 
-  console.log("%c⚡ JASH VIP v2.0 · DUAL-PHASE (STRAIGHT & REVERSE) PRNG ENGINE ACTIVE", "background:linear-gradient(135deg,#00d9f5,#00f5a0,#ffb703);color:#000;font-size:15px;font-weight:900;padding:8px 16px;border-radius:8px;box-shadow:0 0 25px rgba(0,217,245,0.6);");
+  console.log("%c⚡ JASH VIP v2.0 · 100% PURE DIRECT PRNG ENGINE ACTIVE (NO REVERSE)", "background:linear-gradient(135deg,#00d9f5,#00f5a0);color:#000;font-size:15px;font-weight:900;padding:8px 16px;border-radius:8px;box-shadow:0 0 25px rgba(0,217,245,0.6);");
 
   // 1. WAKE LOCK
   let wakeLockObj = null;
@@ -39,8 +39,6 @@
 
   let runningRealStreak  = 0;
   let isVirtualMode      = false;
-  let currentPhase       = 'STRAIGHT'; // 'STRAIGHT' or 'REVERSE'
-  let phaseHistory       = []; // Array of booleans: did raw PRNG hit
   let shieldSavesCount   = 0;
   let totalRealWins      = 0;
   let totalRealBets      = 0;
@@ -140,10 +138,6 @@
       // 1. Settle pending prediction
       if (pendingPrediction && latestPeriod === pendingPrediction.targetPeriod) {
         const win = (pendingPrediction.finalSize === actualSize);
-        const rawHit = (pendingPrediction.rawSize === actualSize);
-
-        phaseHistory.push(rawHit);
-        if (phaseHistory.length > 25) phaseHistory.shift();
 
         if (isVirtualMode) {
           if (win) {
@@ -173,38 +167,16 @@
         updateHud();
       }
 
-      // 2. Determine Dual-Phase for Upcoming Round via Hysteresis K=7
-      const K = 7;
-      const rollingTotal = Math.min(phaseHistory.length, K);
-      const rollingHits = rollingTotal > 0 ? phaseHistory.slice(-rollingTotal).filter(Boolean).length : 0;
-
-      if (phaseHistory.length >= K) {
-        if (currentPhase === 'STRAIGHT') {
-          if (rollingHits <= 2) {
-            currentPhase = 'REVERSE';
-            console.log(`%c[👑 JASH VIP] 🔄 ANTI-PHASE CHOP DETECTED (${rollingHits}/${K}) ➔ FLIPPING TO REVERSE!`, 'background:#ffb703;color:#000;font-weight:bold;padding:4px');
-          }
-        } else {
-          if (rollingHits >= 3) {
-            currentPhase = 'STRAIGHT';
-            console.log(`%c[👑 JASH VIP] 🟢 IN-PHASE RE-SYNCED (${rollingHits}/${K}) ➔ RETURNING TO STRAIGHT!`, 'background:#00f5a0;color:#000;font-weight:bold;padding:4px');
-          }
-        }
-      }
-
-      // 3. Compute Prediction for Target Round
+      // 2. Compute Prediction for Target Round (100% PURE DIRECT PRNG - NEVER REVERSED)
       const nextPeriod = (BigInt(latestPeriod) + 1n).toString();
       const nHist = chron.map(d => Number(d.number));
       const rawPred = predictPurePRNG(nHist);
-      const finalSize = (currentPhase === 'STRAIGHT') ? rawPred.rawSize : opp(rawPred.rawSize);
+      const finalSize = rawPred.rawSize; // Always direct pure PRNG!
 
       pendingPrediction = {
         targetPeriod: nextPeriod,
         rawSize: rawPred.rawSize,
-        finalSize: finalSize,
-        phase: currentPhase,
-        rollingHits: rollingHits,
-        rollingTotal: rollingTotal
+        finalSize: finalSize
       };
 
       updateHud();
@@ -235,7 +207,7 @@
 
   async function executeBet(size, amount) {
     const target = size.trim().toUpperCase();
-    console.log(`%c[👑 JASH VIP] 🎯 PLACING BET: ${target} ₹${amount} (Level ${runningRealStreak + 1}) | Phase: ${currentPhase}`, 'background:linear-gradient(90deg,#00f5a0,#00d9f5);color:#000;font-weight:bold;padding:6px 14px;border-radius:4px');
+    console.log(`%c[👑 JASH VIP] 🎯 PLACING BET: ${target} ₹${amount} (Level ${runningRealStreak + 1}) | Mode: DIRECT PRNG`, 'background:linear-gradient(90deg,#00f5a0,#00d9f5);color:#000;font-weight:bold;padding:6px 14px;border-radius:4px');
 
     const allEls = Array.from(document.querySelectorAll('div, button, span, uni-view, p')).filter(e => {
       if (e.closest('#jash-v2-hud')) return false;
@@ -333,7 +305,7 @@
         .j2-btn.off { background: #ff0055; color: #fff; }
       </style>
       <div class="j2-title">
-        <span>⚡ TITAN v2.0 DUAL-PHASE</span>
+        <span>⚡ TITAN v2.0 DIRECT PRNG</span>
         <span id="j2-hud-mode" style="color:#ffb703">30S</span>
       </div>
       <div class="j2-row">
@@ -341,8 +313,8 @@
         <span id="j2-hud-target" style="font-weight:bold;color:#00d9f5">#------</span>
       </div>
       <div class="j2-row">
-        <span style="color:#8892b0">Phase:</span>
-        <span id="j2-hud-phase" class="j2-badge straight">🟢 STRAIGHT (7/7)</span>
+        <span style="color:#8892b0">Engine:</span>
+        <span id="j2-hud-phase" class="j2-badge straight">🟢 DIRECT PRNG</span>
       </div>
       <div class="j2-row">
         <span style="color:#8892b0">Signal:</span>
@@ -381,15 +353,11 @@
 
     document.getElementById('j2-hud-target').textContent = '#' + pendingPrediction.targetPeriod.slice(-5);
     
-    // Phase
+    // Engine Mode
     const pEl = document.getElementById('j2-hud-phase');
-    const hitStr = `${pendingPrediction.rollingHits || 0}/${pendingPrediction.rollingTotal || 7}`;
-    if (currentPhase === 'STRAIGHT') {
-      pEl.textContent = `🟢 STRAIGHT (${hitStr})`;
+    if (pEl) {
+      pEl.textContent = '🟢 DIRECT PRNG';
       pEl.className = 'j2-badge straight';
-    } else {
-      pEl.textContent = `🔄 REVERSE (${hitStr})`;
-      pEl.className = 'j2-badge reverse';
     }
 
     // Signal & Stake
