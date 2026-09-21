@@ -157,7 +157,7 @@
             runningRealStreak = 0;
           } else {
             shieldSavesCount++;
-            console.log(`%c[👑 JASH VIP] 🛡️ Virtual Loss Saved (₹0 Risked)`, 'color:#ffb703;font-weight:bold');
+            console.log(`%c[👑 JASH VIP] 🛡️ SHIELD SAVED (₹0 BET RISKED · REAL LOSS PREVENTED)`, 'color:#ffb703;font-weight:bold');
           }
         } else {
           totalRealBets++;
