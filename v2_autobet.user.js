@@ -188,11 +188,19 @@
   }
 
   // 4. API POLLING & DRAW RESOLUTION
-  const API_URL = 'https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json';
+  function getApiUrl() {
+    const href = window.location.href;
+    if (href.includes('TrxWinGo') || href.includes('trxWinGo')) {
+      return 'https://draw.ar-lottery06.com/TrxWinGo/TrxWinGo_1M/GetHistoryIssuePage.json';
+    } else if (href.includes('WinGo_1M') || href.includes('1M') || GAME_MODE === '1M') {
+      return 'https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json';
+    }
+    return 'https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json';
+  }
 
   async function checkLiveRound() {
     try {
-      const res = await fetch(API_URL + '?t=' + Date.now());
+      const res = await fetch(getApiUrl() + '?t=' + Date.now());
       const data = await res.json();
       const list = data?.data?.list || [];
       if (!list.length) return;
